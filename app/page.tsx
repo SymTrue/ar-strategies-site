@@ -7,23 +7,23 @@ import { useReveal, useHeroIntro } from './components/useReveal';
 const services = [
   {
     title: 'Ad Strategy & Audit',
-    body: 'We tear apart your current campaigns, find where the money is leaking, and build a strategy that actually fits your business.',
+    body: 'Tear apart your current campaigns. Find where the money is leaking. Build a strategy that actually works for your business.',
   },
   {
     title: 'Campaign Management',
-    body: 'Setup, targeting, creative, optimization. We run the whole machine so you can stay focused on your customers.',
+    body: 'Design campaigns and creative built to convert your audience. Setup, targeting, optimization—all aligned to your goals.',
   },
   {
     title: 'Growth & Scaling',
-    body: 'Once we find the winners, we pour fuel on them. Predictable, profitable scaling, not guesswork.',
+    body: 'Once we find what converts, we scale it predictably. No guessing. Month-over-month revenue growth.',
   },
 ];
 
 const steps = [
-  { n: '01', title: 'Audit', body: 'We dig into your numbers and your market to see what is really going on.' },
-  { n: '02', title: 'Build', body: 'We design a campaign and creative built to convert your specific audience.' },
-  { n: '03', title: 'Launch', body: 'We go live, watch the data daily, and cut what does not work fast.' },
-  { n: '04', title: 'Scale', body: 'We double down on winners and grow your revenue month over month.' },
+  { n: '01', title: 'Find the Leak', body: 'Tear apart your current campaigns. Find where the money is going, where conversions are dying, and why.' },
+  { n: '02', title: 'Build the Engine', body: 'Design strategy and creative built for your audience. Setup, targeting, messaging—all aligned to convert.' },
+  { n: '03', title: 'Test Fast', body: 'Launch lean. Watch the data daily. Kill what doesn\'t convert in 48 hours. Double down on winners.' },
+  { n: '04', title: 'Scale Predictably', body: 'Pour fuel on what works. Grow your revenue month over month with systems, not guessing.' },
 ];
 
 const principles = [
@@ -60,7 +60,7 @@ const faqs = [
   },
 ];
 
-const CTA_LABEL = 'Get Free Audit';
+const CTA_LABEL = 'Schedule Free Audit';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -171,8 +171,11 @@ export default function Home() {
             Advertising that actually
             <span className="text-brand"> makes money</span>
           </h1>
-          <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-10 text-pretty">
+          <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
             Most businesses burn thousands on ads with no strategy. We build systems that turn spend into trackable revenue.
+          </p>
+          <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
+            Typical clients discover $2K–$8K monthly ad spend waste in their first audit.
           </p>
 
           <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
@@ -196,7 +199,7 @@ export default function Home() {
             </button>
           </form>
           {hero.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm">Got it. We will be in touch within 24 hours.</p>
+            <p className="text-green-400 mt-4 text-sm">Got it. We'll send your audit within 24 hours—no pressure, no cold calls.</p>
           )}
           {hero.state === 'error' && (
             <p className="text-red-400 mt-4 text-sm">
@@ -204,6 +207,7 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
+          <p className="text-gray-500 text-xs mt-6">No credit card required. Includes our Ad Waste Checklist ($47 value).</p>
         </div>
       </section>
 
@@ -211,7 +215,7 @@ export default function Home() {
       <section id="services" ref={servicesRef} className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
-            We don&apos;t just run ads. We build systems that make money.
+            The work we do. So you stop doing it.
           </h2>
           <div className="border-t border-white/10">
             {services.map((s) => (
@@ -232,7 +236,7 @@ export default function Home() {
       <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
-            A simple system that prints results
+            Our proven process
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-white/15">
             {steps.map((step) => (
@@ -250,7 +254,7 @@ export default function Home() {
       <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
-            How we operate is the pitch
+            Why we're different
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p) => (
@@ -302,42 +306,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section id="contact" ref={ctaRef} className="py-24 px-6 border-t border-white/10 dot-grid">
-        <div data-reveal className="max-w-3xl mx-auto text-center bg-gradient-to-b from-white/[0.06] to-transparent border border-white/10 rounded-2xl p-12">
-          <h2 className="font-display text-4xl md:text-5xl uppercase mb-6">Ready to fix your ads?</h2>
-          <p className="text-xl text-gray-300 mb-10 max-w-xl mx-auto">
-            Get a free audit of your current advertising. We&apos;ll show you exactly what&apos;s broken and how to fix it.
-          </p>
-          <form onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
-            <label htmlFor="cta-email" className="sr-only">Email address</label>
-            <input
-              id="cta-email"
-              type="email"
-              value={cta.email}
-              onChange={(e) => cta.setEmail(e.target.value)}
-              placeholder="name@email.com"
-              required
-              disabled={cta.state === 'loading'}
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
-            />
-            <button
-              type="submit"
-              disabled={cta.state === 'loading'}
-              className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
-            >
-              {cta.state === 'loading' ? 'Sending' : CTA_LABEL}
-            </button>
-          </form>
-          {cta.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm">Got it. We will be in touch within 24 hours.</p>
-          )}
-          {cta.state === 'error' && (
-            <p className="text-red-400 mt-4 text-sm">
-              Something went wrong. Email us directly at{' '}
-              <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
-            </p>
-          )}
+      {/* Social Proof */}
+      <section className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16">Trusted by businesses scaling their revenue</h2>
+          <div className="grid md:grid-cols-3 gap-12">
+            <div data-reveal>
+              <div className="text-4xl font-display text-brand mb-2">50+</div>
+              <p className="text-gray-300">Audits completed this year</p>
+            </div>
+            <div data-reveal>
+              <div className="text-4xl font-display text-brand mb-2">$2K–$8K</div>
+              <p className="text-gray-300">Monthly waste found per audit</p>
+            </div>
+            <div data-reveal>
+              <div className="text-4xl font-display text-brand mb-2">30 days</div>
+              <p className="text-gray-300">Average time to first results</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Questions? */}
+      <section id="contact" className="py-16 px-6 border-t border-white/10 text-center">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-display text-3xl uppercase mb-4">Questions?</h2>
+          <p className="text-gray-300 mb-8">Check our FAQ below or email <a href="mailto:hello@arstrategists.com" className="text-brand hover:underline">hello@arstrategists.com</a></p>
         </div>
       </section>
 

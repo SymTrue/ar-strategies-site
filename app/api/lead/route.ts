@@ -26,8 +26,14 @@ export async function POST(req: NextRequest) {
       from: 'AR Strategies <leads@arstrategists.com>',
       to: notifyTo,
       reply_to: email,
-      subject: 'New free audit request',
-      text: `New lead from the site: ${email}`,
+      subject: `new audit request from ${email}`,
+      html: `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
+          <p><strong>${email}</strong> just booked a free audit.</p>
+          <p style="color: #666; font-size: 14px;">Deliver: Full campaign audit + Ad Waste Checklist within 24 hours. No pressure, no lock-in.</p>
+          <p style="margin-top: 12px;">Reply to this email to reach them, or forward to your team.</p>
+        </div>
+      `,
     }),
   });
 
@@ -47,19 +53,19 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       from: 'AR Strategies <leads@arstrategists.com>',
       to: email,
-      subject: 'Your free audit request received',
+      subject: 'your free audit request',
       html: `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #000; margin-bottom: 16px;">Thanks for reaching out</h2>
-          <p style="color: #666; line-height: 1.6; margin-bottom: 12px;">
-            We received your request for a free advertising audit. Our team will review your current campaigns and get back to you within 24 hours with specific recommendations.
-          </p>
-          <p style="color: #666; line-height: 1.6; margin-bottom: 12px;">
-            In the meantime, if you have any questions, reply to this email or reach out directly at <strong>hello@arstrategists.com</strong>.
-          </p>
-          <p style="color: #999; font-size: 14px; margin-top: 24px;">
-            — AR Strategies
-          </p>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
+          <p>Thanks for scheduling your free audit — we'll dig into your current campaigns and send you a detailed breakdown within 24 hours.</p>
+          <p><strong>What's included:</strong></p>
+          <ul style="color: #666; margin: 12px 0; padding-left: 20px;">
+            <li>Full campaign audit with waste analysis</li>
+            <li>Our Ad Waste Checklist ($47 value)</li>
+            <li>Specific recommendations for your business</li>
+          </ul>
+          <p style="color: #666; margin-top: 12px;">No credit card required. No pressure. No cold calls. If we don't find 3+ improvements, we'll extend your audit free.</p>
+          <p style="margin-top: 16px;">Questions before we dive in? Just reply to this email or reach out to <strong>hello@arstrategists.com</strong>.</p>
+          <p style="margin-top: 24px; color: #999; font-size: 14px;">— AR Strategies</p>
         </div>
       `,
     }),
