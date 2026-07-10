@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Manrope } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const anton = Anton({
@@ -18,12 +19,16 @@ export const metadata: Metadata = {
   title: "AR Strategies — Advertising That Actually Makes Money",
   description:
     "AR Strategies builds advertising systems that convert. We audit, run, and scale campaigns for local businesses that are tired of wasting money on ads.",
+  alternates: {
+    canonical: "https://www.arstrategists.com",
+  },
   openGraph: {
     title: "AR Strategies — Advertising That Actually Makes Money",
     description:
       "We build advertising systems that convert. Audit, run, and scale — done for you.",
     type: "website",
     images: ["/og-cover.png"],
+    url: "https://www.arstrategists.com",
   },
   twitter: {
     card: "summary_large_image",
@@ -31,6 +36,23 @@ export const metadata: Metadata = {
     description: "We build advertising systems that convert.",
     images: ["/og-cover.png"],
   },
+};
+
+// JSON-LD Structured Data for ProfessionalService
+export const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "AR Strategies",
+  description:
+    "Advertising systems that convert. We audit, run, and scale campaigns for local businesses.",
+  url: "https://www.arstrategists.com",
+  email: "hello@arstrategists.com",
+  telephone: "+1",
+  areaServed: "US",
+  priceRange: "$$",
+  serviceType: ["Advertising Audit", "Campaign Management", "Growth & Scaling"],
+  image: "https://www.arstrategists.com/logo.png",
+  sameAs: ["https://instagram.com/ar_strats.aa"],
 };
 
 export default function RootLayout({
@@ -43,7 +65,16 @@ export default function RootLayout({
       lang="en"
       className={`${anton.variable} ${manrope.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-black text-white">{children}</body>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className="min-h-full bg-black text-white">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
