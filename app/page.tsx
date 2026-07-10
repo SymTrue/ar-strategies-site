@@ -78,7 +78,7 @@ function useLeadForm() {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website: '' }),
       });
       if (!res.ok) throw new Error('failed');
       setState('success');
@@ -194,6 +194,8 @@ export default function Home() {
               disabled={hero.state === 'loading'}
               className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
             />
+            {/* Honeypot field - hidden from users */}
+            <input type="text" name="website" style={{ display: 'none' }} />
             <button
               type="submit"
               disabled={hero.state === 'loading'}
