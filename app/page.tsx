@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
+import { AnimatedSection } from './components/AnimatedSection';
+import { GlassMorphCard } from './components/GlassMorphCard';
+import { ShaderGradientBg } from './components/ShaderGradientBg';
 
 const services = [
   {
@@ -161,7 +164,8 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section id="top" ref={heroRef} className="relative dot-grid">
+      <section id="top" ref={heroRef} className="relative overflow-hidden">
+        <ShaderGradientBg />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
           <div data-intro className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
@@ -218,15 +222,13 @@ export default function Home() {
             The work we do. So you stop doing it.
           </h2>
           <div className="border-t border-white/10">
-            {services.map((s) => (
-              <div
-                key={s.title}
-                data-reveal
-                className="grid md:grid-cols-[1fr_2fr] gap-3 md:gap-12 py-8 border-b border-white/10"
-              >
-                <h3 className="font-display text-xl uppercase">{s.title}</h3>
-                <p className="text-gray-300 leading-relaxed max-w-[65ch]">{s.body}</p>
-              </div>
+            {services.map((s, i) => (
+              <AnimatedSection key={s.title} delay={i * 0.1}>
+                <div className="grid md:grid-cols-[1fr_2fr] gap-3 md:gap-12 py-8 border-b border-white/10">
+                  <h3 className="font-display text-xl uppercase">{s.title}</h3>
+                  <p className="text-gray-300 leading-relaxed max-w-[65ch]">{s.body}</p>
+                </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -239,12 +241,14 @@ export default function Home() {
             Our proven process
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-white/15">
-            {steps.map((step) => (
-              <div key={step.n} data-reveal className="pt-6">
-                <div className="font-display text-3xl text-brand mb-3">{step.n}</div>
-                <h3 className="font-display text-lg uppercase mb-2">{step.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{step.body}</p>
-              </div>
+            {steps.map((step, i) => (
+              <AnimatedSection key={step.n} delay={i * 0.1}>
+                <div className="pt-6">
+                  <div className="font-display text-3xl text-brand mb-3">{step.n}</div>
+                  <h3 className="font-display text-lg uppercase mb-2">{step.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{step.body}</p>
+                </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -258,10 +262,14 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p) => (
-              <div key={p.title} data-reveal>
-                <h3 className="font-display text-xl uppercase mb-3">{p.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{p.body}</p>
-              </div>
+              <AnimatedSection key={p.title} delay={0.1}>
+                <GlassMorphCard className="h-full">
+                  <div className="px-8 py-8">
+                    <h3 className="font-display text-xl uppercase mb-3">{p.title}</h3>
+                    <p className="text-gray-300 leading-relaxed">{p.body}</p>
+                  </div>
+                </GlassMorphCard>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -311,18 +319,24 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center">
           <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16">Trusted by businesses scaling their revenue</h2>
           <div className="grid md:grid-cols-3 gap-12">
-            <div data-reveal>
-              <div className="text-4xl font-display text-brand mb-2">50+</div>
-              <p className="text-gray-300">Audits completed this year</p>
-            </div>
-            <div data-reveal>
-              <div className="text-4xl font-display text-brand mb-2">$2K–$8K</div>
-              <p className="text-gray-300">Monthly waste found per audit</p>
-            </div>
-            <div data-reveal>
-              <div className="text-4xl font-display text-brand mb-2">30 days</div>
-              <p className="text-gray-300">Average time to first results</p>
-            </div>
+            <AnimatedSection delay={0}>
+              <div>
+                <div className="text-4xl font-display text-brand mb-2">50+</div>
+                <p className="text-gray-300">Audits completed this year</p>
+              </div>
+            </AnimatedSection>
+            <AnimatedSection delay={0.1}>
+              <div>
+                <div className="text-4xl font-display text-brand mb-2">$2K–$8K</div>
+                <p className="text-gray-300">Monthly waste found per audit</p>
+              </div>
+            </AnimatedSection>
+            <AnimatedSection delay={0.2}>
+              <div>
+                <div className="text-4xl font-display text-brand mb-2">30 days</div>
+                <p className="text-gray-300">Average time to first results</p>
+              </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
