@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Server not configured' }, { status: 500 });
   }
 
-  const res = await fetch('https://api.resend.com/emails', {
+  // Email 1: Notification to you
+  const notificationRes = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -30,10 +31,45 @@ export async function POST(req: NextRequest) {
     }),
   });
 
-  if (!res.ok) {
-    const body = await res.text();
-    console.error('Resend error:', body);
+  if (!notificationRes.ok) {
+    const body = await notificationRes.text();
+    console.error('Resend notification error:', body);
     return NextResponse.json({ error: 'Failed to send' }, { status: 502 });
+  }
+
+  // Email 2: Confirmation to the lead
+  const confirmationRes = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'AR Strategies <leads@arstrategists.com>',
+      to: email,
+      subject: 'Your free audit request received',
+      html: `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #000; margin-bottom: 16px;">Thanks for reaching out</h2>
+          <p style="color: #666; line-height: 1.6; margin-bottom: 12px;">
+            We received your request for a free advertising audit. Our team will review your current campaigns and get back to you within 24 hours with specific recommendations.
+          </p>
+          <p style="color: #666; line-height: 1.6; margin-bottom: 12px;">
+            In the meantime, if you have any questions, reply to this email or reach out directly at <strong>hello@arstrategists.com</strong>.
+          </p>
+          <p style="color: #999; font-size: 14px; margin-top: 24px;">
+            — AR Strategies
+          </p>
+        </div>
+      `,
+    }),
+  });
+
+  if (!confirmationRes.ok) {
+    const body = await confirmationRes.text();
+    console.error('Resend confirmation error:', body);
+    // Don't fail if confirmation email fails — notification was sent
+    console.warn('Confirmation email failed but notification sent');
   }
 
   return NextResponse.json({ ok: true });
