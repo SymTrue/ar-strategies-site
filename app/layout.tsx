@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, Inter } from "next/font/google";
+import { Anton, Manrope } from "next/font/google";
 import "./globals.css";
 
 const anton = Anton({
@@ -8,7 +8,7 @@ const anton = Anton({
   subsets: ["latin"],
 });
 
-const inter = Inter({
+const manrope = Manrope({
   variable: "--font-sans",
   subsets: ["latin"],
 });
@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${anton.variable} ${inter.variable} h-full antialiased`}
+      className={`${anton.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-black text-white">{children}</body>
     </html>

@@ -2,19 +2,20 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { useReveal, useHeroIntro } from './components/useReveal';
 
 const services = [
   {
     title: 'Ad Strategy & Audit',
-    body: "We tear apart your current campaigns, find where the money is leaking, and build a strategy that actually fits your business.",
+    body: 'We tear apart your current campaigns, find where the money is leaking, and build a strategy that actually fits your business.',
   },
   {
     title: 'Campaign Management',
-    body: 'Setup, targeting, creative, optimization — we run the whole machine so you can stay focused on your customers.',
+    body: 'Setup, targeting, creative, optimization. We run the whole machine so you can stay focused on your customers.',
   },
   {
     title: 'Growth & Scaling',
-    body: "Once we find the winners, we pour fuel on them. Predictable, profitable scaling — not guesswork.",
+    body: 'Once we find the winners, we pour fuel on them. Predictable, profitable scaling, not guesswork.',
   },
 ];
 
@@ -32,7 +33,7 @@ const principles = [
   },
   {
     title: 'You see every number',
-    body: 'Spend, clicks, cost per lead, revenue — full visibility into what your money is doing, always.',
+    body: 'Spend, clicks, cost per lead, revenue. Full visibility into what your money is doing, always.',
   },
   {
     title: 'We kill what does not work',
@@ -43,7 +44,7 @@ const principles = [
 const faqs = [
   {
     q: 'How much should I be spending on ads?',
-    a: "It depends on your margins and goals, but we help you start lean, prove what works, then scale. No one should be lighting money on fire hoping something sticks.",
+    a: 'It depends on your margins and goals, but we help you start lean, prove what works, then scale. No one should be lighting money on fire hoping something sticks.',
   },
   {
     q: 'Do you work with businesses in my industry?',
@@ -51,13 +52,15 @@ const faqs = [
   },
   {
     q: 'How long until I see results?',
-    a: 'Most campaigns show meaningful signal within the first few weeks. Real scaling happens once we have data to optimize against — usually inside the first 1-2 months.',
+    a: 'Most campaigns show meaningful signal within the first few weeks. Real scaling happens once we have data to optimize against, usually inside the first 1-2 months.',
   },
   {
     q: 'Am I locked into a long contract?',
     a: 'No. We earn your business every month. If we are not making you money, you should not keep paying us.',
   },
 ];
+
+const CTA_LABEL = 'Get Free Audit';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -98,6 +101,14 @@ export default function Home() {
     { href: '#faq', label: 'FAQ' },
   ];
 
+  const heroRef = useHeroIntro<HTMLDivElement>();
+  const servicesRef = useReveal<HTMLDivElement>();
+  const processRef = useReveal<HTMLDivElement>();
+  const whyRef = useReveal<HTMLDivElement>();
+  const quoteRef = useReveal<HTMLDivElement>();
+  const faqRef = useReveal<HTMLDivElement>();
+  const ctaRef = useReveal<HTMLDivElement>();
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Nav */}
@@ -109,16 +120,16 @@ export default function Home() {
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-300">
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="hover:text-white transition">
+              <a key={link.href} href={link.href} className="hover:text-white transition-colors">
                 {link.label}
               </a>
             ))}
           </div>
           <a
             href="#contact"
-            className="hidden md:inline-block bg-brand hover:bg-orange-700 px-5 py-2 rounded-full font-semibold text-sm transition"
+            className="hidden md:inline-block bg-brand hover:bg-orange-700 active:scale-[0.97] px-5 py-2 rounded-full font-semibold text-sm transition"
           >
-            Get Started
+            {CTA_LABEL}
           </a>
           <button
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -134,7 +145,7 @@ export default function Home() {
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 px-6 py-4 flex flex-col gap-4 text-gray-300">
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="hover:text-white transition">
+              <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="hover:text-white transition-colors">
                 {link.label}
               </a>
             ))}
@@ -143,29 +154,28 @@ export default function Home() {
               onClick={() => setMenuOpen(false)}
               className="bg-brand text-center px-5 py-2.5 rounded-full font-semibold text-sm"
             >
-              Get Started
+              {CTA_LABEL}
             </a>
           </div>
         )}
       </nav>
 
       {/* Hero */}
-      <section id="top" className="relative dot-grid">
+      <section id="top" ref={heroRef} className="relative dot-grid">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black pointer-events-none" />
-        <div className="relative max-w-5xl mx-auto px-6 pt-24 pb-28 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
+        <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
+          <div data-intro className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
             <span className="h-2 w-2 rounded-full bg-brand" /> Advertising Agency Built for Growth
           </div>
-          <h1 className="font-display text-5xl md:text-7xl leading-[0.95] uppercase mb-6">
+          <h1 data-intro className="font-display text-5xl md:text-6xl leading-[0.95] uppercase mb-6 text-balance">
             Advertising that actually
             <span className="text-brand"> makes money</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
-            Most businesses burn thousands on ads with no strategy behind them. We build
-            advertising systems that turn ad spend into real, trackable revenue.
+          <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-10 text-pretty">
+            Most businesses burn thousands on ads with no strategy. We build systems that turn spend into trackable revenue.
           </p>
 
-          <form onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+          <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
             <label htmlFor="hero-email" className="sr-only">Email address</label>
             <input
               id="hero-email"
@@ -175,18 +185,18 @@ export default function Home() {
               placeholder="name@email.com"
               required
               disabled={hero.state === 'loading'}
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-brand transition disabled:opacity-50"
+              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={hero.state === 'loading'}
-              className="bg-brand hover:bg-orange-700 px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
+              className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
             >
-              {hero.state === 'loading' ? 'Sending…' : 'Get Free Audit'}
+              {hero.state === 'loading' ? 'Sending' : CTA_LABEL}
             </button>
           </form>
           {hero.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm">Got it — we&apos;ll be in touch within 24 hours.</p>
+            <p className="text-green-400 mt-4 text-sm">Got it. We will be in touch within 24 hours.</p>
           )}
           {hero.state === 'error' && (
             <p className="text-red-400 mt-4 text-sm">
@@ -194,55 +204,41 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p className="text-gray-500 text-sm mt-4">Free strategy audit. No commitment, no fluff.</p>
         </div>
       </section>
 
-      {/* Trust bar */}
-      <section className="border-y border-white/10 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-gray-400">
-          <span className="uppercase tracking-widest text-xs text-gray-500">Trusted by local businesses who are done guessing</span>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section id="services" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-16">
-            <p className="text-brand font-semibold uppercase tracking-widest text-sm mb-3">What we do</p>
-            <h2 className="font-display text-4xl md:text-5xl uppercase leading-tight">
-              We don&apos;t just run ads. We build systems that make money.
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
+      {/* Services - divided list, not a card grid */}
+      <section id="services" ref={servicesRef} className="py-24 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
+            We don&apos;t just run ads. We build systems that make money.
+          </h2>
+          <div className="border-t border-white/10">
             {services.map((s) => (
               <div
                 key={s.title}
-                className="group bg-white/[0.03] border border-white/10 rounded-2xl p-8 hover:border-brand/60 hover:bg-white/[0.06] transition"
+                data-reveal
+                className="grid md:grid-cols-[1fr_2fr] gap-3 md:gap-12 py-8 border-b border-white/10"
               >
-                <div className="h-1 w-12 bg-brand rounded-full mb-6 group-hover:w-20 transition-all" />
-                <h3 className="font-display text-2xl uppercase mb-4">{s.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{s.body}</p>
+                <h3 className="font-display text-xl uppercase">{s.title}</h3>
+                <p className="text-gray-300 leading-relaxed max-w-[65ch]">{s.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Process */}
-      <section id="process" className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
+      {/* Process - horizontal step sequence */}
+      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-16">
-            <p className="text-brand font-semibold uppercase tracking-widest text-sm mb-3">How it works</p>
-            <h2 className="font-display text-4xl md:text-5xl uppercase leading-tight">
-              A simple system that prints results
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
+            A simple system that prints results
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-white/15">
             {steps.map((step) => (
-              <div key={step.n} className="relative bg-black border border-white/10 rounded-2xl p-8">
-                <div className="font-display text-5xl text-brand/30 mb-4">{step.n}</div>
-                <h3 className="font-display text-xl uppercase mb-3">{step.title}</h3>
+              <div key={step.n} data-reveal className="pt-6">
+                <div className="font-display text-3xl text-brand mb-3">{step.n}</div>
+                <h3 className="font-display text-lg uppercase mb-2">{step.title}</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">{step.body}</p>
               </div>
             ))}
@@ -251,18 +247,15 @@ export default function Home() {
       </section>
 
       {/* Why us */}
-      <section id="why" className="py-24 px-6 border-t border-white/10">
+      <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-16">
-            <p className="text-brand font-semibold uppercase tracking-widest text-sm mb-3">Why AR Strategies</p>
-            <h2 className="font-display text-4xl md:text-5xl uppercase leading-tight">
-              How we operate is the pitch
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
+            How we operate is the pitch
+          </h2>
+          <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p) => (
-              <div key={p.title} className="text-center md:text-left">
-                <h3 className="font-display text-2xl uppercase mb-4">{p.title}</h3>
+              <div key={p.title} data-reveal>
+                <h3 className="font-display text-xl uppercase mb-3">{p.title}</h3>
                 <p className="text-gray-300 leading-relaxed">{p.body}</p>
               </div>
             ))}
@@ -270,37 +263,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Big quote / brand voice */}
-      <section className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
+      {/* Statement */}
+      <section ref={quoteRef} className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-display text-4xl md:text-6xl uppercase leading-tight">
+          <h2 data-reveal className="font-display text-4xl md:text-6xl uppercase leading-tight text-balance">
             If your ads aren&apos;t making you money,
             <span className="text-brand"> they&apos;re costing you customers.</span>
           </h2>
-          <p className="text-gray-300 text-lg mt-8 max-w-2xl mx-auto">
-            Every day your advertising is broken, a competitor is taking the customers that
-            should be yours. Let&apos;s fix that.
+          <p data-reveal className="text-gray-300 text-lg mt-8 max-w-2xl mx-auto">
+            Every day your advertising is broken, a competitor is taking the customers that should be yours. Let&apos;s fix that.
           </p>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-24 px-6 border-t border-white/10">
+      <section id="faq" ref={faqRef} className="py-24 px-6 border-t border-white/10">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-brand font-semibold uppercase tracking-widest text-sm mb-3">Questions</p>
-            <h2 className="font-display text-4xl md:text-5xl uppercase">Straight answers</h2>
-          </div>
+          <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">
+            Straight answers
+          </h2>
           <div className="space-y-4">
             {faqs.map((faq, i) => (
-              <div key={faq.q} className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
+              <div key={faq.q} data-reveal className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   aria-expanded={openFaq === i}
-                  className="w-full flex justify-between items-center text-left px-6 py-5 hover:bg-white/[0.04] transition"
+                  className="w-full flex justify-between items-center text-left px-6 py-5 hover:bg-white/[0.04] transition-colors"
                 >
                   <span className="font-semibold text-lg">{faq.q}</span>
-                  <span className="text-brand text-2xl leading-none ml-4">{openFaq === i ? '−' : '+'}</span>
+                  <span aria-hidden="true" className="text-brand text-2xl leading-none ml-4">{openFaq === i ? '−' : '+'}</span>
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-5 text-gray-300 leading-relaxed">{faq.a}</div>
@@ -312,12 +303,11 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section id="contact" className="py-24 px-6 border-t border-white/10 dot-grid">
-        <div className="max-w-3xl mx-auto text-center bg-gradient-to-b from-white/[0.06] to-transparent border border-white/10 rounded-3xl p-12">
+      <section id="contact" ref={ctaRef} className="py-24 px-6 border-t border-white/10 dot-grid">
+        <div data-reveal className="max-w-3xl mx-auto text-center bg-gradient-to-b from-white/[0.06] to-transparent border border-white/10 rounded-2xl p-12">
           <h2 className="font-display text-4xl md:text-5xl uppercase mb-6">Ready to fix your ads?</h2>
           <p className="text-xl text-gray-300 mb-10 max-w-xl mx-auto">
-            Get a free audit of your current advertising. We&apos;ll show you exactly what&apos;s
-            broken and how to fix it — no strings attached.
+            Get a free audit of your current advertising. We&apos;ll show you exactly what&apos;s broken and how to fix it.
           </p>
           <form onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
             <label htmlFor="cta-email" className="sr-only">Email address</label>
@@ -329,18 +319,18 @@ export default function Home() {
               placeholder="name@email.com"
               required
               disabled={cta.state === 'loading'}
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-brand transition disabled:opacity-50"
+              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={cta.state === 'loading'}
-              className="bg-brand hover:bg-orange-700 px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
+              className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
             >
-              {cta.state === 'loading' ? 'Sending…' : 'Book Your Free Audit'}
+              {cta.state === 'loading' ? 'Sending' : CTA_LABEL}
             </button>
           </form>
           {cta.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm">Got it — we&apos;ll be in touch within 24 hours.</p>
+            <p className="text-green-400 mt-4 text-sm">Got it. We will be in touch within 24 hours.</p>
           )}
           {cta.state === 'error' && (
             <p className="text-red-400 mt-4 text-sm">
@@ -360,25 +350,24 @@ export default function Home() {
               <span className="font-display text-lg tracking-wide">AR STRATEGIES</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              We don&apos;t just run ads. We build advertising systems that make money for
-              local businesses ready to dominate their market.
+              We don&apos;t just run ads. We build advertising systems that make money for local businesses ready to dominate their market.
             </p>
           </div>
           <div className="flex gap-16">
             <div>
               <p className="font-semibold mb-4 text-sm uppercase tracking-wide">Company</p>
               <ul className="space-y-3 text-sm text-gray-400">
-                <li><a href="#services" className="hover:text-white transition">Services</a></li>
-                <li><a href="#process" className="hover:text-white transition">Process</a></li>
-                <li><a href="#why" className="hover:text-white transition">Why Us</a></li>
-                <li><a href="#faq" className="hover:text-white transition">FAQ</a></li>
+                <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
+                <li><a href="#process" className="hover:text-white transition-colors">Process</a></li>
+                <li><a href="#why" className="hover:text-white transition-colors">Why Us</a></li>
+                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
               </ul>
             </div>
             <div>
               <p className="font-semibold mb-4 text-sm uppercase tracking-wide">Connect</p>
               <ul className="space-y-3 text-sm text-gray-400">
-                <li><a href="https://instagram.com/ar_strats.aa" className="hover:text-white transition">Instagram</a></li>
-                <li><a href="mailto:hello@arstrategists.com" className="hover:text-white transition">Email</a></li>
+                <li><a href="https://instagram.com/ar_strats.aa" className="hover:text-white transition-colors">Instagram</a></li>
+                <li><a href="mailto:hello@arstrategists.com" className="hover:text-white transition-colors">Email</a></li>
               </ul>
             </div>
           </div>
