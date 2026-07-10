@@ -25,11 +25,19 @@ const steps = [
   { n: '04', title: 'Scale', body: 'We double down on winners and grow your revenue month over month.' },
 ];
 
-const stats = [
-  { value: '$2.3M+', label: 'Ad revenue tracked' },
-  { value: '47', label: 'Businesses served' },
-  { value: '3.2x', label: 'Avg. ROAS lift' },
-  { value: '98%', label: 'Client retention' },
+const principles = [
+  {
+    title: 'No lock-in contracts',
+    body: "You stay because it's working, not because you signed something. We earn your business every month.",
+  },
+  {
+    title: 'You see every number',
+    body: 'Spend, clicks, cost per lead, revenue — full visibility into what your money is doing, always.',
+  },
+  {
+    title: 'We kill what does not work',
+    body: "Fast. No riding a losing campaign to protect a report. If it isn't converting, it's gone.",
+  },
 ];
 
 const faqs = [
@@ -51,40 +59,94 @@ const faqs = [
   },
 ];
 
-export default function Home() {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
-  const handleSubmit = (e: React.FormEvent) => {
+function useLeadForm() {
+  const [email, setEmail] = useState('');
+  const [state, setState] = useState<LeadFormState>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setEmail('');
-    setTimeout(() => setSubmitted(false), 4000);
+    setState('loading');
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error('failed');
+      setState('success');
+      setEmail('');
+    } catch {
+      setState('error');
+    }
   };
+
+  return { email, setEmail, state, handleSubmit };
+}
+
+export default function Home() {
+  const hero = useLeadForm();
+  const cta = useLeadForm();
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const navLinks = [
+    { href: '#services', label: 'Services' },
+    { href: '#process', label: 'Process' },
+    { href: '#why', label: 'Why Us' },
+    { href: '#faq', label: 'FAQ' },
+  ];
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Nav */}
       <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="#top" className="flex items-center gap-3">
+          <a href="#top" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
             <Image src="/logo.png" alt="AR Strategies" width={40} height={40} className="h-10 w-auto" />
             <span className="font-display text-xl tracking-wide">AR STRATEGIES</span>
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-300">
-            <a href="#services" className="hover:text-white transition">Services</a>
-            <a href="#process" className="hover:text-white transition">Process</a>
-            <a href="#results" className="hover:text-white transition">Results</a>
-            <a href="#faq" className="hover:text-white transition">FAQ</a>
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} className="hover:text-white transition">
+                {link.label}
+              </a>
+            ))}
           </div>
           <a
             href="#contact"
-            className="bg-brand hover:bg-orange-700 px-5 py-2 rounded-full font-semibold text-sm transition"
+            className="hidden md:inline-block bg-brand hover:bg-orange-700 px-5 py-2 rounded-full font-semibold text-sm transition"
           >
             Get Started
           </a>
+          <button
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="md:hidden flex flex-col gap-1.5 p-2"
+          >
+            <span className={`block h-0.5 w-6 bg-white transition-transform ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
+            <span className={`block h-0.5 w-6 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block h-0.5 w-6 bg-white transition-transform ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+          </button>
         </div>
+        {menuOpen && (
+          <div className="md:hidden border-t border-white/10 px-6 py-4 flex flex-col gap-4 text-gray-300">
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="hover:text-white transition">
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              onClick={() => setMenuOpen(false)}
+              className="bg-brand text-center px-5 py-2.5 rounded-full font-semibold text-sm"
+            >
+              Get Started
+            </a>
+          </div>
+        )}
       </nav>
 
       {/* Hero */}
@@ -103,24 +165,34 @@ export default function Home() {
             advertising systems that turn ad spend into real, trackable revenue.
           </p>
 
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+          <form onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+            <label htmlFor="hero-email" className="sr-only">Email address</label>
             <input
+              id="hero-email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={hero.email}
+              onChange={(e) => hero.setEmail(e.target.value)}
               placeholder="name@email.com"
               required
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-brand transition"
+              disabled={hero.state === 'loading'}
+              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-brand transition disabled:opacity-50"
             />
             <button
               type="submit"
-              className="bg-brand hover:bg-orange-700 px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap"
+              disabled={hero.state === 'loading'}
+              className="bg-brand hover:bg-orange-700 px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
             >
-              Get Free Audit
+              {hero.state === 'loading' ? 'Sending…' : 'Get Free Audit'}
             </button>
           </form>
-          {submitted && (
+          {hero.state === 'success' && (
             <p className="text-green-400 mt-4 text-sm">Got it — we&apos;ll be in touch within 24 hours.</p>
+          )}
+          {hero.state === 'error' && (
+            <p className="text-red-400 mt-4 text-sm">
+              Something went wrong. Email us directly at{' '}
+              <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
+            </p>
           )}
           <p className="text-gray-500 text-sm mt-4">Free strategy audit. No commitment, no fluff.</p>
         </div>
@@ -178,25 +250,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Results */}
-      <section id="results" className="py-24 px-6 border-t border-white/10">
+      {/* Why us */}
+      <section id="why" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-brand font-semibold uppercase tracking-widest text-sm mb-3">The numbers</p>
-            <h2 className="font-display text-4xl md:text-5xl uppercase leading-tight">Results that speak</h2>
+          <div className="max-w-2xl mb-16">
+            <p className="text-brand font-semibold uppercase tracking-widest text-sm mb-3">Why AR Strategies</p>
+            <h2 className="font-display text-4xl md:text-5xl uppercase leading-tight">
+              How we operate is the pitch
+            </h2>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="font-display text-5xl md:text-6xl text-brand mb-2">{stat.value}</p>
-                <p className="text-gray-400 text-sm uppercase tracking-wide">{stat.label}</p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {principles.map((p) => (
+              <div key={p.title} className="text-center md:text-left">
+                <h3 className="font-display text-2xl uppercase mb-4">{p.title}</h3>
+                <p className="text-gray-300 leading-relaxed">{p.body}</p>
               </div>
             ))}
           </div>
-          <p className="text-center text-gray-500 text-xs mt-10 max-w-xl mx-auto">
-            Figures reflect aggregate client performance. Individual results vary based on
-            budget, market, and offer.
-          </p>
         </div>
       </section>
 
@@ -226,6 +296,7 @@ export default function Home() {
               <div key={faq.q} className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
                   className="w-full flex justify-between items-center text-left px-6 py-5 hover:bg-white/[0.04] transition"
                 >
                   <span className="font-semibold text-lg">{faq.q}</span>
@@ -248,12 +319,35 @@ export default function Home() {
             Get a free audit of your current advertising. We&apos;ll show you exactly what&apos;s
             broken and how to fix it — no strings attached.
           </p>
-          <a
-            href="mailto:hello@arstrategists.com?subject=Free%20Ad%20Audit%20Request"
-            className="inline-block bg-brand hover:bg-orange-700 px-10 py-4 rounded-full font-semibold text-lg transition"
-          >
-            Book Your Free Audit
-          </a>
+          <form onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+            <label htmlFor="cta-email" className="sr-only">Email address</label>
+            <input
+              id="cta-email"
+              type="email"
+              value={cta.email}
+              onChange={(e) => cta.setEmail(e.target.value)}
+              placeholder="name@email.com"
+              required
+              disabled={cta.state === 'loading'}
+              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-brand transition disabled:opacity-50"
+            />
+            <button
+              type="submit"
+              disabled={cta.state === 'loading'}
+              className="bg-brand hover:bg-orange-700 px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
+            >
+              {cta.state === 'loading' ? 'Sending…' : 'Book Your Free Audit'}
+            </button>
+          </form>
+          {cta.state === 'success' && (
+            <p className="text-green-400 mt-4 text-sm">Got it — we&apos;ll be in touch within 24 hours.</p>
+          )}
+          {cta.state === 'error' && (
+            <p className="text-red-400 mt-4 text-sm">
+              Something went wrong. Email us directly at{' '}
+              <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
+            </p>
+          )}
         </div>
       </section>
 
@@ -276,7 +370,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-gray-400">
                 <li><a href="#services" className="hover:text-white transition">Services</a></li>
                 <li><a href="#process" className="hover:text-white transition">Process</a></li>
-                <li><a href="#results" className="hover:text-white transition">Results</a></li>
+                <li><a href="#why" className="hover:text-white transition">Why Us</a></li>
                 <li><a href="#faq" className="hover:text-white transition">FAQ</a></li>
               </ul>
             </div>
