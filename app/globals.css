@@ -35,3 +35,26 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* ACCESSIBILITY: Visible focus rings for keyboard navigation (WCAG requirement) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+/* Ensure focus is always visible on interactive elements */
+:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+/* Remove default outline in some cases where we use our custom style */
+button:focus,
+a:focus,
+input:focus,
+[role="button"]:focus {
+  outline: none;
+}
