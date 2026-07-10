@@ -1,24 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const anton = Anton({
+  variable: "--font-display",
+  weight: "400",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "AR Strategies - Advertising That Actually Works",
-  description: "We build advertising strategies that convert. From audit to scaling, we handle everything.",
+  metadataBase: new URL("https://www.arstrategists.com"),
+  title: "AR Strategies — Advertising That Actually Makes Money",
+  description:
+    "AR Strategies builds advertising systems that convert. We audit, run, and scale campaigns for local businesses that are tired of wasting money on ads.",
   openGraph: {
-    title: "AR Strategies - Advertising That Actually Works",
-    description: "We build advertising strategies that convert.",
+    title: "AR Strategies — Advertising That Actually Makes Money",
+    description:
+      "We build advertising systems that convert. Audit, run, and scale — done for you.",
     type: "website",
+    images: ["/og-cover.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AR Strategies — Advertising That Actually Makes Money",
+    description: "We build advertising systems that convert.",
+    images: ["/og-cover.png"],
   },
 };
 
@@ -30,9 +41,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${anton.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full bg-black text-white">{children}</body>
     </html>
   );
 }
