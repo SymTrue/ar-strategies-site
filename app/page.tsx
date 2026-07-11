@@ -25,14 +25,14 @@ const services = [
 const steps = [
   { n: '01', title: 'Find the Leak', body: 'Tear apart your current campaigns. Find where the money is going, where conversions are dying, and why.' },
   { n: '02', title: 'Build the Engine', body: 'Design strategy and creative built for your audience. Setup, targeting, messaging—all aligned to convert.' },
-  { n: '03', title: 'Test Fast', body: 'Launch lean. Watch the data daily. Kill what doesn&apos;t convert in 48 hours. Double down on winners.' },
+  { n: '03', title: 'Test Fast', body: 'Launch lean. Watch the data daily. Kill what doesn\'t convert in 48 hours. Double down on winners.' },
   { n: '04', title: 'Scale Predictably', body: 'Pour fuel on what works. Grow your revenue month over month with systems, not guessing.' },
 ];
 
 const principles = [
   {
     title: 'No lock-in contracts',
-    body: "You stay because it&apos;s working, not because you signed something. We earn your business every month.",
+    body: "You stay because it's working, not because you signed something. We earn your business every month.",
   },
   {
     title: 'You see every number',
@@ -40,7 +40,7 @@ const principles = [
   },
   {
     title: 'We kill what does not work',
-    body: "Fast. No riding a losing campaign to protect a report. If it isn&apos;t converting, it&apos;s gone.",
+    body: "Fast. No riding a losing campaign to protect a report. If it isn't converting, it's gone.",
   },
 ];
 
