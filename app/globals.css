@@ -2,50 +2,83 @@
 @import "./design-tokens.css";
 
 :root {
-  --background: #000000;
+  /* Warm near-black base — adds depth over pure #000 */
+  --background: #0b0806;
   --foreground: #ffffff;
-  --brand: #ea580c;
-  --brand-light: #ff9d5c;
-  --brand-dark: #d97757;
-  --color-orange: #ea580c;
-  --surface: rgba(26, 26, 26, 0.6);
-  --surface-hover: rgba(26, 26, 26, 0.8);
+
+  /* Brand heat spectrum: gold -> orange -> ember. Used for accents + gradients. */
+  --brand: #f97316;          /* accent orange (bright, for text/icons on dark) */
+  --brand-light: #fbbf24;    /* amber / gold */
+  --brand-dark: #c2410c;     /* deep burnt orange */
+  --brand-ember: #ef4444;    /* ember red — the far end of the heat ramp */
+  --color-orange: #f97316;
+
+  /* Accessible CTA fill (white text passes AA in both themes) */
+  --cta-bg: #c2410c;
+  --cta-bg-hover: #9a3412;
+  --cta-text: #ffffff;
+
+  --surface: rgba(28, 22, 18, 0.62);
+  --surface-hover: rgba(38, 28, 22, 0.82);
   --border: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(234, 88, 12, 0.3);
-  --text-primary: #ffffff;
-  --text-secondary: #d1d5db;
-  --text-tertiary: #9ca3af;
-  --nav-background: rgba(0, 0, 0, 0.9);
-  --shell-glow: rgba(234, 88, 12, 0.18);
-  --section-gradient: linear-gradient(180deg, rgba(234, 88, 12, 0.07) 0%, rgba(0, 0, 0, 0) 42%);
-  --header-gradient: linear-gradient(110deg, rgba(234, 88, 12, 0.2) 0%, rgba(0, 0, 0, 0) 38%, rgba(255, 107, 53, 0.12) 100%);
-  --footer-gradient: radial-gradient(ellipse at 82% 110%, rgba(234, 88, 12, 0.34), transparent 48%), linear-gradient(140deg, #0d0501 0%, #000000 52%, #1e0901 100%);
-  --hero-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 52%, rgba(0, 0, 0, 0.7) 100%);
-  --hero-kicker-bg: rgba(0, 0, 0, 0.22);
-  --hero-kicker-border: rgba(255, 255, 255, 0.15);
+  --border-hover: rgba(249, 115, 22, 0.42);
+  --text-primary: #fefaf6;
+  --text-secondary: #e2d9d2;
+  --text-tertiary: #a99e96;
+  --nav-background: rgba(11, 8, 6, 0.82);
+  --shell-glow: rgba(249, 115, 22, 0.2);
+  --grain-opacity: 0.05;
+
+  --section-gradient: linear-gradient(180deg, rgba(249, 115, 22, 0.08) 0%, rgba(11, 8, 6, 0) 44%);
+  --header-gradient: linear-gradient(110deg, rgba(249, 115, 22, 0.22) 0%, rgba(11, 8, 6, 0) 40%, rgba(239, 68, 68, 0.12) 100%);
+  --footer-gradient:
+    radial-gradient(ellipse at 82% 112%, rgba(249, 115, 22, 0.36), transparent 46%),
+    radial-gradient(ellipse at 18% -10%, rgba(239, 68, 68, 0.16), transparent 44%),
+    linear-gradient(140deg, #140803 0%, #0b0806 52%, #1f0b02 100%);
+  --hero-overlay: linear-gradient(180deg, rgba(11, 8, 6, 0.08) 0%, rgba(11, 8, 6, 0.32) 52%, rgba(11, 8, 6, 0.74) 100%);
+  --hero-kicker-bg: rgba(11, 8, 6, 0.28);
+  --hero-kicker-border: rgba(251, 191, 36, 0.28);
+  --icon-tile: linear-gradient(135deg, rgba(251, 191, 36, 0.16), rgba(239, 68, 68, 0.14));
+  --icon-tile-border: rgba(249, 115, 22, 0.34);
 }
 
 [data-theme="light"] {
-  --brand: #c2410c;
-  --brand-light: #ea580c;
+  /* Warm cream base — not cold gray */
+  --background: #fbf7f1;
+  --foreground: #1a1310;
+
+  --brand: #ea580c;          /* accent orange on light */
+  --brand-light: #d97706;    /* amber, darkened for light-bg contrast */
+  --brand-dark: #9a3412;
+  --brand-ember: #dc2626;
   --color-orange: #c2410c;
-  --background: #fafaf9;
-  --foreground: #1a1a1a;
-  --text-primary: #1a1a1a;
-  --text-secondary: #4b5563;
-  --text-tertiary: #6b7280;
-  --surface: rgba(255, 255, 255, 0.95);
+
+  --cta-bg: #c2410c;
+  --cta-bg-hover: #9a3412;
+  --cta-text: #ffffff;
+
+  --surface: rgba(255, 252, 248, 0.94);
   --surface-hover: rgba(255, 255, 255, 1);
-  --border: rgba(0, 0, 0, 0.1);
-  --border-hover: rgba(234, 88, 12, 0.3);
-  --nav-background: rgba(250, 250, 249, 0.9);
-  --shell-glow: rgba(234, 88, 12, 0.12);
-  --section-gradient: linear-gradient(180deg, rgba(234, 88, 12, 0.1) 0%, rgba(250, 250, 249, 0) 42%);
-  --header-gradient: linear-gradient(110deg, rgba(234, 88, 12, 0.12) 0%, rgba(250, 250, 249, 0) 42%, rgba(255, 107, 53, 0.08) 100%);
-  --footer-gradient: radial-gradient(ellipse at 82% 110%, rgba(234, 88, 12, 0.22), transparent 48%), linear-gradient(140deg, #f7f4f0 0%, #fafaf9 52%, #fff1e8 100%);
-  --hero-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 247, 237, 0.48) 52%, rgba(250, 250, 249, 0.9) 100%);
-  --hero-kicker-bg: rgba(255, 255, 255, 0.54);
-  --hero-kicker-border: rgba(154, 52, 18, 0.24);
+  --border: rgba(60, 30, 10, 0.12);
+  --border-hover: rgba(194, 65, 12, 0.34);
+  --text-primary: #1a1310;
+  --text-secondary: #4a3f38;
+  --text-tertiary: #6b5d54;
+  --nav-background: rgba(251, 247, 241, 0.86);
+  --shell-glow: rgba(234, 88, 12, 0.14);
+  --grain-opacity: 0.035;
+
+  --section-gradient: linear-gradient(180deg, rgba(234, 88, 12, 0.1) 0%, rgba(251, 247, 241, 0) 44%);
+  --header-gradient: linear-gradient(110deg, rgba(234, 88, 12, 0.13) 0%, rgba(251, 247, 241, 0) 42%, rgba(220, 38, 38, 0.07) 100%);
+  --footer-gradient:
+    radial-gradient(ellipse at 82% 112%, rgba(234, 88, 12, 0.2), transparent 46%),
+    radial-gradient(ellipse at 18% -10%, rgba(220, 38, 38, 0.08), transparent 44%),
+    linear-gradient(140deg, #fbeee2 0%, #fbf7f1 52%, #fff1e6 100%);
+  --hero-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 246, 236, 0.46) 52%, rgba(251, 247, 241, 0.9) 100%);
+  --hero-kicker-bg: rgba(255, 255, 255, 0.6);
+  --hero-kicker-border: rgba(154, 52, 18, 0.26);
+  --icon-tile: linear-gradient(135deg, rgba(234, 88, 12, 0.14), rgba(220, 38, 38, 0.1));
+  --icon-tile-border: rgba(194, 65, 12, 0.3);
   color-scheme: light;
 }
 
@@ -65,8 +98,52 @@ body {
   background: var(--background);
   color: var(--text-primary);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-size: 1.0625rem;      /* 17px base — more readable body copy */
+  font-weight: 440;          /* slightly heavier than default for presence */
   line-height: 1.65;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* Film-grain texture overlay — adds tactile depth to flat gradients.
+   Inline SVG feTurbulence, no external asset. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Readability: paragraphs get pretty wrapping + comfortable weight */
+p {
+  text-wrap: pretty;
+}
+
+.lead {
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* Accessible primary CTA — replaces bg-brand+white (which failed AA on dark) */
+.btn-primary {
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 20px -6px rgba(194, 65, 12, 0.55);
+}
+
+.btn-primary:hover {
+  background: var(--cta-bg-hover);
+  box-shadow: 0 8px 26px -6px rgba(194, 65, 12, 0.65);
 }
 
 .site-shell {
@@ -277,18 +354,34 @@ button:disabled {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .glass-card,
-  .reveal,
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Show reveal content immediately for motion-sensitive users */
   [data-reveal],
-  button,
-  a {
-    animation: none !important;
-    transition: none !important;
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Heading rhythm — balanced wrapping for display type */
+h1, h2, h3 {
+  text-wrap: balance;
 }
 
 /* Mobile responsiveness: Text overflow on 375px */
@@ -312,18 +405,19 @@ header {
   padding-top: max(1rem, env(safe-area-inset-top));
 }
 
-/* Touch target sizing (≥44×44px) */
+/* Touch target sizing (≥44×44px) — enforce hit area WITHOUT hijacking padding.
+   (A previous blanket `padding` rule here overrode every button's Tailwind
+   padding because unlayered rules beat Tailwind's @layer utilities.) */
 .touch-target {
   min-height: 44px;
   min-width: 44px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
 button, a[role="button"], [role="button"] {
   min-height: 44px;
-  padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-left));
 }
 
 /* Section-specific dot-grid variations */

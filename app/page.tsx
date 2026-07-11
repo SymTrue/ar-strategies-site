@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, Suspense } from 'react';
+import { useState, useSyncExternalStore, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
 import AnimatedGradient from './components/ui/animated-gradient';
@@ -9,16 +9,74 @@ import LiquidMetal from './components/ui/liquid-metal';
 import { ThemeToggle } from './components/ui/theme-toggle';
 import { useTheme } from './providers';
 
+/* Inline Lucide-style icons (24×24 grid, 2px stroke, rounded caps — MIT, no
+   external asset so nothing to hotlink and nothing for the CSP to block). */
+const svgBase = {
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 2,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+  'aria-hidden': true,
+  focusable: false,
+};
+
+const icons: Record<string, React.ReactNode> = {
+  // Ad Strategy & Audit — magnifier
+  search: (<svg {...svgBase}><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>),
+  // Campaign Management — sliders / controls
+  sliders: (<svg {...svgBase}><line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" /><line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" /><line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" /><line x1="1" y1="14" x2="7" y2="14" /><line x1="9" y1="8" x2="15" y2="8" /><line x1="17" y1="16" x2="23" y2="16" /></svg>),
+  // Growth & Scaling — trending up
+  trending: (<svg {...svgBase}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" /></svg>),
+  // No lock-in — open padlock
+  unlock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>),
+  // Full visibility — bar chart
+  chart: (<svg {...svgBase}><line x1="4" y1="20" x2="4" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="20" y1="20" x2="20" y2="14" /></svg>),
+  // Kill what doesn't work — flame
+  flame: (<svg {...svgBase}><path d="M12 2c1 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.5.5-2.5 1-3.5C8 8 6 10 6 13a6 6 0 0 0 12 0c0-4.5-3.5-7.5-6-11Z" /></svg>),
+};
+
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener('change', onChange);
+  return () => mq.removeEventListener('change', onChange);
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false,
+  );
+}
+
+function IconTile({ name }: { name: string }) {
+  return (
+    <span
+      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-brand"
+      style={{ background: 'var(--icon-tile)', border: '1px solid var(--icon-tile-border)' }}
+    >
+      {icons[name]}
+    </span>
+  );
+}
+
 const services = [
   {
+    icon: 'search',
     title: 'Ad Strategy & Audit',
     body: 'Tear apart your current campaigns. Find where the money is leaking. Build a strategy that actually works for your business.',
   },
   {
+    icon: 'sliders',
     title: 'Campaign Management',
     body: 'Design campaigns and creative built to convert your audience. Setup, targeting, optimization—all aligned to your goals.',
   },
   {
+    icon: 'trending',
     title: 'Growth & Scaling',
     body: 'Once we find what converts, we scale it predictably. No guessing. Month-over-month revenue growth.',
   },
@@ -33,14 +91,17 @@ const steps = [
 
 const principles = [
   {
+    icon: 'unlock',
     title: 'No lock-in contracts',
     body: "You stay because it's working, not because you signed something. We earn your business every month.",
   },
   {
+    icon: 'chart',
     title: 'You see every number',
     body: 'Spend, clicks, cost per lead, revenue. Full visibility into what your money is doing, always.',
   },
   {
+    icon: 'flame',
     title: 'We kill what does not work',
     body: "Fast. No riding a losing campaign to protect a report. If it isn't converting, it's gone.",
   },
@@ -104,6 +165,7 @@ function useLeadForm() {
 
 export default function Home() {
   const { theme } = useTheme();
+  const reducedMotion = usePrefersReducedMotion();
   const hero = useLeadForm();
   const cta = useLeadForm();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -143,7 +205,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <a
               href="#contact"
-              className="hidden md:inline-block bg-brand hover:bg-orange-700 active:scale-[0.97] px-5 py-2 rounded-full font-semibold text-sm text-white transition"
+              className="btn-primary hidden md:inline-flex items-center active:scale-[0.97] px-5 py-2 rounded-full text-sm transition-colors"
             >
               {CTA_LABEL}
             </a>
@@ -170,7 +232,7 @@ export default function Home() {
             <a
               href="#contact"
               onClick={() => setMenuOpen(false)}
-              className="bg-brand text-center px-5 py-2.5 rounded-full font-semibold text-sm"
+              className="btn-primary text-center px-5 py-2.5 rounded-full text-sm transition-colors"
             >
               {CTA_LABEL}
             </a>
@@ -183,8 +245,8 @@ export default function Home() {
         <Suspense fallback={<div className={theme === 'light' ? 'absolute inset-0 bg-gradient-to-br from-orange-50 via-orange-200/80 to-white' : 'absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black'} />}>
           <AnimatedGradient
             config={theme === 'light'
-              ? { preset: 'custom', color1: '#fff7ed', color2: '#fed7aa', color3: '#ea580c', proportion: 34, softness: 96, speed: 10, distortion: 28, swirl: 52 }
-              : { preset: 'custom', color1: '#0a0a0a', color2: '#7a2e00', color3: '#ff6b35', proportion: 42, softness: 90, speed: 14, distortion: 40, swirl: 75 }}
+              ? { preset: 'custom', color1: '#fff7ed', color2: '#fed7aa', color3: '#ea580c', proportion: 34, softness: 96, speed: reducedMotion ? 0 : 10, distortion: 28, swirl: 52 }
+              : { preset: 'custom', color1: '#0b0806', color2: '#7a2e00', color3: '#fbbf24', proportion: 42, softness: 90, speed: reducedMotion ? 0 : 14, distortion: 40, swirl: 75 }}
             radius="0px"
             style={{ position: "absolute", inset: 0 }}
           />
@@ -222,7 +284,7 @@ export default function Home() {
             <button
               type="submit"
               disabled={hero.state === 'loading'}
-              className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
+              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60"
             >
               {hero.state === 'loading' ? 'Sending' : 'Get My Free Audit'}
             </button>
@@ -250,7 +312,10 @@ export default function Home() {
             {services.map((s, i) => (
               <AnimatedSection key={s.title} delay={i * 0.1}>
                 <div className="grid md:grid-cols-[1fr_2fr] gap-3 md:gap-12 py-8 border-b border-white/10">
-                  <h3 className="font-display text-xl uppercase">{s.title}</h3>
+                  <div className="flex items-center gap-4">
+                    <IconTile name={s.icon} />
+                    <h3 className="font-display text-xl uppercase">{s.title}</h3>
+                  </div>
                   <p className="text-gray-300 leading-relaxed max-w-[65ch]">{s.body}</p>
                 </div>
               </AnimatedSection>
@@ -326,7 +391,8 @@ export default function Home() {
                     <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300 ${
                       idx === 0 ? 'bg-gradient-to-b from-brand-light via-brand-light/50' : idx === 1 ? 'bg-gradient-to-b from-brand-dark via-brand-dark/50' : 'bg-gradient-to-b from-brand via-brand/50'
                     } to-transparent`} />
-                    <h3 className={`font-display text-xl uppercase mb-3 text-[var(--text-primary)] transition-colors ${
+                    <IconTile name={p.icon} />
+                    <h3 className={`font-display text-xl uppercase mt-5 mb-3 text-[var(--text-primary)] transition-colors ${
                       idx === 0 ? 'group-hover:text-brand-light' : idx === 1 ? 'group-hover:text-brand-dark' : 'group-hover:text-brand'
                     }`}>{p.title}</h3>
                     <p className="text-gray-400 leading-relaxed group-hover:text-gray-200 transition-colors">{p.body}</p>
@@ -467,7 +533,7 @@ export default function Home() {
             <button
               type="submit"
               disabled={cta.state === 'loading'}
-              className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
+              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60"
             >
               {cta.state === 'loading' ? 'Sending' : 'Get My Free Audit'}
             </button>
