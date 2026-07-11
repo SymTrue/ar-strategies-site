@@ -33,8 +33,10 @@ const icons: Record<string, React.ReactNode> = {
   unlock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>),
   // Full visibility: bar chart
   chart: (<svg {...svgBase}><line x1="4" y1="20" x2="4" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="20" y1="20" x2="20" y2="14" /></svg>),
-  // One business per market: map pin
-  pin: (<svg {...svgBase}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>),
+  // One business per market: lock icon (exclusivity)
+  lock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>),
+  // You see every number: eye icon (visibility/transparency)
+  eye: (<svg {...svgBase}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>),
 };
 
 // Custom branded graphics: Strike Den logo (minimal boxing glove)
@@ -100,6 +102,75 @@ const WebsiteIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="h-5 w-5">
     <circle cx="12" cy="12" r="10" />
     <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+
+// Process Flow Component: Visual representation of 4-step process
+const ProcessFlow = () => (
+  <svg viewBox="0 0 1000 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" aria-hidden>
+    <defs>
+      <linearGradient id="processGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
+        <stop offset="100%" stopColor="currentColor" stopOpacity="0.3" />
+      </linearGradient>
+    </defs>
+    {/* Connection line */}
+    <line x1="80" y1="60" x2="920" y2="60" stroke="url(#processGrad)" strokeWidth="2" />
+    {/* Step circles and labels */}
+    {[1, 2, 3, 4].map((n) => {
+      const x = 80 + (n - 1) * 280;
+      return (
+        <g key={n}>
+          <circle cx={x} cy="60" r="28" fill="none" stroke="currentColor" strokeWidth="2" />
+          <text x={x} y="68" textAnchor="middle" className="text-xs font-bold fill-current">0{n}</text>
+        </g>
+      );
+    })}
+  </svg>
+);
+
+// FAQ Category Tag Component
+const FAQTag = ({ category }: { category: 'timeline' | 'pricing' | 'service' | 'contract' }) => {
+  const colors = {
+    timeline: 'bg-blue-500/20 border-blue-500/50 text-blue-400',
+    pricing: 'bg-green-500/20 border-green-500/50 text-green-400',
+    service: 'bg-purple-500/20 border-purple-500/50 text-purple-400',
+    contract: 'bg-orange-500/20 border-orange-500/50 text-orange-400',
+  };
+  const labels = {
+    timeline: 'Timeline',
+    pricing: 'Pricing',
+    service: 'Service',
+    contract: 'Contract',
+  };
+  return (
+    <span className={`inline-block px-2.5 py-1 text-xs font-semibold rounded-full border ${colors[category]}`}>
+      {labels[category]}
+    </span>
+  );
+};
+
+// Principle Icons for Why Us section
+const LockIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </svg>
+);
+
+const EyeIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+const ChainBrokenIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+    <path d="M10 14a3.5 3.5 0 0 0 5 0l4-4a3.5 3.5 0 0 0-5-5l-1.5 1.5" />
+    <path d="M14 10a3.5 3.5 0 0 0-5 0l-4 4a3.5 3.5 0 0 0 5 5l1.5-1.5" />
+    <line x1="16" y1="8" x2="20" y2="4" />
+    <line x1="4" y1="20" x2="8" y2="16" />
   </svg>
 );
 
@@ -263,12 +334,12 @@ const steps = [
 
 const principles = [
   {
-    icon: 'pin',
+    icon: 'lock',
     title: 'One business per market',
     body: 'We never work with your competitors. When you\'re our client, your industry in your area is locked. Everything we build works for you and against them.',
   },
   {
-    icon: 'chart',
+    icon: 'eye',
     title: 'You see every number',
     body: 'Rankings, leads, cost per call, revenue. You own the data, so you always know what\'s working and what to kill next.',
   },
@@ -283,22 +354,27 @@ const faqs = [
   {
     q: 'How long until I rank at the top of Google?',
     a: 'It depends on your area and competition. Most clients see movement within the first 30 days; competitive searches take longer. That\'s why we run Meta ads alongside. Customers now, rankings compounding behind them.',
+    category: 'timeline' as const,
   },
   {
     q: 'What if you already work with my competitor?',
     a: 'Then we can\'t take you on, and if you sign with us, we can\'t take them. We work with one business per industry per area, so everything we build works for you alone.',
+    category: 'service' as const,
   },
   {
     q: 'Do you work with businesses in my industry?',
     a: 'If your customers search Google or scroll social media before they buy, and they do, we can help. We work with local and service businesses across most industries.',
+    category: 'service' as const,
   },
   {
     q: 'How much should I be spending on marketing?',
     a: 'It depends on your margins and goals, but we help you start lean, prove what works, then scale. No one should be lighting money on fire hoping something sticks.',
+    category: 'pricing' as const,
   },
   {
     q: 'Am I locked into a long contract?',
     a: 'No. We earn your business every month. If we are not making you money, you should not keep paying us.',
+    category: 'contract' as const,
   },
 ];
 
@@ -524,6 +600,9 @@ export default function Home() {
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
           </h2>
+          <div data-reveal className="max-w-3xl mx-auto mb-12 text-brand hidden lg:block">
+            <ProcessFlow />
+          </div>
           <TimelineWithFill />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
@@ -631,10 +710,15 @@ export default function Home() {
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     aria-expanded={openFaq === i}
-                    className="w-full flex justify-between items-center text-left px-6 py-4 transition-colors"
+                    className="w-full flex justify-between items-start gap-4 text-left px-6 py-4 transition-colors"
                   >
-                    <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
-                    <span className={`text-brand text-xl leading-none transition-transform duration-300 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">+</span>
+                    <div className="flex-1">
+                      <div className="mb-2">
+                        <FAQTag category={faq.category} />
+                      </div>
+                      <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
+                    </div>
+                    <span className={`text-brand text-xl leading-none transition-transform duration-300 shrink-0 mt-1 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">+</span>
                   </button>
                   <div className={`grid transition-[grid-template-rows] duration-300 ease-out ${openFaq === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
                     <div className="overflow-hidden">
