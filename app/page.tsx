@@ -238,22 +238,23 @@ const PrincipleTransparencyIcon = () => (
   </svg>
 );
 
-const PrincipleFreedomIcon = () => (
+const PrincipleNoLockInIcon = () => (
   <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
     <defs>
-      <linearGradient id="freedomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <linearGradient id="noLockInGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="currentColor" />
         <stop offset="100%" stopColor="currentColor" stopOpacity="0.5" />
       </linearGradient>
     </defs>
-    {/* Open hand/unlock shape */}
-    <path d="M24 16 L24 40 Q24 48 32 48 Q40 48 40 40 L40 24" fill="none" stroke="url(#freedomGrad)" strokeWidth="2.5" strokeLinecap="round" />
-    {/* Fingers */}
-    <path d="M28 16 L28 36" stroke="url(#freedomGrad)" strokeWidth="2" strokeLinecap="round" />
-    <path d="M32 14 L32 36" stroke="url(#freedomGrad)" strokeWidth="2" strokeLinecap="round" />
-    <path d="M36 16 L36 36" stroke="url(#freedomGrad)" strokeWidth="2" strokeLinecap="round" />
-    {/* Arc showing freedom/opening */}
-    <path d="M44 28 Q52 32 44 36" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" strokeDasharray="3,3" />
+    {/* Contract/document */}
+    <rect x="16" y="12" width="32" height="40" rx="2" fill="none" stroke="url(#noLockInGrad)" strokeWidth="2" />
+    {/* Document lines */}
+    <line x1="20" y1="20" x2="44" y2="20" stroke="url(#noLockInGrad)" strokeWidth="1.5" opacity="0.6" />
+    <line x1="20" y1="28" x2="44" y2="28" stroke="url(#noLockInGrad)" strokeWidth="1.5" opacity="0.6" />
+    <line x1="20" y1="36" x2="36" y2="36" stroke="url(#noLockInGrad)" strokeWidth="1.5" opacity="0.6" />
+    {/* X through contract (crossed out/broken) */}
+    <line x1="20" y1="12" x2="44" y2="52" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+    <line x1="44" y1="12" x2="20" y2="52" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
   </svg>
 );
 
@@ -754,7 +755,7 @@ export default function Home() {
                     <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-brand" style={{ background: 'var(--icon-tile)', border: '1px solid var(--icon-tile-border)' }}>
                       {p.icon === 'exclusivity' && <PrincipleExclusivityIcon />}
                       {p.icon === 'transparency' && <PrincipleTransparencyIcon />}
-                      {p.icon === 'freedom' && <PrincipleFreedomIcon />}
+                      {p.icon === 'freedom' && <PrincipleNoLockInIcon />}
                     </div>
                     <h3 className={`font-display text-xl uppercase mt-5 mb-3 text-[var(--text-primary)] transition-colors ${
                       idx === 0 ? 'group-hover:text-brand-light' : idx === 1 ? 'group-hover:text-brand-dark' : 'group-hover:text-brand'
@@ -878,31 +879,114 @@ export default function Home() {
                       </blockquote>
                       <p className="text-sm text-gray-400 mt-4">Sikander Ali Shah, Owner, Strike Den</p>
                     </div>
-                    <div className="hidden md:block">
-                      <div className="space-y-6">
-                        <div className="bg-gradient-to-br from-brand/20 to-transparent rounded-xl p-8 text-center border border-brand/30">
-                          <div className="inline-flex items-center justify-center h-16 w-16 rounded-lg bg-brand/10 border border-brand/30 mb-4 text-brand mx-auto">
-                            <StrikeDenLogo />
+                    <div className="hidden md:flex flex-col gap-8">
+                      {/* #1 Ranking Card with Logo */}
+                      <div className="group relative h-full overflow-hidden glass-card border border-brand/30">
+                        <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
+                          <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-500">
+                            <LiquidMetal
+                              colorBack="#00000000"
+                              colorTint="#ea580c"
+                              shape="circle"
+                              repetition={1}
+                              softness={0.7}
+                              distortion={0.2}
+                              speed={0.6}
+                              angle={45}
+                              scale={2}
+                              fit="cover"
+                              style={{ position: "absolute", inset: 0 }}
+                            />
                           </div>
-                          <p className="text-gray-300 text-sm font-semibold">STRIKE DEN</p>
-                          <p className="text-gray-400 text-xs mt-1">MMA Gym in DHA, Karachi</p>
-                          <p className="text-brand font-display text-xl mt-4">#1 Ranking</p>
-                          <p className="text-gray-400 text-xs mt-2">Achieved in 6 months</p>
+                        </Suspense>
+                        <div className="relative p-8 text-center">
+                          <div className="inline-block mb-4">
+                            <Image
+                              src="/logo-strike-den.png"
+                              alt="Strike Den"
+                              width={80}
+                              height={80}
+                              className="rounded-lg"
+                            />
+                          </div>
+                          <p className="text-brand font-display text-3xl font-bold mb-2">#1 Ranking</p>
+                          <p className="text-gray-400 text-sm">Achieved in 6 months</p>
+                          <p className="text-gray-300 text-xs mt-4 font-semibold">STRIKE DEN MMA</p>
+                          <p className="text-gray-400 text-xs mt-1">DHA, Karachi</p>
                         </div>
-                        <div className="flex flex-col gap-2">
-                          <a href="https://strikeden.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
+                      </div>
+
+                      {/* Social Media CTA Buttons */}
+                      <div className="flex flex-col gap-3">
+                        <a href="https://strikeden.com" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-all duration-300">
+                          <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
+                              <LiquidMetal
+                                colorBack="#00000000"
+                                colorTint="#ea580c"
+                                shape="circle"
+                                repetition={1}
+                                softness={0.8}
+                                distortion={0.15}
+                                speed={0.5}
+                                angle={0}
+                                scale={1.5}
+                                fit="cover"
+                                style={{ position: "absolute", inset: 0 }}
+                              />
+                            </div>
+                          </Suspense>
+                          <div className="relative inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-brand">
                             <WebsiteIcon />
                             Website
-                          </a>
-                          <a href="https://www.instagram.com/strikeden.pk" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
+                          </div>
+                        </a>
+                        <a href="https://www.instagram.com/strikeden.pk" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-all duration-300">
+                          <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
+                              <LiquidMetal
+                                colorBack="#00000000"
+                                colorTint="#ea580c"
+                                shape="circle"
+                                repetition={1}
+                                softness={0.8}
+                                distortion={0.15}
+                                speed={0.5}
+                                angle={90}
+                                scale={1.5}
+                                fit="cover"
+                                style={{ position: "absolute", inset: 0 }}
+                              />
+                            </div>
+                          </Suspense>
+                          <div className="relative inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-brand">
                             <InstagramIcon />
                             Instagram
-                          </a>
-                          <a href="https://www.linkedin.com/company/strike-den/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
+                          </div>
+                        </a>
+                        <a href="https://www.linkedin.com/company/strike-den/" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-all duration-300">
+                          <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
+                              <LiquidMetal
+                                colorBack="#00000000"
+                                colorTint="#ea580c"
+                                shape="circle"
+                                repetition={1}
+                                softness={0.8}
+                                distortion={0.15}
+                                speed={0.5}
+                                angle={135}
+                                scale={1.5}
+                                fit="cover"
+                                style={{ position: "absolute", inset: 0 }}
+                              />
+                            </div>
+                          </Suspense>
+                          <div className="relative inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-brand">
                             <LinkedInIcon />
                             LinkedIn
-                          </a>
-                        </div>
+                          </div>
+                        </a>
                       </div>
                     </div>
                   </div>
