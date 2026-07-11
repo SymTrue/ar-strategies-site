@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 // JSON-LD Structured Data for ProfessionalService
-export const jsonLd = {
+const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: "AR Strategies",
@@ -47,7 +47,6 @@ export const jsonLd = {
     "Advertising systems that convert. We audit, run, and scale campaigns for local businesses.",
   url: "https://www.arstrategists.com",
   email: "hello@arstrategists.com",
-  telephone: "+1",
   areaServed: "US",
   priceRange: "$$",
   serviceType: ["Advertising Audit", "Campaign Management", "Growth & Scaling"],

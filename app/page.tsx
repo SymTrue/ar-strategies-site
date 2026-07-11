@@ -76,6 +76,15 @@ function useLeadForm() {
     e.preventDefault();
     setState('loading');
     try {
+      // Check honeypot before submitting
+      const form = e.currentTarget as HTMLFormElement;
+      const websiteField = form.querySelector('input[name="website"]') as HTMLInputElement;
+      if (websiteField && websiteField.value.trim() !== '') {
+        setState('success');
+        setEmail('');
+        return;
+      }
+
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -201,14 +210,14 @@ export default function Home() {
               disabled={hero.state === 'loading'}
               className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
             />
-            {/* Honeypot field - hidden from users */}
-            <input type="text" name="website" style={{ display: 'none' }} />
+            {/* Honeypot field - hidden from users, prevents automated form submission */}
+            <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <button
               type="submit"
               disabled={hero.state === 'loading'}
               className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
             >
-              {hero.state === 'loading' ? 'Sending' : CTA_LABEL}
+              {hero.state === 'loading' ? 'Sending' : 'Get My Free Audit'}
             </button>
           </form>
           {hero.state === 'success' && (
@@ -342,7 +351,15 @@ export default function Home() {
                   </span>
                 </button>
                 {openFaq === i && (
-                  <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4 animate-in fade-in duration-200">
+                  <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4" style={{
+                    animation: 'fadeIn 0.2s ease-in-out',
+                  }}>
+                    <style>{`
+                      @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                      }
+                    `}</style>
                     {faq.a}
                   </div>
                 )}
@@ -391,11 +408,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Questions? */}
-      <section id="contact" className="py-16 px-6 border-t border-white/10 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="font-display text-3xl uppercase mb-4">Questions?</h2>
-          <p className="text-gray-300 mb-8">Check our FAQ below or email <a href="mailto:hello@arstrategists.com" className="text-brand hover:underline">hello@arstrategists.com</a></p>
+      {/* Final CTA */}
+      <section id="contact" ref={ctaRef} className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
+            Ready to stop wasting money on ads?
+          </h2>
+          <p data-reveal className="text-lg text-gray-300 mb-12 max-w-xl mx-auto">
+            Get a free audit of your current campaigns. Find your ad spend leaks. See exactly what's broken and how to fix it.
+          </p>
+
+          <form data-reveal onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6">
+            <label htmlFor="cta-email" className="sr-only">Email address</label>
+            <input
+              id="cta-email"
+              type="email"
+              value={cta.email}
+              onChange={(e) => cta.setEmail(e.target.value)}
+              placeholder="name@email.com"
+              required
+              disabled={cta.state === 'loading'}
+              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
+            />
+            <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
+            <button
+              type="submit"
+              disabled={cta.state === 'loading'}
+              className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-7 py-3.5 rounded-full font-semibold transition whitespace-nowrap disabled:opacity-60"
+            >
+              {cta.state === 'loading' ? 'Sending' : 'Get My Free Audit'}
+            </button>
+          </form>
+          {cta.state === 'success' && (
+            <p className="text-green-400 text-sm">Got it. We'll send your audit within 24 hours—no pressure, no cold calls.</p>
+          )}
+          {cta.state === 'error' && (
+            <p className="text-red-400 text-sm">
+              Something went wrong. Email us directly at{' '}
+              <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
+            </p>
+          )}
+          <p className="text-gray-500 text-xs mt-4">No credit card required. Includes our Ad Waste Checklist ($47 value).</p>
         </div>
       </section>
 
@@ -432,7 +485,7 @@ export default function Home() {
         </div>
         <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
           <p>© 2026 AR Strategies. All rights reserved.</p>
-          <p className="font-display uppercase tracking-wide text-gray-600">Dominate your market.</p>
+          <p className="font-display uppercase tracking-wide text-gray-400">Dominate your market.</p>
         </div>
       </footer>
     </div>
