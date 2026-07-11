@@ -68,25 +68,25 @@ const services = [
   {
     icon: 'search',
     title: 'Ad Strategy & Audit',
-    body: 'Tear apart your current campaigns. Find where the money is leaking. Build a strategy that actually works for your business.',
+    body: 'Find where your ad budget is leaking. Identify what\'s broken. Build a repeatable strategy tuned to your CAC and ROAS targets.',
   },
   {
     icon: 'sliders',
     title: 'Campaign Management',
-    body: 'Design campaigns and creative built to convert your audience. Setup, targeting, optimization—all aligned to your goals.',
+    body: 'Launch campaigns your audience can\'t ignore. Setup, targeting, creative, optimization—all built to hit profitability, not vanity metrics.',
   },
   {
     icon: 'trending',
     title: 'Growth & Scaling',
-    body: 'Once we find what converts, we scale it predictably. No guessing. Month-over-month revenue growth.',
+    body: 'Once we prove what converts, we scale it ruthlessly. No vanity growth. Just predictable, month-over-month revenue.',
   },
 ];
 
 const steps = [
-  { n: '01', title: 'Find the Leak', body: 'Tear apart your current campaigns. Find where the money is going, where conversions are dying, and why.' },
-  { n: '02', title: 'Build the Engine', body: 'Design strategy and creative built for your audience. Setup, targeting, messaging—all aligned to convert.' },
-  { n: '03', title: 'Test Fast', body: 'Launch lean. Watch the data daily. Kill what doesn\'t convert in 48 hours. Double down on winners.' },
-  { n: '04', title: 'Scale Predictably', body: 'Pour fuel on what works. Grow your revenue month over month with systems, not guessing.' },
+  { n: '01', title: 'Find the Leak', body: 'Audit every campaign. Identify where budget bleeds. See exactly which levers kill conversions and why they break.' },
+  { n: '02', title: 'Build the Engine', body: 'Design campaigns and creative built for *your* audience. Setup, targeting, messaging—locked to your conversion targets.' },
+  { n: '03', title: 'Test & Kill', body: 'Launch lean. Watch the data daily. Kill what doesn\'t hit ROI in 48 hours. Double down on what works.' },
+  { n: '04', title: 'Scale Without Guessing', body: 'Once it works, pour fuel on it. Repeatable systems mean month-over-month growth you can actually predict.' },
 ];
 
 const principles = [
@@ -261,7 +261,7 @@ export default function Home() {
             <span className="text-brand"> makes money</span>
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
-            Most businesses burn thousands on ads with no strategy. We build systems that turn spend into trackable revenue.
+            Most businesses burn thousands on ads with no strategy—and watch helplessly as money disappears. We build repeatable ad systems so you see exactly where every dollar goes and can scale without guessing.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
             Typical clients discover $2K–$8K monthly ad spend waste in their first audit.
@@ -511,10 +511,10 @@ export default function Home() {
 
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
-            Ready to stop wasting money on ads?
+            See exactly where your ad waste is.
           </h2>
           <p data-reveal className="text-lg text-gray-300 mb-12 max-w-xl mx-auto">
-            Get a free audit of your current campaigns. Find your ad spend leaks. See exactly what&apos;s broken and how to fix it.
+            Get a free audit of your current campaigns. We find the leaks. We show you what&apos;s broken. We hand you the playbook to fix it.
           </p>
 
           <form data-reveal onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6">
