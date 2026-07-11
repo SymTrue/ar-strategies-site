@@ -455,7 +455,7 @@ const faqs = [
   },
 ];
 
-const CTA_LABEL = 'Get My Free Audit (10 min, no credit card)';
+const CTA_LABEL = 'Get My Free Audit';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -609,28 +609,35 @@ export default function Home() {
               placeholder="name@email.com"
               required
               disabled={hero.state === 'loading'}
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
+              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/50 transition disabled:opacity-50"
             />
             {/* Honeypot field - hidden from users, prevents automated form submission */}
             <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <button
               type="submit"
+              aria-label="Get my free audit"
               disabled={hero.state === 'loading'}
-              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60"
+              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
             >
-              {hero.state === 'loading' ? 'Sending' : 'Get My Free Audit'}
+              {hero.state === 'loading' ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Sending
+                </span>
+              ) : (
+                'Get My Free Audit'
+              )}
             </button>
           </form>
           {hero.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
+            <p className="text-green-400 mt-4 text-sm" role="alert">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
           )}
           {hero.state === 'error' && (
-            <p className="text-red-400 mt-4 text-sm">
+            <p className="text-red-400 mt-4 text-sm" role="alert">
               Something went wrong. Email us directly at{' '}
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p className="text-gray-500 text-xs mt-6">No credit card required. Includes our Local Visibility Checklist ($47 value).</p>
           <div className="marquee mt-16" aria-hidden="true">
             <div className="marquee-track text-xs uppercase tracking-[0.25em] text-gray-500">
               {[0, 1].map((dup) => (
@@ -1056,19 +1063,27 @@ export default function Home() {
               placeholder="name@email.com"
               required
               disabled={cta.state === 'loading'}
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand transition disabled:opacity-50"
+              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/50 transition disabled:opacity-50"
             />
             <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <button
               type="submit"
+              aria-label="Get my free audit"
               disabled={cta.state === 'loading'}
-              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60"
+              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
             >
-              {cta.state === 'loading' ? 'Sending' : 'Get My Free Audit'}
+              {cta.state === 'loading' ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Sending
+                </span>
+              ) : (
+                'Get My Free Audit'
+              )}
             </button>
           </form>
           {cta.state === 'success' && (
-            <p className="text-green-400 text-sm">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
+            <p className="text-green-400 text-sm" role="alert">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
           )}
           {cta.state === 'error' && (
             <p className="text-red-400 text-sm">
