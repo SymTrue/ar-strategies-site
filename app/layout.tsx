@@ -29,9 +29,9 @@ const themeInitializationScript = `(() => {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.arstrategists.com"),
-  title: "AR Strategies — Advertising That Actually Makes Money",
+  title: "AR Strategies — Be the Business Your City Finds First",
   description:
-    "AR Strategies builds advertising systems that convert. We audit, run, and scale campaigns for local businesses that are tired of wasting money on ads.",
+    "AR Strategies helps local businesses rank at the top of Google, run Meta ads that bring real customers, and publish content people remember. Get a free visibility audit.",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
@@ -40,17 +40,17 @@ export const metadata: Metadata = {
     canonical: "https://www.arstrategists.com",
   },
   openGraph: {
-    title: "AR Strategies — Advertising That Actually Makes Money",
+    title: "AR Strategies — Be the Business Your City Finds First",
     description:
-      "We build advertising systems that convert. Audit, run, and scale — done for you.",
+      "Top of Google. Meta ads that bring customers. Content people remember. Done for you.",
     type: "website",
     images: ["https://www.arstrategists.com/logo.png"],
     url: "https://www.arstrategists.com",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AR Strategies — Advertising That Actually Makes Money",
-    description: "We build advertising systems that convert.",
+    title: "AR Strategies — Be the Business Your City Finds First",
+    description: "Top of Google. Meta ads that bring customers. Content people remember.",
     images: ["https://www.arstrategists.com/logo.png"],
   },
 };
@@ -61,11 +61,11 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "AR Strategies",
   description:
-    "Advertising systems that convert. We audit, run, and scale campaigns for local businesses.",
+    "Marketing agency for local businesses: top-of-Google rankings, Meta ads management, and content strategy — done for you.",
   url: "https://www.arstrategists.com",
   email: "hello@arstrategists.com",
   priceRange: "$$",
-  serviceType: ["Advertising Audit", "Campaign Management", "Growth & Scaling"],
+  serviceType: ["Local SEO & Google Rankings", "Meta Ads Management", "Content Strategy & Audit"],
   areaServed: [
     { "@type": "City", name: "New York" },
     { "@type": "City", name: "Los Angeles" },
@@ -85,10 +85,18 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "How much should I be spending on ads?",
+      name: "How long until I rank at the top of Google?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "It depends on your margins and goals, but we help you start lean, prove what works, then scale. No one should be lighting money on fire hoping something sticks.",
+        text: "It depends on your area and competition. Most clients see movement within the first 30 days; competitive searches take longer. That's why we run Meta ads alongside—customers now, rankings compounding behind them.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What if you already work with my competitor?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Then we can't take you on—and if you sign with us, we can't take them. We work with one business per industry per area, so everything we build works for you alone.",
       },
     },
     {
@@ -96,15 +104,15 @@ const faqSchema = {
       name: "Do you work with businesses in my industry?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "We work with local and service businesses across many industries. If you sell something people want and need more customers, we can likely help.",
+        text: "If your customers search Google or scroll social media before they buy—and they do—we can help. We work with local and service businesses across most industries.",
       },
     },
     {
       "@type": "Question",
-      name: "How long until I see results?",
+      name: "How much should I be spending on marketing?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Most campaigns show meaningful signal within the first few weeks. Real scaling happens once we have data to optimize against, usually inside the first 1-2 months.",
+        text: "It depends on your margins and goals, but we help you start lean, prove what works, then scale. No one should be lighting money on fire hoping something sticks.",
       },
     },
     {

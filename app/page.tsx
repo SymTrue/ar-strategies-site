@@ -23,18 +23,18 @@ const svgBase = {
 };
 
 const icons: Record<string, React.ReactNode> = {
-  // Ad Strategy & Audit — magnifier
+  // Google Rankings — magnifier
   search: (<svg {...svgBase}><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>),
-  // Campaign Management — sliders / controls
-  sliders: (<svg {...svgBase}><line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" /><line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" /><line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" /><line x1="1" y1="14" x2="7" y2="14" /><line x1="9" y1="8" x2="15" y2="8" /><line x1="17" y1="16" x2="23" y2="16" /></svg>),
-  // Growth & Scaling — trending up
-  trending: (<svg {...svgBase}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" /></svg>),
+  // Meta Ads — megaphone
+  megaphone: (<svg {...svgBase}><path d="m3 11 18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></svg>),
+  // Content — pencil
+  pen: (<svg {...svgBase}><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /></svg>),
   // No lock-in — open padlock
   unlock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>),
   // Full visibility — bar chart
   chart: (<svg {...svgBase}><line x1="4" y1="20" x2="4" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="20" y1="20" x2="20" y2="14" /></svg>),
-  // Kill what doesn't work — flame
-  flame: (<svg {...svgBase}><path d="M12 2c1 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.5.5-2.5 1-3.5C8 8 6 10 6 13a6 6 0 0 0 12 0c0-4.5-3.5-7.5-6-11Z" /></svg>),
+  // One business per market — map pin
+  pin: (<svg {...svgBase}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>),
 };
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
@@ -173,58 +173,62 @@ const navLinks = [
 const services = [
   {
     icon: 'search',
-    title: 'Ad Strategy & Audit',
-    body: 'Find where your ad budget is leaking. Identify what\'s broken. Build a repeatable strategy tuned to your CAC and ROAS targets.',
+    title: 'Google Rankings',
+    body: 'When someone nearby searches for what you do, they should find you—not the shop down the street. We build the local search presence that puts you at the top of Google and keeps you there.',
   },
   {
-    icon: 'sliders',
-    title: 'Campaign Management',
-    body: 'Launch campaigns your audience can\'t ignore. Setup, targeting, creative, optimization—all built to hit profitability, not vanity metrics.',
+    icon: 'megaphone',
+    title: 'Meta Ads',
+    body: 'Facebook and Instagram ads that turn scrolling locals into booked customers. You see the cost of every lead, and we kill anything that doesn\'t make your phone ring.',
   },
   {
-    icon: 'trending',
-    title: 'Growth & Scaling',
-    body: 'Once we prove what converts, we scale it ruthlessly. No vanity growth. Just predictable, month-over-month revenue.',
+    icon: 'pen',
+    title: 'Content That Sells',
+    body: 'We audit what you\'re putting out, cut what isn\'t working, and shape content that makes locals remember you—and choose you when they\'re ready to buy.',
   },
 ];
 
 const steps = [
-  { n: '01', title: 'Find the Leak', body: 'Audit every campaign. Identify where budget bleeds. See exactly which levers kill conversions and why they break.' },
-  { n: '02', title: 'Build the Engine', body: 'Design campaigns and creative built for *your* audience. Setup, targeting, messaging—locked to your conversion targets.' },
-  { n: '03', title: 'Test & Kill', body: 'Launch lean. Watch the data daily. Kill what doesn\'t hit ROI in 48 hours. Double down on what works.' },
-  { n: '04', title: 'Scale Without Guessing', body: 'Once it works, pour fuel on it. Repeatable systems mean month-over-month growth you can actually predict.' },
+  { n: '01', title: 'Map Your Market', body: 'We audit your visibility: where you rank on Google, where your ad money leaks, what your content misses. Plain English, real numbers.' },
+  { n: '02', title: 'Build the Engine', body: 'Fix your Google presence, launch Meta campaigns, line up content that sells—everything pointed at one goal: making your phone ring.' },
+  { n: '03', title: 'Test & Kill', body: 'Watch the data daily. Kill what doesn\'t produce customers. Double down on what does. No riding a losing bet to protect a report.' },
+  { n: '04', title: 'Own Your Market', body: 'Scale what works until you\'re the first name your city sees—and the obvious choice when they\'re ready to buy.' },
 ];
 
 const principles = [
+  {
+    icon: 'pin',
+    title: 'One business per market',
+    body: 'We never work with your competitors. When you\'re our client, your industry in your area is locked—everything we build works for you and against them.',
+  },
+  {
+    icon: 'chart',
+    title: 'You see every number',
+    body: 'Rankings, leads, cost per call, revenue. Full visibility into what your money is doing, always—no mystery reports.',
+  },
   {
     icon: 'unlock',
     title: 'No lock-in contracts',
     body: "You stay because it's working, not because you signed something. We earn your business every month.",
   },
-  {
-    icon: 'chart',
-    title: 'You see every number',
-    body: 'Spend, clicks, cost per lead, revenue. Full visibility into what your money is doing, always.',
-  },
-  {
-    icon: 'flame',
-    title: 'We kill what does not work',
-    body: "Fast. No riding a losing campaign to protect a report. If it isn't converting, it's gone.",
-  },
 ];
 
 const faqs = [
   {
-    q: 'How much should I be spending on ads?',
-    a: 'It depends on your margins and goals, but we help you start lean, prove what works, then scale. No one should be lighting money on fire hoping something sticks.',
+    q: 'How long until I rank at the top of Google?',
+    a: 'It depends on your area and competition. Most clients see movement within the first 30 days; competitive searches take longer. That\'s why we run Meta ads alongside—customers now, rankings compounding behind them.',
+  },
+  {
+    q: 'What if you already work with my competitor?',
+    a: 'Then we can\'t take you on—and if you sign with us, we can\'t take them. We work with one business per industry per area, so everything we build works for you alone.',
   },
   {
     q: 'Do you work with businesses in my industry?',
-    a: 'We work with local and service businesses across many industries. If you sell something people want and need more customers, we can likely help.',
+    a: 'If your customers search Google or scroll social media before they buy—and they do—we can help. We work with local and service businesses across most industries.',
   },
   {
-    q: 'How long until I see results?',
-    a: 'Most campaigns show meaningful signal within the first few weeks. Real scaling happens once we have data to optimize against, usually inside the first 1-2 months.',
+    q: 'How much should I be spending on marketing?',
+    a: 'It depends on your margins and goals, but we help you start lean, prove what works, then scale. No one should be lighting money on fire hoping something sticks.',
   },
   {
     q: 'Am I locked into a long contract?',
@@ -292,7 +296,7 @@ export default function Home() {
       <nav className="site-header sticky top-0 z-50 bg-[var(--nav-background)] backdrop-blur border-b border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <a href="#top" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
-            <Image src="/logo.png" alt="AR Strategies" width={40} height={40} className="h-10 w-auto" />
+            <Image src="/logo.png" alt="AR Strategies" width={40} height={40} className="site-logo h-10 w-auto" />
             <span className="font-display text-xl tracking-wide">AR STRATEGIES</span>
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-300">
@@ -353,8 +357,8 @@ export default function Home() {
         <Suspense fallback={<div className={theme === 'light' ? 'absolute inset-0 bg-gradient-to-br from-orange-50 via-orange-200/80 to-white' : 'absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black'} />}>
           <AnimatedGradient
             config={theme === 'light'
-              ? { preset: 'custom', color1: '#fff7ed', color2: '#fed7aa', color3: '#ea580c', proportion: 34, softness: 96, speed: reducedMotion ? 0 : 10, distortion: 28, swirl: 52 }
-              : { preset: 'custom', color1: '#0b0806', color2: '#7a2e00', color3: '#fbbf24', proportion: 42, softness: 90, speed: reducedMotion ? 0 : 14, distortion: 40, swirl: 75 }}
+              ? { preset: 'custom', color1: '#ffffff', color2: '#ffedd5', color3: '#ea580c', shape: 'Edge', rotation: -18, proportion: 44, softness: 100, speed: reducedMotion ? 0 : 9, distortion: 26, swirl: 55 }
+              : { preset: 'custom', color1: '#0b0806', color2: '#7a2e00', color3: '#f97316', shape: 'Edge', rotation: -18, proportion: 46, softness: 100, speed: reducedMotion ? 0 : 12, distortion: 32, swirl: 60 }}
             radius="0px"
             style={{ position: "absolute", inset: 0 }}
           />
@@ -362,17 +366,17 @@ export default function Home() {
         <div className="hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
           <div data-intro className="hero-kicker inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
-            <span className="h-2 w-2 rounded-full bg-brand" /> Advertising Agency Built for Growth
+            <span className="h-2 w-2 rounded-full bg-brand" /> The Marketing Agency for Local Businesses
           </div>
           <h1 data-intro className="font-display hero-display uppercase mb-6 text-balance">
-            Advertising that actually
-            <span className="text-brand"> makes money</span>
+            Be the business your city
+            <span className="text-brand"> finds first</span>
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
-            Most businesses burn thousands on ads with no strategy—and watch helplessly as money disappears. We build repeatable ad systems so you see exactly where every dollar goes and can scale without guessing.
+            When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content—done for you, so your phone rings while you run the business.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
-            Typical clients discover $2K–$8K monthly ad spend waste in their first audit.
+            Most owners we audit are invisible for their best-buying searches—and waste $2K–$8K a month on ads that don&apos;t ring the phone.
           </p>
 
           <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
@@ -406,12 +410,12 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p className="text-gray-500 text-xs mt-6">No credit card required. Includes our Ad Waste Checklist ($47 value).</p>
+          <p className="text-gray-500 text-xs mt-6">No credit card required. Includes our Local Visibility Checklist ($47 value).</p>
           <div className="marquee mt-16" aria-hidden="true">
             <div className="marquee-track text-xs uppercase tracking-[0.25em] text-gray-500">
               {[0, 1].map((dup) => (
                 <div key={dup} className="flex items-center gap-8 pr-8">
-                  {['Wasted spend', 'Dead clicks', 'Invisible ads', 'Vanity metrics', 'Guesswork budgets'].map((t) => (
+                  {['Invisible on Google', 'Page-two rankings', 'Ads with no calls', 'Content nobody sees', 'Competitors found first'].map((t) => (
                     <span key={t} className="flex items-center gap-8 whitespace-nowrap">
                       {t}
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" />
@@ -457,11 +461,11 @@ export default function Home() {
           <TimelineWithFill />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
-              <AnimatedSection key={step.n} delay={i * 0.08}>
+              <AnimatedSection key={step.n} delay={i * 0.08} className="h-full">
                 <div className="group relative h-full">
                   {/* Subtle glow on hover */}
                   <div className="absolute -inset-0.5 bg-gradient-to-b from-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg -z-10" />
-                  <div className="relative p-6 glass-card flex flex-col justify-between">
+                  <div className="relative p-6 glass-card h-full flex flex-col justify-between">
                     {/* Top gradient accent */}
                     <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-brand via-brand to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
 
@@ -490,12 +494,12 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p, idx) => (
-              <AnimatedSection key={p.title} delay={idx * 0.1}>
+              <AnimatedSection key={p.title} delay={idx * 0.1} className="h-full">
                 <div className="group relative h-full overflow-hidden glass-card">
                   {/* Full-card orange glow on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
 
-                  {/* Liquid metal background effect — sphere scaled up to fill the whole card */}
+                  {/* Liquid metal background effect — each card flows in its own direction */}
                   <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-500">
                       <LiquidMetal
@@ -506,6 +510,7 @@ export default function Home() {
                         softness={0.6}
                         distortion={0.3}
                         speed={0.8}
+                        angle={[0, 180, 90][idx]}
                         scale={2.4}
                         fit="cover"
                         style={{ position: "absolute", inset: 0 }}
@@ -534,11 +539,11 @@ export default function Home() {
       <section ref={quoteRef} className="py-24 px-6 border-t border-white/10 section-premium subtle">
         <div className="max-w-4xl mx-auto text-center">
           <h2 data-reveal className="font-display text-4xl md:text-6xl uppercase leading-tight text-balance">
-            If your ads aren&apos;t making you money,
-            <span className="text-brand glow-text-orange"> they&apos;re costing you customers.</span>
+            If they can&apos;t find you,
+            <span className="text-brand glow-text-orange"> they buy from someone else.</span>
           </h2>
           <p data-reveal className="text-gray-300 text-lg mt-8 max-w-2xl mx-auto">
-            Every day your advertising is broken, a competitor is taking the customers that should be yours. Let&apos;s fix that.
+            Every search for what you do is a customer deciding where to spend. Every day you&apos;re buried, that decision goes to a competitor. Let&apos;s fix that.
           </p>
         </div>
       </section>
@@ -582,7 +587,7 @@ export default function Home() {
       {/* Social Proof */}
       <section className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16">Trusted by businesses scaling their revenue</h2>
+          <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16">Trusted by local businesses winning their markets</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <AnimatedSection delay={0}>
               <div className="group relative h-full">
@@ -631,10 +636,10 @@ export default function Home() {
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <SectionKicker n="05" label="Free Audit" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
-            See exactly where your ad waste is.
+            See exactly why customers aren&apos;t finding you.
           </h2>
           <p data-reveal className="text-lg text-gray-300 mb-12 max-w-xl mx-auto">
-            Get a free audit of your current campaigns. We find the leaks. We show you what&apos;s broken. We hand you the playbook to fix it.
+            Get a free visibility audit: where you rank on Google, where your ad money leaks, and what your content is missing. We hand you the playbook—you decide what to do with it.
           </p>
 
           <form data-reveal onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6">
@@ -667,7 +672,7 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p className="text-gray-500 text-xs mt-4">No credit card required. Includes our Ad Waste Checklist ($47 value).</p>
+          <p className="text-gray-500 text-xs mt-4">No credit card required. Includes our Local Visibility Checklist ($47 value).</p>
         </div>
       </section>
 
@@ -681,11 +686,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8">
           <div className="max-w-sm">
             <div className="flex items-center gap-3 mb-4">
-              <Image src="/logo.png" alt="AR Strategies" width={36} height={36} className="h-9 w-auto" />
+              <Image src="/logo.png" alt="AR Strategies" width={36} height={36} className="site-logo h-9 w-auto" />
               <span className="font-display text-lg tracking-wide">AR STRATEGIES</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              We don&apos;t just run ads. We build advertising systems that make money for local businesses ready to dominate their market.
+              We help local businesses get found first on Google, run Meta ads that pay for themselves, and publish content people remember.
             </p>
           </div>
           <div className="flex gap-16">
