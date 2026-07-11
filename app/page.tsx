@@ -23,12 +23,12 @@ const svgBase = {
 };
 
 const icons: Record<string, React.ReactNode> = {
-  // Google Rankings: magnifier
-  search: (<svg {...svgBase}><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>),
-  // Meta Ads: megaphone
-  megaphone: (<svg {...svgBase}><path d="m3 11 18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></svg>),
-  // Content: pencil
-  pen: (<svg {...svgBase}><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /></svg>),
+  // Google Rankings: location + magnifier (local search positioning)
+  search: (<svg {...svgBase}><circle cx="11" cy="11" r="6" /><path d="m16 16 5 5" /><path d="M12 7v8m-4-4h8" /></svg>),
+  // Meta Ads: megaphone + play (social ad conversion)
+  megaphone: (<svg {...svgBase}><path d="M3 11l6-3v10l-6-3v-4m13-6v14m0-14l4-2v18l-4-2" /><path d="M8 13l-2 1m0-4l2 1" /></svg>),
+  // Content That Sells: target + checkmark (conversion-focused content)
+  pen: (<svg {...svgBase}><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="2" /><path d="m15 9 3-3m-6 9 4 4" /></svg>),
   // No lock-in: open padlock
   unlock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>),
   // Full visibility: bar chart
@@ -36,6 +36,72 @@ const icons: Record<string, React.ReactNode> = {
   // One business per market: map pin
   pin: (<svg {...svgBase}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>),
 };
+
+// Custom branded graphics: Strike Den logo (minimal boxing glove)
+const StrikeDenLogo = () => (
+  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <rect width="48" height="48" fill="currentColor" opacity="0.05" rx="8" />
+    <g stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {/* Left boxing glove */}
+      <path d="M12 20 L12 32 Q12 36 16 36 L20 36 Q22 36 22 34 L22 24 Q22 20 18 20 L12 20 Z" />
+      <circle cx="18" cy="26" r="3" opacity="0.5" />
+      {/* Right boxing glove */}
+      <path d="M36 20 L36 32 Q36 36 32 36 L28 36 Q26 36 26 34 L26 24 Q26 20 30 20 L36 20 Z" />
+      <circle cx="30" cy="26" r="3" opacity="0.5" />
+      {/* Center accent line */}
+      <line x1="24" y1="16" x2="24" y2="40" opacity="0.3" />
+    </g>
+  </svg>
+);
+
+// Founder graphic: minimalist avatar silhouette
+const FounderGraphic = () => (
+  <svg viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    {/* Head */}
+    <circle cx="32" cy="20" r="12" />
+    {/* Shoulders and torso */}
+    <path d="M20 32 Q20 40 32 44 Q44 40 44 32 Z" />
+    {/* Accent lines for depth */}
+    <circle cx="32" cy="20" r="12" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+    <path d="M24 28 Q32 32 40 28" stroke="currentColor" strokeWidth="0.5" opacity="0.2" fill="none" />
+  </svg>
+);
+
+// Founder graphic with background circle (for card display)
+const FounderGraphicCard = () => (
+  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    {/* Outer circle */}
+    <circle cx="60" cy="60" r="58" stroke="currentColor" strokeWidth="1" opacity="0.2" />
+    {/* Head */}
+    <circle cx="60" cy="40" r="18" fill="currentColor" />
+    {/* Shoulders and torso */}
+    <path d="M36 56 Q36 70 60 76 Q84 70 84 56 Z" fill="currentColor" />
+    {/* Inner circle accent */}
+    <circle cx="60" cy="40" r="18" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.15" />
+  </svg>
+);
+
+// Social Icons: Instagram, LinkedIn, Website (24×24px Lucide-style)
+const InstagramIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="h-5 w-5">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37" fill="currentColor" />
+    <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
+  </svg>
+);
+
+const LinkedInIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="h-5 w-5">
+    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+  </svg>
+);
+
+const WebsiteIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="h-5 w-5">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
@@ -588,10 +654,8 @@ export default function Home() {
       <section className="py-20 px-6 border-t border-white/10 section-premium">
         <div className="max-w-2xl mx-auto">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand/30 to-brand/10 border border-brand/50 mb-6">
-              <svg className="h-10 w-10 text-brand" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
+            <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-gradient-to-br from-brand/30 to-brand/10 border border-brand/50 mb-6 text-brand">
+              <FounderGraphicCard />
             </div>
             <h3 className="font-display text-2xl md:text-3xl uppercase mb-3">Akbar Ahmad</h3>
             <p className="text-brand font-semibold mb-4">Founder, AR Strategies</p>
@@ -645,8 +709,8 @@ export default function Home() {
                     <div className="hidden md:block">
                       <div className="space-y-6">
                         <div className="bg-gradient-to-br from-brand/20 to-transparent rounded-xl p-8 text-center border border-brand/30">
-                          <div className="text-brand mb-4">
-                            <svg className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
+                          <div className="inline-flex items-center justify-center h-16 w-16 rounded-lg bg-brand/10 border border-brand/30 mb-4 text-brand mx-auto">
+                            <StrikeDenLogo />
                           </div>
                           <p className="text-gray-300 text-sm font-semibold">STRIKE DEN</p>
                           <p className="text-gray-400 text-xs mt-1">MMA Gym in DHA, Karachi</p>
@@ -655,15 +719,15 @@ export default function Home() {
                         </div>
                         <div className="flex flex-col gap-2">
                           <a href="https://strikeden.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
-                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            <WebsiteIcon />
                             Website
                           </a>
                           <a href="https://www.instagram.com/strikeden.pk" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
-                            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.117.6c-.588.227-.975.478-1.402.905-.423.426-.679.814-.905 1.402-.266.788-.467 1.658-.527 2.936C.013 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.527 2.913.228.586.479.972.905 1.398.426.426.812.678 1.399.908.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.059 2.148-.262 2.913-.556.586-.23.972-.478 1.399-.908.426-.426.677-.812.907-1.398.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.059-1.277-.262-2.149-.558-2.913-.23-.586-.479-.972-.907-1.399-.426-.426-.813-.679-1.399-.908-.765-.296-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.009 4.849.070 1.171.054 1.805.244 2.227.408.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.354 1.057.408 2.227.06 1.264.07 1.646.07 4.849s-.01 3.585-.07 4.849c-.054 1.171-.244 1.805-.408 2.227-.217.562-.477.96-.896 1.382-.42.419-.819.679-1.381.896-.422.164-1.057.354-2.227.408-1.264.06-1.646.07-4.849.07s-3.585-.01-4.849-.07c-1.171-.054-1.805-.244-2.227-.408-.562-.217-.96-.477-1.382-.896-.419-.42-.679-.819-.896-1.381-.164-.422-.354-1.057-.408-2.227-.06-1.264-.07-1.646-.07-4.849s.01-3.585.07-4.849c.054-1.171.244-1.805.408-2.227.217-.562.477-.96.896-1.382.42-.419.819-.679 1.381-.896.422-.164 1.057-.354 2.227-.408 1.264-.06 1.646-.07 4.849-.07z" /></svg>
+                            <InstagramIcon />
                             Instagram
                           </a>
                           <a href="https://www.linkedin.com/company/strike-den/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
-                            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                            <LinkedInIcon />
                             LinkedIn
                           </a>
                         </div>
