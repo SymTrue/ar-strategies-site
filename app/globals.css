@@ -107,6 +107,11 @@ body {
   transition: background-color 300ms ease, color 300ms ease;
 }
 
+::selection {
+  background: var(--brand);
+  color: #ffffff;
+}
+
 /* Film-grain texture overlay — adds tactile depth to flat gradients.
    Inline SVG feTurbulence, no external asset. */
 body::before {
@@ -210,6 +215,12 @@ p {
 .font-display {
   font-family: var(--font-display), Impact, sans-serif;
   letter-spacing: 0.01em;
+}
+
+.hero-display {
+  font-size: clamp(3.25rem, 9vw, 8.5rem);
+  line-height: 0.92;
+  letter-spacing: 0.005em;
 }
 
 /* Subtle halftone dot texture matching brand social posts */
