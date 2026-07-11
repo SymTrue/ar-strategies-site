@@ -33,25 +33,46 @@ const icons: Record<string, React.ReactNode> = {
   unlock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>),
   // Full visibility: bar chart
   chart: (<svg {...svgBase}><line x1="4" y1="20" x2="4" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="20" y1="20" x2="20" y2="14" /></svg>),
-  // One business per market: lock icon (exclusivity)
-  lock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>),
-  // You see every number: eye icon (visibility/transparency)
-  eye: (<svg {...svgBase}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>),
 };
 
-// Custom branded graphics: Strike Den logo (minimal boxing glove)
+// Strike Den Tiger Logo (Premium brand mark)
 const StrikeDenLogo = () => (
-  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-    <rect width="48" height="48" fill="currentColor" opacity="0.05" rx="8" />
-    <g stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      {/* Left boxing glove */}
-      <path d="M12 20 L12 32 Q12 36 16 36 L20 36 Q22 36 22 34 L22 24 Q22 20 18 20 L12 20 Z" />
-      <circle cx="18" cy="26" r="3" opacity="0.5" />
-      {/* Right boxing glove */}
-      <path d="M36 20 L36 32 Q36 36 32 36 L28 36 Q26 36 26 34 L26 24 Q26 20 30 20 L36 20 Z" />
-      <circle cx="30" cy="26" r="3" opacity="0.5" />
-      {/* Center accent line */}
-      <line x1="24" y1="16" x2="24" y2="40" opacity="0.3" />
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <defs>
+      <linearGradient id="tigerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#DC143C" />
+        <stop offset="100%" stopColor="#B22222" />
+      </linearGradient>
+    </defs>
+    {/* Hexagon outer border */}
+    <path d="M32 8 L48 16 L48 40 L32 48 L16 40 L16 16 Z" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+
+    {/* Tiger head */}
+    <g>
+      {/* Face base */}
+      <ellipse cx="32" cy="32" rx="16" ry="18" fill="url(#tigerGrad)" />
+
+      {/* Stripes on forehead */}
+      <path d="M22 20 Q26 18 32 18 Q38 18 42 20" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
+      <path d="M20 24 Q24 22 32 22 Q40 22 44 24" stroke="currentColor" strokeWidth="1.5" opacity="0.7" />
+
+      {/* Eyes - fierce */}
+      <ellipse cx="26" cy="30" rx="2.5" ry="3.5" fill="currentColor" />
+      <ellipse cx="38" cy="30" rx="2.5" ry="3.5" fill="currentColor" />
+      <ellipse cx="26" cy="29" rx="1" ry="1.5" fill="white" />
+      <ellipse cx="38" cy="29" rx="1" ry="1.5" fill="white" />
+
+      {/* Nose */}
+      <path d="M32 36 L30 38 L34 38 Z" fill="currentColor" />
+
+      {/* Mouth/fangs */}
+      <path d="M30 38 Q32 40 34 38" stroke="currentColor" strokeWidth="1.2" />
+      <path d="M28 39 L26 42" stroke="currentColor" strokeWidth="1" />
+      <path d="M36 39 L38 42" stroke="currentColor" strokeWidth="1" />
+
+      {/* Mane accent lines */}
+      <path d="M16 28 Q14 32 16 36" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
+      <path d="M48 28 Q50 32 48 36" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
     </g>
   </svg>
 );
@@ -129,6 +150,35 @@ const ProcessFlow = () => (
   </svg>
 );
 
+// Hero Section Accent Pattern (Phase 3)
+const HeroAccentPattern = () => (
+  <svg viewBox="0 0 1200 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0 w-full h-full opacity-5 pointer-events-none">
+    <defs>
+      <pattern id="dotPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+        <circle cx="20" cy="20" r="2" fill="currentColor" />
+      </pattern>
+    </defs>
+    <rect width="1200" height="400" fill="url(#dotPattern)" />
+    {/* Decorative curves */}
+    <path d="M0 100 Q300 50 600 100 T1200 100" stroke="currentColor" strokeWidth="1" opacity="0.3" />
+    <path d="M0 300 Q300 350 600 300 T1200 300" stroke="currentColor" strokeWidth="1" opacity="0.3" />
+  </svg>
+);
+
+// Client Success Badge (Phase 3)
+const SuccessBadge = ({ icon, stat, label }: { icon: React.ReactNode; stat: string; label: string }) => (
+  <div className="relative group">
+    <div className="absolute -inset-0.5 bg-gradient-to-r from-brand/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl blur" />
+    <div className="relative px-6 py-4 glass-card text-center">
+      <div className="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-brand/20 border border-brand/50 mb-3 mx-auto text-brand">
+        {icon}
+      </div>
+      <div className="text-2xl font-display text-brand font-bold">{stat}</div>
+      <p className="text-gray-400 text-xs mt-1">{label}</p>
+    </div>
+  </div>
+);
+
 // FAQ Category Tag Component
 const FAQTag = ({ category }: { category: 'timeline' | 'pricing' | 'service' | 'contract' }) => {
   const colors = {
@@ -150,27 +200,60 @@ const FAQTag = ({ category }: { category: 'timeline' | 'pricing' | 'service' | '
   );
 };
 
-// Principle Icons for Why Us section
-const LockIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+// Premium Principle Icons for Why Us section
+const PrincipleExclusivityIcon = () => (
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <defs>
+      <linearGradient id="exclusivityGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="currentColor" />
+        <stop offset="100%" stopColor="currentColor" stopOpacity="0.5" />
+      </linearGradient>
+    </defs>
+    {/* Shield shape */}
+    <path d="M32 8 L48 16 L48 34 Q48 48 32 56 Q16 48 16 34 L16 16 Z" fill="url(#exclusivityGrad)" />
+    {/* Checkmark inside shield */}
+    <path d="M26 34 L30 38 L38 28" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    {/* Border glow */}
+    <path d="M32 8 L48 16 L48 34 Q48 48 32 56 Q16 48 16 34 L16 16 Z" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.3" />
   </svg>
 );
 
-const EyeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-    <circle cx="12" cy="12" r="3" />
+const PrincipleTransparencyIcon = () => (
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <defs>
+      <linearGradient id="transparencyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="currentColor" />
+        <stop offset="100%" stopColor="currentColor" stopOpacity="0.5" />
+      </linearGradient>
+    </defs>
+    {/* Eye shape */}
+    <ellipse cx="32" cy="32" rx="20" ry="16" fill="url(#transparencyGrad)" opacity="0.2" />
+    <path d="M12 32 Q32 18 52 32 Q32 46 12 32" fill="none" stroke="currentColor" strokeWidth="2" />
+    {/* Iris */}
+    <circle cx="32" cy="32" r="8" fill="url(#transparencyGrad)" />
+    {/* Pupil */}
+    <circle cx="32" cy="32" r="4" fill="currentColor" />
+    {/* Highlight */}
+    <circle cx="34" cy="30" r="1.5" fill="white" />
   </svg>
 );
 
-const ChainBrokenIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
-    <path d="M10 14a3.5 3.5 0 0 0 5 0l4-4a3.5 3.5 0 0 0-5-5l-1.5 1.5" />
-    <path d="M14 10a3.5 3.5 0 0 0-5 0l-4 4a3.5 3.5 0 0 0 5 5l1.5-1.5" />
-    <line x1="16" y1="8" x2="20" y2="4" />
-    <line x1="4" y1="20" x2="8" y2="16" />
+const PrincipleFreedomIcon = () => (
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <defs>
+      <linearGradient id="freedomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="currentColor" />
+        <stop offset="100%" stopColor="currentColor" stopOpacity="0.5" />
+      </linearGradient>
+    </defs>
+    {/* Open hand/unlock shape */}
+    <path d="M24 16 L24 40 Q24 48 32 48 Q40 48 40 40 L40 24" fill="none" stroke="url(#freedomGrad)" strokeWidth="2.5" strokeLinecap="round" />
+    {/* Fingers */}
+    <path d="M28 16 L28 36" stroke="url(#freedomGrad)" strokeWidth="2" strokeLinecap="round" />
+    <path d="M32 14 L32 36" stroke="url(#freedomGrad)" strokeWidth="2" strokeLinecap="round" />
+    <path d="M36 16 L36 36" stroke="url(#freedomGrad)" strokeWidth="2" strokeLinecap="round" />
+    {/* Arc showing freedom/opening */}
+    <path d="M44 28 Q52 32 44 36" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" strokeDasharray="3,3" />
   </svg>
 );
 
@@ -334,17 +417,17 @@ const steps = [
 
 const principles = [
   {
-    icon: 'lock',
+    icon: 'exclusivity',
     title: 'One business per market',
     body: 'We never work with your competitors. When you\'re our client, your industry in your area is locked. Everything we build works for you and against them.',
   },
   {
-    icon: 'eye',
+    icon: 'transparency',
     title: 'You see every number',
     body: 'Rankings, leads, cost per call, revenue. You own the data, so you always know what\'s working and what to kill next.',
   },
   {
-    icon: 'unlock',
+    icon: 'freedom',
     title: 'No lock-in contracts',
     body: "You stay because it's working, not because you signed something. We earn your business every month.",
   },
@@ -496,6 +579,7 @@ export default function Home() {
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative overflow-hidden">
+        <HeroAccentPattern />
         <Suspense fallback={<div className={theme === 'light' ? 'absolute inset-0 bg-gradient-to-br from-orange-50 via-orange-200/80 to-white' : 'absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black'} />}>
           <AnimatedGradient
             config={theme === 'light'
@@ -667,7 +751,11 @@ export default function Home() {
                     <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300 ${
                       idx === 0 ? 'bg-gradient-to-b from-brand-light via-brand-light/50' : idx === 1 ? 'bg-gradient-to-b from-brand-dark via-brand-dark/50' : 'bg-gradient-to-b from-brand via-brand/50'
                     } to-transparent`} />
-                    <IconTile name={p.icon} />
+                    <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-brand" style={{ background: 'var(--icon-tile)', border: '1px solid var(--icon-tile-border)' }}>
+                      {p.icon === 'exclusivity' && <PrincipleExclusivityIcon />}
+                      {p.icon === 'transparency' && <PrincipleTransparencyIcon />}
+                      {p.icon === 'freedom' && <PrincipleFreedomIcon />}
+                    </div>
                     <h3 className={`font-display text-xl uppercase mt-5 mb-3 text-[var(--text-primary)] transition-colors ${
                       idx === 0 ? 'group-hover:text-brand-light' : idx === 1 ? 'group-hover:text-brand-dark' : 'group-hover:text-brand'
                     }`}>{p.title}</h3>
