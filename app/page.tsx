@@ -381,6 +381,7 @@ const navLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
   { label: 'Why Us', href: '#why' },
+  { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'FAQ', href: '#faq' },
 ];
 
