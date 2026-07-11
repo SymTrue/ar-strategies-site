@@ -6,6 +6,7 @@ import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
 import AnimatedGradient from './components/ui/animated-gradient';
 import LiquidMetal from './components/ui/liquid-metal';
+import { ThemeToggle } from './components/ui/theme-toggle';
 
 const services = [
   {
@@ -122,9 +123,9 @@ export default function Home() {
   const ctaRef = useReveal<HTMLDivElement>();
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
       {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
+      <nav className="site-header sticky top-0 z-50 bg-[var(--nav-background)] backdrop-blur border-b border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <a href="#top" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
             <Image src="/logo.png" alt="AR Strategies" width={40} height={40} className="h-10 w-auto" />
@@ -137,22 +138,25 @@ export default function Home() {
               </a>
             ))}
           </div>
-          <a
-            href="#contact"
-            className="hidden md:inline-block bg-brand hover:bg-orange-700 active:scale-[0.97] px-5 py-2 rounded-full font-semibold text-sm transition"
-          >
-            {CTA_LABEL}
-          </a>
-          <button
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
-            className="md:hidden flex flex-col gap-1.5 p-2"
-          >
-            <span className={`block h-0.5 w-6 bg-white transition-transform ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
-            <span className={`block h-0.5 w-6 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block h-0.5 w-6 bg-white transition-transform ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
-          </button>
+          <div className="flex items-center gap-2">
+            <a
+              href="#contact"
+              className="hidden md:inline-block bg-brand hover:bg-orange-700 active:scale-[0.97] px-5 py-2 rounded-full font-semibold text-sm text-white transition"
+            >
+              {CTA_LABEL}
+            </a>
+            <ThemeToggle />
+            <button
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((v) => !v)}
+              className="touch-target md:hidden flex flex-col gap-1.5"
+            >
+              <span className={`block h-0.5 w-6 bg-current transition-transform ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
+              <span className={`block h-0.5 w-6 bg-current transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-0.5 w-6 bg-current transition-transform ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+            </button>
+          </div>
         </div>
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 px-6 py-4 flex flex-col gap-4 text-gray-300">
@@ -478,7 +482,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-14 px-6 brand-watermark">
+      <footer className="site-footer border-t border-white/10 py-14 px-6 brand-watermark">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8">
           <div className="max-w-sm">
             <div className="flex items-center gap-3 mb-4">

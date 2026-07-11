@@ -4,6 +4,22 @@ import { saveLead, updateLeadStatus } from '@/lib/db';
 // Simple in-memory rate limiter (per IP, 5 requests per hour)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>'"]/g, (character) => {
+    const entities: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;',
+    };
+
+    return entities[character];
+  });
+}
+
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const record = rateLimitMap.get(ip);
@@ -23,10 +39,23 @@ function checkRateLimit(ip: string): boolean {
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, website } = await req.json();
+    if (!req.headers.get('content-type')?.includes('application/json')) {
+      return NextResponse.json({ error: 'Unsupported media type' }, { status: 415 });
+    }
+
+    const payload: unknown = await req.json();
+    if (!payload || typeof payload !== 'object') {
+      return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+    }
+
+    const { email, website } = payload as { email?: unknown; website?: unknown };
 
     // Get client IP for rate limiting
-    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const ip =
+      req.headers.get('x-vercel-forwarded-for') ||
+      req.headers.get('x-forwarded-for') ||
+      req.headers.get('x-real-ip') ||
+      'unknown';
 
     // Rate limit check
     if (!checkRateLimit(ip)) {
@@ -34,16 +63,23 @@ export async function POST(req: NextRequest) {
     }
 
     // Honeypot check: 'website' field should be empty
-    if (website && website.trim() !== '') {
+    if (typeof website === 'string' && website.trim() !== '') {
       console.warn(`Honeypot triggered from IP: ${ip}`);
       // Return success to not reveal the trap, but don't process
       return NextResponse.json({ ok: true });
     }
 
     // Validate email
-    if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (typeof email !== 'string') {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (normalizedEmail.length > 254 || !EMAIL_PATTERN.test(normalizedEmail)) {
+      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
+    }
+
+    const escapedEmail = escapeHtml(normalizedEmail);
 
     const apiKey = process.env.RESEND_API_KEY;
     const notifyTo = process.env.LEAD_NOTIFY_EMAIL;
@@ -56,7 +92,7 @@ export async function POST(req: NextRequest) {
     // Store lead in database FIRST (before sending emails)
     let leadId: string;
     try {
-      leadId = await saveLead(email);
+      leadId = await saveLead(normalizedEmail);
       if (!leadId) {
         console.error('Failed to get lead ID');
         return NextResponse.json({ error: 'Failed to save lead' }, { status: 500 });
@@ -76,11 +112,11 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         from: 'AR Strategies <leads@arstrategists.com>',
         to: notifyTo,
-        reply_to: email,
-        subject: `new audit request from ${email}`,
+        reply_to: normalizedEmail,
+        subject: `new audit request from ${normalizedEmail}`,
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
-            <p><strong>${email}</strong> just booked a free audit.</p>
+            <p><strong>${escapedEmail}</strong> just booked a free audit.</p>
             <p style="color: #666; font-size: 14px;">Deliver: Full campaign audit + Ad Waste Checklist within 24 hours. No pressure, no lock-in.</p>
             <p style="margin-top: 12px;">Reply to this email to reach them, or forward to your team.</p>
           </div>
@@ -104,7 +140,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         from: 'AR Strategies <leads@arstrategists.com>',
-        to: email,
+        to: normalizedEmail,
         subject: 'your free audit request',
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">

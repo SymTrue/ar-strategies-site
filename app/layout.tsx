@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Anton, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { ThemeProvider } from "./providers";
 import "./globals.css";
 
 const anton = Anton({
@@ -13,6 +14,18 @@ const manrope = Manrope({
   variable: "--font-sans",
   subsets: ["latin"],
 });
+
+const themeInitializationScript = `(() => {
+  try {
+    const savedTheme = localStorage.getItem('theme');
+    const theme = savedTheme === 'light' || savedTheme === 'dark'
+      ? savedTheme
+      : 'dark';
+    document.documentElement.dataset.theme = theme;
+  } catch {
+    document.documentElement.dataset.theme = 'dark';
+  }
+})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.arstrategists.com"),
@@ -114,8 +127,10 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${anton.variable} ${manrope.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitializationScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -125,9 +140,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       </head>
-      <body className="min-h-full bg-black text-white">
-        {children}
-        <Analytics />
+      <body className="min-h-full bg-[var(--background)] text-[var(--text-primary)] transition-colors duration-300">
+        <ThemeProvider>
+          {children}
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );
