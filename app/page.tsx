@@ -252,7 +252,7 @@ export default function Home() {
       </section>
 
       {/* Process - horizontal step sequence */}
-      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 section-premium">
+      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 section-premium dense">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
@@ -315,8 +315,12 @@ export default function Home() {
                   </Suspense>
 
                   <div className="relative h-full px-8 py-8">
-                    <div className="absolute top-0 left-0 w-1.5 h-16 bg-gradient-to-b from-brand via-brand/50 to-transparent rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300" />
-                    <h3 className="font-display text-xl uppercase mb-3 text-white group-hover:text-brand transition-colors">{p.title}</h3>
+                    <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300 ${
+                      idx === 0 ? 'bg-gradient-to-b from-brand-light via-brand-light/50' : idx === 1 ? 'bg-gradient-to-b from-brand-dark via-brand-dark/50' : 'bg-gradient-to-b from-brand via-brand/50'
+                    } to-transparent`} />
+                    <h3 className={`font-display text-xl uppercase mb-3 text-white transition-colors ${
+                      idx === 0 ? 'group-hover:text-brand-light' : idx === 1 ? 'group-hover:text-brand-dark' : 'group-hover:text-brand'
+                    }`}>{p.title}</h3>
                     <p className="text-gray-400 leading-relaxed group-hover:text-gray-200 transition-colors">{p.body}</p>
                   </div>
                 </div>
@@ -327,7 +331,7 @@ export default function Home() {
       </section>
 
       {/* Statement */}
-      <section ref={quoteRef} className="py-24 px-6 border-t border-white/10 section-premium">
+      <section ref={quoteRef} className="py-24 px-6 border-t border-white/10 section-premium subtle">
         <div className="max-w-4xl mx-auto text-center">
           <h2 data-reveal className="font-display text-4xl md:text-6xl uppercase leading-tight text-balance">
             If your ads aren&apos;t making you money,
@@ -474,7 +478,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-14 px-6">
+      <footer className="border-t border-white/10 py-14 px-6 brand-watermark">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8">
           <div className="max-w-sm">
             <div className="flex items-center gap-3 mb-4">

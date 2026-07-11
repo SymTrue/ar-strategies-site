@@ -49,6 +49,14 @@ const jsonLd = {
   email: "hello@arstrategists.com",
   priceRange: "$$",
   serviceType: ["Advertising Audit", "Campaign Management", "Growth & Scaling"],
+  areaServed: [
+    { "@type": "City", name: "New York" },
+    { "@type": "City", name: "Los Angeles" },
+    { "@type": "City", name: "Austin" },
+    { "@type": "City", name: "Chicago" },
+    { "@type": "City", name: "Miami" },
+    { "@type": "AdministrativeArea", name: "United States" }
+  ],
   image: "https://www.arstrategists.com/logo.png",
   sameAs: ["https://instagram.com/ar_strats.aa"],
 };
