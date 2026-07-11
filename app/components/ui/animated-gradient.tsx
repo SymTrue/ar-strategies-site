@@ -245,6 +245,7 @@ export function AnimatedGradient({
             gl.shaderSource(vertexShader, vertexShaderSource);
             gl.compileShader(vertexShader);
             if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+                console.error('Vertex shader compile error:', gl.getShaderInfoLog(vertexShader));
                 gl.deleteShader(vertexShader);
                 setHasWebGLError(true);
                 return;
@@ -255,6 +256,7 @@ export function AnimatedGradient({
             gl.shaderSource(fragmentShader, fragmentShaderSource);
             gl.compileShader(fragmentShader);
             if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+                console.error('Fragment shader compile error:', gl.getShaderInfoLog(fragmentShader));
                 gl.deleteShader(vertexShader);
                 gl.deleteShader(fragmentShader);
                 setHasWebGLError(true);
@@ -506,7 +508,6 @@ uniform float u_swirl;
 uniform float u_swirlIterations;
 
 out vec4 fragColor;
-#define fragColor gl_FragColor
 
 #define TWO_PI 6.28318530718
 #define PI 3.14159265358979323846

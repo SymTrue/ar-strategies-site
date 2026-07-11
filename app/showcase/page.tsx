@@ -87,17 +87,17 @@ export default function ShowcasePage() {
                   <div key={card.title} className="group relative h-64 rounded-xl overflow-hidden">
                     <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0" />}>
                       <LiquidMetal
-                        colorBack="#0a0a0a"
+                        colorBack="#00000000"
                         colorTint="#ea580c"
                         shape="circle"
                         repetition={2}
                         softness={0.6}
                         distortion={0.3}
                         speed={0.8}
-                        scale={0.8}
+                        scale={2.4}
                         fit="cover"
                         style={{ position: 'absolute', inset: 0, opacity: 0 }}
-                        className="group-hover:opacity-50 transition-opacity duration-300"
+                        className="group-hover:opacity-60 transition-opacity duration-500"
                       />
                     </Suspense>
                     <div className="relative h-full px-6 py-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.05] hover:border-white/20 transition-all flex flex-col items-center justify-center text-center">

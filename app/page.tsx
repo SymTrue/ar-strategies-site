@@ -176,12 +176,12 @@ export default function Home() {
       <section id="top" ref={heroRef} className="relative overflow-hidden">
         <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black" />}>
           <AnimatedGradient
-            config={{ preset: "custom", color1: "#1a1a1a", color2: "#3d1f00", color3: "#ff6b35", speed: 12, distortion: 35, swirl: 70 }}
+            config={{ preset: "custom", color1: "#0a0a0a", color2: "#7a2e00", color3: "#ff6b35", proportion: 42, softness: 90, speed: 14, distortion: 40, swirl: 75 }}
             radius="0px"
             style={{ position: "absolute", inset: 0 }}
           />
         </Suspense>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/70 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
           <div data-intro className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
             <span className="h-2 w-2 rounded-full bg-brand" /> Advertising Agency Built for Growth
@@ -296,18 +296,18 @@ export default function Home() {
                   {/* Full-card orange glow on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
 
-                  {/* Liquid metal background effect */}
+                  {/* Liquid metal background effect — sphere scaled up to fill the whole card */}
                   <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300">
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-500">
                       <LiquidMetal
-                        colorBack="#0a0a0a"
+                        colorBack="#00000000"
                         colorTint="#ea580c"
                         shape="circle"
                         repetition={2}
                         softness={0.6}
                         distortion={0.3}
                         speed={0.8}
-                        scale={0.8}
+                        scale={2.4}
                         fit="cover"
                         style={{ position: "absolute", inset: 0 }}
                       />
