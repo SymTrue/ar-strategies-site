@@ -7,6 +7,7 @@ import { AnimatedSection } from './components/AnimatedSection';
 import AnimatedGradient from './components/ui/animated-gradient';
 import LiquidMetal from './components/ui/liquid-metal';
 import { ThemeToggle } from './components/ui/theme-toggle';
+import { useTheme } from './providers';
 
 const services = [
   {
@@ -102,6 +103,7 @@ function useLeadForm() {
 }
 
 export default function Home() {
+  const { theme } = useTheme();
   const hero = useLeadForm();
   const cta = useLeadForm();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -178,16 +180,18 @@ export default function Home() {
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative overflow-hidden">
-        <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black" />}>
+        <Suspense fallback={<div className={theme === 'light' ? 'absolute inset-0 bg-gradient-to-br from-orange-50 via-orange-200/80 to-white' : 'absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black'} />}>
           <AnimatedGradient
-            config={{ preset: "custom", color1: "#0a0a0a", color2: "#7a2e00", color3: "#ff6b35", proportion: 42, softness: 90, speed: 14, distortion: 40, swirl: 75 }}
+            config={theme === 'light'
+              ? { preset: 'custom', color1: '#fff7ed', color2: '#fed7aa', color3: '#ea580c', proportion: 34, softness: 96, speed: 10, distortion: 28, swirl: 52 }
+              : { preset: 'custom', color1: '#0a0a0a', color2: '#7a2e00', color3: '#ff6b35', proportion: 42, softness: 90, speed: 14, distortion: 40, swirl: 75 }}
             radius="0px"
             style={{ position: "absolute", inset: 0 }}
           />
         </Suspense>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/70 pointer-events-none" />
+        <div className="hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
-          <div data-intro className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
+          <div data-intro className="hero-kicker inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
             <span className="h-2 w-2 rounded-full bg-brand" /> Advertising Agency Built for Growth
           </div>
           <h1 data-intro className="font-display text-5xl md:text-6xl leading-[0.95] uppercase mb-6 text-balance">
@@ -276,7 +280,7 @@ export default function Home() {
                         <div className="font-display text-4xl text-brand font-bold group-hover:text-orange-400 transition-colors">{step.n}</div>
                         <div className="flex-1 h-0.5 bg-gradient-to-r from-brand to-transparent" />
                       </div>
-                      <h3 className="font-display text-lg uppercase font-semibold text-white group-hover:text-brand transition-colors">{step.title}</h3>
+                      <h3 className="font-display text-lg uppercase font-semibold text-[var(--text-primary)] group-hover:text-brand transition-colors">{step.title}</h3>
                       <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">{step.body}</p>
                     </div>
                   </div>
@@ -322,7 +326,7 @@ export default function Home() {
                     <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300 ${
                       idx === 0 ? 'bg-gradient-to-b from-brand-light via-brand-light/50' : idx === 1 ? 'bg-gradient-to-b from-brand-dark via-brand-dark/50' : 'bg-gradient-to-b from-brand via-brand/50'
                     } to-transparent`} />
-                    <h3 className={`font-display text-xl uppercase mb-3 text-white transition-colors ${
+                    <h3 className={`font-display text-xl uppercase mb-3 text-[var(--text-primary)] transition-colors ${
                       idx === 0 ? 'group-hover:text-brand-light' : idx === 1 ? 'group-hover:text-brand-dark' : 'group-hover:text-brand'
                     }`}>{p.title}</h3>
                     <p className="text-gray-400 leading-relaxed group-hover:text-gray-200 transition-colors">{p.body}</p>

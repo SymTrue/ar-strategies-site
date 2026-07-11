@@ -20,9 +20,15 @@
   --section-gradient: linear-gradient(180deg, rgba(234, 88, 12, 0.07) 0%, rgba(0, 0, 0, 0) 42%);
   --header-gradient: linear-gradient(110deg, rgba(234, 88, 12, 0.2) 0%, rgba(0, 0, 0, 0) 38%, rgba(255, 107, 53, 0.12) 100%);
   --footer-gradient: radial-gradient(ellipse at 82% 110%, rgba(234, 88, 12, 0.34), transparent 48%), linear-gradient(140deg, #0d0501 0%, #000000 52%, #1e0901 100%);
+  --hero-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 52%, rgba(0, 0, 0, 0.7) 100%);
+  --hero-kicker-bg: rgba(0, 0, 0, 0.22);
+  --hero-kicker-border: rgba(255, 255, 255, 0.15);
 }
 
 [data-theme="light"] {
+  --brand: #c2410c;
+  --brand-light: #ea580c;
+  --color-orange: #c2410c;
   --background: #fafaf9;
   --foreground: #1a1a1a;
   --text-primary: #1a1a1a;
@@ -37,6 +43,9 @@
   --section-gradient: linear-gradient(180deg, rgba(234, 88, 12, 0.1) 0%, rgba(250, 250, 249, 0) 42%);
   --header-gradient: linear-gradient(110deg, rgba(234, 88, 12, 0.12) 0%, rgba(250, 250, 249, 0) 42%, rgba(255, 107, 53, 0.08) 100%);
   --footer-gradient: radial-gradient(ellipse at 82% 110%, rgba(234, 88, 12, 0.22), transparent 48%), linear-gradient(140deg, #f7f4f0 0%, #fafaf9 52%, #fff1e8 100%);
+  --hero-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 247, 237, 0.48) 52%, rgba(250, 250, 249, 0.9) 100%);
+  --hero-kicker-bg: rgba(255, 255, 255, 0.54);
+  --hero-kicker-border: rgba(154, 52, 18, 0.24);
   color-scheme: light;
 }
 
@@ -77,8 +86,21 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+.hero-overlay {
+  background: var(--hero-overlay);
+}
+
+.hero-kicker {
+  background: var(--hero-kicker-bg);
+  border: 1px solid var(--hero-kicker-border);
+}
+
 [data-theme="light"] .text-gray-300 {
   color: #374151;
+}
+
+[data-theme="light"] .text-gray-200 {
+  color: #1f2937;
 }
 
 [data-theme="light"] .text-gray-400 {
@@ -87,6 +109,10 @@ body {
 
 [data-theme="light"] .text-gray-500 {
   color: #6b7280;
+}
+
+[data-theme="light"] .hover\:text-white:hover {
+  color: var(--text-primary);
 }
 
 [data-theme="light"] .border-white\/10,
