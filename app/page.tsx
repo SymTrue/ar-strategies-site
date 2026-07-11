@@ -240,21 +240,15 @@ const PrincipleTransparencyIcon = () => (
 
 const PrincipleNoLockInIcon = () => (
   <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-    <defs>
-      <linearGradient id="noLockInGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="currentColor" />
-        <stop offset="100%" stopColor="currentColor" stopOpacity="0.5" />
-      </linearGradient>
-    </defs>
-    {/* Contract/document */}
-    <rect x="16" y="12" width="32" height="40" rx="2" fill="none" stroke="url(#noLockInGrad)" strokeWidth="2" />
+    {/* Contract/document - solid outline */}
+    <rect x="14" y="10" width="36" height="44" rx="2" fill="none" stroke="currentColor" strokeWidth="2.5" />
     {/* Document lines */}
-    <line x1="20" y1="20" x2="44" y2="20" stroke="url(#noLockInGrad)" strokeWidth="1.5" opacity="0.6" />
-    <line x1="20" y1="28" x2="44" y2="28" stroke="url(#noLockInGrad)" strokeWidth="1.5" opacity="0.6" />
-    <line x1="20" y1="36" x2="36" y2="36" stroke="url(#noLockInGrad)" strokeWidth="1.5" opacity="0.6" />
-    {/* X through contract (crossed out/broken) */}
-    <line x1="20" y1="12" x2="44" y2="52" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-    <line x1="44" y1="12" x2="20" y2="52" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+    <line x1="18" y1="18" x2="46" y2="18" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+    <line x1="18" y1="26" x2="46" y2="26" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+    <line x1="18" y1="34" x2="38" y2="34" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+    {/* Large X through contract (broken/cancelled) */}
+    <line x1="18" y1="12" x2="46" y2="52" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    <line x1="46" y1="12" x2="18" y2="52" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
   </svg>
 );
 
