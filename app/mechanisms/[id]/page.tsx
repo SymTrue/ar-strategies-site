@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { use } from 'react';
 
 interface MechanismData {
   id: string;
@@ -224,8 +225,9 @@ Positioning shapes everything. Get it right, and the rest becomes easy. Get it w
   },
 };
 
-export default function MechanismPage({ params }: { params: { id: string } }) {
-  const mechanism = mechanismsData[params.id];
+export default function MechanismPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const mechanism = mechanismsData[id];
 
   if (!mechanism) {
     notFound();
