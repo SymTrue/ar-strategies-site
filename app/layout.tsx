@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "AR Strategies — Advertising That Actually Makes Money",
   description:
     "AR Strategies builds advertising systems that convert. We audit, run, and scale campaigns for local businesses that are tired of wasting money on ads.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
   alternates: {
     canonical: "https://www.arstrategists.com",
   },
