@@ -237,18 +237,25 @@ export default function Home() {
       </section>
 
       {/* Process - horizontal step sequence */}
-      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
+      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-white/15">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 border-t border-white/15">
             {steps.map((step, i) => (
-              <AnimatedSection key={step.n} delay={i * 0.1}>
-                <div className="pt-6">
-                  <div className="font-display text-3xl text-brand mb-3">{step.n}</div>
-                  <h3 className="font-display text-lg uppercase mb-2">{step.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{step.body}</p>
+              <AnimatedSection key={step.n} delay={i * 0.08}>
+                <div className="group pt-6 relative">
+                  {/* Gradient accent on hover */}
+                  <div className="absolute -top-px left-0 right-0 h-0.5 bg-gradient-to-r from-brand to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="space-y-3">
+                    <div className="inline-block">
+                      <div className="font-display text-5xl text-brand mb-1 font-bold group-hover:text-orange-400 transition-colors">{step.n}</div>
+                      <div className="h-0.5 w-12 bg-gradient-to-r from-brand to-transparent" />
+                    </div>
+                    <h3 className="font-display text-base md:text-lg uppercase font-semibold text-white group-hover:text-brand transition-colors">{step.title}</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">{step.body}</p>
+                  </div>
                 </div>
               </AnimatedSection>
             ))}
@@ -257,20 +264,23 @@ export default function Home() {
       </section>
 
       {/* Why us */}
-      <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10">
+      <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Why we're different
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
-            {principles.map((p) => (
-              <AnimatedSection key={p.title} delay={0.1}>
-                <GlassMorphCard className="h-full">
-                  <div className="px-8 py-8">
-                    <h3 className="font-display text-xl uppercase mb-3">{p.title}</h3>
-                    <p className="text-gray-300 leading-relaxed">{p.body}</p>
+            {principles.map((p, idx) => (
+              <AnimatedSection key={p.title} delay={idx * 0.1}>
+                <div className="group relative h-full">
+                  {/* Liquid glass background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02] rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="relative h-full px-8 py-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300">
+                    <div className="absolute top-0 left-0 w-1 h-12 bg-gradient-to-b from-brand to-transparent rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <h3 className="font-display text-xl uppercase mb-3 text-white">{p.title}</h3>
+                    <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">{p.body}</p>
                   </div>
-                </GlassMorphCard>
+                </div>
               </AnimatedSection>
             ))}
           </div>
@@ -296,19 +306,23 @@ export default function Home() {
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">
             Straight answers
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={faq.q} data-reveal className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02]">
+              <div key={faq.q} data-reveal className="group border border-white/10 rounded-lg overflow-hidden bg-gradient-to-r from-white/[0.03] to-white/[0.01] hover:from-white/[0.05] hover:to-white/[0.02] hover:border-white/20 transition-all duration-200">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   aria-expanded={openFaq === i}
-                  className="w-full flex justify-between items-center text-left px-6 py-5 hover:bg-white/[0.04] transition-colors"
+                  className="w-full flex justify-between items-center text-left px-6 py-4 group-hover:bg-white/[0.02] transition-colors"
                 >
-                  <span className="font-semibold text-lg">{faq.q}</span>
-                  <span aria-hidden="true" className="text-brand text-2xl leading-none ml-4">{openFaq === i ? '−' : '+'}</span>
+                  <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
+                  <span aria-hidden="true" className={`text-brand text-xl leading-none ml-4 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}>
+                    {openFaq === i ? '−' : '+'}
+                  </span>
                 </button>
                 {openFaq === i && (
-                  <div className="px-6 pb-5 text-gray-300 leading-relaxed">{faq.a}</div>
+                  <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4 animate-in fade-in duration-200">
+                    {faq.a}
+                  </div>
                 )}
               </div>
             ))}
@@ -317,26 +331,38 @@ export default function Home() {
       </section>
 
       {/* Social Proof */}
-      <section className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
+      <section className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
         <div className="max-w-5xl mx-auto text-center">
           <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16">Trusted by businesses scaling their revenue</h2>
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-8">
             <AnimatedSection delay={0}>
-              <div>
-                <div className="text-4xl font-display text-brand mb-2">50+</div>
-                <p className="text-gray-300">Audits completed this year</p>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity blur-lg" />
+                <div className="relative px-6 py-8 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/20 transition-all backdrop-blur-sm">
+                  <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/30">Metric</div>
+                  <div className="text-5xl font-display text-brand mb-3 font-bold">50+</div>
+                  <p className="text-gray-400 text-sm">Audits completed this year</p>
+                </div>
               </div>
             </AnimatedSection>
             <AnimatedSection delay={0.1}>
-              <div>
-                <div className="text-4xl font-display text-brand mb-2">$2K–$8K</div>
-                <p className="text-gray-300">Monthly waste found per audit</p>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity blur-lg" />
+                <div className="relative px-6 py-8 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/20 transition-all backdrop-blur-sm">
+                  <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/30">Impact</div>
+                  <div className="text-5xl font-display text-brand mb-3 font-bold">$2K–$8K</div>
+                  <p className="text-gray-400 text-sm">Monthly waste found per audit</p>
+                </div>
               </div>
             </AnimatedSection>
             <AnimatedSection delay={0.2}>
-              <div>
-                <div className="text-4xl font-display text-brand mb-2">30 days</div>
-                <p className="text-gray-300">Average time to first results</p>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity blur-lg" />
+                <div className="relative px-6 py-8 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/20 transition-all backdrop-blur-sm">
+                  <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/30">Timeline</div>
+                  <div className="text-5xl font-display text-brand mb-3 font-bold">30 days</div>
+                  <p className="text-gray-400 text-sm">Average time to first results</p>
+                </div>
               </div>
             </AnimatedSection>
           </div>
