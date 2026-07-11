@@ -1,11 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
 import { GlassMorphCard } from './components/GlassMorphCard';
-import { ShaderGradientBg } from './components/ShaderGradientBg';
+import AnimatedGradient from './components/ui/animated-gradient';
+import LiquidMetal from './components/ui/liquid-metal';
 
 const services = [
   {
@@ -165,7 +166,13 @@ export default function Home() {
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative overflow-hidden">
-        <ShaderGradientBg />
+        <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black" />}>
+          <AnimatedGradient
+            config={{ preset: "custom", color1: "#0a0a0a", color2: "#1a0f00", color3: "#ea580c", speed: 12, distortion: 35, swirl: 70 }}
+            radius="0px"
+            style={{ position: "absolute", inset: 0 }}
+          />
+        </Suspense>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
           <div data-intro className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
@@ -272,9 +279,24 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p, idx) => (
               <AnimatedSection key={p.title} delay={idx * 0.1}>
-                <div className="group relative h-full">
-                  {/* Liquid glass background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02] rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="group relative h-full overflow-hidden rounded-2xl">
+                  {/* Liquid metal background effect */}
+                  <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300">
+                      <LiquidMetal
+                        colorBack="#0a0a0a"
+                        colorTint="#ea580c"
+                        shape="circle"
+                        repetition={2}
+                        softness={0.6}
+                        distortion={0.3}
+                        speed={0.8}
+                        scale={0.8}
+                        fit="cover"
+                        style={{ position: "absolute", inset: 0 }}
+                      />
+                    </div>
+                  </Suspense>
                   <div className="relative h-full px-8 py-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300">
                     <div className="absolute top-0 left-0 w-1 h-12 bg-gradient-to-b from-brand to-transparent rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity" />
                     <h3 className="font-display text-xl uppercase mb-3 text-white">{p.title}</h3>
