@@ -142,6 +142,34 @@ function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string
   );
 }
 
+function useScrollSpy(hrefs: string[]) {
+  const [active, setActive] = useState<string | null>(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) setActive(`#${e.target.id}`);
+        }
+      },
+      { rootMargin: '-40% 0px -55% 0px' },
+    );
+    hrefs.forEach((href) => {
+      const el = document.getElementById(href.slice(1));
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return active;
+}
+
+const navLinks = [
+  { label: 'Services', href: '#services' },
+  { label: 'Process', href: '#process' },
+  { label: 'Why Us', href: '#why' },
+  { label: 'FAQ', href: '#faq' },
+];
+
 const services = [
   {
     icon: 'search',
@@ -248,13 +276,7 @@ export default function Home() {
   const cta = useLeadForm();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const navLinks = [
-    { href: '#services', label: 'Services' },
-    { href: '#process', label: 'Process' },
-    { href: '#why', label: 'Why Us' },
-    { href: '#faq', label: 'FAQ' },
-  ];
+  const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 
   const heroRef = useHeroIntro<HTMLDivElement>();
   const servicesRef = useReveal<HTMLDivElement>();
@@ -275,7 +297,15 @@ export default function Home() {
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-300">
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="hover:text-white transition-colors">
+              <a
+                key={link.href}
+                href={link.href}
+                className={`transition-colors ${
+                  activeSection === link.href
+                    ? 'text-[var(--text-primary)] underline decoration-brand decoration-2 underline-offset-8'
+                    : 'hover:text-white'
+                }`}
+              >
                 {link.label}
               </a>
             ))}
