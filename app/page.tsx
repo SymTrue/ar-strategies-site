@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useSyncExternalStore, Suspense } from 'react';
+import { useState, useEffect, useRef, useSyncExternalStore, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
 import AnimatedGradient from './components/ui/animated-gradient';
@@ -71,6 +71,74 @@ function SectionKicker({ n, label, center }: { n: string; label: string; center?
       <span className="text-brand tabular-nums">{n}</span>
       <span>{label}</span>
     </div>
+  );
+}
+
+function useInViewClass<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          el.classList.add('in-view');
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.4 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
+
+function TimelineWithFill() {
+  const timelineRef = useInViewClass<HTMLDivElement>();
+  return (
+    <div ref={timelineRef} className="timeline-track hidden lg:block" aria-hidden="true">
+      <div className="timeline-fill" />
+    </div>
+  );
+}
+
+function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        obs.disconnect();
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          raf = requestAnimationFrame(() => setVal(to));
+          return;
+        }
+        const t0 = performance.now();
+        const dur = 900;
+        const tick = (t: number) => {
+          const p = Math.min((t - t0) / dur, 1);
+          setVal(Math.round(to * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.5 },
+    );
+    obs.observe(el);
+    return () => {
+      obs.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [to]);
+  return (
+    <span ref={ref} className="tabular-nums">
+      {prefix}{val}{suffix}
+    </span>
   );
 }
 
@@ -309,6 +377,20 @@ export default function Home() {
             </p>
           )}
           <p className="text-gray-500 text-xs mt-6">No credit card required. Includes our Ad Waste Checklist ($47 value).</p>
+          <div className="marquee mt-16" aria-hidden="true">
+            <div className="marquee-track text-xs uppercase tracking-[0.25em] text-gray-500">
+              {[0, 1].map((dup) => (
+                <div key={dup} className="flex items-center gap-8 pr-8">
+                  {['Wasted spend', 'Dead clicks', 'Invisible ads', 'Vanity metrics', 'Guesswork budgets'].map((t) => (
+                    <span key={t} className="flex items-center gap-8 whitespace-nowrap">
+                      {t}
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" />
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -342,6 +424,7 @@ export default function Home() {
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
           </h2>
+          <TimelineWithFill />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <AnimatedSection key={step.n} delay={i * 0.08}>
@@ -450,23 +533,15 @@ export default function Home() {
                     className="w-full flex justify-between items-center text-left px-6 py-4 transition-colors"
                   >
                     <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
-                    <span aria-hidden="true" className={`text-brand text-2xl leading-none ml-4 transition-transform duration-300 font-bold ${openFaq === i ? 'rotate-180 text-orange-400' : ''}`}>
-                      {openFaq === i ? '−' : '+'}
-                    </span>
+                    <span className={`text-brand text-xl leading-none transition-transform duration-300 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">+</span>
                   </button>
-                  {openFaq === i && (
-                    <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4" style={{
-                      animation: 'fadeIn 0.2s ease-in-out',
-                    }}>
-                      <style>{`
-                        @keyframes fadeIn {
-                          from { opacity: 0; }
-                          to { opacity: 1; }
-                        }
-                      `}</style>
-                      {faq.a}
+                  <div className={`grid transition-[grid-template-rows] duration-300 ease-out ${openFaq === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                    <div className="overflow-hidden">
+                      <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                        {faq.a}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -496,7 +571,7 @@ export default function Home() {
                 <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
                 <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
                   <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Impact</div>
-                  <div className="text-5xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">$2K–$8K</div>
+                  <div className="text-5xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors"><CountUp to={2} prefix="$" suffix="K" />–<CountUp to={8} prefix="$" suffix="K" /></div>
                   <p className="text-gray-400 text-sm">Monthly waste found per audit</p>
                 </div>
               </div>
@@ -507,7 +582,7 @@ export default function Home() {
                 <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
                 <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
                   <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Timeline</div>
-                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">30 days</div>
+                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors"><CountUp to={30} /> days</div>
                   <p className="text-gray-400 text-sm">Average time to first results</p>
                 </div>
               </div>

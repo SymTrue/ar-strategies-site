@@ -363,6 +363,43 @@ button:disabled {
   animation: revealFade 0.6s var(--ease-out) forwards;
 }
 
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+
+@keyframes marqueeScroll {
+  to { transform: translateX(-50%); }
+}
+
+.timeline-track {
+  position: relative;
+  height: 2px;
+  margin-bottom: 2.5rem;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.timeline-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--brand-light), var(--brand), var(--brand-ember));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+
+.timeline-track.in-view .timeline-fill {
+  transform: scaleX(1);
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *,
