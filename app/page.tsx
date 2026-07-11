@@ -184,7 +184,7 @@ const services = [
   {
     icon: 'pen',
     title: 'Content That Sells',
-    body: 'We audit what you\'re putting out, cut what isn\'t working, and shape content that makes locals remember you—and choose you when they\'re ready to buy.',
+    body: 'We audit your listings and social, kill what isn\'t converting, and publish weekly on channels that rank and convert.',
   },
 ];
 
@@ -192,7 +192,7 @@ const steps = [
   { n: '01', title: 'Map Your Market', body: 'We audit your visibility: where you rank on Google, where your ad money leaks, what your content misses. Plain English, real numbers.' },
   { n: '02', title: 'Build the Engine', body: 'Fix your Google presence, launch Meta campaigns, line up content that sells—everything pointed at one goal: making your phone ring.' },
   { n: '03', title: 'Test & Kill', body: 'Watch the data daily. Kill what doesn\'t produce customers. Double down on what does. No riding a losing bet to protect a report.' },
-  { n: '04', title: 'Own Your Market', body: 'Scale what works until you\'re the first name your city sees—and the obvious choice when they\'re ready to buy.' },
+  { n: '04', title: 'Own Your Market', body: 'Scale proven winners 3x until you\'re the first name your city sees—and the obvious choice when they\'re ready to buy.' },
 ];
 
 const principles = [
@@ -204,7 +204,7 @@ const principles = [
   {
     icon: 'chart',
     title: 'You see every number',
-    body: 'Rankings, leads, cost per call, revenue. Full visibility into what your money is doing, always—no mystery reports.',
+    body: 'Rankings, leads, cost per call, revenue. You own the data—so you always know what\'s working and what to kill next.',
   },
   {
     icon: 'unlock',
@@ -236,7 +236,7 @@ const faqs = [
   },
 ];
 
-const CTA_LABEL = 'Get My Free Audit';
+const CTA_LABEL = 'Get My Free Audit (10 min, no credit card)';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -376,7 +376,7 @@ export default function Home() {
             When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content—done for you, so your phone rings while you run the business.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
-            Most owners we audit are invisible for their best-buying searches—and waste $2K–$8K a month on ads that don&apos;t ring the phone.
+            In 2026, we audited 50+ local businesses. Most were invisible for their best-buying searches—and wasted $2K–$8K a month on ads that didn&apos;t ring the phone.
           </p>
 
           <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
@@ -431,7 +431,7 @@ export default function Home() {
       {/* Services - divided list, not a card grid */}
       <section id="services" ref={servicesRef} className="py-24 px-6 section-premium">
         <div className="max-w-4xl mx-auto">
-          <SectionKicker n="01" label="Services" />
+          <SectionKicker n="" label="Services" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             The work we do. So you stop doing it.
           </h2>
@@ -454,7 +454,7 @@ export default function Home() {
       {/* Process - horizontal step sequence */}
       <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 section-premium dense">
         <div className="max-w-7xl mx-auto">
-          <SectionKicker n="02" label="Process" />
+          <SectionKicker n="" label="Process" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
           </h2>
@@ -488,7 +488,7 @@ export default function Home() {
       {/* Why us */}
       <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-7xl mx-auto">
-          <SectionKicker n="03" label="Why Us" />
+          <SectionKicker n="" label="Why Us" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Why we&apos;re different
           </h2>
@@ -551,7 +551,7 @@ export default function Home() {
       {/* FAQ */}
       <section id="faq" ref={faqRef} className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-3xl mx-auto">
-          <SectionKicker n="04" label="FAQ" center />
+          <SectionKicker n="" label="FAQ" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">
             Straight answers
           </h2>
@@ -584,17 +584,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Proof */}
+      {/* Social Proof - Featured Case Study */}
       <section className="py-24 px-6 border-t border-white/10 section-premium">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16">Trusted by local businesses winning their markets</h2>
+        <div className="max-w-6xl mx-auto">
+          <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16 text-center">The real proof</h2>
+
+          {/* Featured Case Study: Strike Den */}
+          <div className="mb-20">
+            <AnimatedSection delay={0}>
+              <div className="group relative">
+                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
+                <div className="relative p-8 md:p-12 glass-card">
+                  <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div>
+                      <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Case Study</div>
+                      <h3 className="font-display text-2xl md:text-3xl uppercase mb-4 text-brand">Strike Den MMA</h3>
+                      <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                        Took them from zero online presence to #1 for MMA gyms in DHA Karachi. Scaled Instagram from 0 to 1.4K followers. Revenue went from breaking even to over 1 million PKR per month.
+                      </p>
+                      <div className="space-y-3 mb-8 text-gray-300">
+                        <p><span className="text-brand font-semibold">#1 ranking</span> achieved in 6 months</p>
+                        <p><span className="text-brand font-semibold">1.4K followers</span> on Instagram</p>
+                        <p><span className="text-brand font-semibold">1M+ PKR/month</span> in revenue</p>
+                        <p><span className="text-brand font-semibold">5.0 star</span> reviews</p>
+                      </div>
+                      <blockquote className="border-l-2 border-brand pl-6 py-4 italic text-gray-300">
+                        "We started with zero followers, zero online presence. Akbar handled everything — SEO, ads, content strategy. In 6 months we hit #1 for MMA gyms in DHA. Our revenue went from breaking even to over 1 million PKR a month. This is what real marketing looks like."
+                      </blockquote>
+                      <p className="text-sm text-gray-400 mt-4">— Sikander Ali Shah, Owner, Strike Den</p>
+                    </div>
+                    <div className="hidden md:block">
+                      <div className="bg-gradient-to-br from-brand/20 to-transparent rounded-xl p-8 text-center">
+                        <div className="text-brand mb-4">
+                          <svg className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" /></svg>
+                        </div>
+                        <p className="text-gray-300 text-sm">MMA Gym in DHA, Karachi</p>
+                        <p className="text-brand font-display text-xl mt-4">#1 Ranking</p>
+                        <p className="text-gray-400 text-xs mt-2">6 months</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+
+          {/* Supporting Metrics */}
+          <div className="text-center mb-12">
+            <p data-reveal className="text-gray-400 text-lg">And many more local businesses like them.</p>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8">
             <AnimatedSection delay={0}>
               <div className="group relative h-full">
-                {/* Large orange glow field */}
                 <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
                 <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
-                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Metric</div>
+                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Experience</div>
                   <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">50+</div>
                   <p className="text-gray-400 text-sm">Audits completed this year</p>
                 </div>
@@ -606,8 +651,8 @@ export default function Home() {
                 <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
                 <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
                   <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Impact</div>
-                  <div className="text-5xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors"><CountUp to={2} prefix="$" suffix="K" />–<CountUp to={8} prefix="$" suffix="K" /></div>
-                  <p className="text-gray-400 text-sm">Monthly waste found per audit</p>
+                  <div className="text-5xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">$2K–$8K</div>
+                  <p className="text-gray-400 text-sm">Average monthly waste found</p>
                 </div>
               </div>
             </AnimatedSection>
@@ -616,9 +661,9 @@ export default function Home() {
               <div className="group relative h-full">
                 <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
                 <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
-                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Timeline</div>
-                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors"><CountUp to={30} /> days</div>
-                  <p className="text-gray-400 text-sm">Average time to first results</p>
+                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Speed</div>
+                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">30</div>
+                  <p className="text-gray-400 text-sm">Days to first results</p>
                 </div>
               </div>
             </AnimatedSection>
@@ -634,7 +679,7 @@ export default function Home() {
         </div>
 
         <div className="max-w-2xl mx-auto text-center relative z-10">
-          <SectionKicker n="05" label="Free Audit" center />
+          <SectionKicker n="" label="Free Audit" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
             See exactly why customers aren&apos;t finding you.
           </h2>
@@ -690,7 +735,7 @@ export default function Home() {
               <span className="font-display text-lg tracking-wide">AR STRATEGIES</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              We help local businesses get found first on Google, run Meta ads that pay for themselves, and publish content people remember.
+              We help local businesses get found first on Google, run Meta ads that pay for themselves, and publish content locals remember and act on.
             </p>
           </div>
           <div className="flex gap-16">
