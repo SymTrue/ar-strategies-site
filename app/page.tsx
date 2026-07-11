@@ -9,7 +9,7 @@ import LiquidMetal from './components/ui/liquid-metal';
 import { ThemeToggle } from './components/ui/theme-toggle';
 import { useTheme } from './providers';
 
-/* Inline Lucide-style icons (24×24 grid, 2px stroke, rounded caps — MIT, no
+/* Inline Lucide-style icons (24×24 grid, 2px stroke, rounded caps: MIT, no
    external asset so nothing to hotlink and nothing for the CSP to block). */
 const svgBase = {
   viewBox: '0 0 24 24',
@@ -23,17 +23,17 @@ const svgBase = {
 };
 
 const icons: Record<string, React.ReactNode> = {
-  // Google Rankings — magnifier
+  // Google Rankings: magnifier
   search: (<svg {...svgBase}><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>),
-  // Meta Ads — megaphone
+  // Meta Ads: megaphone
   megaphone: (<svg {...svgBase}><path d="m3 11 18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></svg>),
-  // Content — pencil
+  // Content: pencil
   pen: (<svg {...svgBase}><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /></svg>),
-  // No lock-in — open padlock
+  // No lock-in: open padlock
   unlock: (<svg {...svgBase}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>),
-  // Full visibility — bar chart
+  // Full visibility: bar chart
   chart: (<svg {...svgBase}><line x1="4" y1="20" x2="4" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="20" y1="20" x2="20" y2="14" /></svg>),
-  // One business per market — map pin
+  // One business per market: map pin
   pin: (<svg {...svgBase}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>),
 };
 
@@ -174,7 +174,7 @@ const services = [
   {
     icon: 'search',
     title: 'Google Rankings',
-    body: 'When someone nearby searches for what you do, they should find you—not the shop down the street. We build the local search presence that puts you at the top of Google and keeps you there.',
+    body: 'When someone nearby searches for what you do, they should find you, not the shop down the street. We build the local search presence that puts you at the top of Google and keeps you there.',
   },
   {
     icon: 'megaphone',
@@ -190,21 +190,21 @@ const services = [
 
 const steps = [
   { n: '01', title: 'Map Your Market', body: 'We audit your visibility: where you rank on Google, where your ad money leaks, what your content misses. Plain English, real numbers.' },
-  { n: '02', title: 'Build the Engine', body: 'Fix your Google presence, launch Meta campaigns, line up content that sells—everything pointed at one goal: making your phone ring.' },
+  { n: '02', title: 'Build the Engine', body: 'Fix your Google presence, launch Meta campaigns, line up content that sells. Everything pointed at one goal: making your phone ring.' },
   { n: '03', title: 'Test & Kill', body: 'Watch the data daily. Kill what doesn\'t produce customers. Double down on what does. No riding a losing bet to protect a report.' },
-  { n: '04', title: 'Own Your Market', body: 'Scale proven winners 3x until you\'re the first name your city sees—and the obvious choice when they\'re ready to buy.' },
+  { n: '04', title: 'Own Your Market', body: 'Scale proven winners 3x until you\'re the first name your city sees, and the obvious choice when they\'re ready to buy.' },
 ];
 
 const principles = [
   {
     icon: 'pin',
     title: 'One business per market',
-    body: 'We never work with your competitors. When you\'re our client, your industry in your area is locked—everything we build works for you and against them.',
+    body: 'We never work with your competitors. When you\'re our client, your industry in your area is locked. Everything we build works for you and against them.',
   },
   {
     icon: 'chart',
     title: 'You see every number',
-    body: 'Rankings, leads, cost per call, revenue. You own the data—so you always know what\'s working and what to kill next.',
+    body: 'Rankings, leads, cost per call, revenue. You own the data, so you always know what\'s working and what to kill next.',
   },
   {
     icon: 'unlock',
@@ -216,15 +216,15 @@ const principles = [
 const faqs = [
   {
     q: 'How long until I rank at the top of Google?',
-    a: 'It depends on your area and competition. Most clients see movement within the first 30 days; competitive searches take longer. That\'s why we run Meta ads alongside—customers now, rankings compounding behind them.',
+    a: 'It depends on your area and competition. Most clients see movement within the first 30 days; competitive searches take longer. That\'s why we run Meta ads alongside. Customers now, rankings compounding behind them.',
   },
   {
     q: 'What if you already work with my competitor?',
-    a: 'Then we can\'t take you on—and if you sign with us, we can\'t take them. We work with one business per industry per area, so everything we build works for you alone.',
+    a: 'Then we can\'t take you on, and if you sign with us, we can\'t take them. We work with one business per industry per area, so everything we build works for you alone.',
   },
   {
     q: 'Do you work with businesses in my industry?',
-    a: 'If your customers search Google or scroll social media before they buy—and they do—we can help. We work with local and service businesses across most industries.',
+    a: 'If your customers search Google or scroll social media before they buy, and they do, we can help. We work with local and service businesses across most industries.',
   },
   {
     q: 'How much should I be spending on marketing?',
@@ -373,10 +373,10 @@ export default function Home() {
             <span className="text-brand"> finds first</span>
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
-            When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content—done for you, so your phone rings while you run the business.
+            When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content. Done for you, so your phone rings while you run the business.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
-            In 2026, we audited 50+ local businesses. Most were invisible for their best-buying searches—and wasted $2K–$8K a month on ads that didn&apos;t ring the phone.
+            In 2026, we audited 50+ local businesses. Most were invisible for their best-buying searches and wasted $2K–$8K a month on ads that didn&apos;t ring the phone.
           </p>
 
           <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
@@ -402,7 +402,7 @@ export default function Home() {
             </button>
           </form>
           {hero.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm">Got it. We&apos;ll send your audit within 24 hours—no pressure, no cold calls.</p>
+            <p className="text-green-400 mt-4 text-sm">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
           )}
           {hero.state === 'error' && (
             <p className="text-red-400 mt-4 text-sm">
@@ -499,7 +499,7 @@ export default function Home() {
                   {/* Full-card orange glow on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
 
-                  {/* Liquid metal background effect — each card flows in its own direction */}
+                  {/* Liquid metal background effect: each card flows in its own direction */}
                   <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-500">
                       <LiquidMetal
@@ -584,6 +584,35 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Founder Section */}
+      <section className="py-20 px-6 border-t border-white/10 section-premium">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-brand/30 to-brand/10 border border-brand/50 mb-6">
+              <svg className="h-10 w-10 text-brand" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              </svg>
+            </div>
+            <h3 className="font-display text-2xl md:text-3xl uppercase mb-3">Akbar Ahmad</h3>
+            <p className="text-brand font-semibold mb-4">Founder, AR Strategies</p>
+            <p className="text-gray-300 text-lg leading-relaxed mb-6 max-w-xl mx-auto">
+              Built Strike Den from zero to #1 ranking in 6 months. Helped 50+ local businesses cut ad waste and scale revenue. Built this agency to solve the problems I discovered in the field.
+            </p>
+            <a
+              href="https://www.linkedin.com/in/akbararstrats/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-brand/50 hover:border-brand text-brand hover:bg-brand/10 transition-all duration-300"
+            >
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              </svg>
+              Connect on LinkedIn
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Social Proof - Featured Case Study */}
       <section className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-6xl mx-auto">
@@ -609,18 +638,35 @@ export default function Home() {
                         <p><span className="text-brand font-semibold">5.0 star</span> reviews</p>
                       </div>
                       <blockquote className="border-l-2 border-brand pl-6 py-4 italic text-gray-300">
-                        "We started with zero followers, zero online presence. Akbar handled everything — SEO, ads, content strategy. In 6 months we hit #1 for MMA gyms in DHA. Our revenue went from breaking even to over 1 million PKR a month. This is what real marketing looks like."
+                        "We started with zero followers, zero online presence. Akbar handled everything: SEO, ads, content strategy. In 6 months we hit #1 for MMA gyms in DHA. Our revenue went from breaking even to over 1 million PKR a month. This is what real marketing looks like."
                       </blockquote>
-                      <p className="text-sm text-gray-400 mt-4">— Sikander Ali Shah, Owner, Strike Den</p>
+                      <p className="text-sm text-gray-400 mt-4">Sikander Ali Shah, Owner, Strike Den</p>
                     </div>
                     <div className="hidden md:block">
-                      <div className="bg-gradient-to-br from-brand/20 to-transparent rounded-xl p-8 text-center">
-                        <div className="text-brand mb-4">
-                          <svg className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" /></svg>
+                      <div className="space-y-6">
+                        <div className="bg-gradient-to-br from-brand/20 to-transparent rounded-xl p-8 text-center border border-brand/30">
+                          <div className="text-brand mb-4">
+                            <svg className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
+                          </div>
+                          <p className="text-gray-300 text-sm font-semibold">STRIKE DEN</p>
+                          <p className="text-gray-400 text-xs mt-1">MMA Gym in DHA, Karachi</p>
+                          <p className="text-brand font-display text-xl mt-4">#1 Ranking</p>
+                          <p className="text-gray-400 text-xs mt-2">Achieved in 6 months</p>
                         </div>
-                        <p className="text-gray-300 text-sm">MMA Gym in DHA, Karachi</p>
-                        <p className="text-brand font-display text-xl mt-4">#1 Ranking</p>
-                        <p className="text-gray-400 text-xs mt-2">6 months</p>
+                        <div className="flex flex-col gap-2">
+                          <a href="https://strikeden.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
+                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            Website
+                          </a>
+                          <a href="https://www.instagram.com/strikeden.pk" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
+                            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.117.6c-.588.227-.975.478-1.402.905-.423.426-.679.814-.905 1.402-.266.788-.467 1.658-.527 2.936C.013 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.527 2.913.228.586.479.972.905 1.398.426.426.812.678 1.399.908.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.059 2.148-.262 2.913-.556.586-.23.972-.478 1.399-.908.426-.426.677-.812.907-1.398.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.059-1.277-.262-2.149-.558-2.913-.23-.586-.479-.972-.907-1.399-.426-.426-.813-.679-1.399-.908-.765-.296-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.009 4.849.070 1.171.054 1.805.244 2.227.408.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.354 1.057.408 2.227.06 1.264.07 1.646.07 4.849s-.01 3.585-.07 4.849c-.054 1.171-.244 1.805-.408 2.227-.217.562-.477.96-.896 1.382-.42.419-.819.679-1.381.896-.422.164-1.057.354-2.227.408-1.264.06-1.646.07-4.849.07s-3.585-.01-4.849-.07c-1.171-.054-1.805-.244-2.227-.408-.562-.217-.96-.477-1.382-.896-.419-.42-.679-.819-.896-1.381-.164-.422-.354-1.057-.408-2.227-.06-1.264-.07-1.646-.07-4.849s.01-3.585.07-4.849c.054-1.171.244-1.805.408-2.227.217-.562.477-.96.896-1.382.42-.419.819-.679 1.381-.896.422-.164 1.057-.354 2.227-.408 1.264-.06 1.646-.07 4.849-.07z" /></svg>
+                            Instagram
+                          </a>
+                          <a href="https://www.linkedin.com/company/strike-den/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand text-brand transition-all duration-300">
+                            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                            LinkedIn
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -684,7 +730,7 @@ export default function Home() {
             See exactly why customers aren&apos;t finding you.
           </h2>
           <p data-reveal className="text-lg text-gray-300 mb-12 max-w-xl mx-auto">
-            Get a free visibility audit: where you rank on Google, where your ad money leaks, and what your content is missing. We hand you the playbook—you decide what to do with it.
+            Get a free visibility audit: where you rank on Google, where your ad money leaks, and what your content is missing. We hand you the playbook. You decide what to do with it.
           </p>
 
           <form data-reveal onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6">
@@ -709,7 +755,7 @@ export default function Home() {
             </button>
           </form>
           {cta.state === 'success' && (
-            <p className="text-green-400 text-sm">Got it. We&apos;ll send your audit within 24 hours—no pressure, no cold calls.</p>
+            <p className="text-green-400 text-sm">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
           )}
           {cta.state === 'error' && (
             <p className="text-red-400 text-sm">
