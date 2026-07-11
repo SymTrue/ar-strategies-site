@@ -27,14 +27,14 @@ export const metadata: Metadata = {
     description:
       "We build advertising systems that convert. Audit, run, and scale — done for you.",
     type: "website",
-    images: ["https://www.arstrategists.com/og-cover.png"],
+    images: ["https://www.arstrategists.com/logo.png"],
     url: "https://www.arstrategists.com",
   },
   twitter: {
     card: "summary_large_image",
     title: "AR Strategies — Advertising That Actually Makes Money",
     description: "We build advertising systems that convert.",
-    images: ["https://www.arstrategists.com/og-cover.png"],
+    images: ["https://www.arstrategists.com/logo.png"],
   },
 };
 
