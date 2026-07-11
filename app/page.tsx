@@ -241,14 +241,13 @@ const PrincipleTransparencyIcon = () => (
 const PrincipleNoLockInIcon = () => (
   <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
     {/* Contract/document - solid outline */}
-    <rect x="14" y="10" width="36" height="44" rx="2" fill="none" stroke="currentColor" strokeWidth="2.5" />
+    <rect x="16" y="14" width="32" height="36" rx="2" fill="none" stroke="currentColor" strokeWidth="2.5" />
     {/* Document lines */}
-    <line x1="18" y1="18" x2="46" y2="18" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-    <line x1="18" y1="26" x2="46" y2="26" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-    <line x1="18" y1="34" x2="38" y2="34" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-    {/* Large X through contract (broken/cancelled) */}
-    <line x1="18" y1="12" x2="46" y2="52" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    <line x1="46" y1="12" x2="18" y2="52" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    <line x1="20" y1="22" x2="44" y2="22" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+    <line x1="20" y1="30" x2="44" y2="30" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+    {/* Large X breaking through borders (freedom breaking free) */}
+    <line x1="10" y1="6" x2="54" y2="58" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
+    <line x1="54" y1="6" x2="10" y2="58" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
   </svg>
 );
 
