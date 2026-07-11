@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, Suspense } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import LiquidMetal, { liquidMetalPresets } from "./liquid-metal";
 
 const MONO = '"Paper Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
@@ -198,6 +198,7 @@ function Slider({ def, value, onChange }: { def: ControlDef; value: number; onCh
 
 function ColorRow({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   const [text, setText] = useState(value);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setText(value), [value]);
   const commit = () => {
     if (/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(text)) onChange(text);

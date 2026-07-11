@@ -8,13 +8,16 @@ export function WebGLErrorBoundary({
   fallback,
 }: {
   children: ReactNode;
-  fallback: ReactNode;
+  fallback?: ReactNode;
 }) {
-  try {
-    return <>{children}</>;
-  } catch {
-    return <>{fallback}</>;
-  }
+  return fallback ? (
+    <>
+      {children}
+      {fallback}
+    </>
+  ) : (
+    children
+  );
 }
 
 export function WebGLFallback({ className }: { className?: string }) {

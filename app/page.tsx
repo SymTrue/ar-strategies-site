@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useState, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
-import { GlassMorphCard } from './components/GlassMorphCard';
 import AnimatedGradient from './components/ui/animated-gradient';
 import LiquidMetal from './components/ui/liquid-metal';
 
@@ -26,14 +25,14 @@ const services = [
 const steps = [
   { n: '01', title: 'Find the Leak', body: 'Tear apart your current campaigns. Find where the money is going, where conversions are dying, and why.' },
   { n: '02', title: 'Build the Engine', body: 'Design strategy and creative built for your audience. Setup, targeting, messaging—all aligned to convert.' },
-  { n: '03', title: 'Test Fast', body: 'Launch lean. Watch the data daily. Kill what doesn\'t convert in 48 hours. Double down on winners.' },
+  { n: '03', title: 'Test Fast', body: 'Launch lean. Watch the data daily. Kill what doesn&apos;t convert in 48 hours. Double down on winners.' },
   { n: '04', title: 'Scale Predictably', body: 'Pour fuel on what works. Grow your revenue month over month with systems, not guessing.' },
 ];
 
 const principles = [
   {
     title: 'No lock-in contracts',
-    body: "You stay because it's working, not because you signed something. We earn your business every month.",
+    body: "You stay because it&apos;s working, not because you signed something. We earn your business every month.",
   },
   {
     title: 'You see every number',
@@ -41,7 +40,7 @@ const principles = [
   },
   {
     title: 'We kill what does not work',
-    body: "Fast. No riding a losing campaign to protect a report. If it isn't converting, it's gone.",
+    body: "Fast. No riding a losing campaign to protect a report. If it isn&apos;t converting, it&apos;s gone.",
   },
 ];
 
@@ -64,7 +63,7 @@ const faqs = [
   },
 ];
 
-const CTA_LABEL = 'Schedule Free Audit';
+const CTA_LABEL = 'Get My Free Audit';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -221,7 +220,7 @@ export default function Home() {
             </button>
           </form>
           {hero.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm">Got it. We'll send your audit within 24 hours—no pressure, no cold calls.</p>
+            <p className="text-green-400 mt-4 text-sm">Got it. We&apos;ll send your audit within 24 hours—no pressure, no cold calls.</p>
           )}
           {hero.state === 'error' && (
             <p className="text-red-400 mt-4 text-sm">
@@ -283,7 +282,7 @@ export default function Home() {
       <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
-            Why we're different
+            Why we&apos;re different
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p, idx) => (
@@ -415,7 +414,7 @@ export default function Home() {
             Ready to stop wasting money on ads?
           </h2>
           <p data-reveal className="text-lg text-gray-300 mb-12 max-w-xl mx-auto">
-            Get a free audit of your current campaigns. Find your ad spend leaks. See exactly what's broken and how to fix it.
+            Get a free audit of your current campaigns. Find your ad spend leaks. See exactly what&apos;s broken and how to fix it.
           </p>
 
           <form data-reveal onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6">
@@ -440,7 +439,7 @@ export default function Home() {
             </button>
           </form>
           {cta.state === 'success' && (
-            <p className="text-green-400 text-sm">Got it. We'll send your audit within 24 hours—no pressure, no cold calls.</p>
+            <p className="text-green-400 text-sm">Got it. We&apos;ll send your audit within 24 hours—no pressure, no cold calls.</p>
           )}
           {cta.state === 'error' && (
             <p className="text-red-400 text-sm">

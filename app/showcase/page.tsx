@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import AnimatedGradient from '../components/ui/animated-gradient';
-import LiquidMetal, { liquidMetalPresets } from '../components/ui/liquid-metal';
+import LiquidMetal from '../components/ui/liquid-metal';
 import LiquidMetalDemo from '../components/ui/liquid-metal-demo';
 import AnimatedGradientDemo from '../components/ui/animated-gradient-demo';
 

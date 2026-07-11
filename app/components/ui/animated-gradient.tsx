@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useMemo, useState, CSSProperties } from "react";
+import { useRef, useEffect, useMemo, useState, CSSProperties, useLayoutEffect } from "react";
 import { cn } from "@/lib/utils";
 import { WebGLErrorBoundary, WebGLFallback } from "./animated-gradient-utils/webgl-error-boundary";
 
@@ -164,12 +164,14 @@ export function AnimatedGradient({
     const frameIdRef = useRef<number | undefined>(undefined);
     const startTimeRef = useRef<number>(0);
 
-    const [isMounted, setIsMounted] = useState(false);
+    const isMountedRef = useRef(false);
     const [hasWebGLError, setHasWebGLError] = useState(false);
 
-    useEffect(() => {
-        setIsMounted(true);
-        return () => setIsMounted(false);
+    useLayoutEffect(() => {
+        isMountedRef.current = true;
+        return () => {
+            isMountedRef.current = false;
+        };
     }, []);
 
     const params = useMemo((): PresetParams => {
@@ -203,7 +205,7 @@ export function AnimatedGradient({
 
         const canvas = canvasRef.current;
         const container = containerRef.current;
-        if (!canvas || !container || !isMounted) return;
+        if (!canvas || !container || !isMountedRef.current) return;
 
         try {
             const gl = canvas.getContext("webgl2", {
@@ -212,6 +214,7 @@ export function AnimatedGradient({
                 antialias: true,
             });
             if (!gl) {
+                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setHasWebGLError(true);
                 return;
             }
@@ -349,7 +352,7 @@ export function AnimatedGradient({
             setHasWebGLError(true);
             return;
         }
-    }, [hasWebGLError, isMounted, params]);
+    }, [hasWebGLError, params]);
 
     if (hasWebGLError) {
         return <WebGLFallback className={cn("absolute inset-0 overflow-hidden", className)} />;
