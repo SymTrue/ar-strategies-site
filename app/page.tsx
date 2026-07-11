@@ -233,7 +233,7 @@ export default function Home() {
       </section>
 
       {/* Services - divided list, not a card grid */}
-      <section id="services" ref={servicesRef} className="py-24 px-6">
+      <section id="services" ref={servicesRef} className="py-24 px-6 section-premium">
         <div className="max-w-4xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             The work we do. So you stop doing it.
@@ -252,24 +252,29 @@ export default function Home() {
       </section>
 
       {/* Process - horizontal step sequence */}
-      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
+      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 border-t border-white/15">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <AnimatedSection key={step.n} delay={i * 0.08}>
-                <div className="group pt-6 relative">
-                  {/* Gradient accent on hover */}
-                  <div className="absolute -top-px left-0 right-0 h-0.5 bg-gradient-to-r from-brand to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="space-y-3">
-                    <div className="inline-block">
-                      <div className="font-display text-5xl text-brand mb-1 font-bold group-hover:text-orange-400 transition-colors">{step.n}</div>
-                      <div className="h-0.5 w-12 bg-gradient-to-r from-brand to-transparent" />
+                <div className="group relative h-full">
+                  {/* Subtle glow on hover */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-b from-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg -z-10" />
+                  <div className="relative p-6 glass-card flex flex-col justify-between">
+                    {/* Top gradient accent */}
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-brand via-brand to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="font-display text-4xl text-brand font-bold group-hover:text-orange-400 transition-colors">{step.n}</div>
+                        <div className="flex-1 h-0.5 bg-gradient-to-r from-brand to-transparent" />
+                      </div>
+                      <h3 className="font-display text-lg uppercase font-semibold text-white group-hover:text-brand transition-colors">{step.title}</h3>
+                      <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">{step.body}</p>
                     </div>
-                    <h3 className="font-display text-base md:text-lg uppercase font-semibold text-white group-hover:text-brand transition-colors">{step.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">{step.body}</p>
                   </div>
                 </div>
               </AnimatedSection>
@@ -279,7 +284,7 @@ export default function Home() {
       </section>
 
       {/* Why us */}
-      <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
+      <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-7xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Why we&apos;re different
@@ -287,10 +292,13 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p, idx) => (
               <AnimatedSection key={p.title} delay={idx * 0.1}>
-                <div className="group relative h-full overflow-hidden rounded-2xl">
+                <div className="group relative h-full overflow-hidden glass-card">
+                  {/* Orange glow on hover */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-br from-brand/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10" />
+
                   {/* Liquid metal background effect */}
                   <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300">
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300">
                       <LiquidMetal
                         colorBack="#0a0a0a"
                         colorTint="#ea580c"
@@ -305,10 +313,11 @@ export default function Home() {
                       />
                     </div>
                   </Suspense>
-                  <div className="relative h-full px-8 py-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-1 h-12 bg-gradient-to-b from-brand to-transparent rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <h3 className="font-display text-xl uppercase mb-3 text-white">{p.title}</h3>
-                    <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">{p.body}</p>
+
+                  <div className="relative h-full px-8 py-8">
+                    <div className="absolute top-0 left-0 w-1.5 h-16 bg-gradient-to-b from-brand via-brand/50 to-transparent rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                    <h3 className="font-display text-xl uppercase mb-3 text-white group-hover:text-brand transition-colors">{p.title}</h3>
+                    <p className="text-gray-400 leading-relaxed group-hover:text-gray-200 transition-colors">{p.body}</p>
                   </div>
                 </div>
               </AnimatedSection>
@@ -318,11 +327,11 @@ export default function Home() {
       </section>
 
       {/* Statement */}
-      <section ref={quoteRef} className="py-24 px-6 border-t border-white/10 bg-white/[0.02]">
+      <section ref={quoteRef} className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-4xl mx-auto text-center">
           <h2 data-reveal className="font-display text-4xl md:text-6xl uppercase leading-tight text-balance">
             If your ads aren&apos;t making you money,
-            <span className="text-brand"> they&apos;re costing you customers.</span>
+            <span className="text-brand glow-text-orange"> they&apos;re costing you customers.</span>
           </h2>
           <p data-reveal className="text-gray-300 text-lg mt-8 max-w-2xl mx-auto">
             Every day your advertising is broken, a competitor is taking the customers that should be yours. Let&apos;s fix that.
@@ -331,37 +340,42 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" ref={faqRef} className="py-24 px-6 border-t border-white/10">
+      <section id="faq" ref={faqRef} className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-3xl mx-auto">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">
             Straight answers
           </h2>
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={faq.q} data-reveal className="group border border-white/10 rounded-lg overflow-hidden bg-gradient-to-r from-white/[0.03] to-white/[0.01] hover:from-white/[0.05] hover:to-white/[0.02] hover:border-white/20 transition-all duration-200">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  aria-expanded={openFaq === i}
-                  className="w-full flex justify-between items-center text-left px-6 py-4 group-hover:bg-white/[0.02] transition-colors"
-                >
-                  <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
-                  <span aria-hidden="true" className={`text-brand text-xl leading-none ml-4 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}>
-                    {openFaq === i ? '−' : '+'}
-                  </span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4" style={{
-                    animation: 'fadeIn 0.2s ease-in-out',
-                  }}>
-                    <style>{`
-                      @keyframes fadeIn {
-                        from { opacity: 0; }
-                        to { opacity: 1; }
-                      }
-                    `}</style>
-                    {faq.a}
-                  </div>
-                )}
+              <div key={faq.q} data-reveal className="group relative rounded-2xl overflow-hidden transition-all duration-300">
+                {/* Subtle glow on hover */}
+                <div className={`absolute -inset-0.5 bg-gradient-to-r from-brand/30 to-transparent opacity-0 transition-all duration-300 blur-lg -z-10 ${openFaq === i ? 'opacity-100' : 'group-hover:opacity-50'}`} />
+
+                <div className="glass-card">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    aria-expanded={openFaq === i}
+                    className="w-full flex justify-between items-center text-left px-6 py-4 transition-colors"
+                  >
+                    <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
+                    <span aria-hidden="true" className={`text-brand text-2xl leading-none ml-4 transition-transform duration-300 font-bold ${openFaq === i ? 'rotate-180 text-orange-400' : ''}`}>
+                      {openFaq === i ? '−' : '+'}
+                    </span>
+                  </button>
+                  {openFaq === i && (
+                    <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4" style={{
+                      animation: 'fadeIn 0.2s ease-in-out',
+                    }}>
+                      <style>{`
+                        @keyframes fadeIn {
+                          from { opacity: 0; }
+                          to { opacity: 1; }
+                        }
+                      `}</style>
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -369,36 +383,39 @@ export default function Home() {
       </section>
 
       {/* Social Proof */}
-      <section className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
+      <section className="py-24 px-6 border-t border-white/10 section-premium">
         <div className="max-w-5xl mx-auto text-center">
           <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16">Trusted by businesses scaling their revenue</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <AnimatedSection delay={0}>
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity blur-lg" />
-                <div className="relative px-6 py-8 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/20 transition-all backdrop-blur-sm">
-                  <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/30">Metric</div>
-                  <div className="text-5xl font-display text-brand mb-3 font-bold">50+</div>
+              <div className="group relative h-full">
+                {/* Large orange glow field */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
+                <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
+                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Metric</div>
+                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">50+</div>
                   <p className="text-gray-400 text-sm">Audits completed this year</p>
                 </div>
               </div>
             </AnimatedSection>
+
             <AnimatedSection delay={0.1}>
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity blur-lg" />
-                <div className="relative px-6 py-8 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/20 transition-all backdrop-blur-sm">
-                  <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/30">Impact</div>
-                  <div className="text-5xl font-display text-brand mb-3 font-bold">$2K–$8K</div>
+              <div className="group relative h-full">
+                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
+                <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
+                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Impact</div>
+                  <div className="text-5xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">$2K–$8K</div>
                   <p className="text-gray-400 text-sm">Monthly waste found per audit</p>
                 </div>
               </div>
             </AnimatedSection>
+
             <AnimatedSection delay={0.2}>
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity blur-lg" />
-                <div className="relative px-6 py-8 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/20 transition-all backdrop-blur-sm">
-                  <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/30">Timeline</div>
-                  <div className="text-5xl font-display text-brand mb-3 font-bold">30 days</div>
+              <div className="group relative h-full">
+                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
+                <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
+                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Timeline</div>
+                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">30 days</div>
                   <p className="text-gray-400 text-sm">Average time to first results</p>
                 </div>
               </div>
@@ -408,8 +425,13 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section id="contact" ref={ctaRef} className="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent">
-        <div className="max-w-2xl mx-auto text-center">
+      <section id="contact" ref={ctaRef} className="py-24 px-6 border-t border-white/10 section-premium relative">
+        {/* Large orange glow field behind CTA */}
+        <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-brand/30 to-transparent blur-3xl pointer-events-none" />
+        </div>
+
+        <div className="max-w-2xl mx-auto text-center relative z-10">
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
             Ready to stop wasting money on ads?
           </h2>

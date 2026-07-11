@@ -129,6 +129,22 @@
   --gap-2xl: var(--space-12);
   --gap-3xl: var(--space-16);
 
+  /* Premium Visual Effects */
+  --glow-sm: 0 0 12px rgba(234, 88, 12, 0.3);
+  --glow-md: 0 0 24px rgba(234, 88, 12, 0.4);
+  --glow-lg: 0 0 48px rgba(234, 88, 12, 0.5);
+  --glow-xl: 0 0 64px rgba(234, 88, 12, 0.6);
+
+  /* Glassmorphism surfaces */
+  --glass-bg: rgba(26, 26, 26, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(234, 88, 12, 0.3);
+  --glass-backdrop: blur(20px);
+
+  /* Animations */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
   /* COMPONENT - Component-specific styles */
 
   /* Button - Primary */
