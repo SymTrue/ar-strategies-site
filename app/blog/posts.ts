@@ -86,7 +86,7 @@ export const posts: Post[] = [
   },
   {
     slug: 'strike-den-default-choice',
-    title: 'How a gym in Islamabad became the city’s default choice',
+    title: 'How a gym in DHA Karachi became the city’s default choice',
     standfirst:
       'Strike Den had no profile, no followers, and a market full of louder competitors. Six months later it was the #1 result for its best-buying searches. Here is the mechanism-level breakdown.',
     category: 'Case Study',
@@ -105,7 +105,7 @@ export const posts: Post[] = [
       {
         heading: 'The mechanism stack',
         paragraphs: [
-          'Pattern interruption did the noticing: real training footage and fight-culture language in a category wallpapered with stock photography. Positioning did the differentiating: a clear answer to "why this gym" that no competitor could copy without admitting they were copying. Mental availability did the compounding: month over month of search visibility until "MMA gym Islamabad" and Strike Den became the same thought.',
+          'Pattern interruption did the noticing: real training footage and fight-culture language in a category wallpapered with stock photography. Positioning did the differentiating: a clear answer to "why this gym" that no competitor could copy without admitting they were copying. Mental availability did the compounding: month over month of search visibility until "MMA gym DHA Karachi" and Strike Den became the same thought.',
           'None of these mechanisms is exotic. The advantage came from running them in the right order. Attention without positioning is a spike. Positioning without availability is a secret.',
         ],
       },

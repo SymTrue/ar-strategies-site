@@ -64,7 +64,7 @@ That\'s why unexpected headlines outperform expected ones by 2-3x, why color bre
         result: 'Blendtec became known for durability through an absurdist, attention-grabbing series.',
       },
     ],
-    howWeUseIt: `For Strike Den (MMA gym in Islamabad), all gyms use the same pattern:
+    howWeUseIt: `For Strike Den (MMA gym in DHA Karachi), all gyms use the same pattern:
 - Generic Google Ads
 - Stock photos of people lifting
 - "Transform Your Body" messaging
@@ -138,7 +138,7 @@ When someone needs what your business offers, you need to be the first thing the
 - Consistent messaging (reinforces memory)
 - Appearing multiple times in their journey (homepage → services → case study → contact)
 
-For Strike Den: Being mentally available to serious fighters searching "MMA gym Islamabad" meant investing in SEO, content, and positioning—not just ads. Result: They became the default choice.
+For Strike Den: Being mentally available to serious fighters searching "MMA gym DHA Karachi" meant investing in SEO, content, and positioning—not just ads. Result: They became the default choice.
 
 We build mental availability intentionally. Every touchpoint reinforces it.`,
     relatedMechanisms: [
