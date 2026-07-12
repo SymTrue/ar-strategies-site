@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { use } from 'react';
+import { SiteHeader } from '../../components/SiteHeader';
 
 interface MechanismData {
   id: string;
@@ -234,22 +235,23 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)]">
+      <SiteHeader />
       {/* Breadcrumb */}
-      <div className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-4">
+      <div className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-4">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-2 text-sm text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-[var(--text-tertiary)]">
             <Link href="/mechanisms" className="hover:text-brand transition-colors">
               Mechanisms
             </Link>
             <span>/</span>
-            <span className="text-white">{mechanism.name}</span>
+            <span className="text-[var(--text-primary)]">{mechanism.name}</span>
           </div>
         </div>
       </div>
 
       {/* Hero */}
-      <section className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-20">
+      <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <div className="mb-4">
             <span className="inline-block px-3 py-1 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/50">
@@ -259,14 +261,14 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
           <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-tight">
             {mechanism.fullTitle}
           </h1>
-          <p className="text-xl text-gray-300">
+          <p className="text-xl text-[var(--text-secondary)]">
             {mechanism.subtitle}
           </p>
         </div>
       </section>
 
       {/* Video Player */}
-      <section className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-16">
+      <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="relative w-full aspect-video bg-black rounded-lg border border-brand/30 overflow-hidden">
             <video
@@ -284,12 +286,12 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* Why It Works */}
-      <section className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-20">
+      <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-8">Why This Works</h2>
           <div className="prose prose-invert max-w-none">
             {mechanism.whyWorks.split('\n\n').map((paragraph, i) => (
-              <p key={i} className="text-gray-300 leading-relaxed mb-6">
+              <p key={i} className="text-[var(--text-secondary)] leading-relaxed mb-6">
                 {paragraph}
               </p>
             ))}
@@ -298,15 +300,15 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* Examples */}
-      <section className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-20">
+      <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-12">Real Examples</h2>
           <div className="space-y-8">
             {mechanism.examples.map((example, i) => (
-              <div key={i} className="bg-white/[0.05] border border-brand/20 rounded-lg p-8">
+              <div key={i} className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-8">
                 <h3 className="text-2xl font-bold mb-2 text-brand">{example.title}</h3>
-                <p className="text-gray-400 text-sm mb-4">{example.context}</p>
-                <p className="text-gray-300 mb-4">{example.explanation}</p>
+                <p className="text-[var(--text-tertiary)] text-sm mb-4">{example.context}</p>
+                <p className="text-[var(--text-secondary)] mb-4">{example.explanation}</p>
                 <p className="text-brand font-semibold">Result: {example.result}</p>
               </div>
             ))}
@@ -315,12 +317,12 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* How We Use It */}
-      <section className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-20">
+      <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-8">How AR Strategies Uses This</h2>
           <div className="prose prose-invert max-w-none">
             {mechanism.howWeUseIt.split('\n\n').map((paragraph, i) => (
-              <p key={i} className="text-gray-300 leading-relaxed mb-6">
+              <p key={i} className="text-[var(--text-secondary)] leading-relaxed mb-6">
                 {paragraph}
               </p>
             ))}
@@ -329,15 +331,15 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* Related Mechanisms */}
-      <section className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-20">
+      <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-12">Related Mechanisms</h2>
           <div className="grid gap-6 md:grid-cols-2">
             {mechanism.relatedMechanisms.map(related => (
               <Link key={related.id} href={`/mechanisms/${related.id}`}>
-                <div className="bg-white/[0.05] border border-brand/20 hover:border-brand hover:bg-white/[0.08] rounded-lg p-6 transition-all cursor-pointer h-full">
+                <div className="bg-[var(--surface)] border border-[var(--border)] hover:border-brand hover:bg-white/[0.08] rounded-lg p-6 transition-all cursor-pointer h-full">
                   <h3 className="text-xl font-bold mb-2 text-brand">{related.name}</h3>
-                  <p className="text-gray-400 text-sm">{related.description}</p>
+                  <p className="text-[var(--text-tertiary)] text-sm">{related.description}</p>
                   <div className="mt-4 text-brand font-semibold flex items-center gap-2">
                     <span>Learn More</span>
                     <span>→</span>
@@ -353,12 +355,12 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       <section className="px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">See This in Action</h2>
-          <p className="text-gray-400 mb-8 text-lg">
+          <p className="text-[var(--text-secondary)] mb-8 text-lg">
             Watch how we applied these mechanisms to achieve real results.
           </p>
           <Link
             href="/#strike-den"
-            className="inline-block px-8 py-4 bg-brand text-black font-bold rounded-full hover:bg-brand/90 transition-colors"
+            className="btn-primary inline-block px-8 py-4 rounded-full font-bold transition-colors"
           >
             View Case Study
           </Link>

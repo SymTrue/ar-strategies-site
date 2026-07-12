@@ -158,7 +158,7 @@ const StrategyNetwork = () => (
     viewBox="0 0 1200 500"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.13]"
+    className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.22]"
     aria-hidden="true"
     preserveAspectRatio="xMidYMid slice"
   >
@@ -506,6 +506,7 @@ const navLinks = [
   { label: 'Process', href: '#process' },
   { label: 'Why Us', href: '#why' },
   { label: 'Mechanisms', href: '/mechanisms' },
+  { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -644,7 +645,7 @@ export default function Home() {
             <span className="font-display text-xl tracking-wide">AR STRATEGIES</span>
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-300">
-            {navLinks.map((link, i) => (
+            {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -654,7 +655,6 @@ export default function Home() {
                     : 'hover:text-white'
                 }`}
               >
-                <span className="nav-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 {link.label}
               </a>
             ))}
@@ -681,9 +681,8 @@ export default function Home() {
         </div>
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 px-6 py-4 flex flex-col gap-4 text-gray-300">
-            {navLinks.map((link, i) => (
+            {navLinks.map((link) => (
               <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="hover:text-white transition-colors">
-                <span className="nav-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 {link.label}
               </a>
             ))}
@@ -707,7 +706,7 @@ export default function Home() {
           <AnimatedGradient
             config={theme === 'light'
               ? { preset: 'custom', color1: '#ffffff', color2: '#ffedd5', color3: '#ea580c', shape: 'Edge', rotation: -18, proportion: 44, softness: 100, speed: reducedMotion ? 0 : 9, distortion: 26, swirl: 55 }
-              : { preset: 'custom', color1: '#0b0806', color2: '#7a2e00', color3: '#f97316', shape: 'Edge', rotation: -18, proportion: 46, softness: 100, speed: reducedMotion ? 0 : 12, distortion: 32, swirl: 60 }}
+              : { preset: 'custom', color1: '#0a0908', color2: '#48200a', color3: '#ea580c', shape: 'Edge', rotation: -18, proportion: 40, softness: 100, speed: reducedMotion ? 0 : 9, distortion: 26, swirl: 52 }}
             radius="0px"
             style={{ position: "absolute", inset: 0 }}
           />
@@ -771,7 +770,7 @@ export default function Home() {
             <div className="marquee-track text-xs uppercase tracking-[0.25em] text-gray-500">
               {[0, 1].map((dup) => (
                 <div key={dup} className="flex items-center gap-8 pr-8">
-                  {['Invisible on Google', 'Page-two rankings', 'Ads with no calls', 'Content nobody sees', 'Competitors found first'].map((t) => (
+                  {['Found first on Google', 'Calls, not clicks', 'Booked-out weekends', 'Ads that pay for themselves', 'The name your city remembers'].map((t) => (
                     <span key={t} className="flex items-center gap-8 whitespace-nowrap">
                       {t}
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" />
@@ -1044,6 +1043,50 @@ export default function Home() {
                           <p className="text-gray-300 text-xs mt-4 font-semibold">STRIKE DEN MMA</p>
                           <p className="text-gray-400 text-xs mt-1">DHA, Karachi</p>
                         </div>
+                      </div>
+
+                      {/* Rank trajectory: blueprint chart, position 50+ -> #1 in 6 months */}
+                      <div className="glass-card border border-brand/30 p-5">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[9px] uppercase tracking-[0.2em] text-gray-500" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+                            Fig. 02 — Google position · 6 months
+                          </span>
+                          <span className="text-[9px] uppercase tracking-[0.2em] text-brand" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+                            &quot;MMA gym DHA&quot;
+                          </span>
+                        </div>
+                        <svg viewBox="0 0 320 190" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" role="img" aria-label="Line chart: Google ranking position improving from unranked to number 1 over six months">
+                          {/* Grid + axis labels */}
+                          <g stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 4" opacity="0.2">
+                            <line x1="36" y1="28" x2="304" y2="28" />
+                            <line x1="36" y1="77" x2="304" y2="77" />
+                            <line x1="36" y1="126" x2="304" y2="126" />
+                            <line x1="36" y1="150" x2="304" y2="150" />
+                          </g>
+                          <g fill="var(--text-tertiary)" style={{ font: '500 8.5px ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+                            <text x="30" y="31" textAnchor="end">#1</text>
+                            <text x="30" y="80" textAnchor="end">20</text>
+                            <text x="30" y="129" textAnchor="end">40</text>
+                            <text x="36" y="170" textAnchor="middle">M0</text>
+                            <text x="125" y="170" textAnchor="middle">M2</text>
+                            <text x="215" y="170" textAnchor="middle">M4</text>
+                            <text x="304" y="170" textAnchor="middle">M6</text>
+                          </g>
+                          {/* Trajectory */}
+                          <path d="M36 150 L81 120 L125 85 L170 60 L215 43 L259 33 L304 28" stroke="var(--brand)" strokeWidth="1.75" strokeLinejoin="round" />
+                          <g fill="var(--brand)">
+                            <circle cx="36" cy="150" r="2.5" opacity="0.55" />
+                            <circle cx="81" cy="120" r="2.5" opacity="0.55" />
+                            <circle cx="125" cy="85" r="2.5" opacity="0.55" />
+                            <circle cx="170" cy="60" r="2.5" opacity="0.55" />
+                            <circle cx="215" cy="43" r="2.5" opacity="0.55" />
+                            <circle cx="259" cy="33" r="2.5" opacity="0.55" />
+                          </g>
+                          {/* Terminal node: the #1 result */}
+                          <circle cx="304" cy="28" r="8" stroke="var(--brand)" strokeWidth="1" opacity="0.5" />
+                          <circle cx="304" cy="28" r="3.5" fill="var(--brand)" className="node-pulse" />
+                          <text x="292" y="18" textAnchor="end" fill="var(--brand)" style={{ font: '600 9px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.1em' }}>RANKED #1</text>
+                        </svg>
                       </div>
 
                       {/* Social Media CTA Buttons */}

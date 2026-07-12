@@ -1,160 +1,293 @@
-'use client';
-
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { useState } from 'react';
+import { SiteHeader } from '../components/SiteHeader';
 
-interface Mechanism {
-  id: string;
-  name: string;
-  title: string;
-  description: string;
-  videoFile: string;
-  pillar: string;
-  icon: React.ReactNode;
-}
+export const metadata: Metadata = {
+  title: 'The Mechanism Library — AR Strategies',
+  description:
+    'The psychological mechanisms behind attention, memory, and choice. Free video explainers on the principles that make local businesses impossible to ignore.',
+};
 
-const mechanisms: Mechanism[] = [
+/* ---------- Line-art glyphs (blueprint language, no emoji) ---------- */
+
+const GlyphInterruption = () => (
+  <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-hidden="true">
+    <path d="M4 24 H18 L22 12 L27 36 L31 24 H44" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <circle cx="24.5" cy="24" r="10" stroke="currentColor" strokeWidth="0.75" strokeDasharray="3 3" opacity="0.5" />
+  </svg>
+);
+
+const GlyphAvailability = () => (
+  <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-hidden="true">
+    <circle cx="24" cy="24" r="6" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="24" cy="24" r="12" stroke="currentColor" strokeWidth="0.75" opacity="0.6" strokeDasharray="3 3" />
+    <circle cx="24" cy="24" r="18" stroke="currentColor" strokeWidth="0.75" opacity="0.35" strokeDasharray="3 3" />
+    <circle cx="33" cy="15" r="2.5" fill="currentColor" />
+  </svg>
+);
+
+const GlyphPositioning = () => (
+  <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-hidden="true">
+    <path d="M24 4 V16 M24 32 V44 M4 24 H16 M32 24 H44" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="24" cy="24" r="8" stroke="currentColor" strokeWidth="0.75" strokeDasharray="3 3" opacity="0.5" />
+    <circle cx="29" cy="19" r="3" fill="currentColor" />
+  </svg>
+);
+
+/* ---------- Data ---------- */
+
+const live = [
   {
+    n: '01',
     id: 'pattern-interruption',
     name: 'Pattern Interruption',
-    title: 'The Psychology Behind Getting Noticed',
-    description: 'Understand how breaking expected patterns forces attention and creates memorable moments that make your business impossible to ignore.',
-    videoFile: '/videos/pattern-interruption.mp4',
     pillar: 'Attention',
-    icon: '⚡',
+    line: 'The brain filters out the expected. Different is what gets noticed.',
+    glyph: <GlyphInterruption />,
   },
   {
+    n: '02',
     id: 'mental-availability',
     name: 'Mental Availability',
-    title: 'The Psychology Behind Being Remembered',
-    description: 'Discover how top-of-mind awareness works and why businesses that are remembered first get chosen first.',
-    videoFile: '/videos/mental-availability.mp4',
     pillar: 'Memory',
-    icon: '🧠',
+    line: 'Customers choose the business they remember first, not the best one.',
+    glyph: <GlyphAvailability />,
   },
   {
+    n: '03',
     id: 'positioning',
     name: 'Positioning',
-    title: 'The Psychology Behind Differentiation',
-    description: 'Learn how strategic positioning shapes perception and becomes the foundation for all business success.',
-    videoFile: '/videos/positioning.mp4',
     pillar: 'Positioning',
-    icon: '🎯',
+    line: 'Perception is decided relative to alternatives. Own a position or lose on price.',
+    glyph: <GlyphPositioning />,
   },
 ];
 
-export default function MechanismsHub() {
-  const [selectedPillar, setSelectedPillar] = useState<string | null>(null);
+/* Ghost nodes: the rest of the 18-mechanism library, unpublished */
+const ghosts = [
+  'Recognition & Memory', 'Framing', 'Emotional Recall', 'Authority Formation',
+  'Social Proof', 'Loss Aversion', 'Anchoring', 'Salience',
+  'Distinctiveness', 'Consistency', 'Reciprocity', 'Curiosity Gap',
+  'Peak-End Rule', 'Mere Exposure', 'Costly Signaling',
+];
 
-  const filtered = selectedPillar
-    ? mechanisms.filter(m => m.pillar === selectedPillar)
-    : mechanisms;
+/* ---------- Neural network diagram ---------- */
+/* Hand-placed layout: 3 live nodes (orange, linked) among 15 ghost nodes.
+   Signal paths connect live nodes to each other and to nearby ghosts. */
 
-  const pillars = [...new Set(mechanisms.map(m => m.pillar))];
+const ghostPos: Array<[number, number]> = [
+  [90, 70], [250, 180], [420, 60], [555, 210], [700, 80],
+  [860, 190], [1020, 70], [1130, 170], [150, 300], [340, 340],
+  [520, 300], [760, 330], [930, 300], [1080, 340], [640, 150],
+];
 
+const livePos: Record<string, [number, number]> = {
+  'pattern-interruption': [300, 110],
+  'mental-availability': [610, 250],
+  'positioning': [950, 130],
+};
+
+function NetworkDiagram() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8 border-b border-brand/20">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 text-brand">
-            How Psychology Wins
-          </h1>
-          <p className="text-xl text-gray-300 mb-2">
-            Master the 18 psychological mechanisms behind perception, positioning, and memorability.
-          </p>
-          <p className="text-lg text-gray-400">
-            Free explainer videos on the principles that make businesses impossible to ignore.
-          </p>
-        </div>
-      </section>
+    <svg
+      viewBox="0 0 1200 400"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-full h-auto"
+      role="img"
+      aria-label="Network map of the 18 psychological mechanisms. Three are published: Pattern Interruption, Mental Availability, and Positioning."
+    >
+      <defs>
+        <pattern id="mechGrid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M48 0H0V48" stroke="currentColor" strokeWidth="0.5" opacity="0.14" fill="none" />
+        </pattern>
+      </defs>
+      <rect width="1200" height="400" fill="url(#mechGrid)" className="text-[var(--text-tertiary)]" />
 
-      {/* Filter Section */}
-      <section className="border-b border-brand/20 px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setSelectedPillar(null)}
-              className={`px-4 py-2 rounded-full transition-all ${
-                selectedPillar === null
-                  ? 'bg-brand text-black'
-                  : 'bg-white/10 hover:bg-white/20 border border-brand/30'
-              }`}
+      {/* Signal paths: live-to-live (solid) and live-to-ghost (dashed) */}
+      <g stroke="var(--brand)" strokeWidth="1" opacity="0.45">
+        <path d="M300 110 L610 250" />
+        <path d="M610 250 L950 130" />
+        <path d="M300 110 Q620 40 950 130" />
+      </g>
+      <g stroke="var(--text-tertiary)" strokeWidth="0.75" strokeDasharray="4 4" opacity="0.35">
+        <path d="M300 110 L90 70" /><path d="M300 110 L250 180" /><path d="M300 110 L420 60" />
+        <path d="M610 250 L520 300" /><path d="M610 250 L555 210" /><path d="M610 250 L760 330" /><path d="M610 250 L640 150" />
+        <path d="M950 130 L860 190" /><path d="M950 130 L1020 70" /><path d="M950 130 L1130 170" />
+        <path d="M250 180 L150 300" /><path d="M420 60 L640 150" /><path d="M860 190 L930 300" />
+      </g>
+
+      {/* Ghost nodes: the unpublished 15 */}
+      {ghosts.map((name, i) => {
+        const [x, y] = ghostPos[i];
+        return (
+          <g key={name} className="text-[var(--text-tertiary)]">
+            <circle cx={x} cy={y} r="4" fill="currentColor" opacity="0.35" />
+            <circle cx={x} cy={y} r="8" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+            <text
+              x={x}
+              y={y + 22}
+              textAnchor="middle"
+              fill="currentColor"
+              opacity="0.45"
+              style={{ font: '500 10px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.08em' }}
             >
-              All Mechanisms
-            </button>
-            {pillars.map(pillar => (
-              <button
-                key={pillar}
-                onClick={() => setSelectedPillar(pillar)}
-                className={`px-4 py-2 rounded-full transition-all ${
-                  selectedPillar === pillar
-                    ? 'bg-brand text-black'
-                    : 'bg-white/10 hover:bg-white/20 border border-brand/30'
-                }`}
-              >
-                {pillar}
-              </button>
-            ))}
+              {name.toUpperCase()}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Live nodes: published mechanisms, clickable */}
+      {live.map((m) => {
+        const [x, y] = livePos[m.id];
+        return (
+          <a key={m.id} href={`/mechanisms/${m.id}`} className="group/node cursor-pointer">
+            <circle cx={x} cy={y} r="22" fill="var(--brand)" opacity="0.1" />
+            <circle cx={x} cy={y} r="13" stroke="var(--brand)" strokeWidth="1" fill="var(--background)" />
+            <circle cx={x} cy={y} r="5.5" fill="var(--brand)" className="node-pulse" />
+            <text
+              x={x}
+              y={y - 26}
+              textAnchor="middle"
+              fill="var(--text-primary)"
+              style={{ font: '600 12.5px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.1em' }}
+            >
+              {m.name.toUpperCase()}
+            </text>
+            <text
+              x={x}
+              y={y + 36}
+              textAnchor="middle"
+              fill="var(--brand)"
+              style={{ font: '500 9.5px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.14em' }}
+            >
+              ● WATCH
+            </text>
+          </a>
+        );
+      })}
+    </svg>
+  );
+}
+
+/* ---------- Page ---------- */
+
+export default function MechanismsHub() {
+  return (
+    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
+      <SiteHeader />
+
+      {/* Hero: editorial opening */}
+      <section className="px-6 pt-20 md:pt-28 pb-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="kicker-chip">
+              <span className="kicker-n">03</span>
+              <span className="kicker-sep" aria-hidden="true">/</span>
+              <span>18 Published</span>
+            </span>
+            <span className="kicker-line" style={{ transform: 'scaleX(1)' }} aria-hidden="true" />
           </div>
+          <h1 className="font-display uppercase text-5xl md:text-7xl leading-[1.05] mb-6 max-w-4xl text-balance">
+            The psychology your <span className="text-brand">customers run on</span>
+          </h1>
+          <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty">
+            Every buying decision runs through the same mental machinery: what gets noticed,
+            what gets remembered, what gets chosen. We map those mechanisms and engineer
+            around them. Three explainers are live. The rest of the library is in production.
+          </p>
         </div>
       </section>
 
-      {/* Mechanisms Grid */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map(mechanism => (
+      {/* Network diagram: the library as a system */}
+      <section className="px-6 pb-8 hidden md:block" aria-hidden="false">
+        <div className="max-w-7xl mx-auto border border-dashed border-[var(--border)] rounded-lg p-4">
+          <div className="flex items-center justify-between px-2 pb-2">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+              Fig. 01 — Mechanism network · 18 nodes
+            </span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-brand" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+              ● Live &nbsp;&nbsp;○ In production
+            </span>
+          </div>
+          <NetworkDiagram />
+        </div>
+      </section>
+
+      {/* Editorial index: the published mechanisms */}
+      <section className="px-6 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="border-t border-dashed border-[var(--border)]">
+            {live.map((m) => (
               <Link
-                key={mechanism.id}
-                href={`/mechanisms/${mechanism.id}`}
+                key={m.id}
+                href={`/mechanisms/${m.id}`}
+                className="group grid grid-cols-[auto_1fr_auto] md:grid-cols-[80px_64px_1fr_auto_auto] items-center gap-5 md:gap-8 py-8 md:py-10 border-b border-dashed border-[var(--border)] transition-colors hover:bg-[var(--surface)]"
               >
-                <div className="group h-full flex flex-col bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-brand/30 rounded-lg p-6 hover:border-brand hover:bg-white/[0.12] transition-all duration-300 cursor-pointer">
-                  {/* Icon */}
-                  <div className="text-4xl mb-4">{mechanism.icon}</div>
-
-                  {/* Title */}
-                  <h3 className="text-2xl font-bold mb-2 group-hover:text-brand transition-colors">
-                    {mechanism.name}
-                  </h3>
-
-                  {/* Pillar Badge */}
-                  <div className="mb-4">
-                    <span className="inline-block px-3 py-1 text-xs font-semibold bg-brand/20 text-brand rounded-full border border-brand/50">
-                      {mechanism.pillar} Pillar
-                    </span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-gray-400 mb-6 flex-grow text-sm leading-relaxed">
-                    {mechanism.description}
-                  </p>
-
-                  {/* CTA */}
-                  <div className="flex items-center gap-2 text-brand font-semibold group-hover:gap-3 transition-all">
-                    <span>Watch Explainer</span>
-                    <span>→</span>
-                  </div>
-                </div>
+                <span className="text-brand tabular-nums text-sm md:text-base" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+                  {m.n}
+                </span>
+                <span className="hidden md:block w-16 h-16 text-brand opacity-80 group-hover:opacity-100 transition-opacity">
+                  {m.glyph}
+                </span>
+                <span>
+                  <span className="block font-display uppercase text-2xl md:text-4xl leading-tight group-hover:text-brand transition-colors">
+                    {m.name}
+                  </span>
+                  <span className="block text-sm md:text-base text-[var(--text-tertiary)] mt-2 max-w-xl">
+                    {m.line}
+                  </span>
+                </span>
+                <span className="hidden md:flex flex-col items-end gap-1 text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+                  <span>{m.pillar} Pillar</span>
+                  <span className="text-brand">Video Explainer</span>
+                </span>
+                <span className="text-brand text-2xl transition-transform group-hover:translate-x-1.5" aria-hidden="true">
+                  →
+                </span>
               </Link>
             ))}
           </div>
+
+          {/* In production: the remaining library, as an honest roadmap */}
+          <div className="mt-14">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-tertiary)] mb-5" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+              In production — 15 remaining
+            </p>
+            <div className="flex flex-wrap gap-2.5">
+              {ghosts.map((name) => (
+                <span
+                  key={name}
+                  className="px-3.5 py-1.5 text-xs text-[var(--text-tertiary)] border border-dashed border-[var(--border)] rounded-full"
+                >
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="border-t border-brand/20 px-4 sm:px-6 lg:px-8 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to apply psychology to your marketing?</h2>
-          <p className="text-gray-400 mb-8">
-            See how these mechanisms work in real client success stories.
-          </p>
-          <Link
-            href="/#strike-den"
-            className="inline-block px-8 py-4 bg-brand text-black font-bold rounded-full hover:bg-brand/90 transition-colors"
-          >
-            View Case Study
-          </Link>
+      {/* Closing CTA */}
+      <section className="px-6 py-16 md:py-24 section-dashed">
+        <div className="max-w-7xl mx-auto md:flex items-end justify-between gap-10">
+          <div>
+            <h2 className="font-display uppercase text-3xl md:text-5xl leading-tight mb-4 max-w-2xl">
+              Theory is free. <span className="text-brand">Application is the service.</span>
+            </h2>
+            <p className="text-[var(--text-secondary)] max-w-xl">
+              Watch how these mechanisms took a gym from invisible to the #1 result in its city.
+            </p>
+          </div>
+          <div className="flex gap-4 mt-8 md:mt-0 shrink-0">
+            <Link href="/#contact" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
+              Get My Free Audit
+            </Link>
+            <Link href="/#why" className="px-7 py-3.5 rounded-full text-sm font-semibold border border-[var(--border)] hover:border-brand transition-colors">
+              See the Case Study
+            </Link>
+          </div>
         </div>
       </section>
     </div>
