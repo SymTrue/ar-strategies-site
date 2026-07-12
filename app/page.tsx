@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useRef, useSyncExternalStore, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
-import AnimatedGradient from './components/ui/animated-gradient';
+import NeuralNet from './components/NeuralNet';
 import LiquidMetal from './components/ui/liquid-metal';
 import { ThemeToggle } from './components/ui/theme-toggle';
 import { useTheme } from './providers';
@@ -151,159 +151,6 @@ const ProcessFlow = () => (
 );
 
 // Hero Section Accent Pattern (Phase 3)
-/* Strategy Network: the Creative OS signature motif, now live. Node systems,
-   technical grid, directional lines, and signal pulses traveling the paths —
-   a working system, not decoration. Signals ride CSS offset-path, so the
-   global reduced-motion kill switch silences them automatically. */
-const networkPaths = [
-  'M120 120 L340 90 L560 150',
-  'M340 90 L420 260',
-  'M560 150 L820 110 L1060 170',
-  'M820 110 L900 320',
-  'M120 380 L420 260 L720 350 L1060 300',
-];
-
-const signals: Array<{ path: number; dur: string; delay: string }> = [
-  { path: 0, dur: '5.5s', delay: '0s' },
-  { path: 2, dur: '6.5s', delay: '1.2s' },
-  { path: 4, dur: '9s', delay: '0.6s' },
-  { path: 1, dur: '4s', delay: '2.8s' },
-  { path: 3, dur: '4.5s', delay: '4.1s' },
-  { path: 2, dur: '6.5s', delay: '4.4s' },
-];
-
-const StrategyNetwork = () => (
-  <svg
-    viewBox="0 0 1200 500"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.22]"
-    aria-hidden="true"
-    preserveAspectRatio="xMidYMid slice"
-  >
-    <defs>
-      <pattern id="blueprintGrid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
-        <path d="M48 0H0V48" stroke="currentColor" strokeWidth="0.5" opacity="0.35" fill="none" />
-      </pattern>
-    </defs>
-    <rect width="1200" height="500" fill="url(#blueprintGrid)" />
-
-    {/* Directional connection lines between nodes */}
-    <g stroke="currentColor" strokeWidth="0.75" opacity="0.5">
-      {networkPaths.map((d) => (
-        <path key={d} d={d} />
-      ))}
-      <path d="M720 350 L900 320" strokeDasharray="4 4" />
-      <path d="M120 120 L120 380" strokeDasharray="4 4" />
-      <path d="M1060 170 L1060 300" strokeDasharray="4 4" />
-    </g>
-
-    {/* Live signals: pulses traveling the connection paths */}
-    <g fill="var(--brand)">
-      {signals.map((s, i) => (
-        <circle
-          key={i}
-          r="2.5"
-          className="net-signal"
-          style={{
-            ['--sig-path' as string]: `path("${networkPaths[s.path]}")`,
-            ['--sig-dur' as string]: s.dur,
-            ['--sig-delay' as string]: s.delay,
-          }}
-        />
-      ))}
-    </g>
-
-    {/* Network nodes: brand-orange signal points, pulsing. Two clusters
-        drift slowly in counter-phase so the system reads as alive. */}
-    <g className="net-drift">
-      <g fill="var(--brand)">
-        <circle className="node-pulse" cx="120" cy="120" r="3" />
-        <circle className="node-pulse delay-2" cx="340" cy="90" r="2.5" />
-        <circle className="node-pulse delay-1" cx="560" cy="150" r="3" />
-        <circle className="node-pulse delay-3" cx="820" cy="110" r="2.5" />
-        <circle className="node-pulse delay-2" cx="1060" cy="170" r="3" />
-      </g>
-      <g stroke="currentColor" fill="none" strokeWidth="0.75" opacity="0.6">
-        <circle cx="120" cy="120" r="7" />
-        <circle cx="560" cy="150" r="7" />
-      </g>
-    </g>
-    <g className="net-drift alt">
-      <g fill="var(--brand)">
-        <circle className="node-pulse delay-1" cx="420" cy="260" r="3" />
-        <circle className="node-pulse delay-3" cx="120" cy="380" r="2.5" />
-        <circle className="node-pulse" cx="720" cy="350" r="3" />
-        <circle className="node-pulse delay-1" cx="900" cy="320" r="2.5" />
-        <circle className="node-pulse delay-2" cx="1060" cy="300" r="3" />
-      </g>
-      <g stroke="currentColor" fill="none" strokeWidth="0.75" opacity="0.6">
-        <circle cx="420" cy="260" r="7" />
-        <circle cx="720" cy="350" r="7" />
-        <circle cx="1060" cy="300" r="7" />
-      </g>
-    </g>
-  </svg>
-);
-
-/* Data terminal: Bloomberg-density readout of real audit numbers.
-   Information as interface — every line is a proof point. */
-const DataTerminal = () => (
-  <div className="terminal-panel" data-reveal>
-    <div className="terminal-head">
-      <span className="flex items-center gap-2">
-        <span className="t-live" aria-hidden="true" />
-        AR.STRATEGIES // LOCAL VISIBILITY TERMINAL
-      </span>
-      <span className="hidden sm:inline">EST. 2026 · KARACHI</span>
-    </div>
-    <div className="grid md:grid-cols-[1fr_auto] items-center gap-2 py-3">
-      <div>
-        <div className="terminal-row">
-          <span className="t-key">AUDITS_RUN[2026]</span>
-          <span className="t-dots" aria-hidden="true" />
-          <span className="t-val accent">50+ LOCAL BUSINESSES</span>
-        </div>
-        <div className="terminal-row">
-          <span className="t-key">AD_WASTE_DETECTED</span>
-          <span className="t-dots" aria-hidden="true" />
-          <span className="t-val">$2K–$8K / MO / BUSINESS</span>
-        </div>
-        <div className="terminal-row">
-          <span className="t-key">CASE[STRIKE_DEN]</span>
-          <span className="t-dots" aria-hidden="true" />
-          <span className="t-val">UNRANKED → #1 IN 6 MO</span>
-        </div>
-        <div className="terminal-row">
-          <span className="t-key">STATUS</span>
-          <span className="t-dots" aria-hidden="true" />
-          <span className="t-val accent">
-            TRACKING LOCAL SEARCH
-            <span className="t-cursor" aria-hidden="true" />
-          </span>
-        </div>
-      </div>
-      {/* Signal trace: looping sparkline */}
-      <div className="hidden md:block pr-6" aria-hidden="true">
-        <svg viewBox="0 0 200 64" fill="none" className="w-[200px] h-16">
-          <g stroke="var(--border)" strokeWidth="0.5" strokeDasharray="2 4">
-            <line x1="0" y1="16" x2="200" y2="16" />
-            <line x1="0" y1="32" x2="200" y2="32" />
-            <line x1="0" y1="48" x2="200" y2="48" />
-          </g>
-          <path
-            className="spark-line"
-            d="M0 52 L18 48 L34 50 L52 40 L68 44 L86 30 L104 34 L122 22 L140 26 L158 14 L178 18 L200 8"
-            stroke="var(--brand)"
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
-    </div>
-  </div>
-);
-
 /* Registration corner marks: technical drawing accents on hover */
 const RegMarks = () => (
   <div className="reg-marks" aria-hidden="true">
@@ -726,7 +573,6 @@ export default function Home() {
   const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 
   const heroRef = useHeroIntro<HTMLDivElement>();
-  const terminalRef = useReveal<HTMLElement>();
   const servicesRef = useReveal<HTMLDivElement>();
   const processRef = useReveal<HTMLDivElement>();
   const whyRef = useReveal<HTMLDivElement>();
@@ -799,18 +645,9 @@ export default function Home() {
       </nav>
       <PrecisionCursor />
 
-      {/* Hero */}
+      {/* Hero: living neural network beneath the typography */}
       <section id="top" ref={heroRef} className="relative overflow-hidden">
-        <StrategyNetwork />
-        <Suspense fallback={<div className={theme === 'light' ? 'absolute inset-0 bg-gradient-to-br from-orange-50 via-orange-200/80 to-white' : 'absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black'} />}>
-          <AnimatedGradient
-            config={theme === 'light'
-              ? { preset: 'custom', color1: '#ffffff', color2: '#ffedd5', color3: '#ea580c', shape: 'Edge', rotation: -18, proportion: 44, softness: 100, speed: reducedMotion ? 0 : 9, distortion: 26, swirl: 55 }
-              : { preset: 'custom', color1: '#0a0908', color2: '#48200a', color3: '#ea580c', shape: 'Edge', rotation: -18, proportion: 40, softness: 100, speed: reducedMotion ? 0 : 9, distortion: 26, swirl: 52 }}
-            radius="0px"
-            style={{ position: "absolute", inset: 0 }}
-          />
-        </Suspense>
+        <NeuralNet theme={theme} reducedMotion={reducedMotion} />
         <div className="hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
           <div data-intro className="hero-kicker inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
@@ -880,13 +717,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Data terminal: the numbers, in Bloomberg language */}
-      <section ref={terminalRef} className="px-6 pb-4 -mt-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          <DataTerminal />
         </div>
       </section>
 
