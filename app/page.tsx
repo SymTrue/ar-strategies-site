@@ -151,8 +151,27 @@ const ProcessFlow = () => (
 );
 
 // Hero Section Accent Pattern (Phase 3)
-/* Strategy Network: the Creative OS signature motif. Node systems, technical
-   grid, and directional lines — a quiet schematic layer, not decoration. */
+/* Strategy Network: the Creative OS signature motif, now live. Node systems,
+   technical grid, directional lines, and signal pulses traveling the paths —
+   a working system, not decoration. Signals ride CSS offset-path, so the
+   global reduced-motion kill switch silences them automatically. */
+const networkPaths = [
+  'M120 120 L340 90 L560 150',
+  'M340 90 L420 260',
+  'M560 150 L820 110 L1060 170',
+  'M820 110 L900 320',
+  'M120 380 L420 260 L720 350 L1060 300',
+];
+
+const signals: Array<{ path: number; dur: string; delay: string }> = [
+  { path: 0, dur: '5.5s', delay: '0s' },
+  { path: 2, dur: '6.5s', delay: '1.2s' },
+  { path: 4, dur: '9s', delay: '0.6s' },
+  { path: 1, dur: '4s', delay: '2.8s' },
+  { path: 3, dur: '4.5s', delay: '4.1s' },
+  { path: 2, dur: '6.5s', delay: '4.4s' },
+];
+
 const StrategyNetwork = () => (
   <svg
     viewBox="0 0 1200 500"
@@ -171,39 +190,118 @@ const StrategyNetwork = () => (
 
     {/* Directional connection lines between nodes */}
     <g stroke="currentColor" strokeWidth="0.75" opacity="0.5">
-      <path d="M120 120 L340 90 L560 150" />
-      <path d="M340 90 L420 260" />
-      <path d="M560 150 L820 110 L1060 170" />
-      <path d="M820 110 L900 320" />
-      <path d="M120 380 L420 260 L720 350 L1060 300" />
+      {networkPaths.map((d) => (
+        <path key={d} d={d} />
+      ))}
       <path d="M720 350 L900 320" strokeDasharray="4 4" />
       <path d="M120 120 L120 380" strokeDasharray="4 4" />
       <path d="M1060 170 L1060 300" strokeDasharray="4 4" />
     </g>
 
-    {/* Network nodes: brand-orange signal points, pulsing */}
+    {/* Live signals: pulses traveling the connection paths */}
     <g fill="var(--brand)">
-      <circle className="node-pulse" cx="120" cy="120" r="3" />
-      <circle className="node-pulse delay-2" cx="340" cy="90" r="2.5" />
-      <circle className="node-pulse delay-1" cx="560" cy="150" r="3" />
-      <circle className="node-pulse delay-3" cx="820" cy="110" r="2.5" />
-      <circle className="node-pulse delay-2" cx="1060" cy="170" r="3" />
-      <circle className="node-pulse delay-1" cx="420" cy="260" r="3" />
-      <circle className="node-pulse delay-3" cx="120" cy="380" r="2.5" />
-      <circle className="node-pulse" cx="720" cy="350" r="3" />
-      <circle className="node-pulse delay-1" cx="900" cy="320" r="2.5" />
-      <circle className="node-pulse delay-2" cx="1060" cy="300" r="3" />
+      {signals.map((s, i) => (
+        <circle
+          key={i}
+          r="2.5"
+          className="net-signal"
+          style={{
+            ['--sig-path' as string]: `path("${networkPaths[s.path]}")`,
+            ['--sig-dur' as string]: s.dur,
+            ['--sig-delay' as string]: s.delay,
+          }}
+        />
+      ))}
     </g>
 
-    {/* Structural nodes: neutral registration rings */}
-    <g stroke="currentColor" fill="none" strokeWidth="0.75" opacity="0.6">
-      <circle cx="120" cy="120" r="7" />
-      <circle cx="560" cy="150" r="7" />
-      <circle cx="420" cy="260" r="7" />
-      <circle cx="720" cy="350" r="7" />
-      <circle cx="1060" cy="300" r="7" />
+    {/* Network nodes: brand-orange signal points, pulsing. Two clusters
+        drift slowly in counter-phase so the system reads as alive. */}
+    <g className="net-drift">
+      <g fill="var(--brand)">
+        <circle className="node-pulse" cx="120" cy="120" r="3" />
+        <circle className="node-pulse delay-2" cx="340" cy="90" r="2.5" />
+        <circle className="node-pulse delay-1" cx="560" cy="150" r="3" />
+        <circle className="node-pulse delay-3" cx="820" cy="110" r="2.5" />
+        <circle className="node-pulse delay-2" cx="1060" cy="170" r="3" />
+      </g>
+      <g stroke="currentColor" fill="none" strokeWidth="0.75" opacity="0.6">
+        <circle cx="120" cy="120" r="7" />
+        <circle cx="560" cy="150" r="7" />
+      </g>
+    </g>
+    <g className="net-drift alt">
+      <g fill="var(--brand)">
+        <circle className="node-pulse delay-1" cx="420" cy="260" r="3" />
+        <circle className="node-pulse delay-3" cx="120" cy="380" r="2.5" />
+        <circle className="node-pulse" cx="720" cy="350" r="3" />
+        <circle className="node-pulse delay-1" cx="900" cy="320" r="2.5" />
+        <circle className="node-pulse delay-2" cx="1060" cy="300" r="3" />
+      </g>
+      <g stroke="currentColor" fill="none" strokeWidth="0.75" opacity="0.6">
+        <circle cx="420" cy="260" r="7" />
+        <circle cx="720" cy="350" r="7" />
+        <circle cx="1060" cy="300" r="7" />
+      </g>
     </g>
   </svg>
+);
+
+/* Data terminal: Bloomberg-density readout of real audit numbers.
+   Information as interface — every line is a proof point. */
+const DataTerminal = () => (
+  <div className="terminal-panel" data-reveal>
+    <div className="terminal-head">
+      <span className="flex items-center gap-2">
+        <span className="t-live" aria-hidden="true" />
+        AR.STRATEGIES // LOCAL VISIBILITY TERMINAL
+      </span>
+      <span className="hidden sm:inline">EST. 2026 · KARACHI</span>
+    </div>
+    <div className="grid md:grid-cols-[1fr_auto] items-center gap-2 py-3">
+      <div>
+        <div className="terminal-row">
+          <span className="t-key">AUDITS_RUN[2026]</span>
+          <span className="t-dots" aria-hidden="true" />
+          <span className="t-val accent">50+ LOCAL BUSINESSES</span>
+        </div>
+        <div className="terminal-row">
+          <span className="t-key">AD_WASTE_DETECTED</span>
+          <span className="t-dots" aria-hidden="true" />
+          <span className="t-val">$2K–$8K / MO / BUSINESS</span>
+        </div>
+        <div className="terminal-row">
+          <span className="t-key">CASE[STRIKE_DEN]</span>
+          <span className="t-dots" aria-hidden="true" />
+          <span className="t-val">UNRANKED → #1 IN 6 MO</span>
+        </div>
+        <div className="terminal-row">
+          <span className="t-key">STATUS</span>
+          <span className="t-dots" aria-hidden="true" />
+          <span className="t-val accent">
+            TRACKING LOCAL SEARCH
+            <span className="t-cursor" aria-hidden="true" />
+          </span>
+        </div>
+      </div>
+      {/* Signal trace: looping sparkline */}
+      <div className="hidden md:block pr-6" aria-hidden="true">
+        <svg viewBox="0 0 200 64" fill="none" className="w-[200px] h-16">
+          <g stroke="var(--border)" strokeWidth="0.5" strokeDasharray="2 4">
+            <line x1="0" y1="16" x2="200" y2="16" />
+            <line x1="0" y1="32" x2="200" y2="32" />
+            <line x1="0" y1="48" x2="200" y2="48" />
+          </g>
+          <path
+            className="spark-line"
+            d="M0 52 L18 48 L34 50 L52 40 L68 44 L86 30 L104 34 L122 22 L140 26 L158 14 L178 18 L200 8"
+            stroke="var(--brand)"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
 );
 
 /* Registration corner marks: technical drawing accents on hover */
@@ -628,12 +726,14 @@ export default function Home() {
   const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 
   const heroRef = useHeroIntro<HTMLDivElement>();
+  const terminalRef = useReveal<HTMLElement>();
   const servicesRef = useReveal<HTMLDivElement>();
   const processRef = useReveal<HTMLDivElement>();
   const whyRef = useReveal<HTMLDivElement>();
   const quoteRef = useReveal<HTMLDivElement>();
   const faqRef = useReveal<HTMLDivElement>();
   const ctaRef = useReveal<HTMLDivElement>();
+  const chartRef = useInViewClass<HTMLDivElement>();
 
   return (
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
@@ -780,6 +880,13 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Data terminal: the numbers, in Bloomberg language */}
+      <section ref={terminalRef} className="px-6 pb-4 -mt-6 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          <DataTerminal />
         </div>
       </section>
 
@@ -1046,7 +1153,7 @@ export default function Home() {
                       </div>
 
                       {/* Rank trajectory: blueprint chart, position 50+ -> #1 in 6 months */}
-                      <div className="glass-card border border-brand/30 p-5">
+                      <div ref={chartRef} className="glass-card border border-brand/30 p-5">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-[9px] uppercase tracking-[0.2em] text-gray-500" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
                             Fig. 02 — Google position · 6 months
@@ -1072,20 +1179,22 @@ export default function Home() {
                             <text x="215" y="170" textAnchor="middle">M4</text>
                             <text x="304" y="170" textAnchor="middle">M6</text>
                           </g>
-                          {/* Trajectory */}
-                          <path d="M36 150 L81 120 L125 85 L170 60 L215 43 L259 33 L304 28" stroke="var(--brand)" strokeWidth="1.75" strokeLinejoin="round" />
+                          {/* Trajectory: draws in when scrolled into view */}
+                          <path className="chart-line" d="M36 150 L81 120 L125 85 L170 60 L215 43 L259 33 L304 28" stroke="var(--brand)" strokeWidth="1.75" strokeLinejoin="round" />
                           <g fill="var(--brand)">
-                            <circle cx="36" cy="150" r="2.5" opacity="0.55" />
-                            <circle cx="81" cy="120" r="2.5" opacity="0.55" />
-                            <circle cx="125" cy="85" r="2.5" opacity="0.55" />
-                            <circle cx="170" cy="60" r="2.5" opacity="0.55" />
-                            <circle cx="215" cy="43" r="2.5" opacity="0.55" />
-                            <circle cx="259" cy="33" r="2.5" opacity="0.55" />
+                            <circle className="chart-dot" cx="36" cy="150" r="2.5" />
+                            <circle className="chart-dot" cx="81" cy="120" r="2.5" />
+                            <circle className="chart-dot" cx="125" cy="85" r="2.5" />
+                            <circle className="chart-dot" cx="170" cy="60" r="2.5" />
+                            <circle className="chart-dot" cx="215" cy="43" r="2.5" />
+                            <circle className="chart-dot" cx="259" cy="33" r="2.5" />
                           </g>
-                          {/* Terminal node: the #1 result */}
-                          <circle cx="304" cy="28" r="8" stroke="var(--brand)" strokeWidth="1" opacity="0.5" />
-                          <circle cx="304" cy="28" r="3.5" fill="var(--brand)" className="node-pulse" />
-                          <text x="292" y="18" textAnchor="end" fill="var(--brand)" style={{ font: '600 9px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.1em' }}>RANKED #1</text>
+                          {/* Terminal node: the #1 result, lands after the line completes */}
+                          <g className="chart-terminal-node">
+                            <circle cx="304" cy="28" r="8" stroke="var(--brand)" strokeWidth="1" opacity="0.5" />
+                            <circle cx="304" cy="28" r="3.5" fill="var(--brand)" className="node-pulse" />
+                            <text x="292" y="18" textAnchor="end" fill="var(--brand)" style={{ font: '600 9px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.1em' }}>RANKED #1</text>
+                          </g>
                         </svg>
                       </div>
 
