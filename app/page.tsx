@@ -1119,7 +1119,7 @@ export default function Home() {
             <div className="mb-10">
               <AnimatedSection delay={0}>
                 <div className="flex flex-col md:flex-row items-start gap-6 md:gap-16 p-8 md:p-10 border border-white/10 hover:border-brand/40 transition-colors">
-                  <div className="shrink-0 w-20 h-20 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30">
+                  <div className="shrink-0 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30 px-6 py-4">
                     <span className="font-display text-3xl text-brand">50+</span>
                   </div>
                   <div>
@@ -1133,12 +1133,12 @@ export default function Home() {
             <div className="mb-10">
               <AnimatedSection delay={0.1}>
                 <div className="flex flex-col md:flex-row items-start gap-6 md:gap-16 p-8 md:p-10 border border-white/10 hover:border-brand/40 transition-colors">
-                  <div className="shrink-0 w-20 h-20 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30">
-                    <span className="font-display text-3xl text-brand">$2K-$8K</span>
+                  <div className="shrink-0 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30 px-6 py-4">
+                    <span className="font-display text-2xl text-brand whitespace-nowrap">$2K-$8K</span>
                   </div>
                   <div>
                     <h3 className="font-display text-xl uppercase mb-2">Average Monthly Waste</h3>
-                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Across 50+ audits, the average local business wastes $2K-$8K every month on ads that don't ring the phone. The money is there. It is just pointed in the wrong direction.</p>
+                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Across our audits, the average local business wastes thousands every month on ads that don't ring the phone. The money is there. It is just pointed in the wrong direction.</p>
                   </div>
                 </div>
               </AnimatedSection>
@@ -1146,12 +1146,12 @@ export default function Home() {
 
             <AnimatedSection delay={0.2}>
               <div className="flex flex-col md:flex-row items-start gap-6 md:gap-16 p-8 md:p-10 border border-white/10 hover:border-brand/40 transition-colors">
-                <div className="shrink-0 w-20 h-20 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30">
+                <div className="shrink-0 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30 px-6 py-4">
                   <span className="font-display text-3xl text-brand">30</span>
                 </div>
                 <div>
                   <h3 className="font-display text-xl uppercase mb-2">Days to First Results</h3>
-                  <p className="text-gray-400 leading-relaxed max-w-[60ch]">Most clients see movement within the first month. Meta ads bring customers immediately; Google rankings compound behind them. You're never waiting on just one channel.</p>
+                  <p className="text-gray-400 leading-relaxed max-w-[60ch]">Most clients see movement within the first month. Meta ads bring customers immediately. Google rankings compound behind them. You're never waiting on just one channel.</p>
                 </div>
               </div>
             </AnimatedSection>
