@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
+// Dev-only CSP allowance for Impeccable live mode
+const __impeccableLiveDev =
+  process.env.NODE_ENV === "development" ? " http://localhost:8400" : "";
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
@@ -10,7 +14,7 @@ const nextConfig: NextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests",
+              `default-src 'self'; base-uri 'self'; connect-src 'self'${__impeccableLiveDev}; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline'${__impeccableLiveDev}; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests`,
           },
           {
             key: 'Permissions-Policy',

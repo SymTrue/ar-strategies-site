@@ -941,7 +941,7 @@ export default function Home() {
                         <p><span className="text-brand font-semibold">5.0 star</span> reviews</p>
                       </div>
                       <blockquote className="border-l-2 border-brand pl-6 py-4 italic text-gray-300">
-                        "We started with zero followers, zero online presence. Akbar handled everything: SEO, ads, content strategy. In 6 months we hit #1 for MMA gyms in DHA. Our revenue went from breaking even to over 1 million PKR a month. This is what real marketing looks like."
+                        &ldquo;We started with zero followers, zero online presence. Akbar handled everything: SEO, ads, content strategy. In 6 months we hit #1 for MMA gyms in DHA. Our revenue went from breaking even to over 1 million PKR a month. This is what real marketing looks like.&rdquo;
                       </blockquote>
                       <p className="text-sm text-gray-400 mt-4">Sikander Ali Shah, Owner, Strike Den</p>
                     </div>

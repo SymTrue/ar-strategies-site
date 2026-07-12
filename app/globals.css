@@ -2,11 +2,14 @@
 @import "./design-tokens.css";
 
 :root {
-  /* Near-black base — warmth stays subtle so the page never drifts red */
-  --background: #0b0806;
-  --foreground: #ffffff;
+  /* OLED-optimized layered dark depths (no pure #000 smear) */
+  --bg-deepest: #020203;   /* root background — avoids OLED smear */
+  --bg-base:    #0a0806;   /* page surface */
+  --bg-elevated: #12100e;  /* cards, sections */
+  --bg-overlay:  rgba(2, 2, 3, 0.82); /* nav / modal backdrop */
 
-  /* Brand heat spectrum: gold -> orange -> ember. Used for accents + gradients. */
+  --background: var(--bg-base);
+  --foreground: #ffffff;
   --brand: #f97316;          /* accent orange (bright, for text/icons on dark) */
   --brand-light: #fbbf24;    /* amber / gold */
   --brand-dark: #c2410c;     /* deep burnt orange */
@@ -18,14 +21,14 @@
   --cta-bg-hover: #9a3412;
   --cta-text: #ffffff;
 
-  --surface: rgba(28, 22, 18, 0.62);
-  --surface-hover: rgba(38, 28, 22, 0.82);
+  --surface: var(--bg-elevated);
+  --surface-hover: rgba(26, 22, 18, 0.92);
   --border: rgba(255, 255, 255, 0.1);
   --border-hover: rgba(249, 115, 22, 0.42);
   --text-primary: #fefaf6;
   --text-secondary: #e2d9d2;
   --text-tertiary: #a99e96;
-  --nav-background: rgba(11, 8, 6, 0.82);
+  --nav-background: var(--bg-overlay);
   --shell-glow: rgba(249, 115, 22, 0.12);
   --grain-opacity: 0.05;
 
