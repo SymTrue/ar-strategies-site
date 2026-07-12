@@ -54,7 +54,7 @@ That\'s why unexpected headlines outperform expected ones by 2-3x, why color bre
       {
         title: 'Apple\'s "Think Different" Campaign',
         context: '1997: Apple was dying, IBM dominated, Microsoft was winning',
-        explanation: 'Expected pattern: Tech ads were technical, feature-focused, boring. Apple showed images of Einstein, MLK, Gandhi—cultural icons. No product. Pure possibility. It broke every rule of tech advertising.',
+        explanation: 'Expected pattern: Tech ads were technical, feature-focused, boring. Apple showed images of Einstein, MLK, Gandhi. Cultural icons. No product. Pure possibility. It broke every rule of tech advertising.',
         result: 'Revived Apple brand perception and became one of the most iconic campaigns ever.',
       },
       {
@@ -76,7 +76,7 @@ Here\'s what we did: We broke the pattern.
 
 Instead of "Transform Your Body," we positioned them as "The place serious fighters trust."
 We showed real athletes, real training footage, real intensity.
-We talked about mindset, discipline, and mastery—not just muscles.
+We talked about mindset, discipline, and mastery. Not just muscles.
 
 That one pattern interrupt shifted their entire positioning.
 #1 in SEO within 6 months. 2x membership growth.
@@ -104,11 +104,11 @@ Because we didn\'t try to be loud. We tried to be different. And different is wh
     videoFile: '/videos/mental-availability.mp4',
     whyWorks: `People don\'t remember everything they see. They remember what\'s relevant, recent, and repeatedly reinforced.
 
-This is mental availability. It\'s not about being everywhere. It\'s about being in the right place, at the right time, in the right context—repeatedly.
+This is mental availability. It's not about being everywhere. It's about being in the right place, at the right time, in the right context. Repeatedly.
 
 When someone searches for what you do, they don\'t evaluate all options equally. They evaluate the options they remember first.
 
-Research shows: 70% of purchase decisions are influenced by how available your business is in the customer\'s mind—not by your ads, not by your website, not by how good you are.
+Research shows: 70% of purchase decisions are influenced by how available your business is in the customer's mind. Not by your ads, not by your website, not by how good you are.
 
 Availability in memory.
 
@@ -138,7 +138,7 @@ When someone needs what your business offers, you need to be the first thing the
 - Consistent messaging (reinforces memory)
 - Appearing multiple times in their journey (homepage → services → case study → contact)
 
-For Strike Den: Being mentally available to serious fighters searching "MMA gym DHA Karachi" meant investing in SEO, content, and positioning—not just ads. Result: They became the default choice.
+For Strike Den: Being mentally available to serious fighters searching "MMA gym DHA Karachi" meant investing in SEO, content, and positioning. Not just ads. Result: They became the default choice.
 
 We build mental availability intentionally. Every touchpoint reinforces it.`,
     relatedMechanisms: [
@@ -176,7 +176,7 @@ Nike isn\'t the most comfortable shoe. They\'re positioned as for winners.
 
 Positioning shapes perception. Perception drives choice. Choice drives revenue.
 
-That\'s why positioning comes first. Everything else—your ads, your website, your sales pitch—amplifies your position. But if your position is weak, everything else is noise.`,
+That's why positioning comes first. Everything else - your ads, your website, your sales pitch - amplifies your position. But if your position is weak, everything else is noise.`,
     examples: [
       {
         title: 'Tesla vs. Traditional Automakers',
@@ -276,7 +276,6 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
               autoPlay
               muted
               className="w-full h-full"
-              poster="/images/mechanism-poster.jpg"
             >
               <source src={mechanism.videoFile} type="video/mp4" />
               Your browser does not support the video tag.

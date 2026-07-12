@@ -1,13 +1,16 @@
 'use client';
 
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useState, useEffect, useRef, useSyncExternalStore, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
 import NeuralNet from './components/NeuralNet';
-import LiquidMetal from './components/ui/liquid-metal';
 import { ThemeToggle } from './components/ui/theme-toggle';
 import { useTheme } from './providers';
+
+// Lazy-mount GPU-heavy components below fold — saves 3-4 canvases upfront
+const LiquidMetal = dynamic(() => import('./components/ui/liquid-metal'), { ssr: false });
 
 /* Inline Lucide-style icons (24×24 grid, 2px stroke, rounded caps: MIT, no
    external asset so nothing to hotlink and nothing for the CSP to block). */
@@ -233,7 +236,7 @@ function ScrollProgress() {
 // Client Success Badge (Phase 3)
 const SuccessBadge = ({ icon, stat, label }: { icon: React.ReactNode; stat: string; label: string }) => (
   <div className="relative group">
-    <div className="absolute -inset-0.5 bg-gradient-to-r from-brand/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl blur" />
+    <div className="absolute -inset-0.5 bg-gradient-to-r from-brand/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl blur" />
     <div className="relative px-6 py-4 glass-card text-center">
       <div className="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-brand/20 border border-brand/50 mb-3 mx-auto text-brand">
         {icon}
@@ -650,7 +653,7 @@ export default function Home() {
         <NeuralNet theme={theme} reducedMotion={reducedMotion} />
         <div className="hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
-          <div data-intro className="hero-kicker inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-gray-300 mb-8">
+          <div data-intro className="hero-kicker inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest text-gray-300 mb-8">
             <span className="h-2 w-2 rounded-full bg-brand" /> The Marketing Agency for Local Businesses
           </div>
           <h1 data-intro className="font-display hero-display uppercase mb-6 text-balance">
@@ -661,7 +664,7 @@ export default function Home() {
             When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content. Done for you, so your phone rings while you run the business.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
-            In 2026, we audited 50+ local businesses. Most were invisible for their best-buying searches and wasted $2K–$8K a month on ads that didn&apos;t ring the phone.
+            In 2026, we audited 50+ local businesses. Most were invisible for their best-buying searches and wasted $2K-$8K a month on ads that didn&apos;t ring the phone.
           </p>
 
           <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
@@ -762,7 +765,7 @@ export default function Home() {
                   <div className="absolute -inset-0.5 bg-gradient-to-b from-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg -z-10" />
                   <div className="relative p-6 glass-card h-full flex flex-col justify-between">
                     {/* Top gradient accent */}
-                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-brand via-brand to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-brand via-brand to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
@@ -815,7 +818,7 @@ export default function Home() {
                   </Suspense>
 
                   <div className="relative h-full px-8 py-8">
-                    <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300 ${
+                    <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
                       idx === 0 ? 'bg-gradient-to-b from-brand-light via-brand-light/50' : idx === 1 ? 'bg-gradient-to-b from-brand-dark via-brand-dark/50' : 'bg-gradient-to-b from-brand via-brand/50'
                     } to-transparent`} />
                     <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-brand" style={{ background: 'var(--icon-tile)', border: '1px solid var(--icon-tile-border)' }}>
@@ -857,9 +860,9 @@ export default function Home() {
           </h2>
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={faq.q} data-reveal className="group relative rounded-2xl overflow-hidden transition-all duration-300">
+              <div key={faq.q} data-reveal className="group relative rounded-2xl overflow-hidden transition-colors duration-300">
                 {/* Subtle glow on hover */}
-                <div className={`absolute -inset-0.5 bg-gradient-to-r from-brand/30 to-transparent opacity-0 transition-all duration-300 blur-lg -z-10 ${openFaq === i ? 'opacity-100' : 'group-hover:opacity-50'}`} />
+                <div className={`absolute -inset-0.5 bg-gradient-to-r from-brand/30 to-transparent opacity-0 transition-opacity duration-300 blur-lg -z-10 ${openFaq === i ? 'opacity-100' : 'group-hover:opacity-50'}`} />
 
                 <div className="glass-card">
                   <button
@@ -905,7 +908,7 @@ export default function Home() {
               href="https://www.linkedin.com/in/akbararstrats/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-brand/50 hover:border-brand text-brand hover:bg-brand/10 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-brand/50 hover:border-brand text-brand hover:bg-brand/10 transition-colors duration-300"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
@@ -925,7 +928,7 @@ export default function Home() {
           <div className="mb-20">
             <AnimatedSection delay={0}>
               <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
+                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl -z-10" />
                 <div className="relative p-8 md:p-12 glass-card">
                   <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div>
@@ -986,7 +989,7 @@ export default function Home() {
                       <div ref={chartRef} className="glass-card border border-brand/30 p-5">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-[9px] uppercase tracking-[0.2em] text-gray-500" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
-                            Fig. 02 — Google position · 6 months
+                            Fig. 02: Google position, 6 months
                           </span>
                           <span className="text-[9px] uppercase tracking-[0.2em] text-brand" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
                             &quot;MMA gym DHA&quot;
@@ -1030,7 +1033,7 @@ export default function Home() {
 
                       {/* Social Media CTA Buttons */}
                       <div className="flex flex-col gap-3">
-                        <a href="https://strikeden.com" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-all duration-300">
+                        <a href="https://strikeden.com" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-colors duration-300">
                           <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
                             <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
                               <LiquidMetal
@@ -1053,7 +1056,7 @@ export default function Home() {
                             Website
                           </div>
                         </a>
-                        <a href="https://www.instagram.com/strikeden.pk" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-all duration-300">
+                        <a href="https://www.instagram.com/strikeden.pk" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-colors duration-300">
                           <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
                             <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
                               <LiquidMetal
@@ -1076,7 +1079,7 @@ export default function Home() {
                             Instagram
                           </div>
                         </a>
-                        <a href="https://www.linkedin.com/company/strike-den/" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-all duration-300">
+                        <a href="https://www.linkedin.com/company/strike-den/" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-colors duration-300">
                           <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
                             <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
                               <LiquidMetal
@@ -1112,36 +1115,43 @@ export default function Home() {
             <p data-reveal className="text-gray-400 text-lg">And many more local businesses like them.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <AnimatedSection delay={0}>
-              <div className="group relative h-full">
-                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
-                <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
-                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Experience</div>
-                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">50+</div>
-                  <p className="text-gray-400 text-sm">Audits completed this year</p>
+          <div className="max-w-3xl mx-auto">
+            <div className="mb-10">
+              <AnimatedSection delay={0}>
+                <div className="flex flex-col md:flex-row items-start gap-6 md:gap-16 p-8 md:p-10 border border-white/10 hover:border-brand/40 transition-colors">
+                  <div className="shrink-0 w-20 h-20 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30">
+                    <span className="font-display text-3xl text-brand">50+</span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl uppercase mb-2">Audits Completed</h3>
+                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Every audit begins the same way: we find the money they're leaving on the table. Most businesses have no idea how invisible they are for their best-buying searches.</p>
+                  </div>
                 </div>
-              </div>
-            </AnimatedSection>
+              </AnimatedSection>
+            </div>
 
-            <AnimatedSection delay={0.1}>
-              <div className="group relative h-full">
-                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
-                <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
-                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Impact</div>
-                  <div className="text-5xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">$2K–$8K</div>
-                  <p className="text-gray-400 text-sm">Average monthly waste found</p>
+            <div className="mb-10">
+              <AnimatedSection delay={0.1}>
+                <div className="flex flex-col md:flex-row items-start gap-6 md:gap-16 p-8 md:p-10 border border-white/10 hover:border-brand/40 transition-colors">
+                  <div className="shrink-0 w-20 h-20 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30">
+                    <span className="font-display text-3xl text-brand">$2K-$8K</span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl uppercase mb-2">Average Monthly Waste</h3>
+                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Across 50+ audits, the average local business wastes $2K-$8K every month on ads that don't ring the phone. The money is there. It is just pointed in the wrong direction.</p>
+                  </div>
                 </div>
-              </div>
-            </AnimatedSection>
+              </AnimatedSection>
+            </div>
 
             <AnimatedSection delay={0.2}>
-              <div className="group relative h-full">
-                <div className="absolute -inset-1 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-2xl -z-10" />
-                <div className="relative px-8 py-12 glass-card group-hover:glow-orange-lg">
-                  <div className="inline-block px-4 py-2 mb-6 text-xs font-semibold bg-gradient-to-r from-brand to-brand/70 text-white rounded-full border border-brand/50">Speed</div>
-                  <div className="text-6xl font-display text-brand mb-4 font-bold group-hover:text-orange-400 transition-colors">30</div>
-                  <p className="text-gray-400 text-sm">Days to first results</p>
+              <div className="flex flex-col md:flex-row items-start gap-6 md:gap-16 p-8 md:p-10 border border-white/10 hover:border-brand/40 transition-colors">
+                <div className="shrink-0 w-20 h-20 flex items-center justify-center bg-gradient-to-br from-brand/20 to-transparent rounded-lg border border-brand/30">
+                  <span className="font-display text-3xl text-brand">30</span>
+                </div>
+                <div>
+                  <h3 className="font-display text-xl uppercase mb-2">Days to First Results</h3>
+                  <p className="text-gray-400 leading-relaxed max-w-[60ch]">Most clients see movement within the first month. Meta ads bring customers immediately; Google rankings compound behind them. You're never waiting on just one channel.</p>
                 </div>
               </div>
             </AnimatedSection>

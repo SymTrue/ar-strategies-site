@@ -144,7 +144,7 @@ export async function POST(req: NextRequest) {
         subject: 'your free audit request',
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
-            <p>Thanks for scheduling your free audit — we'll dig into your current campaigns and send you a detailed breakdown within 24 hours.</p>
+            <p>Thanks for scheduling your free audit. We will dig into your current campaigns and send you a detailed breakdown within 24 hours.</p>
             <p><strong>What's included:</strong></p>
             <ul style="color: #666; margin: 12px 0; padding-left: 20px;">
               <li>Full campaign audit with waste analysis</li>
@@ -153,7 +153,7 @@ export async function POST(req: NextRequest) {
             </ul>
             <p style="color: #666; margin-top: 12px;">No credit card required. No pressure. No cold calls. If we don't find 3+ improvements, we'll extend your audit free.</p>
             <p style="margin-top: 16px;">Questions before we dive in? Just reply to this email or reach out to <strong>hello@arstrategists.com</strong>.</p>
-            <p style="margin-top: 24px; color: #999; font-size: 14px;">— AR Strategies</p>
+            <p style="margin-top: 24px; color: #999; font-size: 14px;">- AR Strategies</p>
           </div>
         `,
       }),
