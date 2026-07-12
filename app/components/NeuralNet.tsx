@@ -94,7 +94,10 @@ interface Pulse { edge: number; t: number; dur: number; }
 export default function NeuralNet({ theme, reducedMotion }: { theme: string; reducedMotion: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const themeRef = useRef(theme);
-  themeRef.current = theme;
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -128,10 +131,13 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     const parent = canvas.parentElement ?? canvas;
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = parent.getBoundingClientRect();
+      // Guard against a transient zero-size rect (mid-layout, tab restore):
+      // bail without touching w/h/cx/cy/R so draw() keeps using the last
+      // known-good sizing instead of clearing/computing against zero.
+      if (rect.width <= 0 || rect.height <= 0) return;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = rect.width; h = rect.height;
-      if (w <= 0 || h <= 0) return;
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       cx = w / 2; cy = h / 2 + h * 0.02;
@@ -157,6 +163,9 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     const pulses: Pulse[] = [];
     const GRAV_R = 170;
     const FOV = 3.2;
+
+    // Reused every frame so bucketing edges by alpha never allocates.
+    const bucketEdges: [number[], number[], number[]] = [[], [], []];
 
     const draw = (t: number) => {
       const dark = themeRef.current !== 'light';
@@ -203,21 +212,31 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         n.pa = mask * twinkle * (0.35 + 0.65 * ((scale - 0.76) / 0.55));
       }
 
-      // Lines: three alpha buckets, one stroke each (batching beats per-line strokes)
-      const buckets: Array<Path2D> = [new Path2D(), new Path2D(), new Path2D()];
+      // Lines: sort edge indices into three alpha buckets in a single pass
+      // (reused arrays, no allocation), then draw each bucket as one path —
+      // one stroke call per bucket instead of one per edge, and no Path2D
+      // objects churned every frame at 60fps.
+      bucketEdges[0].length = 0;
+      bucketEdges[1].length = 0;
+      bucketEdges[2].length = 0;
       for (let i = 0; i < edges.length; i++) {
         const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
         const alpha = (a.pa + b.pa) * 0.5;
         const bi = alpha < 0.28 ? 0 : alpha < 0.5 ? 1 : 2;
-        buckets[bi].moveTo(a.px, a.py);
-        buckets[bi].lineTo(b.px, b.py);
+        bucketEdges[bi].push(i);
       }
       ctx.lineWidth = 0.5;
       const lineRGB = dark ? '214,228,255' : '30,41,59';
       const lineAlphas = dark ? [0.045, 0.09, 0.15] : [0.06, 0.11, 0.17];
-      for (let i = 0; i < 3; i++) {
-        ctx.strokeStyle = `rgba(${lineRGB},${lineAlphas[i]})`;
-        ctx.stroke(buckets[i]);
+      for (let bi = 0; bi < 3; bi++) {
+        ctx.beginPath();
+        for (const i of bucketEdges[bi]) {
+          const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
+          ctx.moveTo(a.px, a.py);
+          ctx.lineTo(b.px, b.py);
+        }
+        ctx.strokeStyle = `rgba(${lineRGB},${lineAlphas[bi]})`;
+        ctx.stroke();
       }
 
       // Nodes: pre-baked bloom sprites
@@ -283,7 +302,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
+      className="absolute inset-0 w-full h-full pointer-events-none"
       aria-hidden="true"
     />
   );
