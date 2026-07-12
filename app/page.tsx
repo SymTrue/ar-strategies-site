@@ -151,19 +151,139 @@ const ProcessFlow = () => (
 );
 
 // Hero Section Accent Pattern (Phase 3)
-const HeroAccentPattern = () => (
-  <svg viewBox="0 0 1200 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0 w-full h-full opacity-5 pointer-events-none">
+/* Strategy Network: the Creative OS signature motif. Node systems, technical
+   grid, and directional lines — a quiet schematic layer, not decoration. */
+const StrategyNetwork = () => (
+  <svg
+    viewBox="0 0 1200 500"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.13]"
+    aria-hidden="true"
+    preserveAspectRatio="xMidYMid slice"
+  >
     <defs>
-      <pattern id="dotPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-        <circle cx="20" cy="20" r="2" fill="currentColor" />
+      <pattern id="blueprintGrid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+        <path d="M48 0H0V48" stroke="currentColor" strokeWidth="0.5" opacity="0.35" fill="none" />
       </pattern>
     </defs>
-    <rect width="1200" height="400" fill="url(#dotPattern)" />
-    {/* Decorative curves */}
-    <path d="M0 100 Q300 50 600 100 T1200 100" stroke="currentColor" strokeWidth="1" opacity="0.3" />
-    <path d="M0 300 Q300 350 600 300 T1200 300" stroke="currentColor" strokeWidth="1" opacity="0.3" />
+    <rect width="1200" height="500" fill="url(#blueprintGrid)" />
+
+    {/* Directional connection lines between nodes */}
+    <g stroke="currentColor" strokeWidth="0.75" opacity="0.5">
+      <path d="M120 120 L340 90 L560 150" />
+      <path d="M340 90 L420 260" />
+      <path d="M560 150 L820 110 L1060 170" />
+      <path d="M820 110 L900 320" />
+      <path d="M120 380 L420 260 L720 350 L1060 300" />
+      <path d="M720 350 L900 320" strokeDasharray="4 4" />
+      <path d="M120 120 L120 380" strokeDasharray="4 4" />
+      <path d="M1060 170 L1060 300" strokeDasharray="4 4" />
+    </g>
+
+    {/* Network nodes: brand-orange signal points, pulsing */}
+    <g fill="var(--brand)">
+      <circle className="node-pulse" cx="120" cy="120" r="3" />
+      <circle className="node-pulse delay-2" cx="340" cy="90" r="2.5" />
+      <circle className="node-pulse delay-1" cx="560" cy="150" r="3" />
+      <circle className="node-pulse delay-3" cx="820" cy="110" r="2.5" />
+      <circle className="node-pulse delay-2" cx="1060" cy="170" r="3" />
+      <circle className="node-pulse delay-1" cx="420" cy="260" r="3" />
+      <circle className="node-pulse delay-3" cx="120" cy="380" r="2.5" />
+      <circle className="node-pulse" cx="720" cy="350" r="3" />
+      <circle className="node-pulse delay-1" cx="900" cy="320" r="2.5" />
+      <circle className="node-pulse delay-2" cx="1060" cy="300" r="3" />
+    </g>
+
+    {/* Structural nodes: neutral registration rings */}
+    <g stroke="currentColor" fill="none" strokeWidth="0.75" opacity="0.6">
+      <circle cx="120" cy="120" r="7" />
+      <circle cx="560" cy="150" r="7" />
+      <circle cx="420" cy="260" r="7" />
+      <circle cx="720" cy="350" r="7" />
+      <circle cx="1060" cy="300" r="7" />
+    </g>
   </svg>
 );
+
+/* Registration corner marks: technical drawing accents on hover */
+const RegMarks = () => (
+  <div className="reg-marks" aria-hidden="true">
+    <span /><span /><span /><span />
+  </div>
+);
+
+/* Precision cursor: trailing ring that responds to interactive elements.
+   Fine pointers only; hidden for touch and reduced motion via CSS. */
+function PrecisionCursor() {
+  const ringRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
+    const ring = ringRef.current;
+    if (!ring) return;
+
+    let raf = 0;
+    let targetX = -100;
+    let targetY = -100;
+    let x = targetX;
+    let y = targetY;
+
+    const onMove = (e: PointerEvent) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+      ring.classList.add('is-visible');
+      const interactive = (e.target as Element | null)?.closest?.('a, button, input, [role="button"]');
+      ring.classList.toggle('is-active', !!interactive);
+    };
+    const onLeave = () => ring.classList.remove('is-visible');
+
+    const tick = () => {
+      x += (targetX - x) * 0.22;
+      y += (targetY - y) * 0.22;
+      ring.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      raf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener('pointermove', onMove, { passive: true });
+    document.documentElement.addEventListener('pointerleave', onLeave);
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      document.documentElement.removeEventListener('pointerleave', onLeave);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return <div ref={ringRef} className="precision-ring" aria-hidden="true" />;
+}
+
+/* Scroll progress hairline under the nav: scrolling communicates progression */
+function ScrollProgress() {
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const update = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const p = max > 0 ? doc.scrollTop / max : 0;
+      bar.style.transform = `scaleX(${p})`;
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+
+  return <div ref={barRef} className="scroll-progress" aria-hidden="true" />;
+}
 
 // Client Success Badge (Phase 3)
 const SuccessBadge = ({ icon, stat, label }: { icon: React.ReactNode; stat: string; label: string }) => (
@@ -279,11 +399,15 @@ function IconTile({ name }: { name: string }) {
 }
 
 function SectionKicker({ n, label, center }: { n: string; label: string; center?: boolean }) {
+  const ref = useInViewClass<HTMLDivElement>();
   return (
-    <div data-reveal className={`flex items-center gap-3 mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-tertiary)] ${center ? 'justify-center' : ''}`}>
-      <span className="h-px w-8 bg-brand" />
-      <span className="text-brand tabular-nums">{n}</span>
-      <span>{label}</span>
+    <div ref={ref} data-reveal className={`kicker-root flex items-center gap-4 mb-8 ${center ? 'justify-center' : ''}`}>
+      <span className="kicker-chip">
+        <span className="kicker-n">{n}</span>
+        <span className="kicker-sep" aria-hidden="true">/</span>
+        <span>{label}</span>
+      </span>
+      {!center && <span className="kicker-line" aria-hidden="true" />}
     </div>
   );
 }
@@ -520,7 +644,7 @@ export default function Home() {
             <span className="font-display text-xl tracking-wide">AR STRATEGIES</span>
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-300">
-            {navLinks.map((link) => (
+            {navLinks.map((link, i) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -530,6 +654,7 @@ export default function Home() {
                     : 'hover:text-white'
                 }`}
               >
+                <span className="nav-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 {link.label}
               </a>
             ))}
@@ -556,8 +681,9 @@ export default function Home() {
         </div>
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 px-6 py-4 flex flex-col gap-4 text-gray-300">
-            {navLinks.map((link) => (
+            {navLinks.map((link, i) => (
               <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="hover:text-white transition-colors">
+                <span className="nav-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 {link.label}
               </a>
             ))}
@@ -570,11 +696,13 @@ export default function Home() {
             </a>
           </div>
         )}
+        <ScrollProgress />
       </nav>
+      <PrecisionCursor />
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative overflow-hidden">
-        <HeroAccentPattern />
+        <StrategyNetwork />
         <Suspense fallback={<div className={theme === 'light' ? 'absolute inset-0 bg-gradient-to-br from-orange-50 via-orange-200/80 to-white' : 'absolute inset-0 bg-gradient-to-br from-black via-orange-900/20 to-black'} />}>
           <AnimatedGradient
             config={theme === 'light'
@@ -657,9 +785,9 @@ export default function Home() {
       </section>
 
       {/* Services - divided list, not a card grid */}
-      <section id="services" ref={servicesRef} className="py-24 px-6 section-premium">
+      <section id="services" ref={servicesRef} className="py-24 md:py-32 px-6 section-premium">
         <div className="max-w-4xl mx-auto">
-          <SectionKicker n="" label="Services" />
+          <SectionKicker n="01" label="Services" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             The work we do. So you stop doing it.
           </h2>
@@ -680,9 +808,9 @@ export default function Home() {
       </section>
 
       {/* Process - horizontal step sequence */}
-      <section id="process" ref={processRef} className="py-24 px-6 border-t border-white/10 section-premium dense">
+      <section id="process" ref={processRef} className="py-24 md:py-32 px-6 section-dashed section-premium dense">
         <div className="max-w-7xl mx-auto">
-          <SectionKicker n="" label="Process" />
+          <SectionKicker n="02" label="Process" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
           </h2>
@@ -717,9 +845,9 @@ export default function Home() {
       </section>
 
       {/* Why us */}
-      <section id="why" ref={whyRef} className="py-24 px-6 border-t border-white/10 section-premium">
+      <section id="why" ref={whyRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-7xl mx-auto">
-          <SectionKicker n="" label="Why Us" />
+          <SectionKicker n="03" label="Why Us" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Why we&apos;re different
           </h2>
@@ -727,6 +855,7 @@ export default function Home() {
             {principles.map((p, idx) => (
               <AnimatedSection key={p.title} delay={idx * 0.1} className="h-full">
                 <div className="group relative h-full overflow-hidden glass-card">
+                  <RegMarks />
                   {/* Full-card orange glow on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
 
@@ -771,7 +900,7 @@ export default function Home() {
       </section>
 
       {/* Statement */}
-      <section ref={quoteRef} className="py-24 px-6 border-t border-white/10 section-premium subtle">
+      <section ref={quoteRef} className="py-24 md:py-32 px-6 section-dashed section-premium subtle">
         <div className="max-w-4xl mx-auto text-center">
           <h2 data-reveal className="font-display text-4xl md:text-6xl uppercase leading-tight text-balance">
             If they can&apos;t find you,
@@ -784,9 +913,9 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" ref={faqRef} className="py-24 px-6 border-t border-white/10 section-premium">
+      <section id="faq" ref={faqRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-3xl mx-auto">
-          <SectionKicker n="" label="FAQ" center />
+          <SectionKicker n="04" label="FAQ" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">
             Straight answers
           </h2>
@@ -825,7 +954,7 @@ export default function Home() {
       </section>
 
       {/* Founder Section */}
-      <section className="py-20 px-6 border-t border-white/10 section-premium">
+      <section className="py-20 md:py-28 px-6 section-dashed section-premium">
         <div className="max-w-2xl mx-auto">
           <div className="text-center">
             <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-gradient-to-br from-brand/30 to-brand/10 border border-brand/50 mb-6 text-brand">
@@ -852,7 +981,7 @@ export default function Home() {
       </section>
 
       {/* Social Proof - Featured Case Study */}
-      <section className="py-24 px-6 border-t border-white/10 section-premium">
+      <section className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-6xl mx-auto">
           <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16 text-center">The real proof</h2>
 
@@ -1039,14 +1168,14 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section id="contact" ref={ctaRef} className="py-24 px-6 border-t border-white/10 section-premium relative">
+      <section id="contact" ref={ctaRef} className="py-24 md:py-32 px-6 section-dashed section-premium relative">
         {/* Large orange glow field behind CTA */}
         <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-brand/30 to-transparent blur-3xl pointer-events-none" />
         </div>
 
         <div className="max-w-2xl mx-auto text-center relative z-10">
-          <SectionKicker n="" label="Free Audit" center />
+          <SectionKicker n="05" label="Free Audit" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
             See exactly why customers aren&apos;t finding you.
           </h2>

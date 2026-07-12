@@ -565,3 +565,175 @@ input:focus,
 [role="button"]:focus {
   outline: none;
 }
+
+/* ============================================================
+   Creative OS alignment — "Strategy Network" layer
+   Blueprint principles: dashed containment, mono annotation,
+   node systems, precision cursor. Motif stays restrained.
+   ============================================================ */
+
+/* --- Nav: scroll progress hairline (instrument, not decoration) --- */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--brand-light), var(--brand));
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* --- Nav: index numerals on links --- */
+.nav-index {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+  opacity: 0.75;
+  transform: translateY(-0.35em);
+  display: inline-block;
+  margin-right: 0.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Section kicker: blueprint annotation chip --- */
+.kicker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px dashed var(--kicker-border, rgba(255, 255, 255, 0.28));
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+[data-theme="light"] .kicker-chip {
+  --kicker-border: rgba(0, 0, 0, 0.25);
+}
+.kicker-chip .kicker-n {
+  color: var(--brand);
+}
+.kicker-chip .kicker-sep {
+  opacity: 0.4;
+}
+
+/* Kicker line: draws in from left when section enters view */
+.kicker-line {
+  height: 1px;
+  width: 72px;
+  background: linear-gradient(90deg, var(--brand), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+}
+.kicker-root.in-view .kicker-line {
+  transform: scaleX(1);
+}
+
+/* --- Dashed section containment: schematic rule between sections --- */
+.section-dashed {
+  border-top: 1px dashed var(--border) !important;
+}
+
+/* --- Registration corner marks (technical drawing accents) --- */
+.reg-marks {
+  position: absolute;
+  inset: 10px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+.group:hover .reg-marks {
+  opacity: 0.55;
+}
+.reg-marks span {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+}
+.reg-marks span::before,
+.reg-marks span::after {
+  content: '';
+  position: absolute;
+  background: var(--brand);
+}
+.reg-marks span::before {
+  left: 4px;
+  top: 0;
+  width: 1px;
+  height: 9px;
+}
+.reg-marks span::after {
+  left: 0;
+  top: 4px;
+  width: 9px;
+  height: 1px;
+}
+.reg-marks span:nth-child(1) { top: 0; left: 0; }
+.reg-marks span:nth-child(2) { top: 0; right: 0; }
+.reg-marks span:nth-child(3) { bottom: 0; left: 0; }
+.reg-marks span:nth-child(4) { bottom: 0; right: 0; }
+
+/* --- Strategy Network: node pulse in hero --- */
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+.node-pulse {
+  animation: nodePulse 3.2s ease-in-out infinite;
+}
+.node-pulse.delay-1 { animation-delay: 0.8s; }
+.node-pulse.delay-2 { animation-delay: 1.6s; }
+.node-pulse.delay-3 { animation-delay: 2.4s; }
+
+/* --- Precision cursor (fine pointers only; native cursor stays) --- */
+.precision-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid var(--brand);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, opacity 0.3s ease, border-color 0.25s ease;
+  will-change: transform;
+}
+.precision-ring::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px 0 0 -1.5px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+.precision-ring.is-visible {
+  opacity: 0.6;
+}
+.precision-ring.is-active {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  opacity: 0.9;
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .precision-ring {
+    display: none;
+  }
+}
