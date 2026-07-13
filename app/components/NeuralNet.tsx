@@ -93,18 +93,8 @@ function buildEdges(nodes: Node[], perNode: number): Array<[number, number, numb
   return edges;
 }
 
-function makeSprite(core: string, halo: string, size = 36): HTMLCanvasElement {
-  const c = document.createElement('canvas');
-  c.width = size; c.height = size;
-  const g = c.getContext('2d')!;
-  const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-  grad.addColorStop(0, core);
-  grad.addColorStop(0.3, halo);
-  grad.addColorStop(1, 'rgba(0,0,0,0)');
-  g.fillStyle = grad;
-  g.fillRect(0, 0, size, size);
-  return c;
-}
+// makeSprite is now inlined as mkTier inside the component for the 4-layer system.
+// makeRing remains for activation rings.
 
 function makeRing(peak: string, fade: string, size = 80): HTMLCanvasElement {
   const c = document.createElement('canvas');
@@ -150,18 +140,46 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     const nodes = buildNodes(N, rand);
     const edges = buildEdges(nodes, 4);
 
-    // Sprites — light mode base nodes: opaque orange, no transparency fighting white bg
-    const sBaseDark  = makeSprite('rgba(240,240,245,0.92)', 'rgba(200,210,230,0.30)');
-    const sBaseLight = makeSprite('rgba(245,125,40,0.95)',  'rgba(255,180,80,0.48)');
-    const sAccDark   = makeSprite('rgba(70,190,245,0.72)',  'rgba(110,215,255,0.35)');
-    const sAccLight  = makeSprite('rgba(255,155,50,0.95)',  'rgba(255,205,100,0.55)');
+    // 4-layer sprite system: depth-tiered sprites for per-frame depth perception
+    // Near: big core, tight halo. Far: small core, wide dim halo.
+    const mkTier = (core: string, halo: string, size = 36, haloMul = 1) => {
+      const c = document.createElement('canvas');
+      c.width = size; c.height = size;
+      const g = c.getContext('2d')!;
+      const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+      grad.addColorStop(0, core);
+      grad.addColorStop(0.3 / haloMul, halo);
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = grad;
+      g.fillRect(0, 0, size, size);
+      return c;
+    };
+
+    // Dark mode: 4 tiers from near (bright white) to deep (dim blue-grey)
+    const sDarkTier = [
+      mkTier('rgba(255,255,260,0.98)', 'rgba(210,220,250,0.45)', 44, 0.8),  // near: brightest, tightest
+      mkTier('rgba(245,245,250,0.92)', 'rgba(200,210,230,0.30)', 36, 1.0),  // mid: current base
+      mkTier('rgba(210,220,235,0.78)', 'rgba(170,185,210,0.22)', 30, 1.4),  // far: dimmer, wider halo
+      mkTier('rgba(180,195,215,0.60)', 'rgba(150,170,195,0.15)', 28, 1.8),  // deep: barely visible
+    ];
+    // Light mode: 4 tiers from near (deep orange) to deep (pale amber)
+    const sLightTier = [
+      mkTier('rgba(255,130,30,0.98)', 'rgba(255,180,80,0.52)', 44, 0.8),  // near: full saturation
+      mkTier('rgba(245,125,40,0.95)', 'rgba(255,180,80,0.48)', 36, 1.0),  // mid: current base
+      mkTier('rgba(235,110,35,0.82)', 'rgba(250,170,70,0.38)', 30, 1.4),  // far: softer orange
+      mkTier('rgba(220,100,30,0.65)', 'rgba(245,160,60,0.28)', 28, 1.8),  // deep: pale amber
+    ];
+
+    // Accent sprites — activation glow
+    const sAccDark   = mkTier('rgba(70,190,245,0.72)',  'rgba(110,215,255,0.35)');
+    const sAccLight  = mkTier('rgba(255,170,50,0.95)',  'rgba(255,210,110,0.58)'); // amber accent, distinct from base orange
     const sRingDark  = makeRing('rgba(70,190,245,0.18)',    'rgba(70,190,245,0.03)');
-    const sRingLight = makeRing('rgba(255,145,50,0.22)',     'rgba(245,125,40,0.06)');
-    const sPulseDark = makeSprite('rgba(110,210,255,0.88)', 'rgba(80,195,255,0.38)', 24);
-    const sPulseLight= makeSprite('rgba(255,165,60,0.95)',  'rgba(255,210,115,0.52)', 24);
+    const sRingLight = makeRing('rgba(255,160,50,0.24)',     'rgba(245,125,40,0.06)');
+    const sPulseDark = mkTier('rgba(110,210,255,0.88)', 'rgba(80,195,255,0.38)', 24);
+    const sPulseLight= mkTier('rgba(255,180,70,0.95)', 'rgba(255,220,130,0.55)', 24);
     // Cursor glow sprite — subtle 120px halo
-    const sCursorDark  = makeSprite('rgba(70,180,245,0.22)', 'rgba(80,195,255,0.06)', 120);
-    const sCursorLight = makeSprite('rgba(245,145,60,0.25)', 'rgba(255,175,80,0.08)', 120);
+    const sCursorDark  = mkTier('rgba(70,180,245,0.22)', 'rgba(80,195,255,0.06)', 120);
+    const sCursorLight = mkTier('rgba(245,145,60,0.25)', 'rgba(255,175,80,0.08)', 120);
 
     const parent = canvas.parentElement ?? canvas;
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;
@@ -261,12 +279,17 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
 
       bucketEdges[0].length = 0; bucketEdges[1].length = 0; bucketEdges[2].length = 0;
       for (let i = 0; i < edges.length; i++) {
-        const alpha = (nodes[edges[i][0]].pa + nodes[edges[i][1]].pa) * 0.5;
-        bucketEdges[alpha < 0.32 ? 0 : alpha < 0.55 ? 1 : 2].push(i);
+        const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
+        const alpha = (a.pa + b.pa) * 0.5;
+        // Depth fade: average perspective scale of both endpoints.
+        // Near edges (ps ~1.2) keep full alpha. Far edges (ps ~0.8) fade to 60%.
+        const depthFade = 0.55 + 0.45 * Math.min(((a.ps + b.ps) * 0.5 - 0.72) / 0.48, 1);
+        bucketEdges[alpha * depthFade < 0.28 ? 0 : alpha * depthFade < 0.48 ? 1 : 2].push(i);
       }
 
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      // Light mode: pure black edges, higher alpha ceiling
+      // Light mode: pure black edges, higher alpha ceiling.
+      // Dark mode: cyan edges with depth-aware alpha.
       const lineRGB = isDark ? '170,225,255' : '0,0,0';
       const drawBucket = (bucket: number[], lw: number, ad: number, al: number) => {
         if (!bucket.length) return;
@@ -276,23 +299,29 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         ctx.strokeStyle = `rgba(${lineRGB},${isDark ? ad : al})`;
         ctx.stroke();
       };
-      drawBucket(bucketEdges[0], 0.5, 0.08, 0.14);
-      drawBucket(bucketEdges[1], 0.45, 0.15, 0.24);
-      drawBucket(bucketEdges[2], 0.35, 0.22, 0.35);
+      // Dark mode: depth-faded alpha tiers (0.08/0.15/0.22 original — now boosted slightly)
+      drawBucket(bucketEdges[0], 0.5, 0.10, 0.18);
+      drawBucket(bucketEdges[1], 0.45, 0.18, 0.30);
+      drawBucket(bucketEdges[2], 0.35, 0.26, 0.42);
 
-      const spBase  = isDark ? sBaseDark  : sBaseLight;
+      const spBase  = isDark ? sDarkTier : sLightTier;  // 4-tier array
       const spAcc   = isDark ? sAccDark   : sAccLight;
       const spRing  = isDark ? sRingDark  : sRingLight;
       const spPulse = isDark ? sPulseDark : sPulseLight;
       const spCursor= isDark ? sCursorDark: sCursorLight;
 
       for (const n of nodes) {
-        const size = (2.4 + 3.8 * Math.max(n.ps - 0.72, 0.05)) * 2;
+        // Depth tier: 0 (near) to 3 (deep) based on perspective scale
+        const tier = n.ps > 1.12 ? 0 : n.ps > 0.96 ? 1 : n.ps > 0.84 ? 2 : 3;
+        const tierSprite = spBase[tier];
+        const tierSizeMul = [1.35, 1.0, 0.72, 0.55][tier];
+        const size = (2.4 + 3.8 * Math.max(n.ps - 0.72, 0.05)) * 2 * tierSizeMul;
         // Light mode: raised alpha floor to 0.20 (was 0.10 — invisible on white)
-        const alpha = Math.max(n.pa, isDark ? 0.10 : 0.20) * (isDark ? 0.92 : 0.92);
+        const alphaFloor = isDark ? [0.12, 0.10, 0.08, 0.05][tier] : [0.28, 0.22, 0.18, 0.12][tier];
+        const alpha = Math.max(n.pa, alphaFloor) * (isDark ? 0.92 : 0.92);
 
         ctx.globalAlpha = alpha;
-        ctx.drawImage(spBase, n.px - size / 2, n.py - size / 2, size, size);
+        ctx.drawImage(tierSprite, n.px - size / 2, n.py - size / 2, size, size);
 
         if (n.act > 0.03) {
           ctx.globalAlpha = n.act * (isDark ? 0.22 : 0.62);
