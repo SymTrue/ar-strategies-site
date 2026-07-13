@@ -150,18 +150,19 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     const nodes = buildNodes(N, rand);
     const edges = buildEdges(nodes, 4);
 
-    // Sprites — light mode base nodes: opaque orange, no transparency fighting white bg
+    // Sprites — dark mode: white nodes + cyan glow; light mode: DEEP orange nodes + black edges
+    // Light mode: use pure orange (blue=0) so blending with white keeps hue; higher alphas for contrast
     const sBaseDark  = makeSprite('rgba(240,240,245,0.92)', 'rgba(200,210,230,0.30)');
-    const sBaseLight = makeSprite('rgba(245,125,40,0.95)',  'rgba(255,180,80,0.48)');
+    const sBaseLight = makeSprite('rgba(230,100,0,0.98)',     'rgba(255,160,40,0.60)');  // deeper orange, blue=0
     const sAccDark   = makeSprite('rgba(70,190,245,0.72)',  'rgba(110,215,255,0.35)');
-    const sAccLight  = makeSprite('rgba(255,155,50,0.95)',  'rgba(255,205,100,0.55)');
+    const sAccLight  = makeSprite('rgba(255,140,0,0.98)',     'rgba(255,180,50,0.65)');  // deeper accent
     const sRingDark  = makeRing('rgba(70,190,245,0.18)',    'rgba(70,190,245,0.03)');
-    const sRingLight = makeRing('rgba(255,145,50,0.22)',     'rgba(245,125,40,0.06)');
+    const sRingLight = makeRing('rgba(255,130,0,0.28)',     'rgba(255,150,30,0.08)');  // stronger ring
     const sPulseDark = makeSprite('rgba(110,210,255,0.88)', 'rgba(80,195,255,0.38)', 24);
-    const sPulseLight= makeSprite('rgba(255,165,60,0.95)',  'rgba(255,210,115,0.52)', 24);
+    const sPulseLight= makeSprite('rgba(255,150,0,0.98)',    'rgba(255,190,40,0.60)', 24);  // pulse visible on white
     // Cursor glow sprite — subtle 120px halo
     const sCursorDark  = makeSprite('rgba(70,180,245,0.22)', 'rgba(80,195,255,0.06)', 120);
-    const sCursorLight = makeSprite('rgba(245,145,60,0.25)', 'rgba(255,175,80,0.08)', 120);
+    const sCursorLight = makeSprite('rgba(255,130,0,0.30)',  'rgba(255,160,30,0.10)', 120);  // visible on white
 
     const parent = canvas.parentElement ?? canvas;
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;
@@ -266,8 +267,12 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       }
 
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      // Light mode: pure black edges, higher alpha ceiling
+      // Light mode: pure black edges with MUCH higher alphas for white bg visibility
+      // Dark mode: cyan edges
       const lineRGB = isDark ? '170,225,255' : '0,0,0';
+      // Light mode alphas boosted 2.5x — 0.14→0.35, 0.24→0.60, 0.35→0.85
+      const darkAlphas = [0.08, 0.15, 0.22];
+      const lightAlphas = [0.35, 0.60, 0.85];
       const drawBucket = (bucket: number[], lw: number, ad: number, al: number) => {
         if (!bucket.length) return;
         ctx.lineWidth = lw;
@@ -276,9 +281,9 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         ctx.strokeStyle = `rgba(${lineRGB},${isDark ? ad : al})`;
         ctx.stroke();
       };
-      drawBucket(bucketEdges[0], 0.5, 0.08, 0.14);
-      drawBucket(bucketEdges[1], 0.45, 0.15, 0.24);
-      drawBucket(bucketEdges[2], 0.35, 0.22, 0.35);
+      drawBucket(bucketEdges[0], 0.5, darkAlphas[0], lightAlphas[0]);
+      drawBucket(bucketEdges[1], 0.45, darkAlphas[1], lightAlphas[1]);
+      drawBucket(bucketEdges[2], 0.35, darkAlphas[2], lightAlphas[2]);
 
       const spBase  = isDark ? sBaseDark  : sBaseLight;
       const spAcc   = isDark ? sAccDark   : sAccLight;
@@ -288,14 +293,16 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
 
       for (const n of nodes) {
         const size = (2.4 + 3.8 * Math.max(n.ps - 0.72, 0.05)) * 2;
-        // Light mode: raised alpha floor to 0.20 (was 0.10 — invisible on white)
-        const alpha = Math.max(n.pa, isDark ? 0.10 : 0.20) * (isDark ? 0.92 : 0.92);
+        // Light mode: alpha floor 0.65 (was 0.30) - nodes must be opaque enough to show orange on white
+        // Dark mode: 0.20 floor (was 0.15)
+        const alpha = Math.max(n.pa, isDark ? 0.20 : 0.65);
 
         ctx.globalAlpha = alpha;
         ctx.drawImage(spBase, n.px - size / 2, n.py - size / 2, size, size);
 
         if (n.act > 0.03) {
-          ctx.globalAlpha = n.act * (isDark ? 0.22 : 0.62);
+          // Light mode: source-over (not lighter) + high alpha; Dark mode: lighter + lower alpha
+          ctx.globalAlpha = n.act * (isDark ? 0.22 : 0.90);
           if (isDark) {
             ctx.globalCompositeOperation = 'lighter';
             ctx.drawImage(spAcc, n.px - size / 2, n.py - size / 2, size, size);
@@ -306,7 +313,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         }
 
         if (n.act > 0.04) {
-          ctx.globalAlpha = n.act * (isDark ? 0.20 : 0.35);
+          ctx.globalAlpha = n.act * (isDark ? 0.20 : 0.65);
           const rs = size * (2.0 + n.act * 2.2);
           ctx.globalCompositeOperation = 'lighter';
           ctx.drawImage(spRing, n.px - rs / 2, n.py - rs / 2, rs, rs);
