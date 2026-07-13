@@ -205,12 +205,12 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
 
-      const bg = ctx.createRadialGradient(cx, cy * 0.6, 0, cx, cy * 0.6, Math.max(w, h) * 0.5);
-      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(245,125,40,0.005)');
-      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(255,175,80,0.003)');
-      bg.addColorStop(1, 'transparent');
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, w, h);
+      const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.5);
+            bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(245,125,40,0.005)');
+            bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(255,175,80,0.003)');
+            bg.addColorStop(1, 'transparent');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, w, h);
 
       const rot = reducedMotion ? 0.03 : 0.04 * Math.sin(t * 0.000018);
       const cos = Math.cos(rot), sin = Math.sin(rot);
