@@ -22,15 +22,15 @@ interface Node {
 function buildNodes(count: number, rand: () => number): Node[] {
   const nodes: Node[] = [];
   const lobes = [
-    { cx: 0,    cy: 0.42, cz: -0.06, rx: 0.68, ry: 0.46, rz: 0.42, count: 0.14 },
-    { cx: -0.55, cy: 0.16, cz: 0,    rx: 0.62, ry: 0.50, rz: 0.44, count: 0.13 },
-    { cx:  0.55, cy: 0.16, cz: 0,    rx: 0.62, ry: 0.50, rz: 0.44, count: 0.13 },
-    { cx: -0.38, cy: -0.05, cz: 0.08, rx: 0.56, ry: 0.46, rz: 0.42, count: 0.12 },
-    { cx:  0.38, cy: -0.05, cz: 0.08, rx: 0.56, ry: 0.46, rz: 0.42, count: 0.12 },
-    { cx: -0.58, cy: -0.28, cz: 0.06, rx: 0.58, ry: 0.44, rz: 0.40, count: 0.11 },
-    { cx:  0.58, cy: -0.28, cz: 0.06, rx: 0.58, ry: 0.44, rz: 0.40, count: 0.11 },
-    { cx: 0,    cy: -0.44, cz: 0.10, rx: 0.70, ry: 0.36, rz: 0.44, count: 0.08 },
-  ];
+      { cx: 0,    cy: 0.42, cz: -0.06, rx: 0.68, ry: 0.46, rz: 0.42, count: 0.14 },
+      { cx: -0.55, cy: 0.16, cz: 0,    rx: 0.62, ry: 0.50, rz: 0.44, count: 0.13 },
+      { cx:  0.55, cy: 0.16, cz: 0,    rx: 0.62, ry: 0.50, rz: 0.44, count: 0.135 },  // slight right boost
+      { cx: -0.38, cy: -0.05, cz: 0.08, rx: 0.56, ry: 0.46, rz: 0.42, count: 0.12 },
+      { cx:  0.38, cy: -0.05, cz: 0.08, rx: 0.56, ry: 0.46, rz: 0.42, count: 0.125 }, // slight right boost
+      { cx: -0.58, cy: -0.28, cz: 0.06, rx: 0.58, ry: 0.44, rz: 0.40, count: 0.11 },
+      { cx:  0.58, cy: -0.28, cz: 0.06, rx: 0.58, ry: 0.44, rz: 0.40, count: 0.115 }, // slight right boost
+      { cx: 0,    cy: -0.44, cz: 0.10, rx: 0.70, ry: 0.36, rz: 0.44, count: 0.08 },
+    ];
   const innerCount = Math.floor(count * 0.06);
 
   for (const lobe of lobes) {
