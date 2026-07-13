@@ -206,9 +206,10 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
 
-      const bg = ctx.createRadialGradient(cx, cy * 0.6, 0, cx, cy * 0.6, Math.max(w, h) * 0.5);
-      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(245,125,40,0.005)');
-      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(255,175,80,0.003)');
+      // Symmetric radial gradient centered on canvas — fixes left-side bias
+      const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.5);
+      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.008)' : 'rgba(245,125,40,0.008)');
+      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.005)' : 'rgba(255,175,80,0.005)');
       bg.addColorStop(1, 'transparent');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
@@ -252,12 +253,15 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         px += n.dx; py += n.dy;
 
         const edgeF = Math.min(Math.hypot((px - cx) / (w * 0.5), (py - cy) / (h * 0.5)), 1);
-        const mask = 0.45 + 0.55 * edgeF;
+        // Flatten radial falloff: was 0.45→1.0, now 0.7→1.0 for more uniform edge visibility
+        const mask = 0.70 + 0.30 * edgeF;
         const twinkle = 0.78 + 0.22 * Math.sin(t * 0.00008 + n.twp);
 
         n.act = reducedMotion ? 0 : (activeSet.has(n.clusterId) ? clusterActivation(phase, n.clusterId, CLUSTERS) : 0);
         n.px = px; n.py = py; n.ps = sc;
-        n.pa = mask * twinkle * (0.40 + 0.60 * Math.min((sc - 0.72) / 0.48, 1)) * (1 + n.act * 1.8);
+        // Boost base visibility and reduce scale penalty for edge nodes
+        const scaleFactor = 0.55 + 0.45 * Math.min((sc - 0.65) / 0.55, 1); // was 0.40 + 0.60 * (sc-0.72)/0.48
+        n.pa = mask * twinkle * scaleFactor * (1 + n.act * 1.8);
       }
 
       bucketEdges[0].length = 0; bucketEdges[1].length = 0; bucketEdges[2].length = 0;
@@ -267,11 +271,12 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       }
 
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      // Light mode: pure black edges with MUCH higher alphas for white bg visibility
-      // Dark mode: cyan edges
+      // Light mode: pure black edges with high alphas for white bg
+      // Dark mode: cyan edges with very high alphas for dark bg visibility
       const lineRGB = isDark ? '170,225,255' : '0,0,0';
-      // Light mode alphas boosted 2.5x — 0.14→0.35, 0.24→0.60, 0.35→0.85
-      const darkAlphas = [0.08, 0.15, 0.22];
+      // Dark mode alphas: 0.50, 0.75, 0.95
+      // Light mode alphas: 0.35, 0.60, 0.85
+      const darkAlphas = [0.50, 0.75, 0.95];
       const lightAlphas = [0.35, 0.60, 0.85];
       const drawBucket = (bucket: number[], lw: number, ad: number, al: number) => {
         if (!bucket.length) return;
@@ -293,16 +298,16 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
 
       for (const n of nodes) {
         const size = (2.4 + 3.8 * Math.max(n.ps - 0.72, 0.05)) * 2;
-        // Light mode: alpha floor 0.65 (was 0.30) - nodes must be opaque enough to show orange on white
-        // Dark mode: 0.20 floor (was 0.15)
-        const alpha = Math.max(n.pa, isDark ? 0.20 : 0.65);
+        // Light mode: alpha floor 0.75 (was 0.65) - nodes must be solid on white
+        // Dark mode: 0.25 floor (was 0.20)
+        const alpha = Math.max(n.pa, isDark ? 0.25 : 0.75);
 
         ctx.globalAlpha = alpha;
         ctx.drawImage(spBase, n.px - size / 2, n.py - size / 2, size, size);
 
         if (n.act > 0.03) {
-          // Light mode: source-over (not lighter) + high alpha; Dark mode: lighter + lower alpha
-          ctx.globalAlpha = n.act * (isDark ? 0.22 : 0.90);
+          // Light mode: source-over (not lighter) + very high alpha; Dark mode: lighter + lower alpha
+          ctx.globalAlpha = n.act * (isDark ? 0.25 : 0.95);
           if (isDark) {
             ctx.globalCompositeOperation = 'lighter';
             ctx.drawImage(spAcc, n.px - size / 2, n.py - size / 2, size, size);
@@ -313,7 +318,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         }
 
         if (n.act > 0.04) {
-          ctx.globalAlpha = n.act * (isDark ? 0.20 : 0.65);
+          ctx.globalAlpha = n.act * (isDark ? 0.25 : 0.75);
           const rs = size * (2.0 + n.act * 2.2);
           ctx.globalCompositeOperation = 'lighter';
           ctx.drawImage(spRing, n.px - rs / 2, n.py - rs / 2, rs, rs);
