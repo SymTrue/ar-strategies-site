@@ -38,48 +38,6 @@ const icons: Record<string, React.ReactNode> = {
   chart: (<svg {...svgBase}><line x1="4" y1="20" x2="4" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="20" y1="20" x2="20" y2="14" /></svg>),
 };
 
-// Strike Den Tiger Logo (Premium brand mark)
-const StrikeDenLogo = () => (
-  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-    <defs>
-      <linearGradient id="tigerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#DC143C" />
-        <stop offset="100%" stopColor="#B22222" />
-      </linearGradient>
-    </defs>
-    {/* Hexagon outer border */}
-    <path d="M32 8 L48 16 L48 40 L32 48 L16 40 L16 16 Z" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
-
-    {/* Tiger head */}
-    <g>
-      {/* Face base */}
-      <ellipse cx="32" cy="32" rx="16" ry="18" fill="url(#tigerGrad)" />
-
-      {/* Stripes on forehead */}
-      <path d="M22 20 Q26 18 32 18 Q38 18 42 20" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
-      <path d="M20 24 Q24 22 32 22 Q40 22 44 24" stroke="currentColor" strokeWidth="1.5" opacity="0.7" />
-
-      {/* Eyes - fierce */}
-      <ellipse cx="26" cy="30" rx="2.5" ry="3.5" fill="currentColor" />
-      <ellipse cx="38" cy="30" rx="2.5" ry="3.5" fill="currentColor" />
-      <ellipse cx="26" cy="29" rx="1" ry="1.5" fill="white" />
-      <ellipse cx="38" cy="29" rx="1" ry="1.5" fill="white" />
-
-      {/* Nose */}
-      <path d="M32 36 L30 38 L34 38 Z" fill="currentColor" />
-
-      {/* Mouth/fangs */}
-      <path d="M30 38 Q32 40 34 38" stroke="currentColor" strokeWidth="1.2" />
-      <path d="M28 39 L26 42" stroke="currentColor" strokeWidth="1" />
-      <path d="M36 39 L38 42" stroke="currentColor" strokeWidth="1" />
-
-      {/* Mane accent lines */}
-      <path d="M16 28 Q14 32 16 36" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
-      <path d="M48 28 Q50 32 48 36" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
-    </g>
-  </svg>
-);
-
 // Social Icons: Instagram, LinkedIn, Website (24×24px Lucide-style)
 const InstagramIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="h-5 w-5">
@@ -207,20 +165,6 @@ function ScrollProgress() {
 }
 
 // Client Success Badge (Phase 3)
-const SuccessBadge = ({ icon, stat, label }: { icon: React.ReactNode; stat: string; label: string }) => (
-  <div className="relative group">
-    <div className="absolute -inset-0.5 bg-gradient-to-r from-brand/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl blur" />
-    <div className="relative px-6 py-4 glass-card text-center">
-      <div className="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-brand/20 border border-brand/50 mb-3 mx-auto text-brand">
-        {icon}
-      </div>
-      <div className="text-2xl font-display text-brand font-bold">{stat}</div>
-      <p className="text-gray-400 text-xs mt-1">{label}</p>
-    </div>
-  </div>
-);
-
-// FAQ Category Tag Component
 const FAQTag = ({ category }: { category: 'timeline' | 'pricing' | 'service' | 'contract' }) => {
   const colors = {
     timeline: 'bg-blue-500/20 border-blue-500/50 text-blue-400',
@@ -351,54 +295,6 @@ function useInViewClass<T extends HTMLElement>() {
     return () => obs.disconnect();
   }, []);
   return ref;
-}
-
-function TimelineWithFill() {
-  const timelineRef = useInViewClass<HTMLDivElement>();
-  return (
-    <div ref={timelineRef} className="timeline-track hidden lg:block" aria-hidden="true">
-      <div className="timeline-fill" />
-    </div>
-  );
-}
-
-function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    let raf = 0;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (!e.isIntersecting) return;
-        obs.disconnect();
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          raf = requestAnimationFrame(() => setVal(to));
-          return;
-        }
-        const t0 = performance.now();
-        const dur = 900;
-        const tick = (t: number) => {
-          const p = Math.min((t - t0) / dur, 1);
-          setVal(Math.round(to * (1 - Math.pow(1 - p, 3))));
-          if (p < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-      },
-      { threshold: 0.5 },
-    );
-    obs.observe(el);
-    return () => {
-      obs.disconnect();
-      cancelAnimationFrame(raf);
-    };
-  }, [to]);
-  return (
-    <span ref={ref} className="tabular-nums">
-      {prefix}{val}{suffix}
-    </span>
-  );
 }
 
 function useScrollSpy(hrefs: string[]) {
@@ -730,7 +626,6 @@ export default function Home() {
           <div data-reveal className="max-w-3xl mx-auto mb-12 text-brand hidden lg:block">
             <ProcessFlow />
           </div>
-          <TimelineWithFill />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <AnimatedSection key={step.n} delay={i * 0.08} className="h-full">
