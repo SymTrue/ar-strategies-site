@@ -10,6 +10,7 @@ const links = [
   { label: 'Services', href: '/#services' },
   { label: 'Process', href: '/#process' },
   { label: 'Why Us', href: '/#why' },
+  { label: 'About', href: '/about' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/#faq' },

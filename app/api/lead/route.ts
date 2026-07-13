@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { saveLead, updateLeadStatus } from '@/lib/db';
-
-// Simple in-memory rate limiter (per IP, 5 requests per hour)
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+import { checkLeadRateLimit, saveLead, updateLeadStatus } from '@/lib/db';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -18,23 +15,6 @@ function escapeHtml(value: string): string {
 
     return entities[character];
   });
-}
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const record = rateLimitMap.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + 3600000 }); // 1 hour
-    return true;
-  }
-
-  if (record.count >= 5) {
-    return false;
-  }
-
-  record.count++;
-  return true;
 }
 
 export async function POST(req: NextRequest) {
@@ -58,7 +38,8 @@ export async function POST(req: NextRequest) {
       'unknown';
 
     // Rate limit check
-    if (!checkRateLimit(ip)) {
+    const rateKey = `lead:${ip.split(',')[0]?.trim() || 'unknown'}`;
+    if (!(await checkLeadRateLimit(rateKey, 5, 3600))) {
       return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 
@@ -90,7 +71,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Store lead in database FIRST (before sending emails)
-    let leadId: string;
+    let leadId: string | null;
     try {
       leadId = await saveLead(normalizedEmail);
       if (!leadId) {
@@ -164,8 +145,10 @@ export async function POST(req: NextRequest) {
       console.error('Resend confirmation error:', body);
     }
 
-    // Mark lead as confirmed
-    await updateLeadStatus(leadId, 'confirmed');
+    // Mark lead as confirmed only when the owner notification was delivered.
+    if (notificationRes.ok) {
+      await updateLeadStatus(leadId, 'confirmed');
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {

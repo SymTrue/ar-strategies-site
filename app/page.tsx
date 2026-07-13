@@ -80,33 +80,6 @@ const StrikeDenLogo = () => (
   </svg>
 );
 
-// Founder graphic: minimalist avatar silhouette
-const FounderGraphic = () => (
-  <svg viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-    {/* Head */}
-    <circle cx="32" cy="20" r="12" />
-    {/* Shoulders and torso */}
-    <path d="M20 32 Q20 40 32 44 Q44 40 44 32 Z" />
-    {/* Accent lines for depth */}
-    <circle cx="32" cy="20" r="12" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-    <path d="M24 28 Q32 32 40 28" stroke="currentColor" strokeWidth="0.5" opacity="0.2" fill="none" />
-  </svg>
-);
-
-// Founder graphic with background circle (for card display)
-const FounderGraphicCard = () => (
-  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-    {/* Outer circle */}
-    <circle cx="60" cy="60" r="58" stroke="currentColor" strokeWidth="1" opacity="0.2" />
-    {/* Head */}
-    <circle cx="60" cy="40" r="18" fill="currentColor" />
-    {/* Shoulders and torso */}
-    <path d="M36 56 Q36 70 60 76 Q84 70 84 56 Z" fill="currentColor" />
-    {/* Inner circle accent */}
-    <circle cx="60" cy="40" r="18" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.15" />
-  </svg>
-);
-
 // Social Icons: Instagram, LinkedIn, Website (24×24px Lucide-style)
 const InstagramIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="h-5 w-5">
@@ -453,6 +426,7 @@ const navLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
   { label: 'Why Us', href: '#why' },
+  { label: 'About', href: '/about' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '#faq' },
@@ -892,33 +866,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Founder Section */}
-      <section className="py-20 md:py-28 px-6 section-dashed section-premium">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-gradient-to-br from-brand/30 to-brand/10 border border-brand/50 mb-6 text-brand">
-              <FounderGraphicCard />
-            </div>
-            <h3 className="font-display text-2xl md:text-3xl uppercase mb-3">Akbar Ahmad</h3>
-            <p className="text-brand font-semibold mb-4">Founder, AR Strategies</p>
-            <p className="text-gray-300 text-lg leading-relaxed mb-6 max-w-xl mx-auto">
-              Built Strike Den from zero to #1 ranking in 6 months. Helped 50+ local businesses cut ad waste and scale revenue. Built this agency to solve the problems I discovered in the field.
-            </p>
-            <a
-              href="https://www.linkedin.com/in/akbararstrats/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-brand/50 hover:border-brand text-brand hover:bg-brand/10 transition-colors duration-300"
-            >
-              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-              </svg>
-              Connect on LinkedIn
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* Social Proof - Featured Case Study */}
       <section className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-6xl mx-auto">
@@ -1124,7 +1071,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-display text-xl uppercase mb-2">Audits Completed</h3>
-                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Every audit begins the same way: we find the money they're leaving on the table. Most businesses have no idea how invisible they are for their best-buying searches.</p>
+                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Every audit begins the same way: we find the money they&apos;re leaving on the table. Most businesses have no idea how invisible they are for their best-buying searches.</p>
                   </div>
                 </div>
               </AnimatedSection>
@@ -1138,7 +1085,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-display text-xl uppercase mb-2">Average Monthly Waste</h3>
-                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Across our audits, the average local business wastes thousands every month on ads that don't ring the phone. The money is there. It is just pointed in the wrong direction.</p>
+                    <p className="text-gray-400 leading-relaxed max-w-[60ch]">Across our audits, the average local business wastes thousands every month on ads that don&apos;t ring the phone. The money is there. It is just pointed in the wrong direction.</p>
                   </div>
                 </div>
               </AnimatedSection>
@@ -1151,7 +1098,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="font-display text-xl uppercase mb-2">Days to First Results</h3>
-                  <p className="text-gray-400 leading-relaxed max-w-[60ch]">Most clients see movement within the first month. Meta ads bring customers immediately. Google rankings compound behind them. You're never waiting on just one channel.</p>
+                  <p className="text-gray-400 leading-relaxed max-w-[60ch]">Most clients see movement within the first month. Meta ads bring customers immediately. Google rankings compound behind them. You&apos;re never waiting on just one channel.</p>
                 </div>
               </div>
             </AnimatedSection>
@@ -1241,6 +1188,7 @@ export default function Home() {
                 <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
                 <li><a href="#process" className="hover:text-white transition-colors">Process</a></li>
                 <li><a href="#why" className="hover:text-white transition-colors">Why Us</a></li>
+                <li><a href="/about" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
               </ul>
             </div>

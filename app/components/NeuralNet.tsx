@@ -3,21 +3,20 @@
 import { useEffect, useRef } from 'react';
 
 /* Premium hero background: dense neural canopy surrounding hero text.
-   Inverse cursor interaction: cursor creates a dim zone, everything outside
-   lights up like a slow breathing electric current propagating from cursor to edges.
-   Low base brightness, especially near text center. */
+   8-lobe halo + inner ring — ~500 nodes, ~2000 edges.
+   Dark mode: white nodes + blue glow. Light mode: orange nodes + black edges + amber glow.
+   Cursor glow halo (Interactive Cursor pattern), boosted light-mode visibility.
+   Canvas 2D, pre-rendered sprites. 60fps. */
 
 interface Node {
   x: number; y: number; z: number;
-  ph: number;        // phase offset for drift
-  sp: number;        // speed multiplier
-  tw: number; twp: number; // twinkle
-  dx: number; dy: number; // mouse gravity velocity
-  px: number; py: number; // projected position
-  ps: number;        // perspective scale
-  pa: number;        // final alpha
-  baseAlpha: number; // base alpha (dim state)
-  distToCursor: number; // distance to cursor for inverse glow
+  ph: number;
+  sp: number;
+  tw: number; twp: number;
+  dx: number; dy: number;
+  px: number; py: number; ps: number; pa: number;
+  act: number;
+  clusterId: number;
 }
 
 function buildNodes(count: number, rand: () => number): Node[] {
@@ -49,9 +48,8 @@ function buildNodes(count: number, rand: () => number): Node[] {
         sp: 0.35 + rand() * 0.65,
         tw: 0.3 + rand() * 0.7, twp: rand() * Math.PI * 2,
         dx: 0, dy: 0,
-        px: 0, py: 0, ps: 1, pa: 0,
-        baseAlpha: 0,
-        distToCursor: 9999,
+        px: 0, py: 0, ps: 1, pa: 0, act: 0,
+        clusterId: Math.floor(rand() * 28),
       });
     }
   }
@@ -68,9 +66,8 @@ function buildNodes(count: number, rand: () => number): Node[] {
       sp: 0.4 + rand() * 0.6,
       tw: 0.4 + rand() * 0.6, twp: rand() * Math.PI * 2,
       dx: 0, dy: 0,
-      px: 0, py: 0, ps: 1, pa: 0,
-      baseAlpha: 0,
-      distToCursor: 9999,
+      px: 0, py: 0, ps: 1, pa: 0, act: 0,
+      clusterId: Math.floor(rand() * 28),
     });
   }
   return nodes;
@@ -125,14 +122,18 @@ function makeRing(peak: string, fade: string, size = 80): HTMLCanvasElement {
   return c;
 }
 
+const FI = 0.55, FO = 0.78;
+function clusterActivation(cp: number, cid: number, tc: number): number {
+  const p = ((cp + cid / tc) % 1);
+  const fi = p < FI ? p / FI : 1;
+  const fo = p > FO ? (1 - (p - FO) / (1 - FO)) : 1;
+  return Math.sin(Math.min(fi, fo) * Math.PI / 2) ** 2;
+}
+
 export default function NeuralNet({ theme, reducedMotion }: { theme: string; reducedMotion: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const themeRef = useRef(theme);
   useEffect(() => { themeRef.current = theme; }, [theme]);
-
-  // Cursor position with spring smoothing for organic feel
-  const mouse = { x: -9999, y: -9999 };
-  const springMouse = { x: -9999, y: -9999 };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -142,21 +143,25 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
 
     const coarse = window.matchMedia('(pointer: coarse)').matches;
     const lowPower = coarse || (navigator.hardwareConcurrency ?? 8) <= 4;
-    const N = lowPower ? 280 : 420;
+    const N = lowPower ? 320 : 500;
 
     let seed = 1337;
     const rand = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
     const nodes = buildNodes(N, rand);
-    const edges = buildEdges(nodes, 3);
+    const edges = buildEdges(nodes, 4);
 
-    // Sprites - DIM base, bright only on activation
-        const isDarkMode = themeRef.current !== 'light';
-        const sBaseDark  = makeSprite('rgba(140,170,190,0.35)', 'rgba(110,140,170,0.08)');
-        const sBaseLight = makeSprite('rgba(220,100,0,0.95)',   'rgba(255,150,20,0.55)');
-        const sAccDark   = makeSprite('rgba(50,170,240,0.70)',  'rgba(90,200,255,0.20)');
-        const sAccLight  = makeSprite('rgba(255,130,0,0.95)',   'rgba(255,170,30,0.55)');
-        const sRingDark  = makeRing('rgba(50,160,240,0.08)',    'rgba(50,160,240,0.01)');
-        const sRingLight = makeRing('rgba(255,120,0,0.12)',     'rgba(255,140,10,0.03)');
+    // Sprites — light mode base nodes: opaque orange, no transparency fighting white bg
+    const sBaseDark  = makeSprite('rgba(240,240,245,0.92)', 'rgba(200,210,230,0.30)');
+    const sBaseLight = makeSprite('rgba(245,125,40,0.95)',  'rgba(255,180,80,0.48)');
+    const sAccDark   = makeSprite('rgba(70,190,245,0.72)',  'rgba(110,215,255,0.35)');
+    const sAccLight  = makeSprite('rgba(255,155,50,0.95)',  'rgba(255,205,100,0.55)');
+    const sRingDark  = makeRing('rgba(70,190,245,0.18)',    'rgba(70,190,245,0.03)');
+    const sRingLight = makeRing('rgba(255,145,50,0.22)',     'rgba(245,125,40,0.06)');
+    const sPulseDark = makeSprite('rgba(110,210,255,0.88)', 'rgba(80,195,255,0.38)', 24);
+    const sPulseLight= makeSprite('rgba(255,165,60,0.95)',  'rgba(255,210,115,0.52)', 24);
+    // Cursor glow sprite — subtle 120px halo
+    const sCursorDark  = makeSprite('rgba(70,180,245,0.22)', 'rgba(80,195,255,0.06)', 120);
+    const sCursorLight = makeSprite('rgba(245,145,60,0.25)', 'rgba(255,175,80,0.08)', 120);
 
     const parent = canvas.parentElement ?? canvas;
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;
@@ -173,170 +178,168 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     const ro = new ResizeObserver(resize);
     ro.observe(parent);
 
-    // Mouse tracking with immediate response for inverse glow
     const mouse = { x: -9999, y: -9999 };
-    const springMouse = { x: -9999, y: -9999 };
-
     if (!coarse && !reducedMotion) {
       window.addEventListener('pointermove', (e: PointerEvent) => {
         const r = canvas.getBoundingClientRect();
         mouse.x = e.clientX - r.left;
         mouse.y = e.clientY - r.top;
-        // Initialize spring on first move
-        if (springMouse.x === -9999) {
-          springMouse.x = mouse.x;
-          springMouse.y = mouse.y;
-        }
       }, { passive: true });
       document.documentElement.addEventListener('pointerleave', () => { mouse.x = -9999; mouse.y = -9999; });
     }
 
+    const CLUSTERS = 28, ACTIVE = 3;
+    const CYCLE = 22000;
     const FOV = 2.6;
-    const GRAV_R = 180;
+    const GRAV_R = 180; // tightened per Interactive Cursor pattern (100px magnetic)
+
+    const bucketEdges: [number[], number[], number[]] = [[], [], []];
+    const activeEdges: number[] = [];
+    const edgeClusterMap = new Map<number, Set<number>>();
+    edges.forEach((_, i) => edgeClusterMap.set(i, new Set([nodes[edges[i][0]].clusterId, nodes[edges[i][1]].clusterId])));
+
+    const pulses: { edge: number; t: number; dur: number }[] = [];
 
     const draw = (t: number) => {
       const isDark = themeRef.current !== 'light';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
 
-      // Very subtle centered gradient - barely visible
-      const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.5);
-      bg.addColorStop(0, isDark ? 'rgba(5,80,110,0.004)' : 'rgba(210,100,15,0.004)');
-      bg.addColorStop(0.5, isDark ? 'rgba(3,60,90,0.002)' : 'rgba(180,80,10,0.002)');
+      const bg = ctx.createRadialGradient(cx, cy * 0.6, 0, cx, cy * 0.6, Math.max(w, h) * 0.5);
+      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(245,125,40,0.005)');
+      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(255,175,80,0.003)');
       bg.addColorStop(1, 'transparent');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
 
-      // Spring-smoothed cursor for organic movement
-      springMouse.x += (mouse.x - springMouse.x) * 0.06;
-      springMouse.y += (mouse.y - springMouse.y) * 0.06;
-
-      const rot = reducedMotion ? 0.005 : 0.008 * Math.sin(t * 0.000006); // even slower
+      const rot = reducedMotion ? 0.03 : 0.04 * Math.sin(t * 0.000018);
       const cos = Math.cos(rot), sin = Math.sin(rot);
 
-      // Inverse glow parameters
-      const cursorRadius = 160;      // dim zone radius around cursor
-      const maxGlowRadius = Math.max(w, h) * 0.85;
-      const cursorActive = mouse.x > -999;  // Use raw mouse for immediate response
+      const phase = (t % CYCLE) / CYCLE;
+      const activeSet = new Set<number>();
+      for (let c = 0; c < ACTIVE; c++) {
+        activeSet.add(Math.floor(((phase + c * (CLUSTERS / ACTIVE) / CLUSTERS) % 1) * CLUSTERS) % CLUSTERS);
+      }
+      activeEdges.length = 0;
+      for (let i = 0; i < edges.length; i++) {
+        const cs = edgeClusterMap.get(i)!;
+        for (const c of cs) if (activeSet.has(c)) { activeEdges.push(i); break; }
+      }
 
-      // Pre-compute node states
       for (const n of nodes) {
-        // Very slow ambient drift
         const drift = reducedMotion ? 0 : 1;
-        const ox = n.x + drift * 0.003 * Math.sin(t * 0.00002 * n.sp + n.ph);
-        const oy = n.y + drift * 0.0025 * Math.sin(t * 0.000018 * n.sp + n.ph + 1);
-        const oz = n.z + drift * 0.003 * Math.sin(t * 0.000022 * n.sp + n.ph + 2);
+        const ox = n.x + drift * 0.008 * Math.sin(t * 0.00006 * n.sp + n.ph);
+        const oy = n.y + drift * 0.006 * Math.sin(t * 0.00005 * n.sp + n.ph + 1);
+        const oz = n.z + drift * 0.008 * Math.sin(t * 0.000055 * n.sp + n.ph + 2);
         const rx = ox * cos - oz * sin;
         const rz = ox * sin + oz * cos;
         const sc = FOV / (FOV + rz);
         let px = cx + rx * sc * R;
         let py = cy + oy * sc * R;
 
-        // Gentle mouse gravity (attracts nodes slightly) - use spring for smoothness
-        if (cursorActive) {
-          const mdx = springMouse.x - px, mdy = springMouse.y - py;
+        if (mouse.x > -999) {
+          const mdx = mouse.x - px, mdy = mouse.y - py;
           const md = Math.hypot(mdx, mdy);
           if (md < GRAV_R && md > 0.01) {
-            const f = (1 - md / GRAV_R) ** 2 * 2; // gentler
+            const f = (1 - md / GRAV_R) ** 2 * 9;
             const tx = (mdx / md) * f;
             const ty = (mdy / md) * f;
-            n.dx += (tx - n.dx) * 0.015;
-            n.dy += (ty - n.dy) * 0.015;
+            n.dx += (tx - n.dx) * 0.04;
+            n.dy += (ty - n.dy) * 0.04;
           }
         }
         px += n.dx; py += n.dy;
 
-        // Distance to cursor for inverse glow - use RAW mouse for immediate response
-        let distToCursor = 9999;
-        if (cursorActive) {
-          const cdx = px - mouse.x;
-          const cdy = py - mouse.y;
-          distToCursor = Math.hypot(cdx, cdy);
-        }
-        n.distToCursor = distToCursor;
-
-        // INVERSE GLOW: nodes FAR from cursor get brighter
-        // Near cursor (within cursorRadius) = DIM
-        // Far from cursor = BRIGHT, with slow breathing wave propagating outward
-        let inverseGlow = 1;
-        if (cursorActive) {
-          if (distToCursor < cursorRadius) {
-            // Inside cursor zone: very dim (8-25%)
-            inverseGlow = 0.08 + 0.17 * (distToCursor / cursorRadius);
-          } else {
-            // Outside: glow propagates outward, peaking at ~60% radius
-            const progress = Math.min((distToCursor - cursorRadius) / (maxGlowRadius - cursorRadius), 1);
-            // Slow breathing wave moving outward over time
-            const wavePhase = (t * 0.00005 + progress * Math.PI * 1.0) % (Math.PI * 2);
-            const wave = Math.max(0, Math.sin(wavePhase));
-            inverseGlow = 0.18 + 0.82 * progress * (0.55 + 0.45 * wave);
-          }
-        }
-
-        // Subtle twinkle
-        const twinkle = 0.88 + 0.12 * Math.sin(t * 0.00004 + n.twp);
-
-        // Projected position
         const edgeF = Math.min(Math.hypot((px - cx) / (w * 0.5), (py - cy) / (h * 0.5)), 1);
-        const mask = 0.50 + 0.30 * edgeF; // dimmer center
-        const scaleFactor = 0.45 + 0.40 * Math.min((sc - 0.55) / 0.65, 1); // smaller scale range
+        const mask = 0.45 + 0.55 * edgeF;
+        const twinkle = 0.78 + 0.22 * Math.sin(t * 0.00008 + n.twp);
 
+        n.act = reducedMotion ? 0 : (activeSet.has(n.clusterId) ? clusterActivation(phase, n.clusterId, CLUSTERS) : 0);
         n.px = px; n.py = py; n.ps = sc;
-        n.pa = mask * twinkle * scaleFactor * inverseGlow * 0.5; // overall dimmer (was 0.28)
-        n.baseAlpha = 0.12 * inverseGlow; // base dim state (was 0.05)
+        n.pa = mask * twinkle * (0.40 + 0.60 * Math.min((sc - 0.72) / 0.48, 1)) * (1 + n.act * 1.8);
       }
 
-      // Edge bucketing with inverse glow
-      const bucketEdges: [number[], number[], number[]] = [[], [], []];
+      bucketEdges[0].length = 0; bucketEdges[1].length = 0; bucketEdges[2].length = 0;
       for (let i = 0; i < edges.length; i++) {
-        const a = nodes[edges[i][0]];
-        const b = nodes[edges[i][1]];
-        const avgGlow = (a.baseAlpha + b.baseAlpha) * 0.5;
-        bucketEdges[avgGlow < 0.06 ? 0 : avgGlow < 0.15 ? 1 : 2].push(i);
+        const alpha = (nodes[edges[i][0]].pa + nodes[edges[i][1]].pa) * 0.5;
+        bucketEdges[alpha < 0.32 ? 0 : alpha < 0.55 ? 1 : 2].push(i);
       }
 
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      const lineRGB = isDark ? '100,180,220' : '20,20,20';
-      // Edges also follow inverse glow - dimmer near cursor
-      const darkAlphas = [0.15, 0.30, 0.55];
-      const lightAlphas = [0.15, 0.30, 0.50];
+      // Light mode: pure black edges, higher alpha ceiling
+      const lineRGB = isDark ? '170,225,255' : '0,0,0';
       const drawBucket = (bucket: number[], lw: number, ad: number, al: number) => {
         if (!bucket.length) return;
         ctx.lineWidth = lw;
         ctx.beginPath();
-        for (const i of bucket) {
-          const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
-          ctx.moveTo(a.px, a.py); ctx.lineTo(b.px, b.py);
-        }
+        for (const i of bucket) { const a = nodes[edges[i][0]], b = nodes[edges[i][1]]; ctx.moveTo(a.px, a.py); ctx.lineTo(b.px, b.py); }
         ctx.strokeStyle = `rgba(${lineRGB},${isDark ? ad : al})`;
         ctx.stroke();
       };
-      drawBucket(bucketEdges[0], 0.5, darkAlphas[0], lightAlphas[0]);
-      drawBucket(bucketEdges[1], 0.4, darkAlphas[1], lightAlphas[1]);
-      drawBucket(bucketEdges[2], 0.35, darkAlphas[2], lightAlphas[2]);
+      drawBucket(bucketEdges[0], 0.5, 0.08, 0.14);
+      drawBucket(bucketEdges[1], 0.45, 0.15, 0.24);
+      drawBucket(bucketEdges[2], 0.35, 0.22, 0.35);
 
-      // Draw nodes
       const spBase  = isDark ? sBaseDark  : sBaseLight;
       const spAcc   = isDark ? sAccDark   : sAccLight;
       const spRing  = isDark ? sRingDark  : sRingLight;
+      const spPulse = isDark ? sPulseDark : sPulseLight;
+      const spCursor= isDark ? sCursorDark: sCursorLight;
 
       for (const n of nodes) {
-        const size = (1.8 + 2.8 * Math.max(n.ps - 0.65, 0.05)) * 2;
-        const twinkle = 0.90 + 0.10 * Math.sin(t * 0.000035 + n.twp);
-        const alpha = Math.max(n.pa, n.baseAlpha) * twinkle;
+        const size = (2.4 + 3.8 * Math.max(n.ps - 0.72, 0.05)) * 2;
+        // Light mode: raised alpha floor to 0.20 (was 0.10 — invisible on white)
+        const alpha = Math.max(n.pa, isDark ? 0.10 : 0.20) * (isDark ? 0.92 : 0.92);
 
         ctx.globalAlpha = alpha;
         ctx.drawImage(spBase, n.px - size / 2, n.py - size / 2, size, size);
 
-        // Rare subtle accent flash
-        if (alpha > 0.2 && Math.random() < 0.0005) {
-          ctx.globalAlpha = alpha * 0.3;
-          ctx.drawImage(spAcc, n.px - size / 2, n.py - size / 2, size, size);
+        if (n.act > 0.03) {
+          ctx.globalAlpha = n.act * (isDark ? 0.22 : 0.62);
+          if (isDark) {
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.drawImage(spAcc, n.px - size / 2, n.py - size / 2, size, size);
+            ctx.globalCompositeOperation = 'source-over';
+          } else {
+            ctx.drawImage(spAcc, n.px - size / 2, n.py - size / 2, size, size);
+          }
+        }
+
+        if (n.act > 0.04) {
+          ctx.globalAlpha = n.act * (isDark ? 0.20 : 0.35);
+          const rs = size * (2.0 + n.act * 2.2);
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.drawImage(spRing, n.px - rs / 2, n.py - rs / 2, rs, rs);
+          ctx.globalCompositeOperation = 'source-over';
         }
       }
       ctx.globalAlpha = 1;
 
-      // No cursor halo - the inverse glow IS the cursor response
+      // Cursor glow — subtle halo following pointer
+      if (mouse.x > -999 && !coarse && !reducedMotion) {
+        ctx.globalAlpha = 0.45;
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.drawImage(spCursor, mouse.x - 60, mouse.y - 60, 120, 120);
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalAlpha = 1;
+      }
+
+      if (!reducedMotion) {
+        if (pulses.length < 2 && Math.random() < 0.002) {
+          const pool = activeEdges.length && Math.random() < 0.5 ? activeEdges : Array.from({ length: edges.length }, (_, i) => i);
+          pulses.push({ edge: pool[(Math.random() * pool.length) | 0], t: 0, dur: 4000 + Math.random() * 6000 });
+        }
+        for (let i = pulses.length - 1; i >= 0; i--) {
+          const p = pulses[i];
+          p.t += 16.7;
+          const k = p.t / p.dur;
+          if (k >= 1) { pulses.splice(i, 1); continue; }
+          const a = nodes[edges[p.edge][0]], b = nodes[edges[p.edge][1]];
+          ctx.globalAlpha = Math.sin(Math.PI * k) * 0.28 * Math.max((a.pa + b.pa) * 0.22, 0.03);
+          ctx.drawImage(spPulse, a.px + (b.px - a.px) * k - 6, a.py + (b.py - a.py) * k - 6, 12, 12);
+        }
+        ctx.globalAlpha = 1;
+      }
     };
 
     let raf = 0, running = false;
@@ -353,5 +356,3 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" />;
 }
-
-export { NeuralNet };
