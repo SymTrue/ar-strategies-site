@@ -172,14 +172,15 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       mkTier('rgba(210,220,235,0.78)', 'rgba(170,185,210,0.22)', 30, 1.4),  // far: dimmer, wider halo
       mkTier('rgba(180,195,215,0.60)', 'rgba(150,170,195,0.15)', 28, 1.8),  // deep: barely visible
     ];
-    // Light mode: 4 tiers — monochrome slate/charcoal base, NOT orange.
-    // Near (slate-900) → Mid (slate-600) → Far (slate-400) → Deep (slate-300)
-    const sLightTier = [
-      mkTier('rgba(15,23,42,0.92)',  'rgba(71,85,105,0.55)', 44, 0.8),   // near: slate-900
-      mkTier('rgba(30,41,59,0.85)',  'rgba(100,116,139,0.50)', 36, 1.0),  // mid: slate-700/600
-      mkTier('rgba(51,65,85,0.75)',  'rgba(148,163,184,0.40)', 30, 1.4),  // far: slate-500
-      mkTier('rgba(71,85,105,0.60)', 'rgba(203,213,225,0.30)', 28, 1.8),  // deep: slate-400/300
-    ];
+    // Light mode: 4 tiers — warm slate/charcoal with barely-perceptible amber undertone.
+        // Near (slate-900 + whisper of amber) → Mid (slate-600) → Far (slate-400) → Deep (slate-300)
+        // Base nodes recede; only activation glows use brand orange #ea580c.
+        const sLightTier = [
+          mkTier('rgba(18,24,38,0.92)',  'rgba(85,95,115,0.55)', 44, 0.8),   // near: slate-950 + warmth
+          mkTier('rgba(40,48,62,0.85)',  'rgba(110,122,140,0.50)', 36, 1.0),  // mid: slate-700/600
+          mkTier('rgba(65,75,92,0.75)',  'rgba(155,170,188,0.40)', 30, 1.4),  // far: slate-500
+          mkTier('rgba(85,95,115,0.60)', 'rgba(200,210,225,0.30)', 28, 1.8),  // deep: slate-400/300
+        ];
 
     // Accent sprites — activation glow
     // Dark mode: cyan-blue accent (brand blue)
