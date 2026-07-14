@@ -75,7 +75,14 @@ export function verifyAdminSessionToken(token: string | undefined): AdminSession
 
   try {
     const session = JSON.parse(base64UrlDecode(body).toString('utf8')) as AdminSession;
-    if (!session.email || session.exp < Math.floor(Date.now() / 1000)) return null;
+    const expectedEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+    if (
+      !expectedEmail ||
+      session.email !== expectedEmail ||
+      session.exp < Math.floor(Date.now() / 1000)
+    ) {
+      return null;
+    }
     return session;
   } catch {
     return null;
@@ -86,7 +93,7 @@ export function getSessionCookieOptions() {
   return {
     name: SESSION_COOKIE,
     httpOnly: true,
-    sameSite: 'lax' as const,
+    sameSite: 'strict' as const,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
     maxAge: SESSION_TTL_SECONDS,

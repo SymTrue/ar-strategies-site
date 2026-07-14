@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'The Mechanism Library — AR Strategies',
   description:
     'The psychological mechanisms behind attention, memory, and choice. Free video explainers on the principles that make local businesses impossible to ignore.',
+  alternates: { canonical: '/mechanisms' },
 };
 
 /* ---------- Line-art glyphs (blueprint language, no emoji) ---------- */

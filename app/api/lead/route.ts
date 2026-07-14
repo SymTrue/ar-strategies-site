@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkLeadRateLimit, saveLead, updateLeadStatus } from '@/lib/db';
+import {
+  acceptsJson,
+  getRequestIp,
+  isSameOriginRequest,
+  readJsonObject,
+} from '@/lib/request-security';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -19,26 +25,28 @@ function escapeHtml(value: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    if (!req.headers.get('content-type')?.includes('application/json')) {
+    if (!isSameOriginRequest(req)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    if (!acceptsJson(req)) {
       return NextResponse.json({ error: 'Unsupported media type' }, { status: 415 });
     }
 
-    const payload: unknown = await req.json();
-    if (!payload || typeof payload !== 'object') {
-      return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+    const body = await readJsonObject(req);
+    if (!body.ok) {
+      return NextResponse.json(
+        { error: body.status === 413 ? 'Request too large' : 'Invalid request' },
+        { status: body.status },
+      );
     }
 
-    const { email, website } = payload as { email?: unknown; website?: unknown };
+    const { email, website } = body.data;
 
-    // Get client IP for rate limiting
-    const ip =
-      req.headers.get('x-vercel-forwarded-for') ||
-      req.headers.get('x-forwarded-for') ||
-      req.headers.get('x-real-ip') ||
-      'unknown';
+    const ip = getRequestIp(req);
 
     // Rate limit check
-    const rateKey = `lead:${ip.split(',')[0]?.trim() || 'unknown'}`;
+    const rateKey = `lead:${ip}`;
     if (!(await checkLeadRateLimit(rateKey, 5, 3600))) {
       return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }

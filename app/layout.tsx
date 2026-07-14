@@ -29,7 +29,7 @@ const themeInitializationScript = `(() => {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.arstrategists.com"),
-  title: "AR Strategies — Be the Business Your City Finds First",
+  title: "AR Strategies \u2014 Be the Business Your City Finds First",
   description:
     "AR Strategies helps local businesses rank at the top of Google, run Meta ads that bring real customers, and publish content people remember. Get a free visibility audit.",
   icons: {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     canonical: "https://www.arstrategists.com",
   },
   openGraph: {
-    title: "AR Strategies — Be the Business Your City Finds First",
+    title: "AR Strategies \u2014 Be the Business Your City Finds First",
     description:
       "Top of Google. Meta ads that bring customers. Content people remember. Done for you.",
     type: "website",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AR Strategies — Be the Business Your City Finds First",
+    title: "AR Strategies \u2014 Be the Business Your City Finds First",
     description: "Top of Google. Meta ads that bring customers. Content people remember.",
     images: ["https://www.arstrategists.com/logo.png"],
   },
@@ -61,7 +61,7 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "AR Strategies",
   description:
-    "Marketing agency for local businesses: top-of-Google rankings, Meta ads management, and content strategy — done for you.",
+    "Marketing agency for local businesses: top-of-Google rankings, Meta ads management, and content strategy \u2014 done for you.",
   url: "https://www.arstrategists.com",
   email: "hello@arstrategists.com",
   priceRange: "$$",
@@ -88,7 +88,7 @@ const faqSchema = {
       name: "How long until I rank at the top of Google?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "It depends on your area and competition. Most clients see movement within the first 30 days; competitive searches take longer. That's why we run Meta ads alongside—customers now, rankings compounding behind them.",
+        text: "It depends on your area and competition. Most clients see movement within the first 30 days; competitive searches take longer. That's why we run Meta ads alongside\u2014customers now, rankings compounding behind them.",
       },
     },
     {
@@ -96,7 +96,7 @@ const faqSchema = {
       name: "What if you already work with my competitor?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Then we can't take you on—and if you sign with us, we can't take them. We work with one business per industry per area, so everything we build works for you alone.",
+        text: "Then we can't take you on\u2014and if you sign with us, we can't take them. We work with one business per industry per area, so everything we build works for you alone.",
       },
     },
     {
@@ -104,7 +104,7 @@ const faqSchema = {
       name: "Do you work with businesses in my industry?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "If your customers search Google or scroll social media before they buy—and they do—we can help. We work with local and service businesses across most industries.",
+        text: "If your customers search Google or scroll social media before they buy\u2014and they do\u2014we can help. We work with local and service businesses across most industries.",
       },
     },
     {

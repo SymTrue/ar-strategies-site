@@ -197,13 +197,18 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     ro.observe(parent);
 
     const mouse = { x: -9999, y: -9999 };
+    const clearMouse = () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    };
+    const updateMouse = (event: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = event.clientX - rect.left;
+      mouse.y = event.clientY - rect.top;
+    };
     if (!coarse && !reducedMotion) {
-      window.addEventListener('pointermove', (e: PointerEvent) => {
-        const r = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - r.left;
-        mouse.y = e.clientY - r.top;
-      }, { passive: true });
-      document.documentElement.addEventListener('pointerleave', () => { mouse.x = -9999; mouse.y = -9999; });
+      window.addEventListener('pointermove', updateMouse, { passive: true });
+      window.addEventListener('blur', clearMouse);
     }
 
     const CLUSTERS = 28, ACTIVE = 3;
@@ -265,6 +270,9 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
             n.dx += (tx - n.dx) * 0.04;
             n.dy += (ty - n.dy) * 0.04;
           }
+        } else {
+          n.dx *= 0.92;
+          n.dy *= 0.92;
         }
         px += n.dx; py += n.dy;
 
@@ -371,16 +379,37 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       }
     };
 
-    let raf = 0, running = false;
+    let raf = 0, running = false, canvasVisible = false;
+    let pageVisible = document.visibilityState === 'visible';
     const loop = (t: number) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
     const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !reducedMotion) { if (!running) { running = true; raf = requestAnimationFrame(loop); } }
+      canvasVisible = e.isIntersecting;
+      if (canvasVisible && pageVisible && !reducedMotion) { if (!running) { running = true; raf = requestAnimationFrame(loop); } }
       else { running = false; cancelAnimationFrame(raf); if (reducedMotion) draw(0); }
     });
+    const onVisibilityChange = () => {
+      pageVisible = document.visibilityState === 'visible';
+      if (!pageVisible) {
+        running = false;
+        cancelAnimationFrame(raf);
+      } else if (canvasVisible && !reducedMotion && !running) {
+        running = true;
+        raf = requestAnimationFrame(loop);
+      }
+    };
     io.observe(canvas);
+    document.addEventListener('visibilitychange', onVisibilityChange);
     draw(0);
 
-    return () => { running = false; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect(); };
+    return () => {
+      running = false;
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      ro.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('pointermove', updateMouse);
+      window.removeEventListener('blur', clearMouse);
+    };
   }, [reducedMotion]);
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" />;

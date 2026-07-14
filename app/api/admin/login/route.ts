@@ -4,42 +4,65 @@ import {
   getSessionCookieOptions,
   verifyAdminCredentials,
 } from '@/lib/admin-auth';
+import { checkLeadRateLimit } from '@/lib/db';
+import {
+  acceptsJson,
+  getRequestIp,
+  isSameOriginRequest,
+  readJsonObject,
+} from '@/lib/request-security';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
-  if (!req.headers.get('content-type')?.includes('application/json')) {
-    return NextResponse.json({ error: 'Unsupported media type' }, { status: 415 });
-  }
+  try {
+    if (!isSameOriginRequest(req)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
-  const payload: unknown = await req.json();
-  if (!payload || typeof payload !== 'object') {
-    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
-  }
+    if (!acceptsJson(req)) {
+      return NextResponse.json({ error: 'Unsupported media type' }, { status: 415 });
+    }
 
-  const { email, password } = payload as { email?: unknown; password?: unknown };
-  if (typeof email !== 'string' || typeof password !== 'string') {
-    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-  }
+    const body = await readJsonObject(req);
+    if (!body.ok) {
+      return NextResponse.json(
+        { error: body.status === 413 ? 'Request too large' : 'Invalid request' },
+        { status: body.status },
+      );
+    }
 
-  const normalizedEmail = email.trim().toLowerCase();
-  if (!EMAIL_PATTERN.test(normalizedEmail) || password.length > 256) {
-    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-  }
+    if (!(await checkLeadRateLimit(`admin-login:${getRequestIp(req)}`, 5, 900))) {
+      return NextResponse.json({ error: 'Too many login attempts' }, { status: 429 });
+    }
 
-  if (!verifyAdminCredentials(normalizedEmail, password)) {
-    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-  }
+    const { email, password } = body.data;
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
 
-  const token = createAdminSessionToken(normalizedEmail);
-  if (!token) {
-    return NextResponse.json({ error: 'Admin auth is not configured' }, { status: 500 });
-  }
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!EMAIL_PATTERN.test(normalizedEmail) || password.length > 256) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
 
-  const response = NextResponse.json({ ok: true });
-  response.cookies.set({
-    ...getSessionCookieOptions(),
-    value: token,
-  });
-  return response;
+    if (!verifyAdminCredentials(normalizedEmail, password)) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
+
+    const token = createAdminSessionToken(normalizedEmail);
+    if (!token) {
+      return NextResponse.json({ error: 'Admin auth is not configured' }, { status: 500 });
+    }
+
+    const response = NextResponse.json({ ok: true });
+    response.cookies.set({
+      ...getSessionCookieOptions(),
+      value: token,
+    });
+    return response;
+  } catch (error) {
+    console.error('Admin login error:', error);
+    return NextResponse.json({ error: 'Unable to process login' }, { status: 500 });
+  }
 }

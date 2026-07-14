@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/admin-auth';
 import { isLeadPriority, isLeadStatus, updateLeadCRM } from '@/lib/db';
+import { acceptsJson, isSameOriginRequest, readJsonObject } from '@/lib/request-security';
 
 function normalizeNullableDate(value: unknown): string | null {
   if (value === null || value === '') return null;
@@ -20,23 +21,28 @@ export async function PATCH(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  if (!req.headers.get('content-type')?.includes('application/json')) {
+  if (!isSameOriginRequest(req)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  if (!acceptsJson(req)) {
     return NextResponse.json({ error: 'Unsupported media type' }, { status: 415 });
   }
 
-  const payload: unknown = await req.json();
-  if (!payload || typeof payload !== 'object') {
-    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+  const body = await readJsonObject(req);
+  if (!body.ok) {
+    return NextResponse.json(
+      { error: body.status === 413 ? 'Request too large' : 'Invalid request' },
+      { status: body.status },
+    );
   }
 
   const { id } = await context.params;
-  const { status, priority, notes, nextFollowUpAt, markContacted } = payload as {
-    status?: unknown;
-    priority?: unknown;
-    notes?: unknown;
-    nextFollowUpAt?: unknown;
-    markContacted?: unknown;
-  };
+  if (!id || id.length > 128) {
+    return NextResponse.json({ error: 'Invalid lead' }, { status: 400 });
+  }
+
+  const { status, priority, notes, nextFollowUpAt, markContacted } = body.data;
 
   if (!isLeadStatus(status) || !isLeadPriority(priority)) {
     return NextResponse.json({ error: 'Invalid lead fields' }, { status: 400 });

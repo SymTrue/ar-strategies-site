@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Field Notes — AR Strategies',
   description:
     'Observations on attention, positioning, and memory from auditing 50+ local businesses. Why customers notice some businesses and filter out the rest.',
+  alternates: { canonical: '/blog' },
 };
 
 const mono = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } as const;
