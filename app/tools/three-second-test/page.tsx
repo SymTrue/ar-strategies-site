@@ -265,7 +265,7 @@ export default function ThreeSecondTest() {
           </p>
 
           <div className="mt-10 border border-dashed border-[var(--border)] rounded-lg p-6 md:p-8 max-w-3xl">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-brand mb-4" style={mono}>
+            <p className="text-[11.5px] uppercase tracking-[0.16em] text-brand mb-4" style={mono}>
               How to run it honestly
             </p>
             <ol className="space-y-2 text-[var(--text-secondary)] text-sm md:text-base list-none">
@@ -307,8 +307,8 @@ export default function ThreeSecondTest() {
                     </h2>
                   </div>
                   <span
-                    className={`text-[10px] uppercase tracking-[0.2em] ${
-                      done ? (passed ? 'text-brand' : 'text-[var(--text-primary)]') : 'text-[var(--text-tertiary)]'
+                    className={`text-xs uppercase tracking-[0.16em] ${
+                      done ? (passed ? 'text-brand' : 'text-[var(--text-primary)]') : 'text-[var(--text-secondary)]'
                     }`}
                     style={mono}
                   >
@@ -343,10 +343,10 @@ export default function ThreeSecondTest() {
       <section className="px-6 pb-16" aria-live="polite">
         <div className="max-w-5xl mx-auto border border-[var(--border)] rounded-lg p-6 md:p-10 bg-[var(--surface)]">
           <div className="flex items-center justify-between gap-4 mb-2">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-tertiary)]" style={mono}>
+            <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)]" style={mono}>
               Readout
             </p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)] tabular-nums" style={mono}>
+            <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)] tabular-nums" style={mono}>
               {answered}/12 answered
             </p>
           </div>
@@ -398,7 +398,7 @@ export default function ThreeSecondTest() {
 
           {complete && fixes.length > 0 && (
             <div className="mt-10 border-t border-dashed border-[var(--border)] pt-8">
-              <p className="text-[10px] uppercase tracking-[0.25em] text-brand mb-5" style={mono}>
+              <p className="text-[11.5px] uppercase tracking-[0.16em] text-brand mb-5" style={mono}>
                 Your fix list, worst first
               </p>
               <ul className="space-y-3">
@@ -435,7 +435,7 @@ export default function ThreeSecondTest() {
               </p>
             ) : (
               <form onSubmit={submitLead} className="space-y-3">
-                <label htmlFor="tst-email" className="block text-[10px] uppercase tracking-[0.25em] text-[var(--text-tertiary)]" style={mono}>
+                <label htmlFor="tst-email" className="block text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)]" style={mono}>
                   Where should the audit go?
                 </label>
                 <input

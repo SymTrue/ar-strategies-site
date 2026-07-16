@@ -42,7 +42,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             <span aria-hidden="true">/</span>
             <span className="text-[var(--text-primary)]">{post.category}</span>
           </div>
-          <div className="flex flex-wrap items-center gap-4 text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)] mb-6" style={mono}>
+          <div className="flex flex-wrap items-center gap-4 text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)] mb-6" style={mono}>
             <span className="text-brand">{post.pillar} Pillar</span>
             <span>{post.dateLabel}</span>
             <span>{post.readTime} read</span>
@@ -84,7 +84,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               className="group mt-14 flex items-center justify-between gap-6 border border-dashed border-[var(--border)] rounded-lg p-6 md:p-8 hover:border-brand/60 transition-colors"
             >
               <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)] mb-2" style={mono}>
+                <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)] mb-2" style={mono}>
                   Watch the mechanism
                 </p>
                 <p className="font-display uppercase text-xl md:text-2xl group-hover:text-brand transition-colors">
@@ -100,7 +100,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       {/* Next note + CTA */}
       <section className="px-6 py-14 md:py-20 section-dashed">
         <div className="max-w-3xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)] mb-4" style={mono}>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)] mb-4" style={mono}>
             Next note
           </p>
           <Link href={`/blog/${next.slug}`} className="group block mb-12">

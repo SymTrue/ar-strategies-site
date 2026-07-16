@@ -676,25 +676,6 @@ export default function Home() {
                   {/* Full-card orange glow on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
 
-                  {/* Liquid metal background effect: each card flows in its own direction */}
-                  <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-500">
-                      <LiquidMetal
-                        colorBack="#00000000"
-                        colorTint="#ea580c"
-                        shape="circle"
-                        repetition={2}
-                        softness={0.6}
-                        distortion={0.3}
-                        speed={0.8}
-                        angle={[0, 180, 90][idx]}
-                        scale={2.4}
-                        fit="cover"
-                        style={{ position: "absolute", inset: 0 }}
-                      />
-                    </div>
-                  </Suspense>
-
                   <div className="relative h-full px-8 py-8">
                     <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
                       idx === 0 ? 'bg-gradient-to-b from-brand-light via-brand-light/50' : idx === 1 ? 'bg-gradient-to-b from-brand-dark via-brand-dark/50' : 'bg-gradient-to-b from-brand via-brand/50'
@@ -899,69 +880,18 @@ export default function Home() {
                       {/* Social Media CTA Buttons */}
                       <div className="flex flex-col gap-3">
                         <a href="https://strikeden.com" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-colors duration-300">
-                          <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-                              <LiquidMetal
-                                colorBack="#00000000"
-                                colorTint="#ea580c"
-                                shape="circle"
-                                repetition={1}
-                                softness={0.8}
-                                distortion={0.15}
-                                speed={0.5}
-                                angle={0}
-                                scale={1.5}
-                                fit="cover"
-                                style={{ position: "absolute", inset: 0 }}
-                              />
-                            </div>
-                          </Suspense>
                           <div className="relative inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-brand">
                             <WebsiteIcon />
                             Website
                           </div>
                         </a>
                         <a href="https://www.instagram.com/strikeden.pk" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-colors duration-300">
-                          <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-                              <LiquidMetal
-                                colorBack="#00000000"
-                                colorTint="#ea580c"
-                                shape="circle"
-                                repetition={1}
-                                softness={0.8}
-                                distortion={0.15}
-                                speed={0.5}
-                                angle={90}
-                                scale={1.5}
-                                fit="cover"
-                                style={{ position: "absolute", inset: 0 }}
-                              />
-                            </div>
-                          </Suspense>
                           <div className="relative inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-brand">
                             <InstagramIcon />
                             Instagram
                           </div>
                         </a>
                         <a href="https://www.linkedin.com/company/strike-den/" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-lg bg-brand/20 hover:bg-brand/30 border border-brand/50 hover:border-brand transition-colors duration-300">
-                          <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02]" />}>
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-                              <LiquidMetal
-                                colorBack="#00000000"
-                                colorTint="#ea580c"
-                                shape="circle"
-                                repetition={1}
-                                softness={0.8}
-                                distortion={0.15}
-                                speed={0.5}
-                                angle={135}
-                                scale={1.5}
-                                fit="cover"
-                                style={{ position: "absolute", inset: 0 }}
-                              />
-                            </div>
-                          </Suspense>
                           <div className="relative inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-brand">
                             <LinkedInIcon />
                             LinkedIn

@@ -202,6 +202,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
 
     const parent = canvas.parentElement ?? canvas;
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;
+    let resizedOnce = false;
     const resize = () => {
       const rect = parent.getBoundingClientRect();
       if (rect.width <= 0 || rect.height <= 0) return;
@@ -216,6 +217,13 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       } else {
         R = Math.max(w * 0.55, h * 0.65); // standard: ensure vertical coverage
       }
+      // Setting canvas.width/height clears the buffer. When the RAF loop
+      // isn't running (reduced motion, or paused offscreen/hidden), nothing
+      // else repaints after this, so the canvas would stay blank until the
+      // next unrelated trigger. Repaint immediately, skipping the very first
+      // call since the initial draw(0) below already covers it.
+      if (resizedOnce) draw(performance.now());
+      resizedOnce = true;
     };
     resize();
     const ro = new ResizeObserver(resize);

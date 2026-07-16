@@ -48,7 +48,7 @@ export default function BlogIndex() {
             href={`/blog/${featured.slug}`}
             className="group block border border-dashed border-[var(--border)] rounded-lg p-8 md:p-14 hover:border-brand/60 transition-colors relative overflow-hidden"
           >
-            <div className="flex items-center gap-4 text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)] mb-6" style={mono}>
+            <div className="flex items-center gap-4 text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)] mb-6" style={mono}>
               <span className="text-brand">Latest</span>
               <span>{featured.dateLabel}</span>
               <span>{featured.category}</span>
@@ -89,7 +89,7 @@ export default function BlogIndex() {
                     {post.standfirst}
                   </span>
                 </span>
-                <span className="hidden md:flex flex-col items-end gap-1 text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]" style={mono}>
+                <span className="hidden md:flex flex-col items-end gap-1 text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)]" style={mono}>
                   <span>{post.dateLabel}</span>
                   <span>{post.category} · {post.readTime}</span>
                 </span>

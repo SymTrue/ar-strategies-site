@@ -397,7 +397,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-8">Why This Works</h2>
-          <div className="prose prose-invert max-w-none">
+          <div className="prose prose-invert max-w-[50ch]">
             {mechanism.whyWorks.split('\n\n').map((paragraph, i) => (
               <p key={i} className="text-[var(--text-secondary)] leading-relaxed mb-6">
                 {paragraph}
@@ -428,7 +428,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       <section className="border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-8">How AR Strategies Uses This</h2>
-          <div className="prose prose-invert max-w-none">
+          <div className="prose prose-invert max-w-[50ch]">
             {mechanism.howWeUseIt.split('\n\n').map((paragraph, i) => (
               <p key={i} className="text-[var(--text-secondary)] leading-relaxed mb-6">
                 {paragraph}

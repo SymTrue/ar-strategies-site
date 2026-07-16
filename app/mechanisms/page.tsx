@@ -247,7 +247,7 @@ export default function MechanismsHub() {
       <section className="px-6 pb-8 hidden md:block" aria-hidden="false">
         <div className="max-w-7xl mx-auto border border-dashed border-[var(--border)] rounded-lg p-4">
           <div className="flex items-center justify-between px-2 pb-2">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+            <span className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
               Fig. 01, Mechanism network · 18 nodes
             </span>
             <span className="text-[10px] uppercase tracking-[0.2em] text-brand" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
@@ -282,7 +282,7 @@ export default function MechanismsHub() {
                     {m.line}
                   </span>
                 </span>
-                <span className="hidden md:flex flex-col items-end gap-1 text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+                <span className="hidden md:flex flex-col items-end gap-1 text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
                   <span>{m.pillar} Pillar</span>
                   <span className="text-brand">Video Explainer</span>
                 </span>
@@ -295,7 +295,7 @@ export default function MechanismsHub() {
 
           {/* In production: the remaining library, as an honest roadmap */}
           <div className="mt-14">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-tertiary)] mb-5" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+            <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)] mb-5" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
               In production, 13 remaining
             </p>
             <div className="flex flex-wrap gap-2.5">
