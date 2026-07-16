@@ -47,6 +47,16 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
   answersRef.current = answers;
   const themeRef = useRef(theme);
   themeRef.current = theme;
+  const drawRef = useRef<(() => void) | null>(null);
+
+  // Canvas painting does not depend on requestAnimationFrame ever firing:
+  // backgrounded or hidden tabs (real visitors switching away, some
+  // preview/embed contexts) have RAF suspended by spec. Every state change
+  // below triggers a synchronous repaint via drawRef; RAF is used only to
+  // drive the optional cosmetic pulse when it is available.
+  useEffect(() => {
+    drawRef.current?.();
+  }, [answers, theme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -69,6 +79,9 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
       const rect = canvas.getBoundingClientRect();
       canvas.width = Math.max(1, Math.round(rect.width * dpr));
       canvas.height = Math.max(1, Math.round(rect.height * dpr));
+      // Setting canvas.width/height clears the buffer; repaint immediately
+      // rather than waiting on a RAF frame that may never come.
+      drawRef.current?.();
     };
     resize();
     const ro = new ResizeObserver(resize);
@@ -199,9 +212,22 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
       raf = requestAnimationFrame(draw);
     };
 
-    raf = requestAnimationFrame(draw);
+    drawRef.current = draw;
+    // Paint synchronously now: don't rely on RAF firing at all for the
+    // first frame (backgrounded/hidden tabs suspend RAF entirely).
+    draw();
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        draw();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     return () => {
       running = false;
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      drawRef.current = null;
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
