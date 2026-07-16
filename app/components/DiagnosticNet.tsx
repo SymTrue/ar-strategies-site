@@ -96,7 +96,9 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
       const h = canvas.height;
       const cx = w / 2;
       const cy = h / 2;
-      const R = Math.min(w, h) * 0.34;
+      // R + satellite reach must stay under 0.5 or the question dots render
+      // outside the canvas and silently vanish.
+      const R = Math.min(w, h) * 0.3;
       const r = Math.min(w, h) * 0.13;
 
       ctx.clearRect(0, 0, w, h);
@@ -105,13 +107,25 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
 
       const dimGlow = isDark() ? dimGlowDark : dimGlowLight;
       const hubGlow = isDark() ? hubGlowDark : hubGlowLight;
-      const lineDim = isDark() ? 'rgba(180,195,255,0.16)' : 'rgba(90,90,100,0.16)';
-      const lineDimQ = isDark() ? 'rgba(180,195,255,0.09)' : 'rgba(90,90,100,0.09)';
+      const lineDim = isDark() ? 'rgba(180,195,255,0.38)' : 'rgba(90,90,100,0.35)';
+      const lineDimQ = isDark() ? 'rgba(180,195,255,0.22)' : 'rgba(90,90,100,0.2)';
       const dotDim = isDark() ? 'rgba(200,210,255,0.55)' : 'rgba(70,70,80,0.5)';
 
       const surfacePos = surfaces.map((_, i) => {
         const a = surfaceAngle(i);
         return { x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R, a };
+      });
+
+      // Perimeter mesh between adjacent surface nodes: reads as a network
+      // even before any answers light it up.
+      ctx.strokeStyle = lineDimQ;
+      ctx.lineWidth = 1 * dpr;
+      surfacePos.forEach((p, i) => {
+        const next = surfacePos[(i + 1) % surfacePos.length];
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(next.x, next.y);
+        ctx.stroke();
       });
 
       // Hub-to-surface trunks: opacity/glow scale with that surface's pass rate.
@@ -144,8 +158,8 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
         for (let qi = 0; qi < qCount; qi++) {
           const spread = 0.62;
           const qa = p.a - spread / 2 + (qi * spread) / (qCount - 1 || 1);
-          const qx = cx + Math.cos(qa) * (R + r * 1.55);
-          const qy = cy + Math.sin(qa) * (R + r * 1.55);
+          const qx = cx + Math.cos(qa) * (R + r * 1.15);
+          const qy = cy + Math.sin(qa) * (R + r * 1.15);
           const val = row[qi];
 
           ctx.strokeStyle = val === true ? 'rgba(234,88,12,0.55)' : lineDimQ;
@@ -166,7 +180,7 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
           } else if (val === false) {
             ctx.fillStyle = isDark() ? 'rgba(230,232,240,0.75)' : 'rgba(60,60,68,0.6)';
           } else {
-            ctx.fillStyle = isDark() ? 'rgba(140,150,180,0.35)' : 'rgba(150,150,158,0.35)';
+            ctx.fillStyle = isDark() ? 'rgba(160,172,205,0.6)' : 'rgba(130,130,140,0.55)';
           }
           ctx.beginPath();
           ctx.arc(qx, qy, dotR, 0, Math.PI * 2);
@@ -187,9 +201,16 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
           ctx.globalAlpha = passed >= 2 ? 0.95 : 0.55;
           ctx.drawImage(g, p.x - s / 2, p.y - s / 2, s, s);
           ctx.globalAlpha = 1;
+        } else {
+          // Waiting state still glows faintly so the node reads as part of
+          // the network rather than a dead pixel.
+          const s = 58 * dpr;
+          ctx.globalAlpha = 0.35;
+          ctx.drawImage(dimGlow.canvas, p.x - s / 2, p.y - s / 2, s, s);
+          ctx.globalAlpha = 1;
         }
 
-        ctx.fillStyle = answeredAll ? (passed >= 2 ? '#ea580c' : dotDim) : (isDark() ? 'rgba(160,170,200,0.4)' : 'rgba(140,140,148,0.4)');
+        ctx.fillStyle = answeredAll ? (passed >= 2 ? '#ea580c' : dotDim) : (isDark() ? 'rgba(180,192,225,0.7)' : 'rgba(110,110,120,0.65)');
         ctx.beginPath();
         ctx.arc(p.x, p.y, nodeR, 0, Math.PI * 2);
         ctx.fill();
@@ -244,14 +265,14 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
       />
       {surfaces.map((s, i) => {
         const a = -Math.PI / 2 + (i * Math.PI * 2) / 4;
-        const left = 50 + Math.cos(a) * 34;
-        const top = 50 + Math.sin(a) * 34;
+        const left = 50 + Math.cos(a) * 30;
+        const top = 50 + Math.sin(a) * 30;
         return (
           <span
             key={s.code}
             aria-hidden="true"
-            className="absolute -translate-x-1/2 -translate-y-1/2 text-[10px] uppercase tracking-[0.14em] text-[var(--text-tertiary)] pointer-events-none whitespace-nowrap"
-            style={{ left: `${left}%`, top: `${top}%`, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}
+            className="absolute -translate-x-1/2 text-[11.5px] uppercase tracking-[0.14em] text-[var(--text-secondary)] pointer-events-none whitespace-nowrap"
+            style={{ left: `${left}%`, top: `calc(${top}% + 12px)`, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}
           >
             {s.name}
           </span>
