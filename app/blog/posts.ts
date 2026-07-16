@@ -18,6 +18,130 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: 'google-business-profile-real-homepage',
+    title: 'Your Google Business Profile is your real homepage. Most owners have never opened it.',
+    standfirst:
+      'For a local business, more customers see your Google profile than your website. Twenty minutes of fixes there outperform most ad budgets. Here is the exact checklist we use.',
+    category: 'Playbook',
+    pillar: 'Memory',
+    date: '2026-07-16',
+    dateLabel: 'Jul 16, 2026',
+    readTime: '5 min',
+    relatedMechanism: { id: 'mental-availability', name: 'Mental Availability' },
+    sections: [
+      {
+        paragraphs: [
+          'When someone searches for a dentist, a gym, or an electrician near them, Google shows three local profiles before it shows a single website. Most customers never scroll past them. They compare the three cards, pick one, and call. Your website, the thing you paid for and worry about, was never in the running.',
+          'This means the highest-leverage marketing surface you own is one most owners have logged into twice: once to claim it, once to fix the phone number. Everything below takes about twenty minutes and costs nothing.',
+        ],
+      },
+      {
+        heading: 'The twenty-minute checklist',
+        paragraphs: [
+          'Category first. Your primary category is the strongest ranking signal you control, and it must be the most specific one that fits. "Gym" loses to "MMA gym" for every fight-training search in the city. Add every secondary category that honestly applies, and no category that does not.',
+          'Photos second. Profiles with real, recent photos get dramatically more calls and direction requests than profiles with a logo and a stock image. Upload the interior, the exterior, the team, the work itself. A customer choosing between three cards picks the one where they can already see themselves inside.',
+          'Then the boring fields, because customers notice when they are wrong: hours including holidays, services listed individually with prices where you can, and a description whose first sentence says what you do and for whom, not how long you have proudly served the community.',
+          'Finally, seed the Q&A section yourself. Write the ten questions people call to ask, and answer them. Parking, pricing, walk-ins, timings for women, whatever your phone rings about. You are allowed to do this, almost nobody does, and it reads as service rather than marketing.',
+        ],
+      },
+      {
+        heading: 'The weekly five minutes',
+        paragraphs: [
+          'Once the profile is fixed, it needs a pulse. One post a week, one new photo a week, and a reply to every review within two days. Review replies are not for the reviewer. They are read by the next hundred strangers deciding whether you seem like a business that pays attention.',
+          'What not to do: never stuff keywords into your business name, and never buy reviews. Both are pattern-detectable, both risk suspension, and a suspended profile is the local equivalent of your shop disappearing from the street.',
+        ],
+      },
+      {
+        heading: 'Why this outperforms ads',
+        paragraphs: [
+          'An ad interrupts someone who was not looking. Your profile meets someone at the exact moment the need exists, which is the cheapest attention you will ever get. Most local categories are decided by whoever shows up complete, recent, and answered at that moment.',
+          'If you want a second pair of eyes on yours, the audit is free and there is no pitch. Just arstrategies.com.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'how-to-ask-for-reviews',
+    title: 'Most businesses beg for reviews. The ones with five hundred ask differently.',
+    standfirst:
+      'Review count is the strongest trust signal a local business controls, and almost everyone asks at the wrong moment with the wrong words. The fix is timing, not persistence.',
+    category: 'Playbook',
+    pillar: 'Trust',
+    date: '2026-07-15',
+    dateLabel: 'Jul 15, 2026',
+    readTime: '4 min',
+    sections: [
+      {
+        paragraphs: [
+          'Before a stranger calls you, they read what other strangers said about you. Not your copy, not your offers. Reviews are the only part of your marketing written by someone with nothing to gain, which is exactly why customers weight them more than everything you say about yourself combined.',
+          'Most owners know this and still have forty reviews after five years, because they ask at the worst possible moment: the invoice. At payment time the customer is focused on what they spent. The window you want is the moment they are focused on what they got.',
+        ],
+      },
+      {
+        heading: 'Ask at the peak, not the exit',
+        paragraphs: [
+          'People remember experiences by their best moment and their last moment. Ask at the peak. For a gym, that is the session where a member hits something they could not do a month ago. For a clinic, the follow-up where the problem is visibly gone. For trades, the walkthrough when the finished work is revealed. For a restaurant, the moment they praise the dish unprompted.',
+          'The signal is simple: they said something nice out loud. That sentence is a review that has not been written down yet. Your only job is to catch it within a few seconds. "That genuinely helps us. Would you put that in a Google review? It decides whether people find us." Then send the direct review link immediately, while the feeling is alive. One tap, not a scavenger hunt.',
+        ],
+      },
+      {
+        heading: 'Reply to every single one',
+        paragraphs: [
+          'A review you never answered is a customer you ignored in public. Reply to all of them, briefly and specifically. For negative ones, one calm paragraph beats a defensive essay: acknowledge the specific issue, say what changed, and offer to fix it directly. Prospects reading it are not judging the complaint. They are judging how you handle being wrong.',
+          'What never to do: never buy reviews, never trade discounts for them, and never batch-ask fifty customers in one week. Platforms flag velocity spikes, and readers can smell a wall of same-day five-stars. Slow and steady is not just safer, it looks more true, because it is.',
+        ],
+      },
+      {
+        heading: 'The compounding part',
+        paragraphs: [
+          'Reviews are the rare marketing asset that never expires and never stops working. Every one you earn this month is still selling for you in three years. A business that catches two peaks a week has a hundred new reviews a year, and at that point the review count itself becomes the reason people choose you.',
+          'If you want to know how your trust signals read to a stranger, the audit is free and there is no pitch. Just arstrategies.com.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'the-three-second-test',
+    title: 'The three-second test: what strangers decide about your business before you say a word',
+    standfirst:
+      'Customers give a search result, a profile, a homepage, and a storefront about three seconds each. You can run the same test on your own business tonight, for free. Here is how.',
+    category: 'Playbook',
+    pillar: 'Attention',
+    date: '2026-07-14',
+    dateLabel: 'Jul 14, 2026',
+    readTime: '4 min',
+    relatedMechanism: { id: 'positioning', name: 'Positioning' },
+    sections: [
+      {
+        paragraphs: [
+          'Nobody studies a local business. They glance at it. In roughly three seconds a stranger decides whether your search result is worth clicking, your profile worth reading, your storefront worth entering. The decision is made before a single sentence of your carefully written copy is read.',
+          'The problem is that you cannot see your own business freshly. You know what you do, so everything about it looks obvious to you. This is the curse of knowledge, and it is why confident owners are routinely invisible to the exact people they are trying to reach.',
+        ],
+      },
+      {
+        heading: 'How to run the test',
+        paragraphs: [
+          'Find someone who does not know your business. Not your staff, not your spouse. Show them one surface for three seconds, then take it away and ask three questions. What do they sell? Who is it for? Why would you pick them over the one next door?',
+          'Two blank answers out of three is a fail, and most businesses fail. Not because the answers are wrong, but because the surface never offered them. "Quality you can trust" answers none of the three questions. "Open till midnight, walk-ins welcome" answers two.',
+        ],
+      },
+      {
+        heading: 'Run it on all four surfaces',
+        paragraphs: [
+          'The search snippet: does the title say what you do and where, or just your name? The Google profile: do the first photo and first review line tell your story, or could they belong to any business in the category? The homepage above the fold: is there one sentence a stranger could repeat back? The storefront or signage: from across the street, does it say what happens inside?',
+          'Score each surface separately, because customers meet them separately. A business is usually strong on the surface the owner looks at daily and blank on the ones customers actually meet first.',
+        ],
+      },
+      {
+        heading: 'Fixing a failed surface',
+        paragraphs: [
+          'One message per surface, and make it specific. Name the customer, name the outcome, drop the welcome-everyone language. Specifics beat adjectives every time: "ladies-only hours from 10 to 2" outsells "a comfortable environment for everyone" because it can be remembered, repeated, and acted on.',
+          'This is the same test that opens every audit we run. If you want a stranger’s three seconds on your business, ours are free and there is no pitch. Just arstrategies.com.',
+        ],
+      },
+    ],
+  },
+  {
     slug: 'people-buy-what-they-remember',
     title: 'People don’t buy the best option. They buy the option they remember.',
     standfirst:

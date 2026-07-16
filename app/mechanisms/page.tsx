@@ -35,6 +35,23 @@ const GlyphPositioning = () => (
   </svg>
 );
 
+const GlyphFamiliarity = () => (
+  <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-hidden="true">
+    <circle cx="18" cy="24" r="9" stroke="currentColor" strokeWidth="1.5" opacity="0.35" />
+    <circle cx="24" cy="24" r="9" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <circle cx="30" cy="24" r="9" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="33" cy="21" r="2.5" fill="currentColor" />
+  </svg>
+);
+
+const GlyphDecision = () => (
+  <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-hidden="true">
+    <path d="M8 24 H20 M20 24 Q26 24 28 16 L34 8 M20 24 Q26 24 28 32 L34 40 M20 24 H40" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" opacity="0.45" />
+    <path d="M8 24 H40" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="40" cy="24" r="3" fill="currentColor" />
+  </svg>
+);
+
 /* ---------- Data ---------- */
 
 const live = [
@@ -62,14 +79,30 @@ const live = [
     line: 'Perception is decided relative to alternatives. Own a position or lose on price.',
     glyph: <GlyphPositioning />,
   },
+  {
+    n: '04',
+    id: 'familiarity-effect',
+    name: 'Familiarity Effect',
+    pillar: 'Trust',
+    line: 'The brain mistakes recognition for safety. Every exposure lowers perceived risk.',
+    glyph: <GlyphFamiliarity />,
+  },
+  {
+    n: '05',
+    id: 'decision-architecture',
+    name: 'Decision Architecture',
+    pillar: 'Psychology',
+    line: 'More options produce fewer choosers. A confused buyer simply doesn’t choose.',
+    glyph: <GlyphDecision />,
+  },
 ];
 
 /* Ghost nodes: the rest of the 18-mechanism library, unpublished */
 const ghosts = [
   'Recognition & Memory', 'Framing', 'Emotional Recall', 'Authority Formation',
   'Social Proof', 'Loss Aversion', 'Anchoring', 'Salience',
-  'Distinctiveness', 'Consistency', 'Reciprocity', 'Curiosity Gap',
-  'Peak-End Rule', 'Mere Exposure', 'Costly Signaling',
+  'Distinctiveness', 'Reciprocity', 'Curiosity Gap',
+  'Peak-End Rule', 'Costly Signaling',
 ];
 
 /* ---------- Neural network diagram ---------- */
@@ -79,13 +112,15 @@ const ghosts = [
 const ghostPos: Array<[number, number]> = [
   [90, 70], [250, 180], [420, 60], [555, 210], [700, 80],
   [860, 190], [1020, 70], [1130, 170], [150, 300], [340, 340],
-  [520, 300], [760, 330], [930, 300], [1080, 340], [640, 150],
+  [520, 300], [760, 330], [930, 300],
 ];
 
 const livePos: Record<string, [number, number]> = {
   'pattern-interruption': [300, 110],
   'mental-availability': [610, 250],
   'positioning': [950, 130],
+  'familiarity-effect': [640, 150],
+  'decision-architecture': [1080, 340],
 };
 
 function NetworkDiagram() {
@@ -96,7 +131,7 @@ function NetworkDiagram() {
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-auto"
       role="img"
-      aria-label="Network map of the 18 psychological mechanisms. Three are published: Pattern Interruption, Mental Availability, and Positioning."
+      aria-label="Network map of the 18 psychological mechanisms. Five are published: Pattern Interruption, Mental Availability, Positioning, Familiarity Effect, and Decision Architecture."
     >
       <defs>
         <pattern id="mechGrid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
@@ -110,12 +145,17 @@ function NetworkDiagram() {
         <path d="M300 110 L610 250" />
         <path d="M610 250 L950 130" />
         <path d="M300 110 Q620 40 950 130" />
+        <path d="M300 110 L640 150" />
+        <path d="M640 150 L950 130" />
+        <path d="M610 250 L1080 340" />
+        <path d="M950 130 Q1060 240 1080 340" />
       </g>
       <g stroke="var(--text-tertiary)" strokeWidth="0.75" strokeDasharray="4 4" opacity="0.35">
         <path d="M300 110 L90 70" /><path d="M300 110 L250 180" /><path d="M300 110 L420 60" />
         <path d="M610 250 L520 300" /><path d="M610 250 L555 210" /><path d="M610 250 L760 330" /><path d="M610 250 L640 150" />
         <path d="M950 130 L860 190" /><path d="M950 130 L1020 70" /><path d="M950 130 L1130 170" />
         <path d="M250 180 L150 300" /><path d="M420 60 L640 150" /><path d="M860 190 L930 300" />
+        <path d="M640 150 L700 80" /><path d="M1080 340 L930 300" /><path d="M1080 340 L1130 170" />
       </g>
 
       {/* Ghost nodes: the unpublished 15 */}
@@ -184,7 +224,7 @@ export default function MechanismsHub() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-8">
             <span className="kicker-chip">
-              <span className="kicker-n">03</span>
+              <span className="kicker-n">05</span>
               <span className="kicker-sep" aria-hidden="true">/</span>
               <span>18 Published</span>
             </span>
@@ -195,8 +235,9 @@ export default function MechanismsHub() {
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty">
             Every buying decision runs through the same mental machinery: what gets noticed,
-            what gets remembered, what gets chosen. We map those mechanisms and engineer
-            around them. Three explainers are live. The rest of the library is in production.
+            what gets remembered, what gets trusted, what gets chosen. We map those mechanisms
+            and engineer around them. Five explainers are live, one for each pillar. The rest
+            of the library is in production.
           </p>
         </div>
       </section>
@@ -254,7 +295,7 @@ export default function MechanismsHub() {
           {/* In production: the remaining library, as an honest roadmap */}
           <div className="mt-14">
             <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-tertiary)] mb-5" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
-              In production — 15 remaining
+              In production — 13 remaining
             </p>
             <div className="flex flex-wrap gap-2.5">
               {ghosts.map((name) => (

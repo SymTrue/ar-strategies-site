@@ -13,6 +13,7 @@ const links = [
   { label: 'About', href: '/about' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
+  { label: '3-Second Test', href: '/tools/three-second-test' },
   { label: 'FAQ', href: '/#faq' },
 ];
 

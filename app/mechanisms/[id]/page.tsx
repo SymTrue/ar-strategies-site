@@ -224,6 +224,114 @@ Positioning shapes everything. Get it right, and the rest becomes easy. Get it w
       },
     ],
   },
+  'familiarity-effect': {
+    id: 'familiarity-effect',
+    name: 'Familiarity Effect',
+    fullTitle: 'The Familiarity Effect: The Psychology Behind Being Trusted',
+    subtitle: 'Understand how repeated exposure quietly converts recognition into trust, and why customers buy from names they have already seen.',
+    pillar: 'Trust',
+    videoFile: '/videos/familiarity-effect.mp4',
+    whyWorks: `Ask a customer why they chose a business and they will give you rational answers: price, reviews, convenience. Watch what they actually do and a quieter force shows up. They pick the name they have seen before.
+
+Psychologists call it the mere exposure effect, first documented by Robert Zajonc in the 1960s: people rate things they have encountered before as more likeable and more trustworthy than things they see for the first time, even when they don\'t consciously remember the encounters.
+
+The mechanism underneath is processing fluency. A name the brain has processed before is processed faster the next time, and the brain misreads that ease as safety. Familiar equals safe. Unfamiliar equals risk. No argument is made, no claim is evaluated. The discount on perceived risk happens before thinking starts.
+
+For a local business this is enormous, because most of your market is not buying today. They are walking past your signboard, scrolling past your posts, hearing your name from a friend. None of those moments produce a sale, and all of them produce the thing that decides the sale later.`,
+    examples: [
+      {
+        title: 'Coca-Cola\'s "pointless" advertising',
+        context: 'The most recognized brand on earth still spends billions on ads',
+        explanation: 'Coke ads contain no information. No price, no features, no argument. They exist to keep the name familiar, because familiarity is the asset that makes Coke the default reach in the fridge aisle. The advertising is not persuasion. It is maintenance of mental risk-discount.',
+        result: 'Coke stays the default choice in a category with functionally identical products.',
+      },
+      {
+        title: 'The signboard dentist',
+        context: 'A dental clinic on a road you drive daily',
+        explanation: 'You have never read the sign deliberately. But after two years of passing it, the name is in you. The day a tooth aches, that clinic feels safer than the higher-rated one you have never heard of. Nothing was communicated. Exposure did all the work.',
+        result: 'The familiar clinic gets the call over objectively better options.',
+      },
+      {
+        title: 'Why retargeting works',
+        context: 'Ads that follow you after you visit a website',
+        explanation: 'Retargeting is often explained as reminding people to finish a purchase. Its stronger effect is repetition: each impression is another exposure, and each exposure lowers the perceived risk of the brand. The click usually comes late, after the familiarity has accumulated.',
+        result: 'Conversion happens on the sixth exposure but was built by the first five.',
+      },
+    ],
+    howWeUseIt: `Familiarity compounds only if the exposures connect, and they only connect if the business looks and sounds the same everywhere.
+
+That is why the first thing we fix is consistency: one visual identity, one tone, one message across search, maps, social, and the storefront. Five different-looking touchpoints produce five weak first exposures. Five consistent ones produce one strong fifth exposure.
+
+For Strike Den, that meant the same fight-culture look and language in every post, every ad, every search result. A person who saw a reel in March, a signboard in May, and a search result in July was meeting the same gym three times, not three gyms once.
+
+Then we widen the surface area. Search rankings, maps presence, review responses, weekly content: each is an exposure channel that runs without a media budget. The goal is simple to state and slow to build: by the time the need appears, your name should already feel like the safe choice.`,
+    relatedMechanisms: [
+      {
+        id: 'mental-availability',
+        name: 'Mental Availability',
+        description: 'Familiarity\'s twin: being recalled first when the need appears',
+      },
+      {
+        id: 'pattern-interruption',
+        name: 'Pattern Interruption',
+        description: 'How to earn the first exposure in a feed built to filter you out',
+      },
+    ],
+  },
+  'decision-architecture': {
+    id: 'decision-architecture',
+    name: 'Decision Architecture',
+    fullTitle: 'Decision Architecture: The Psychology Behind Getting Chosen',
+    subtitle: 'Learn how the structure of your options decides whether people choose at all, and why fewer, clearer paths convert more.',
+    pillar: 'Psychology',
+    videoFile: '/videos/decision-architecture.mp4',
+    whyWorks: `Every option you present is a comparison your buyer has to run. Two options is one comparison. Six options is fifteen. The brain does this math whether the buyer wants it to or not, and past a small number the cost of deciding outweighs the value of choosing.
+
+When deciding gets expensive, people do not choose badly. They defer. "I\'ll think about it" is rarely a rejection of your offer. It is a rejection of the decision you asked them to make.
+
+The most famous demonstration is the jam study by Sheena Iyengar and Mark Lepper. A supermarket tasting booth offered either 24 jams or 6. The bigger display attracted more browsers, but the smaller display sold to roughly ten times the share of them. More choice pulled attention and killed conversion.
+
+This is decision architecture: the structure of options is itself a message. A page with one obvious next step tells the visitor you know what they need. A page with seven equal buttons tells them to figure it out themselves. They won\'t.`,
+    examples: [
+      {
+        title: 'The jam study',
+        context: 'Iyengar and Lepper\'s field experiment in a California supermarket',
+        explanation: 'Shoppers who stopped at the 24-jam booth engaged more but overwhelmingly walked away without buying. Shoppers at the 6-jam booth bought at roughly ten times the rate. The product was identical. Only the architecture of the choice changed.',
+        result: 'The canonical evidence that more options can mean fewer buyers.',
+      },
+      {
+        title: 'Apple\'s product line under Jobs',
+        context: '1997: Apple sold dozens of overlapping computer models',
+        explanation: 'Jobs cut the line to a two-by-two grid: consumer or pro, desktop or portable. Customers no longer had to study a catalog to know which Mac was theirs. The answer became obvious in seconds, and the sales conversation changed from comparison to confirmation.',
+        result: 'One of the clearest product-line simplifications in business history preceded the turnaround.',
+      },
+      {
+        title: 'The shrinking menu',
+        context: 'Restaurants that cut their menu and saw orders speed up',
+        explanation: 'Long menus feel generous and read as noise. Shorter menus order faster, reduce the anxiety of choosing wrong, and let a kitchen be excellent at fewer things. The same logic applies to a services page: every service you list dilutes the one you most want to sell.',
+        result: 'Less deciding, faster ordering, higher confidence in the choice made.',
+      },
+    ],
+    howWeUseIt: `We audit local business websites for decision cost before anything else, because it is the cheapest conversion fix that exists.
+
+The pattern is always the same: six navigation items competing with four buttons competing with three offers, all above the fold. The owner sees completeness. The visitor sees homework.
+
+The fix is architectural, not cosmetic. One primary action per page. One recommended option wherever options exist. Secondary paths demoted to quiet links instead of competing buttons. If a pricing table is needed, three tiers at most, with one visibly marked as the default choice.
+
+Our own site runs on the same rule. There is one ask here: the free audit. Everything else, the mechanisms, the field notes, the case study, exists to make that one decision feel safe and obvious. That is decision architecture doing its job.`,
+    relatedMechanisms: [
+      {
+        id: 'positioning',
+        name: 'Positioning',
+        description: 'Clarity about what you are makes the choice architecture work',
+      },
+      {
+        id: 'familiarity-effect',
+        name: 'Familiarity Effect',
+        description: 'Familiar names feel safer to choose when deciding gets hard',
+      },
+    ],
+  },
 };
 
 export default function MechanismPage({ params }: { params: Promise<{ id: string }> }) {
