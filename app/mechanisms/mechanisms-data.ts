@@ -353,7 +353,7 @@ The pattern is always the same: six navigation items competing with four buttons
 
 The fix is architectural, not cosmetic. One primary action per page. One recommended option wherever options exist. Secondary paths demoted to quiet links instead of competing buttons. If a pricing table is needed, three tiers at most, with one visibly marked as the default choice.
 
-Our own site runs on the same rule. There is one ask here: the free audit. Everything else, the mechanisms, the field notes, the case study, exists to make that one decision feel safe and obvious. That is decision architecture doing its job.`,
+Our own site runs on the same rule. There is one ask here: apply to work with us. Everything else, the mechanisms, the field notes, the case study, exists to make that one decision feel safe and obvious. That is decision architecture doing its job.`,
     relatedMechanisms: [
       {
         id: 'positioning',

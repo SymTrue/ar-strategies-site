@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.arstrategists.com"),
   title: "AR Strategies: Be the Business Your City Finds First",
   description:
-    "AR Strategies helps local businesses rank at the top of Google, run Meta ads that bring real customers, and publish content people remember. Get a free visibility audit.",
+    "AR Strategies helps local businesses rank at the top of Google, run Meta ads that bring real customers, and publish content people remember. One business per market, done for you.",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",

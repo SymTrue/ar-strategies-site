@@ -109,8 +109,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </span>
           </Link>
           <div className="flex flex-wrap gap-4">
-            <Link href="/#contact" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
-              Get My Free Audit
+            <Link href="/work-with-us#apply" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
+              Apply to Work With Us
             </Link>
             <Link href="/blog" className="px-7 py-3.5 rounded-full text-sm font-semibold border border-[var(--border)] hover:border-brand transition-colors">
               All Field Notes

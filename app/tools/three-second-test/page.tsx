@@ -260,8 +260,8 @@ export default function ThreeSecondTest() {
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty">
             Strangers give your business about three seconds per surface before deciding
-            whether to look closer. This is the same diagnostic that opens every audit we
-            run, scored by you, for free.
+            whether to look closer. This free test scores how you read in those three
+            seconds, and hands you the fix order.
           </p>
 
           <div className="mt-10 border border-dashed border-[var(--border)] rounded-lg p-6 md:p-8 max-w-3xl">
@@ -421,22 +421,23 @@ export default function ThreeSecondTest() {
         <div className="max-w-5xl mx-auto md:flex items-start justify-between gap-12">
           <div className="max-w-xl">
             <h2 className="font-display uppercase text-3xl md:text-5xl leading-tight mb-4">
-              This was the <span className="text-brand">stranger’s version.</span>
+              Keep the fixes <span className="text-brand">coming.</span>
             </h2>
             <p className="text-[var(--text-secondary)] text-base md:text-lg text-pretty">
-              The audit is the professional one: we run every surface, name what it costs
-              you monthly, and hand you the fix order. Free, and there’s no pitch.
+              That was the free test. Every week we send one more fix like the ones on
+              your list: real examples, exact steps, five minutes to read. Join free and
+              work through them at your own pace.
             </p>
           </div>
           <div className="mt-8 md:mt-0 w-full max-w-md">
             {leadState === 'done' ? (
               <p className="text-[var(--text-secondary)] border border-dashed border-[var(--border)] rounded-lg p-6">
-                Done. Your audit request is in. You’ll hear from us within a day.
+                You&apos;re in. Your first fix lands this week.
               </p>
             ) : (
               <form onSubmit={submitLead} className="space-y-3">
                 <label htmlFor="tst-email" className="block text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-tertiary)]" style={mono}>
-                  Where should the audit go?
+                  Where should the fixes go?
                 </label>
                 <input
                   id="tst-email"
@@ -462,7 +463,7 @@ export default function ThreeSecondTest() {
                   disabled={leadState === 'sending'}
                   className="btn-primary w-full px-7 py-3.5 rounded-full text-sm font-semibold transition-colors disabled:opacity-60"
                 >
-                  {leadState === 'sending' ? 'Sending…' : 'Get My Free Audit'}
+                  {leadState === 'sending' ? 'Sending…' : 'Get the Weekly Fix'}
                 </button>
                 {leadState === 'error' && (
                   <p className="text-sm text-[var(--text-secondary)]">
@@ -472,7 +473,11 @@ export default function ThreeSecondTest() {
               </form>
             )}
             <p className="mt-4 text-sm text-[var(--text-tertiary)]">
-              Prefer to keep reading first? The{' '}
+              Want the fixes done for you?{' '}
+              <Link href="/work-with-us" className="text-brand hover:underline">
+                Apply to work with us
+              </Link>
+              . Prefer to keep reading first? The{' '}
               <Link href="/blog/the-three-second-test" className="text-brand hover:underline">
                 field note behind this test
               </Link>{' '}

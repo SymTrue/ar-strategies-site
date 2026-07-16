@@ -55,7 +55,7 @@ export const posts: Post[] = [
         heading: 'Why this outperforms ads',
         paragraphs: [
           'An ad interrupts someone who was not looking. Your profile meets someone at the exact moment the need exists, which is the cheapest attention you will ever get. Most local categories are decided by whoever shows up complete, recent, and answered at that moment.',
-          'If you want a second pair of eyes on yours, the audit is free and there is no pitch. Just arstrategies.com.',
+          'If you want a second pair of eyes on yours, the three-second test is free and there is no pitch. Just arstrategies.com.',
         ],
       },
     ],
@@ -95,7 +95,7 @@ export const posts: Post[] = [
         heading: 'The compounding part',
         paragraphs: [
           'Reviews are the rare marketing asset that never expires and never stops working. Every one you earn this month is still selling for you in three years. A business that catches two peaks a week has a hundred new reviews a year, and at that point the review count itself becomes the reason people choose you.',
-          'If you want to know how your trust signals read to a stranger, the audit is free and there is no pitch. Just arstrategies.com.',
+          'If you want to know how your trust signals read to a stranger, the three-second test is free and there is no pitch. Just arstrategies.com.',
         ],
       },
     ],
@@ -136,7 +136,7 @@ export const posts: Post[] = [
         heading: 'Fixing a failed surface',
         paragraphs: [
           'One message per surface, and make it specific. Name the customer, name the outcome, drop the welcome-everyone language. Specifics beat adjectives every time: "ladies-only hours from 10 to 2" outsells "a comfortable environment for everyone" because it can be remembered, repeated, and acted on.',
-          'This is the same test that opens every audit we run. If you want a stranger’s three seconds on your business, ours are free and there is no pitch. Just arstrategies.com.',
+          'This is the same test we run first for every client. If you want a stranger’s three seconds on your business, the test is free and there is no pitch. Just arstrategies.com.',
         ],
       },
     ],

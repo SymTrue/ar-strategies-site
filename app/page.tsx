@@ -324,7 +324,7 @@ function useScrollSpy(hrefs: string[]) {
 const navLinks = [
   { label: 'Home', href: '#top' },
   { label: 'Services', href: '#services' },
-  { label: 'Why Us', href: '#why' },
+  { label: 'Work With Us', href: '/work-with-us' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
@@ -402,7 +402,7 @@ const faqs = [
   },
 ];
 
-const CTA_LABEL = 'Get My Free Audit';
+const CTA_LABEL = 'Apply Now';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -448,6 +448,16 @@ export default function Home() {
   const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 
   const heroRef = useHeroIntro<HTMLDivElement>();
+  const shimmerRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = shimmerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => {
+      el.classList.toggle('shimmer-paused', !entry.isIntersecting);
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const servicesRef = useReveal<HTMLDivElement>();
   const processRef = useReveal<HTMLDivElement>();
   const whyRef = useReveal<HTMLDivElement>();
@@ -482,7 +492,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-2">
             <a
-              href="#contact"
+              href="/work-with-us#apply"
               className="btn-primary hidden md:inline-flex items-center active:scale-[0.97] px-5 py-2 rounded-full text-sm transition-colors"
             >
               {CTA_LABEL}
@@ -508,7 +518,7 @@ export default function Home() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="/work-with-us#apply"
               onClick={() => setMenuOpen(false)}
               className="btn-primary text-center px-5 py-2.5 rounded-full text-sm transition-colors"
             >
@@ -530,13 +540,13 @@ export default function Home() {
           </div>
           <h1 data-intro className="font-display hero-display uppercase mb-6 text-balance">
             Be the business your city
-            <span className="text-brand"> finds first</span>
+            <span ref={shimmerRef} className="text-brand hero-underline"> finds first</span>
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
             When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content. Done for you, so the phone rings while you run the business.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
-            In 2026, we audited 50+ local businesses. Most were invisible for their best-buying searches and wasted $2K-$8K a month on ads that didn&apos;t ring the phone.
+            Every week we send one specific fix that helps local businesses get found first: real examples, exact steps, five minutes to read. Join free and put it to work.
           </p>
 
           <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
@@ -555,7 +565,7 @@ export default function Home() {
             <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <button
               type="submit"
-              aria-label="Get my free audit"
+              aria-label="Get the weekly fix"
               disabled={hero.state === 'loading'}
               className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
             >
@@ -565,15 +575,15 @@ export default function Home() {
                   Sending
                 </span>
               ) : (
-                'Get My Free Audit'
+                'Get the Weekly Fix'
               )}
             </button>
           </form>
           <p data-intro className="mt-4 text-sm text-[var(--text-tertiary)]">
-            Free audit within 24 hours. No call required, no lock-in.
+            Free forever. One email a week, unsubscribe anytime.
           </p>
           {hero.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm" role="alert">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
+            <p className="text-green-400 mt-4 text-sm" role="alert">You&apos;re in. Your first fix lands this week.</p>
           )}
           {hero.state === 'error' && (
             <p className="text-red-400 mt-4 text-sm" role="alert">
@@ -582,9 +592,13 @@ export default function Home() {
             </p>
           )}
           <p data-intro className="mt-6 text-sm text-gray-500">
-            Not ready to hand over your email?{' '}
+            See what you&apos;ll get first:{' '}
             <Link href="/tools/three-second-test" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">
-              Run the free 3-second test first
+              run the free 3-second test
+            </Link>
+            . Prefer it done for you?{' '}
+            <Link href="/work-with-us" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">
+              Apply to work with us
             </Link>
             .
           </p>
@@ -966,12 +980,12 @@ export default function Home() {
         </div>
 
         <div className="max-w-2xl mx-auto text-center relative z-10">
-          <SectionKicker n="05" label="Free Audit" center />
+          <SectionKicker n="05" label="The Weekly Fix" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
-            See exactly why customers aren&apos;t finding you.
+            One fix a week. A phone that rings more.
           </h2>
           <p data-reveal className="text-lg text-gray-300 mb-12 max-w-xl mx-auto">
-            Get a free visibility audit: where you rank on Google, where your ad money leaks, and what your content is missing. We hand you the playbook. You decide what to do with it.
+            Every week: one specific way local businesses get found first, with real examples and exact steps you can copy. Free, five minutes to read, yours to keep.
           </p>
 
           <form data-reveal onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6">
@@ -989,7 +1003,7 @@ export default function Home() {
             <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <button
               type="submit"
-              aria-label="Get my free audit"
+              aria-label="Get the weekly fix"
               disabled={cta.state === 'loading'}
               className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
             >
@@ -999,12 +1013,12 @@ export default function Home() {
                   Sending
                 </span>
               ) : (
-                'Get My Free Audit'
+                'Get the Weekly Fix'
               )}
             </button>
           </form>
           {cta.state === 'success' && (
-            <p className="text-green-400 text-sm" role="alert">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
+            <p className="text-green-400 text-sm" role="alert">You&apos;re in. Your first fix lands this week.</p>
           )}
           {cta.state === 'error' && (
             <p className="text-red-400 text-sm">
@@ -1012,7 +1026,14 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p className="text-gray-500 text-xs mt-4">No credit card required. Includes our Local Visibility Checklist ($47 value).</p>
+          <p className="text-gray-500 text-xs mt-4">Free forever. One email a week, unsubscribe anytime.</p>
+          <p className="text-gray-500 text-sm mt-8">
+            Want it done for you instead?{' '}
+            <Link href="/work-with-us" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">
+              Apply to work with us
+            </Link>
+            .
+          </p>
         </div>
       </section>
 

@@ -9,7 +9,7 @@ import { ThemeToggle } from './ui/theme-toggle';
 const links = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/#services' },
-  { label: 'Why Us', href: '/#why' },
+  { label: 'Work With Us', href: '/work-with-us' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
@@ -73,10 +73,10 @@ export function SiteHeader() {
         </div>
         <div className="flex items-center gap-2">
           <Link
-            href="/#contact"
+            href="/work-with-us#apply"
             className="btn-primary hidden md:inline-flex items-center active:scale-[0.97] px-5 py-2 rounded-full text-sm transition-colors"
           >
-            Get My Free Audit
+            Apply Now
           </Link>
           <ThemeToggle />
           <button
@@ -99,11 +99,11 @@ export function SiteHeader() {
             </Link>
           ))}
           <Link
-            href="/#contact"
+            href="/work-with-us#apply"
             onClick={() => setMenuOpen(false)}
             className="btn-primary text-center px-5 py-2.5 rounded-full text-sm transition-colors"
           >
-            Get My Free Audit
+            Apply Now
           </Link>
         </div>
       )}

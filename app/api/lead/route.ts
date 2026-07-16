@@ -8,6 +8,7 @@ import {
 } from '@/lib/request-security';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SITE_URL = 'https://www.arstrategists.com';
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, (character) => {
@@ -21,6 +22,38 @@ function escapeHtml(value: string): string {
 
     return entities[character];
   });
+}
+
+function cleanField(value: unknown, maxLength: number): string {
+  if (typeof value !== 'string') return '';
+  return value.trim().slice(0, maxLength);
+}
+
+interface ApplicationFields {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  industry: string;
+  spend: string;
+  help: string;
+}
+
+function applicationRows(fields: ApplicationFields): string {
+  const rows: Array<[string, string]> = [
+    ['Name', `${fields.firstName} ${fields.lastName}`.trim()],
+    ['Phone', fields.phone],
+    ['Industry', fields.industry],
+    ['Current marketing spend', fields.spend],
+    ['Needs help with', fields.help],
+  ];
+
+  return rows
+    .filter(([, value]) => value !== '')
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding: 4px 12px 4px 0; color: #999; vertical-align: top; white-space: nowrap;">${label}</td><td style="padding: 4px 0;">${escapeHtml(value)}</td></tr>`,
+    )
+    .join('');
 }
 
 export async function POST(req: NextRequest) {
@@ -41,7 +74,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { email, website } = body.data;
+    const { email, website, type } = body.data;
+    const isApplication = type === 'application';
 
     const ip = getRequestIp(req);
 
@@ -70,6 +104,19 @@ export async function POST(req: NextRequest) {
 
     const escapedEmail = escapeHtml(normalizedEmail);
 
+    const application: ApplicationFields = {
+      firstName: cleanField(body.data.firstName, 100),
+      lastName: cleanField(body.data.lastName, 100),
+      phone: cleanField(body.data.phone, 40),
+      industry: cleanField(body.data.industry, 120),
+      spend: cleanField(body.data.spend, 120),
+      help: cleanField(body.data.help, 2000),
+    };
+
+    if (isApplication && (application.firstName === '' || application.help === '')) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
     const apiKey = process.env.RESEND_API_KEY;
     const notifyTo = process.env.LEAD_NOTIFY_EMAIL;
 
@@ -81,7 +128,7 @@ export async function POST(req: NextRequest) {
     // Store lead in database FIRST (before sending emails)
     let leadId: string | null;
     try {
-      leadId = await saveLead(normalizedEmail);
+      leadId = await saveLead(normalizedEmail, isApplication ? 'application' : 'newsletter');
       if (!leadId) {
         console.error('Failed to get lead ID');
         return NextResponse.json({ error: 'Failed to save lead' }, { status: 500 });
@@ -90,6 +137,25 @@ export async function POST(req: NextRequest) {
       console.error('Database error:', err);
       return NextResponse.json({ error: 'Failed to save lead' }, { status: 500 });
     }
+
+    const notificationSubject = isApplication
+      ? `new application from ${normalizedEmail}`
+      : `new newsletter signup: ${normalizedEmail}`;
+
+    const notificationHtml = isApplication
+      ? `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
+          <p><strong>${escapedEmail}</strong> sent in an application to work with you.</p>
+          <table style="margin: 12px 0; font-size: 14px; border-collapse: collapse;">${applicationRows(application)}</table>
+          <p style="margin-top: 12px;">Reply to this email to reach them and schedule the call.</p>
+        </div>
+      `
+      : `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
+          <p><strong>${escapedEmail}</strong> joined the weekly list.</p>
+          <p style="margin-top: 12px;">Reply to this email to reach them directly.</p>
+        </div>
+      `;
 
     // Email 1: Notification to you
     const notificationRes = await fetch('https://api.resend.com/emails', {
@@ -102,14 +168,8 @@ export async function POST(req: NextRequest) {
         from: 'AR Strategies <leads@arstrategists.com>',
         to: notifyTo,
         reply_to: normalizedEmail,
-        subject: `new audit request from ${normalizedEmail}`,
-        html: `
-          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
-            <p><strong>${escapedEmail}</strong> just booked a free audit.</p>
-            <p style="color: #666; font-size: 14px;">Deliver: Full campaign audit + Ad Waste Checklist within 24 hours. No pressure, no lock-in.</p>
-            <p style="margin-top: 12px;">Reply to this email to reach them, or forward to your team.</p>
-          </div>
-        `,
+        subject: notificationSubject,
+        html: notificationHtml,
       }),
     });
 
@@ -119,6 +179,28 @@ export async function POST(req: NextRequest) {
       // Mark lead as notification failed but don't fail the request
       await updateLeadStatus(leadId, 'notification_failed');
     }
+
+    const confirmationSubject = isApplication ? 'we got your application' : "you're on the list";
+
+    const confirmationHtml = isApplication
+      ? `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
+          <p>Thanks for sending in your application. We read every one personally.</p>
+          <p>If it looks like a good fit, we will reach back out to schedule a call. Either way you will hear from us.</p>
+          <p style="color: #666; margin-top: 12px;">In the meantime, the free 3-second test shows you how your business reads to a stranger: <a href="${SITE_URL}/tools/three-second-test">${SITE_URL}/tools/three-second-test</a></p>
+          <p style="margin-top: 16px;">Questions? Just reply to this email or reach out to <strong>hello@arstrategists.com</strong>.</p>
+          <p style="margin-top: 24px; color: #999; font-size: 14px;">- AR Strategies</p>
+        </div>
+      `
+      : `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
+          <p>You're in. Every week you get one specific fix that helps local businesses get found first: real examples, exact steps, about five minutes to read.</p>
+          <p style="color: #666; margin-top: 12px;">Want a head start? The free 3-second test scores how your business reads to a stranger, in about two minutes: <a href="${SITE_URL}/tools/three-second-test">${SITE_URL}/tools/three-second-test</a></p>
+          <p style="color: #666; margin-top: 12px;">One email a week. No spam, unsubscribe anytime with one click.</p>
+          <p style="margin-top: 16px;">Questions? Just reply to this email or reach out to <strong>hello@arstrategists.com</strong>.</p>
+          <p style="margin-top: 24px; color: #999; font-size: 14px;">- AR Strategies</p>
+        </div>
+      `;
 
     // Email 2: Confirmation to the lead
     const confirmationRes = await fetch('https://api.resend.com/emails', {
@@ -130,21 +212,8 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         from: 'AR Strategies <leads@arstrategists.com>',
         to: normalizedEmail,
-        subject: 'your free audit request',
-        html: `
-          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
-            <p>Thanks for scheduling your free audit. We will dig into your current campaigns and send you a detailed breakdown within 24 hours.</p>
-            <p><strong>What's included:</strong></p>
-            <ul style="color: #666; margin: 12px 0; padding-left: 20px;">
-              <li>Full campaign audit with waste analysis</li>
-              <li>Our Ad Waste Checklist ($47 value)</li>
-              <li>Specific recommendations for your business</li>
-            </ul>
-            <p style="color: #666; margin-top: 12px;">No credit card required. No pressure. No cold calls. If we don't find 3+ improvements, we'll extend your audit free.</p>
-            <p style="margin-top: 16px;">Questions before we dive in? Just reply to this email or reach out to <strong>hello@arstrategists.com</strong>.</p>
-            <p style="margin-top: 24px; color: #999; font-size: 14px;">- AR Strategies</p>
-          </div>
-        `,
+        subject: confirmationSubject,
+        html: confirmationHtml,
       }),
     });
 

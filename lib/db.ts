@@ -76,12 +76,12 @@ function rowToLead(row: Record<string, unknown>): AdminLead {
   };
 }
 
-export async function saveLead(email: string): Promise<string | null> {
+export async function saveLead(email: string, source: string = 'homepage'): Promise<string | null> {
   try {
     const result = await sql`
       INSERT INTO leads (email, source, status, created_at, updated_at)
-      VALUES (${email}, 'homepage', 'new', NOW(), NOW())
-      ON CONFLICT (email) DO UPDATE SET updated_at = NOW()
+      VALUES (${email}, ${source}, 'new', NOW(), NOW())
+      ON CONFLICT (email) DO UPDATE SET source = ${source}, updated_at = NOW()
       RETURNING id;
     `;
     return result.rows[0]?.id || null;

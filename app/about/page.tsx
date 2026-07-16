@@ -208,15 +208,15 @@ export default function AboutPage() {
                 Theory is useful only when it changes what the market does next.
               </h2>
               <p className="mt-4 max-w-xl text-[var(--text-secondary)]">
-                See the mechanisms behind the studio model, then request the audit when you want them applied to your market.
+                See the mechanisms behind the studio model, then apply when you want them working for your market.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link href="/mechanisms" className="rounded-lg border border-[var(--border)] px-6 py-3 text-sm font-semibold transition hover:border-brand">
                 Explore Mechanisms
               </Link>
-              <Link href="/#contact" className="btn-primary rounded-lg px-6 py-3 text-sm font-semibold">
-                Get My Free Audit
+              <Link href="/work-with-us#apply" className="btn-primary rounded-lg px-6 py-3 text-sm font-semibold">
+                Apply to Work With Us
               </Link>
             </div>
           </div>

@@ -324,8 +324,8 @@ export default function MechanismsHub() {
             </p>
           </div>
           <div className="flex gap-4 mt-8 md:mt-0 shrink-0">
-            <Link href="/#contact" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
-              Get My Free Audit
+            <Link href="/work-with-us#apply" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
+              Apply to Work With Us
             </Link>
             <Link href="/#why" className="px-7 py-3.5 rounded-full text-sm font-semibold border border-[var(--border)] hover:border-brand transition-colors">
               See the Case Study

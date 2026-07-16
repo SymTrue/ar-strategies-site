@@ -105,15 +105,15 @@ export default function BlogIndex() {
         <div className="max-w-7xl mx-auto md:flex items-end justify-between gap-10">
           <div>
             <h2 className="font-display uppercase text-3xl md:text-5xl leading-tight mb-4 max-w-2xl">
-              Reading is diagnosis. <span className="text-brand">The audit is treatment.</span>
+              Reading is diagnosis. <span className="text-brand">The work is treatment.</span>
             </h2>
             <p className="text-[var(--text-secondary)] max-w-xl">
               We will show you exactly where your business is invisible, and what it costs you monthly.
             </p>
           </div>
           <div className="flex gap-4 mt-8 md:mt-0 shrink-0">
-            <Link href="/#contact" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
-              Get My Free Audit
+            <Link href="/work-with-us#apply" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
+              Apply to Work With Us
             </Link>
             <Link href="/mechanisms" className="px-7 py-3.5 rounded-full text-sm font-semibold border border-[var(--border)] hover:border-brand transition-colors">
               Watch the Explainers
