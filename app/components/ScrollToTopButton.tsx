@@ -6,15 +6,29 @@ export function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 560);
+    const onScroll = () => {
+      const doc = document.scrollingElement;
+      const shell = document.querySelector('.site-shell');
+      const top = Math.max(doc?.scrollTop ?? 0, shell?.scrollTop ?? 0, window.scrollY);
+      setVisible(top > 560);
+    };
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    // Capture phase catches scrolls on nested containers too: .site-shell is
+    // a scroll container (its overflow-x clip makes overflow-y compute to
+    // auto), so window scroll events alone miss some scrolling.
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    return () => document.removeEventListener('scroll', onScroll, { capture: true });
   }, []);
 
   const scrollToTop = () => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    // 'instant', not 'auto': 'auto' defers to the CSS scroll-behavior, which
+    // is smooth on this site, defeating the reduced-motion intent.
+    const behavior: ScrollBehavior = reduced ? 'instant' : 'smooth';
+    window.scrollTo({ top: 0, behavior });
+    document.querySelectorAll('.site-shell').forEach((el) => {
+      if (el.scrollTop > 0) el.scrollTo({ top: 0, behavior });
+    });
   };
 
   return (
