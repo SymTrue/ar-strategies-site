@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Anton, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "./providers";
+import { ScrollToTopButton } from "./components/ScrollToTopButton";
 import "./globals.css";
 
 const anton = Anton({
@@ -151,6 +152,7 @@ export default function RootLayout({
       <body className="min-h-full bg-[var(--background)] text-[var(--text-primary)] transition-colors duration-300">
         <ThemeProvider>
           {children}
+          <ScrollToTopButton />
           <Analytics />
         </ThemeProvider>
       </body>

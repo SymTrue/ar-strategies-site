@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { SiteHeader } from '../../components/SiteHeader';
+import { SiteFooter } from '../../components/SiteFooter';
 import { getPost, posts } from '../posts';
 
 const mono = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } as const;
@@ -97,7 +98,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       </article>
 
       {/* Next note + CTA */}
-      <footer className="px-6 py-14 md:py-20 section-dashed">
+      <section className="px-6 py-14 md:py-20 section-dashed">
         <div className="max-w-3xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)] mb-4" style={mono}>
             Next note
@@ -116,7 +117,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </Link>
           </div>
         </div>
-      </footer>
+      </section>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,12 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState, useEffect, useRef, useSyncExternalStore, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
 import NeuralNet from './components/NeuralNet';
 import { ThemeToggle } from './components/ui/theme-toggle';
+import { SiteFooter } from './components/SiteFooter';
 import { useTheme } from './providers';
 
 // Lazy-mount GPU-heavy components below fold — saves 3-4 canvases upfront
@@ -319,13 +321,11 @@ function useScrollSpy(hrefs: string[]) {
 }
 
 const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Process', href: '#process' },
+  { label: 'Home', href: '#top' },
   { label: 'Why Us', href: '#why' },
   { label: 'About', href: '/about' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
-  { label: 'FAQ', href: '#faq' },
 ];
 
 const services = [
@@ -576,6 +576,13 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
+          <p data-intro className="mt-6 text-sm text-gray-500">
+            Not ready to hand over your email?{' '}
+            <Link href="/tools/three-second-test" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">
+              Run the free 3-second test first
+            </Link>
+            .
+          </p>
           <div className="marquee mt-16" aria-hidden="true">
             <div className="marquee-track text-xs uppercase tracking-[0.25em] text-gray-500">
               {[0, 1].map((dup) => (
@@ -1059,48 +1066,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="site-footer border-t border-white/10 py-14 px-6 brand-watermark">
-        <div className="max-w-7xl mx-auto relative z-10 mb-14">
-          <p className="font-display uppercase leading-[0.95] text-[clamp(2.5rem,6vw,5rem)] text-balance">
-            Stop being <span className="text-brand">ignored.</span>
-          </p>
-        </div>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8">
-          <div className="max-w-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <Image src="/logo.png" alt="AR Strategies" width={36} height={36} className="site-logo h-9 w-auto" />
-              <span className="font-display text-lg tracking-wide">AR STRATEGIES</span>
-            </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              We help local businesses get found first on Google, run Meta ads that pay for themselves, and publish content locals remember and act on.
-            </p>
-          </div>
-          <div className="flex gap-16">
-            <div>
-              <p className="font-semibold mb-4 text-sm uppercase tracking-wide">Company</p>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
-                <li><a href="#process" className="hover:text-white transition-colors">Process</a></li>
-                <li><a href="#why" className="hover:text-white transition-colors">Why Us</a></li>
-                <li><a href="/about" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
-              </ul>
-            </div>
-            <div>
-              <p className="font-semibold mb-4 text-sm uppercase tracking-wide">Connect</p>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li><a href="https://instagram.com/ar_strats.aa" className="hover:text-white transition-colors">Instagram</a></li>
-                <li><a href="mailto:hello@arstrategists.com" className="hover:text-white transition-colors">Email</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          <p>© 2026 AR Strategies. All rights reserved.</p>
-          <p className="font-display uppercase tracking-wide text-gray-400">Dominate your market.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

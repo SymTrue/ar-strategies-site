@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SiteHeader } from '../components/SiteHeader';
+import { SiteFooter } from '../components/SiteFooter';
 
 export const metadata: Metadata = {
   title: 'About AR Strategies — Founder-Led Perception & Attention Studio',
@@ -221,6 +222,7 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

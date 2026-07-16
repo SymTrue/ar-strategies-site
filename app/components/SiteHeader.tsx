@@ -7,14 +7,11 @@ import { useEffect, useRef, useState } from 'react';
 import { ThemeToggle } from './ui/theme-toggle';
 
 const links = [
-  { label: 'Services', href: '/#services' },
-  { label: 'Process', href: '/#process' },
+  { label: 'Home', href: '/' },
   { label: 'Why Us', href: '/#why' },
   { label: 'About', href: '/about' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
-  { label: '3-Second Test', href: '/tools/three-second-test' },
-  { label: 'FAQ', href: '/#faq' },
 ];
 
 function ScrollProgress() {
@@ -44,8 +41,11 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const isActive = (href: string) =>
-    !href.startsWith('/#') && pathname.startsWith(href);
+  const isActive = (href: string) => {
+    if (href.startsWith('/#')) return false;
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
+  };
 
   return (
     <nav className="site-header sticky top-0 z-50 bg-[var(--nav-background)] backdrop-blur border-b border-[var(--border)]">

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteHeader } from '../components/SiteHeader';
+import { SiteFooter } from '../components/SiteFooter';
 
 export const metadata: Metadata = {
   title: 'The Mechanism Library — AR Strategies',
@@ -332,6 +333,7 @@ export default function MechanismsHub() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteHeader } from '../components/SiteHeader';
+import { SiteFooter } from '../components/SiteFooter';
 import { posts } from './posts';
 
 export const metadata: Metadata = {
@@ -120,6 +121,7 @@ export default function BlogIndex() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 }

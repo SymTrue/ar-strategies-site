@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { use } from 'react';
 import { SiteHeader } from '../../components/SiteHeader';
+import { SiteFooter } from '../../components/SiteFooter';
 
 interface MechanismData {
   id: string;
@@ -473,6 +474,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
           </Link>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 }

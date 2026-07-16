@@ -1,8 +1,27 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { SiteHeader } from '../../components/SiteHeader';
+import { SiteFooter } from '../../components/SiteFooter';
+import { DiagnosticNet } from '../../components/DiagnosticNet';
+import { useTheme } from '../../providers';
+
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener('change', onChange);
+  return () => mq.removeEventListener('change', onChange);
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false,
+  );
+}
 
 const mono = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } as const;
 
@@ -161,6 +180,8 @@ export default function ThreeSecondTest() {
   const [email, setEmail] = useState('');
   const [honeypot, setHoneypot] = useState('');
   const [leadState, setLeadState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const { theme } = useTheme();
+  const reducedMotion = usePrefersReducedMotion();
 
   const setAnswer = (si: number, qi: number, v: boolean) => {
     setAnswers((prev) =>
@@ -321,7 +342,7 @@ export default function ThreeSecondTest() {
       {/* Readout */}
       <section className="px-6 pb-16" aria-live="polite">
         <div className="max-w-5xl mx-auto border border-[var(--border)] rounded-lg p-6 md:p-10 bg-[var(--surface)]">
-          <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="flex items-center justify-between gap-4 mb-2">
             <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-tertiary)]" style={mono}>
               Readout
             </p>
@@ -330,53 +351,50 @@ export default function ThreeSecondTest() {
             </p>
           </div>
 
-          {/* 12-cell meter */}
-          <div className="grid grid-cols-12 gap-1.5 mb-8" aria-hidden="true">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div
-                key={i}
-                className={`h-2.5 rounded-sm transition-colors duration-300 ${
-                  i < score ? 'bg-brand' : 'bg-[var(--border)]'
-                }`}
-              />
-            ))}
-          </div>
-
-          {verdict ? (
-            <div className="md:flex items-start justify-between gap-10">
-              <div>
-                <p className="font-display uppercase text-5xl md:text-7xl leading-none mb-4 text-brand">
-                  {verdict.word}
-                </p>
-                <p className="text-[var(--text-secondary)] max-w-xl text-base md:text-lg text-pretty">
-                  <span className="text-[var(--text-primary)] font-semibold tabular-nums">{score}/12. </span>
-                  {verdict.line}
-                </p>
-              </div>
-              <div className="mt-8 md:mt-0 shrink-0 space-y-2">
-                {SURFACES.map((s, i) => (
-                  <div key={s.code} className="flex items-center gap-3 text-sm" style={mono}>
-                    <span className="text-[var(--text-tertiary)] w-6">{s.code}</span>
-                    <div className="flex gap-1" aria-hidden="true">
-                      {[0, 1, 2].map((j) => (
-                        <span
-                          key={j}
-                          className={`w-6 h-1.5 rounded-sm ${j < surfaceScores[i] ? 'bg-brand' : 'bg-[var(--border)]'}`}
-                        />
-                      ))}
-                    </div>
-                    <span className={surfaceScores[i] >= 2 ? 'text-brand' : 'text-[var(--text-tertiary)]'}>
-                      {surfaceScores[i]}/3
-                    </span>
-                  </div>
-                ))}
-              </div>
+          <div className="md:flex items-center gap-10">
+            <div className="shrink-0 w-full md:w-[300px]">
+              <DiagnosticNet surfaces={SURFACES} answers={answers} theme={theme} reducedMotion={reducedMotion} />
             </div>
-          ) : (
-            <p className="text-[var(--text-tertiary)] text-base">
-              Answer all twelve questions and the verdict prints here.
-            </p>
-          )}
+
+            <div className="flex-1 min-w-0">
+              {verdict ? (
+                <div className="md:flex items-start justify-between gap-10">
+                  <div>
+                    <p className="font-display uppercase text-5xl md:text-7xl leading-none mb-4 text-brand">
+                      {verdict.word}
+                    </p>
+                    <p className="text-[var(--text-secondary)] max-w-xl text-base md:text-lg text-pretty">
+                      <span className="text-[var(--text-primary)] font-semibold tabular-nums">{score}/12. </span>
+                      {verdict.line}
+                    </p>
+                  </div>
+                  <div className="mt-8 md:mt-0 shrink-0 space-y-2">
+                    {SURFACES.map((s, i) => (
+                      <div key={s.code} className="flex items-center gap-3 text-sm" style={mono}>
+                        <span className="text-[var(--text-tertiary)] w-6">{s.code}</span>
+                        <div className="flex gap-1" aria-hidden="true">
+                          {[0, 1, 2].map((j) => (
+                            <span
+                              key={j}
+                              className={`w-6 h-1.5 rounded-sm ${j < surfaceScores[i] ? 'bg-brand' : 'bg-[var(--border)]'}`}
+                            />
+                          ))}
+                        </div>
+                        <span className={surfaceScores[i] >= 2 ? 'text-brand' : 'text-[var(--text-tertiary)]'}>
+                          {surfaceScores[i]}/3
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-[var(--text-tertiary)] text-base">
+                  Answer all twelve questions. The network fills in as you go, and the
+                  verdict prints here once it's complete.
+                </p>
+              )}
+            </div>
+          </div>
 
           {complete && fixes.length > 0 && (
             <div className="mt-10 border-t border-dashed border-[var(--border)] pt-8">
@@ -463,6 +481,7 @@ export default function ThreeSecondTest() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 }
