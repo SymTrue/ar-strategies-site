@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { useState, useEffect, useRef, useSyncExternalStore, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
@@ -443,7 +444,6 @@ export default function Home() {
   const reducedMotion = usePrefersReducedMotion();
   const hero = useLeadForm();
   const cta = useLeadForm();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 
@@ -569,6 +569,9 @@ export default function Home() {
               )}
             </button>
           </form>
+          <p data-intro className="mt-4 text-sm text-[var(--text-tertiary)]">
+            Free audit within 24 hours. No call required, no lock-in.
+          </p>
           {hero.state === 'success' && (
             <p className="text-green-400 mt-4 text-sm" role="alert">Got it. We&apos;ll send your audit within 24 hours, no pressure, no cold calls.</p>
           )}
@@ -606,9 +609,12 @@ export default function Home() {
       <section id="services" ref={servicesRef} className="py-24 md:py-32 px-6 section-premium">
         <div className="max-w-4xl mx-auto">
           <SectionKicker n="01" label="Services" />
-          <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
+          <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-4">
             The work we do. So you stop doing it.
           </h2>
+          <p data-reveal className="text-[var(--text-secondary)] max-w-xl mb-16">
+            Three services, one outcome: your phone rings and you can see why.
+          </p>
           <div className="border-t border-white/10">
             {services.map((s, i) => (
               <AnimatedSection key={s.title} delay={i * 0.1}>
@@ -731,37 +737,35 @@ export default function Home() {
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">
             Straight answers
           </h2>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div key={faq.q} data-reveal className="group relative rounded-2xl overflow-hidden transition-colors duration-300">
-                {/* Subtle glow on hover */}
-                <div className={`absolute -inset-0.5 bg-gradient-to-r from-brand/30 to-transparent opacity-0 transition-opacity duration-300 blur-lg -z-10 ${openFaq === i ? 'opacity-100' : 'group-hover:opacity-50'}`} />
+          <AccordionPrimitive.Root type="single" collapsible defaultValue={faqs[0]?.q} className="space-y-3">
+            {faqs.map((faq) => (
+              <AccordionPrimitive.Item key={faq.q} value={faq.q} data-reveal className="group relative rounded-2xl overflow-hidden transition-colors duration-300">
+                {/* Subtle glow on hover / open */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-brand/30 to-transparent opacity-0 transition-opacity duration-300 blur-lg -z-10 group-hover:opacity-50 group-data-[state=open]:opacity-100" />
 
                 <div className="glass-card">
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    aria-expanded={openFaq === i}
-                    className="w-full flex justify-between items-start gap-4 text-left px-6 py-4 transition-colors"
-                  >
-                    <div className="flex-1">
-                      <div className="mb-2">
-                        <FAQTag category={faq.category} />
+                  <AccordionPrimitive.Header>
+                    <AccordionPrimitive.Trigger className="w-full flex justify-between items-start gap-4 text-left px-6 py-4 transition-colors">
+                      <div className="flex-1">
+                        <div className="mb-2">
+                          <FAQTag category={faq.category} />
+                        </div>
+                        <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
                       </div>
-                      <span className="font-semibold text-base md:text-lg text-gray-200 group-hover:text-white transition-colors">{faq.q}</span>
-                    </div>
-                    <span className={`text-brand text-xl leading-none transition-transform duration-300 shrink-0 mt-1 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">+</span>
-                  </button>
-                  <div className={`grid transition-[grid-template-rows] duration-300 ease-out ${openFaq === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                      <span className="text-brand text-xl leading-none transition-transform duration-300 shrink-0 mt-1 group-data-[state=open]:rotate-45" aria-hidden="true">+</span>
+                    </AccordionPrimitive.Trigger>
+                  </AccordionPrimitive.Header>
+                  <AccordionPrimitive.Content forceMount className="grid transition-[grid-template-rows] duration-300 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]">
                     <div className="overflow-hidden">
                       <div className="px-6 pb-4 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
                         {faq.a}
                       </div>
                     </div>
-                  </div>
+                  </AccordionPrimitive.Content>
                 </div>
-              </div>
+              </AccordionPrimitive.Item>
             ))}
-          </div>
+          </AccordionPrimitive.Root>
         </div>
       </section>
 

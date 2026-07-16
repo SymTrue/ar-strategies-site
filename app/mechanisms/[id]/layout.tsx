@@ -1,31 +1,14 @@
 import type { Metadata } from 'next';
+import { mechanismMeta } from '../mechanisms-data';
 
-const mechanismTitles: Record<string, { title: string; description: string }> = {
-  'pattern-interruption': {
-    title: 'Pattern Interruption',
-    description:
-      'How breaking expected patterns forces attention and makes a business impossible to ignore.',
-  },
-  'mental-availability': {
-    title: 'Mental Availability',
-    description:
-      'Why the business remembered first gets chosen first, and how to build that recall on purpose.',
-  },
-  positioning: {
-    title: 'Positioning',
-    description:
-      'How strategic positioning shapes perception relative to every alternative a customer could pick instead.',
-  },
-  'familiarity-effect': {
-    title: 'Familiarity Effect',
-    description:
-      'How repeated exposure quietly converts recognition into trust, and why customers buy from names they have already seen.',
-  },
-  'decision-architecture': {
-    title: 'Decision Architecture',
-    description:
-      'How the structure of your options decides whether people choose at all, and why fewer, clearer paths convert more.',
-  },
+const SITE_URL = 'https://www.arstrategists.com';
+
+const videoDurations: Record<string, string> = {
+  'pattern-interruption': 'PT42S',
+  'mental-availability': 'PT44S',
+  positioning: 'PT46S',
+  'familiarity-effect': 'PT41S',
+  'decision-architecture': 'PT41S',
 };
 
 export async function generateMetadata({
@@ -34,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const entry = mechanismTitles[id];
+  const entry = mechanismMeta[id];
   const title = entry?.title ?? 'Mechanism';
 
   return {
@@ -44,6 +27,36 @@ export async function generateMetadata({
   };
 }
 
-export default function MechanismLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return children;
+export default async function MechanismLayout({
+  children,
+  params,
+}: Readonly<{ children: React.ReactNode; params: Promise<{ id: string }> }>) {
+  const { id } = await params;
+  const entry = mechanismMeta[id];
+  const duration = videoDurations[id];
+
+  const jsonLd = entry
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        name: entry.title,
+        description: entry.description,
+        thumbnailUrl: `${SITE_URL}/videos/posters/${id}.jpg`,
+        uploadDate: '2026-07-16',
+        contentUrl: `${SITE_URL}/videos/${id}.mp4`,
+        duration,
+      }
+    : null;
+
+  return (
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      {children}
+    </>
+  );
 }
