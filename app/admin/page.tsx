@@ -4,7 +4,7 @@ import { getLeadStats, listAdminLeads } from '@/lib/db';
 import { AdminDashboard } from './AdminDashboard';
 
 export const metadata: Metadata = {
-  title: 'Lead CRM — AR Strategies',
+  title: 'Lead CRM: AR Strategies',
   robots: { index: false, follow: false },
 };
 

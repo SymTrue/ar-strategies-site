@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { LoginForm } from './LoginForm';
 
 export const metadata: Metadata = {
-  title: 'Admin Login — AR Strategies',
+  title: 'Admin Login: AR Strategies',
   robots: { index: false, follow: false },
 };
 

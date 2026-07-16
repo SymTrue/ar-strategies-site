@@ -8,10 +8,12 @@ import { ThemeToggle } from './ui/theme-toggle';
 
 const links = [
   { label: 'Home', href: '/' },
+  { label: 'Services', href: '/#services' },
   { label: 'Why Us', href: '/#why' },
-  { label: 'About', href: '/about' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+  { label: 'FAQ', href: '/#faq' },
 ];
 
 function ScrollProgress() {

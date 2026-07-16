@@ -5,7 +5,7 @@ import { SiteFooter } from '../components/SiteFooter';
 import { posts } from './posts';
 
 export const metadata: Metadata = {
-  title: 'Field Notes — AR Strategies',
+  title: 'Field Notes: AR Strategies',
   description:
     'Observations on attention, positioning, and memory from auditing 50+ local businesses. Why customers notice some businesses and filter out the rest.',
   alternates: { canonical: '/blog' },

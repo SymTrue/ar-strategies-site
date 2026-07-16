@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 
 /* Premium hero background: dense neural canopy surrounding hero text.
-   8-lobe halo + inner ring — ~500 nodes, ~2000 edges.
+   8-lobe halo + inner ring, ~500 nodes, ~2000 edges.
    Dark mode: white nodes + blue glow.
    Light mode: monochrome slate nodes + brand orange (#ea580c) accent glows only on activation.
    Cursor glow halo (Interactive Cursor pattern).
@@ -172,7 +172,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       mkTier('rgba(210,220,235,0.78)', 'rgba(170,185,210,0.22)', 30, 1.4),  // far: dimmer, wider halo
       mkTier('rgba(180,195,215,0.60)', 'rgba(150,170,195,0.15)', 28, 1.8),  // deep: barely visible
     ];
-    // Light mode: 4 tiers — warm slate/charcoal with barely-perceptible amber undertone.
+    // Light mode: 4 tiers, warm slate/charcoal with barely-perceptible amber undertone.
         // Near (slate-900 + whisper of amber) → Mid (slate-600) → Far (slate-400) → Deep (slate-300)
         // Base nodes recede; only activation glows use brand orange #ea580c.
         const sLightTier = [
@@ -182,21 +182,21 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
           mkTier('rgba(85,95,115,0.60)', 'rgba(200,210,225,0.30)', 28, 1.8),  // deep: slate-400/300
         ];
 
-    // Accent sprites — activation glow
+    // Accent sprites: activation glow
     // Dark mode: cyan-blue accent (brand blue)
     const sAccDark   = mkTier('rgba(56,189,248,0.72)',  'rgba(125,211,252,0.35)');
     // Light mode: EXACT brand orange #ea580c (rgba(234,88,12,...))
     const sAccLight  = mkTier('rgba(234,88,12,0.95)',   'rgba(251,146,60,0.58)');
 
-    // Rings — soft feathered via makeRing
+    // Rings: soft feathered via makeRing
     const sRingDark  = makeRing('rgba(56,189,248,0.18)',    'rgba(56,189,248,0.03)');
     const sRingLight = makeRing('rgba(234,88,12,0.24)',     'rgba(234,88,12,0.06)');
 
-    // Pulses — traveling edge highlights
+    // Pulses: traveling edge highlights
     const sPulseDark = mkTier('rgba(125,211,252,0.88)', 'rgba(56,189,248,0.38)', 24);
     const sPulseLight= mkTier('rgba(251,146,60,0.95)',  'rgba(254,178,108,0.55)', 24);
 
-    // Cursor glow sprite — subtle 120px halo
+    // Cursor glow sprite: subtle 120px halo
     const sCursorDark  = mkTier('rgba(56,189,248,0.22)', 'rgba(56,189,248,0.06)', 120);
     const sCursorLight = mkTier('rgba(234,88,12,0.25)',   'rgba(251,146,60,0.08)', 120);
 
@@ -340,7 +340,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         const tierSprite = spBase[tier];
         const tierSizeMul = [1.35, 1.0, 0.72, 0.55][tier];
         const size = (2.4 + 3.8 * Math.max(n.ps - 0.72, 0.05)) * 2 * tierSizeMul;
-        // Light mode: raised alpha floor to 0.20 (was 0.10 — invisible on white)
+        // Light mode: raised alpha floor to 0.20 (was 0.10, invisible on white)
         const alphaFloor = isDark ? [0.12, 0.10, 0.08, 0.05][tier] : [0.28, 0.22, 0.18, 0.12][tier];
         const alpha = Math.max(n.pa, alphaFloor) * (isDark ? 0.92 : 0.92);
 
@@ -368,7 +368,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       }
       ctx.globalAlpha = 1;
 
-      // Cursor glow — subtle halo following pointer
+      // Cursor glow: subtle halo following pointer
       if (mouse.x > -999 && !coarse && !reducedMotion) {
         ctx.globalAlpha = 0.45;
         ctx.globalCompositeOperation = 'lighter';

@@ -5,7 +5,7 @@ import { SiteHeader } from '../components/SiteHeader';
 import { SiteFooter } from '../components/SiteFooter';
 
 export const metadata: Metadata = {
-  title: 'About AR Strategies — Founder-Led Perception & Attention Studio',
+  title: 'About AR Strategies: Founder-Led Perception & Attention Studio',
   description:
     'Meet Akbar Ahmad, founder of AR Strategies. The studio helps local businesses become easier to notice, remember, trust, and choose.',
   alternates: { canonical: '/about' },

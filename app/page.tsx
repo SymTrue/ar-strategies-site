@@ -11,7 +11,7 @@ import { ThemeToggle } from './components/ui/theme-toggle';
 import { SiteFooter } from './components/SiteFooter';
 import { useTheme } from './providers';
 
-// Lazy-mount GPU-heavy components below fold — saves 3-4 canvases upfront
+// Lazy-mount GPU-heavy components below fold, saves 3-4 canvases upfront
 const LiquidMetal = dynamic(() => import('./components/ui/liquid-metal'), { ssr: false });
 
 /* Inline Lucide-style icons (24×24 grid, 2px stroke, rounded caps: MIT, no
@@ -322,10 +322,12 @@ function useScrollSpy(hrefs: string[]) {
 
 const navLinks = [
   { label: 'Home', href: '#top' },
+  { label: 'Services', href: '#services' },
   { label: 'Why Us', href: '#why' },
-  { label: 'About', href: '/about' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+  { label: 'FAQ', href: '#faq' },
 ];
 
 const services = [
@@ -729,6 +731,20 @@ export default function Home() {
 
       {/* FAQ */}
       <section id="faq" ref={faqRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: faqs.map((faq) => ({
+                '@type': 'Question',
+                name: faq.q,
+                acceptedAnswer: { '@type': 'Answer', text: faq.a },
+              })),
+            }),
+          }}
+        />
         <div className="max-w-3xl mx-auto">
           <SectionKicker n="04" label="FAQ" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">

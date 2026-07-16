@@ -4,7 +4,7 @@ import { SiteHeader } from '../components/SiteHeader';
 import { SiteFooter } from '../components/SiteFooter';
 
 export const metadata: Metadata = {
-  title: 'The Mechanism Library — AR Strategies',
+  title: 'The Mechanism Library: AR Strategies',
   description:
     'The psychological mechanisms behind attention, memory, and choice. Free video explainers on the principles that make local businesses impossible to ignore.',
   alternates: { canonical: '/mechanisms' },
@@ -248,7 +248,7 @@ export default function MechanismsHub() {
         <div className="max-w-7xl mx-auto border border-dashed border-[var(--border)] rounded-lg p-4">
           <div className="flex items-center justify-between px-2 pb-2">
             <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
-              Fig. 01 — Mechanism network · 18 nodes
+              Fig. 01, Mechanism network · 18 nodes
             </span>
             <span className="text-[10px] uppercase tracking-[0.2em] text-brand" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
               ● Live &nbsp;&nbsp;○ In production
@@ -296,7 +296,7 @@ export default function MechanismsHub() {
           {/* In production: the remaining library, as an honest roadmap */}
           <div className="mt-14">
             <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-tertiary)] mb-5" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
-              In production — 13 remaining
+              In production, 13 remaining
             </p>
             <div className="flex flex-wrap gap-2.5">
               {ghosts.map((name) => (
