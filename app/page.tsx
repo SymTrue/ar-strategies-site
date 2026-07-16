@@ -533,7 +533,7 @@ export default function Home() {
             <span className="text-brand"> finds first</span>
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
-            When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content. Done for you, so your phone rings while you run the business.
+            When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content. Done for you, so the phone rings while you run the business.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
             In 2026, we audited 50+ local businesses. Most were invisible for their best-buying searches and wasted $2K-$8K a month on ads that didn&apos;t ring the phone.

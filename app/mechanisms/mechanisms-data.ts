@@ -73,7 +73,7 @@ Here's the neurological fact: Your brain processes ~11 million bits of informati
 
 Pattern interruption exploits this filter. It hijacks the survival mechanism that says: "If something is different, it might be dangerous. Pay attention."
 
-That's why unexpected headlines outperform expected ones by 2-3x, why color breaks in monochrome designs stop scrollers, and why contrarian claims get shared more than safe statements.`,
+That's why unexpected headlines outperform expected ones, why color breaks in monochrome designs stop scrollers, and why contrarian claims get shared more than safe statements.`,
     whyWorksSubheadIndex: 4,
     examples: [
       {
@@ -139,7 +139,7 @@ This is mental availability. It's not about being everywhere. It's about being i
 
 When someone searches for what you do, they don't evaluate all options equally. They evaluate the options they remember first.
 
-Research shows: 70% of purchase decisions are influenced by how available your business is in the customer's mind. Not by your ads, not by your website, not by how good you are.
+Watch real buying decisions and the pattern is hard to miss: availability in memory decides more purchases than ads, websites, or even quality. Not because those don't matter, but because they never get considered if you aren't recalled.
 
 Availability in memory.
 
