@@ -43,18 +43,6 @@ const advantages = [
   },
 ];
 
-// One business per market means exactly that: once a category is taken, we
-// turn away every competitor in it. Only "taken" is a real, named client;
-// the rest are genuinely open, not a fabricated waitlist.
-const marketSlots: Array<{ category: string; status: 'taken' | 'open'; detail?: string }> = [
-  { category: 'MMA & Combat Sports', status: 'taken', detail: 'Strike Den, DHA Karachi' },
-  { category: 'Fitness & Wellness', status: 'open' },
-  { category: 'Dental & Medical', status: 'open' },
-  { category: 'Home Services & Contractors', status: 'open' },
-  { category: 'Restaurants & Cafes', status: 'open' },
-  { category: 'Auto Services', status: 'open' },
-];
-
 const steps = [
   {
     n: '01',
@@ -216,36 +204,6 @@ function RankShift() {
       <p className="mt-6 text-sm text-[var(--text-tertiary)]">
         The listings above the fold get the calls. Moving from buried to first is the whole job.
       </p>
-    </div>
-  );
-}
-
-function AvailabilityBoard() {
-  return (
-    <div className="border border-dashed border-[var(--border)] rounded-lg overflow-hidden">
-      {marketSlots.map((slot) => (
-        <div
-          key={slot.category}
-          className="flex items-center justify-between gap-4 px-6 py-4 border-b border-dashed border-[var(--border)] last:border-b-0"
-        >
-          <div className="min-w-0">
-            <p className="font-semibold text-[var(--text-primary)]">{slot.category}</p>
-            {slot.detail && <p className="text-xs text-[var(--text-tertiary)] mt-0.5">{slot.detail}</p>}
-          </div>
-          <span
-            className={`shrink-0 inline-flex items-center gap-2 text-[11.5px] uppercase tracking-[0.16em] ${
-              slot.status === 'taken' ? 'text-[var(--text-tertiary)]' : 'text-brand'
-            }`}
-            style={mono}
-          >
-            <span
-              className={`h-2 w-2 rounded-full ${slot.status === 'taken' ? 'bg-[var(--text-tertiary)]' : 'bg-brand'}`}
-              aria-hidden="true"
-            />
-            {slot.status === 'taken' ? 'Taken' : 'Open'}
-          </span>
-        </div>
-      ))}
     </div>
   );
 }
@@ -424,29 +382,6 @@ export default function WorkWithUsPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Availability: real scarcity, not a numbered chapter -- deliberately
-          breaks the section rhythm so it reads as a status board, not
-          another slide in the deck. */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20 md:py-28 section-premium">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-[11.5px] uppercase tracking-[0.16em] text-brand mb-4" style={mono}>
-            One business per market, checked live
-          </p>
-          <h2 className="font-display uppercase text-3xl md:text-4xl mb-4">
-            Is your category still open?
-          </h2>
-          <p className="text-[var(--text-secondary)] mb-10 max-w-xl">
-            We take one business per category. Once a slot is taken, every competitor in it is
-            turned away for as long as you stay a client.
-          </p>
-          <AvailabilityBoard />
-          <p className="mt-6 text-sm text-[var(--text-tertiary)]">
-            Not your category? Apply anyway. This list is what has actually happened so far,
-            not everything we cover.
-          </p>
         </div>
       </section>
 

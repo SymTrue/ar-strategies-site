@@ -61,41 +61,72 @@ function getScatteredPositions(count: number, radius: number) {
   return pos;
 }
 
+const RASTER_SIZE = 1536;
+
 function getTextPositions(text: string, count: number, size: number, fontFamily: string) {
   if (typeof window === 'undefined') return new Float32Array(count * 3);
 
   const canvas = document.createElement('canvas');
-  canvas.width = 1024;
-  canvas.height = 1024;
+  canvas.width = RASTER_SIZE;
+  canvas.height = RASTER_SIZE;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   if (!ctx) return new Float32Array(count * 3);
 
   ctx.fillStyle = 'black';
-  ctx.fillRect(0, 0, 1024, 1024);
+  ctx.fillRect(0, 0, RASTER_SIZE, RASTER_SIZE);
   ctx.fillStyle = 'white';
-  ctx.textAlign = 'center';
+  ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
 
-  let fontSize = 220;
-  ctx.font = `900 ${fontSize}px ${fontFamily}`;
-  const textWidth = ctx.measureText(text).width;
+  // Weight 400: the only weight the site's display font actually loads.
+  // Requesting a heavier weight than what's loaded forces the browser to
+  // synthetically embolden the glyphs, which is soft and imprecise -- the
+  // exact "letters not precisely defined" failure this replaces.
+  const weight = 400;
+  const maxWidth = RASTER_SIZE * 0.72;
+  let fontSize = Math.floor(RASTER_SIZE * 0.24);
+  // Manual letter-spacing: Anton is an ultra-condensed display face with
+  // almost no natural gap between glyphs, which is exactly what reads as
+  // "packed together" once rasterized into dust. Draw each character at an
+  // explicit position instead of one fillText call, so spacing is
+  // guaranteed regardless of the font's own metrics.
+  const spacingRatio = 0.16;
 
-  if (textWidth > 900) {
-    fontSize = Math.floor(fontSize * (900 / textWidth));
-    ctx.font = `900 ${fontSize}px ${fontFamily}`;
+  const measureLayout = (fs: number) => {
+    ctx.font = `${weight} ${fs}px ${fontFamily}`;
+    const spacing = fs * spacingRatio;
+    const chars = text.split('');
+    const widths = chars.map((c) => ctx.measureText(c).width);
+    const total = widths.reduce((sum, w) => sum + w, 0) + spacing * Math.max(0, chars.length - 1);
+    return { chars, widths, spacing, total };
+  };
+
+  let layout = measureLayout(fontSize);
+  if (layout.total > maxWidth) {
+    fontSize = Math.floor(fontSize * (maxWidth / layout.total));
+    layout = measureLayout(fontSize);
   }
 
-  ctx.fillText(text, 512, 512);
+  const startX = RASTER_SIZE / 2 - layout.total / 2;
+  const y = RASTER_SIZE / 2;
+  let x = startX;
+  for (let i = 0; i < layout.chars.length; i++) {
+    ctx.fillText(layout.chars[i], x, y);
+    x += layout.widths[i] + layout.spacing;
+  }
 
-  const imgData = ctx.getImageData(0, 0, 1024, 1024).data;
+  const imgData = ctx.getImageData(0, 0, RASTER_SIZE, RASTER_SIZE).data;
   const points = [];
 
-  for (let i = 0; i < 1024 * 1024; i++) {
+  // Higher threshold than a plain anti-alias cutoff: only sample solidly
+  // filled interior pixels, not the soft edge halo where adjacent letter
+  // strokes' antialiasing can bleed into each other.
+  for (let i = 0; i < RASTER_SIZE * RASTER_SIZE; i++) {
     const r = imgData[i * 4];
-    if (r > 128) {
-      const x = i % 1024;
-      const y = Math.floor(i / 1024);
-      points.push({ x: (x / 1024 - 0.5) * size, y: -(y / 1024 - 0.5) * size });
+    if (r > 170) {
+      const px = i % RASTER_SIZE;
+      const py = Math.floor(i / RASTER_SIZE);
+      points.push({ x: (px / RASTER_SIZE - 0.5) * size, y: -(py / RASTER_SIZE - 0.5) * size });
     }
   }
 
@@ -104,8 +135,8 @@ function getTextPositions(text: string, count: number, size: number, fontFamily:
 
   for (let i = 0; i < count; i++) {
     const p = points[Math.floor(Math.random() * points.length)];
-    positions[i * 3] = p.x + (Math.random() - 0.5) * 0.15;
-    positions[i * 3 + 1] = p.y + (Math.random() - 0.5) * 0.15;
+    positions[i * 3] = p.x + (Math.random() - 0.5) * 0.1;
+    positions[i * 3 + 1] = p.y + (Math.random() - 0.5) * 0.1;
     positions[i * 3 + 2] = (Math.random() - 0.5) * 0.2;
   }
   return positions;
