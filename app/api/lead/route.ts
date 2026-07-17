@@ -7,55 +7,16 @@ import {
   isSameOriginRequest,
   readJsonObject,
 } from '@/lib/request-security';
+import {
+  applicationRows,
+  escapeHtml,
+  isApplicationComplete,
+  isHoneypotTriggered,
+  normalizeEmail,
+  parseApplicationFields,
+} from '@/lib/lead-validation';
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SITE_URL = 'https://www.arstrategists.com';
-
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>'"]/g, (character) => {
-    const entities: Record<string, string> = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;',
-    };
-
-    return entities[character];
-  });
-}
-
-function cleanField(value: unknown, maxLength: number): string {
-  if (typeof value !== 'string') return '';
-  return value.trim().slice(0, maxLength);
-}
-
-interface ApplicationFields {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  industry: string;
-  spend: string;
-  help: string;
-}
-
-function applicationRows(fields: ApplicationFields): string {
-  const rows: Array<[string, string]> = [
-    ['Name', `${fields.firstName} ${fields.lastName}`.trim()],
-    ['Phone', fields.phone],
-    ['Industry', fields.industry],
-    ['Current marketing spend', fields.spend],
-    ['Needs help with', fields.help],
-  ];
-
-  return rows
-    .filter(([, value]) => value !== '')
-    .map(
-      ([label, value]) =>
-        `<tr><td style="padding: 4px 12px 4px 0; color: #999; vertical-align: top; white-space: nowrap;">${label}</td><td style="padding: 4px 0;">${escapeHtml(value)}</td></tr>`,
-    )
-    .join('');
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -87,34 +48,22 @@ export async function POST(req: NextRequest) {
     }
 
     // Honeypot check: 'website' field should be empty
-    if (typeof website === 'string' && website.trim() !== '') {
+    if (isHoneypotTriggered(website)) {
       console.warn(`Honeypot triggered from IP: ${ip}`);
       // Return success to not reveal the trap, but don't process
       return NextResponse.json({ ok: true });
     }
 
-    // Validate email
-    if (typeof email !== 'string') {
-      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
-    }
-
-    const normalizedEmail = email.trim().toLowerCase();
-    if (normalizedEmail.length > 254 || !EMAIL_PATTERN.test(normalizedEmail)) {
+    const normalizedEmail = normalizeEmail(email);
+    if (!normalizedEmail) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
     const escapedEmail = escapeHtml(normalizedEmail);
 
-    const application: ApplicationFields = {
-      firstName: cleanField(body.data.firstName, 100),
-      lastName: cleanField(body.data.lastName, 100),
-      phone: cleanField(body.data.phone, 40),
-      industry: cleanField(body.data.industry, 120),
-      spend: cleanField(body.data.spend, 120),
-      help: cleanField(body.data.help, 2000),
-    };
+    const application = parseApplicationFields(body.data);
 
-    if (isApplication && (application.firstName === '' || application.help === '')) {
+    if (isApplication && !isApplicationComplete(application)) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
