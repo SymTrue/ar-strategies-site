@@ -225,7 +225,7 @@ void main() {
     if (r > 1.0) discard;
 
     float alpha = 1.0 - smoothstep(0.7, 1.0, r);
-    gl_FragColor = vec4(uColor, alpha * vAlpha * 0.8);
+    gl_FragColor = vec4(uColor, alpha * vAlpha * 0.9);
 }
 `;
 
@@ -242,7 +242,7 @@ export function MagicDustCore({
 }: MagicDustProps) {
   const colorObj = useState(() => new THREE.Color(particleColor))[0];
 
-  const [{ origin, targets, sizes }] = useState(() => {
+  const [{ origin, targets, sizes, maxComponentWidth }] = useState(() => {
     const origin = getScatteredPositions(particleCount, scatterRadius);
 
     const sizes = new Float32Array(particleCount);
@@ -251,6 +251,9 @@ export function MagicDustCore({
     }
 
     const targets = [];
+    // Widest item in world units, so the responsive clamp fits the actual
+    // content instead of a hardcoded guess.
+    let maxComponentWidth = 10;
 
     for (const item of sequence) {
       let dest: Float32Array;
@@ -260,6 +263,8 @@ export function MagicDustCore({
         const itemTextSize = item.textSize ?? textSize ?? 12;
         dest = getTextPositions(item.text, particleCount, itemTextSize, fontFamily);
         isText = true;
+        // Glyphs occupy at most 900/1024 of the raster canvas.
+        maxComponentWidth = Math.max(maxComponentWidth, itemTextSize * (900 / 1024) + 1.5);
       } else {
         if (item.shape === 'torus') dest = getTorusPositions(particleCount, 2.0);
         else if (item.shape === 'sphere') dest = getSphereDestinations(particleCount, 4);
@@ -273,7 +278,7 @@ export function MagicDustCore({
       targets.push({ dest, delays: getOrderedDelays(dest, particleCount), isText });
     }
 
-    return { origin, targets, sizes };
+    return { origin, targets, sizes, maxComponentWidth };
   });
 
   const matRef = useRef<THREE.ShaderMaterial>(null);
@@ -331,9 +336,7 @@ export function MagicDustCore({
     }
 
     if (pointsGroupRef.current) {
-      // Responsive clamp: keep the widest sequence item inside the viewport
-      // based on its approximate width in 3D units.
-      const maxComponentWidth = 15.0;
+      // Responsive clamp: keep the widest sequence item inside the viewport.
       const scale = Math.min(1.0, state.viewport.width / maxComponentWidth);
       pointsGroupRef.current.scale.set(scale, scale, scale);
 

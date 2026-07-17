@@ -379,39 +379,6 @@ button:disabled {
   background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
 }
 
-/* Hero keyword underline: slow gradient sweep beneath the key phrase.
-   Gradient-clipped text is banned by the design system, so the motion
-   lives on an underline pseudo-element instead. Paused off-screen via
-   IntersectionObserver (.shimmer-paused set in page.tsx). */
-.hero-underline {
-  position: relative;
-}
-.hero-underline::after {
-  content: '';
-  position: absolute;
-  left: 0.22em;
-  right: 0.02em;
-  bottom: -0.04em;
-  height: 0.05em;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--brand) 0%, var(--brand-light) 50%, var(--brand) 100%);
-  background-size: 200% 100%;
-  animation: heroUnderlineSweep 6s linear infinite;
-}
-.hero-underline.shimmer-paused::after {
-  animation-play-state: paused;
-}
-@keyframes heroUnderlineSweep {
-  from { background-position: 200% 0; }
-  to { background-position: 0% 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-underline::after {
-    animation: none;
-    background: var(--brand);
-  }
-}
-
 /* Reveal animation */
 @keyframes revealFade {
   from {
