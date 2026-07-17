@@ -174,7 +174,7 @@ export default function ShowcasePage() {
               </p>
             </div>
           </div>
-          <div className="border-t border-white/10 pt-8 flex justify-between items-center text-sm text-gray-500">
+          <div className="border-t border-white/10 pt-8 flex justify-between items-center text-sm text-[var(--text-tertiary)]">
             <p>© 2026 AR Strategies. Effects showcase.</p>
             <Link href="/" className="text-brand hover:text-orange-400">
               Return to Main Site

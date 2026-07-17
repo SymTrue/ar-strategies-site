@@ -247,7 +247,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <a
               href="/work-with-us#apply"
-              className="btn-primary hidden md:inline-flex items-center active:scale-[0.97] px-5 py-2 rounded-full text-sm transition-colors"
+              className="btn-primary hidden md:inline-flex items-center justify-center min-h-11 active:scale-[0.97] px-5 py-2 rounded-full text-sm transition-colors"
             >
               {CTA_LABEL}
             </a>
@@ -274,7 +274,7 @@ export default function Home() {
             <a
               href="/work-with-us#apply"
               onClick={() => setMenuOpen(false)}
-              className="btn-primary text-center px-5 py-2.5 rounded-full text-sm transition-colors"
+              className="btn-primary flex items-center justify-center min-h-11 px-5 py-2.5 rounded-full text-sm transition-colors"
             >
               {CTA_LABEL}
             </a>
@@ -349,7 +349,7 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p data-intro className="mt-6 text-sm text-gray-500">
+          <p data-intro className="mt-6 text-sm text-[var(--text-tertiary)]">
             See what you&apos;ll get first:{' '}
             <Link href="/tools/three-second-test" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">
               run the free 3-second test
@@ -361,7 +361,7 @@ export default function Home() {
             .
           </p>
           <div className="marquee mt-16" aria-hidden="true">
-            <div className="marquee-track text-xs uppercase tracking-[0.25em] text-gray-500">
+            <div className="marquee-track text-xs uppercase tracking-[0.25em] text-[var(--text-tertiary)]">
               {[0, 1].map((dup) => (
                 <div key={dup} className="flex items-center gap-8 pr-8">
                   {['Found first on Google', 'Calls, not clicks', 'Booked-out weekends', 'Ads that pay for themselves', 'The name your city remembers'].map((t) => (
@@ -610,7 +610,7 @@ export default function Home() {
                       {/* Rank trajectory: blueprint chart, position 50+ -> #1 in 6 months */}
                       <div ref={chartRef} className="glass-card border border-brand/30 p-5">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[9px] uppercase tracking-[0.2em] text-gray-500" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
+                          <span className="text-[9px] uppercase tracking-[0.2em] text-[var(--text-tertiary)]" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
                             Fig. 02: Google position, 6 months
                           </span>
                           <span className="text-[9px] uppercase tracking-[0.2em] text-brand" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>
@@ -784,14 +784,14 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p className="text-gray-500 text-xs mt-4">
+          <p className="text-[var(--text-tertiary)] text-xs mt-4">
             Free forever. One email a week, unsubscribe anytime.{' '}
             <Link href="/newsletter" className="underline decoration-brand/60 underline-offset-4 hover:text-gray-300 transition-colors">
               Read a sample issue
             </Link>
             .
           </p>
-          <p className="text-gray-500 text-sm mt-8">
+          <p className="text-[var(--text-tertiary)] text-sm mt-8">
             Want it done for you instead?{' '}
             <Link href="/work-with-us" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">
               Apply to work with us

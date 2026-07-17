@@ -43,7 +43,7 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-[var(--text-tertiary)]">
         <p>© 2026 AR Strategies. All rights reserved.</p>
         <p className="font-display uppercase tracking-wide text-gray-400">Be the name your city remembers.</p>
       </div>
