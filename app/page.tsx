@@ -325,9 +325,9 @@ function useScrollSpy(hrefs: string[]) {
 const navLinks = [
   { label: 'Home', href: '#top' },
   { label: 'Work With Us', href: '/work-with-us' },
-  { label: 'Mechanisms', href: '/mechanisms' },
-  { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -449,16 +449,6 @@ export default function Home() {
   const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 
   const heroRef = useHeroIntro<HTMLDivElement>();
-  const shimmerRef = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const el = shimmerRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(([entry]) => {
-      el.classList.toggle('shimmer-paused', !entry.isIntersecting);
-    });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
   const servicesRef = useReveal<HTMLDivElement>();
   const processRef = useReveal<HTMLDivElement>();
   const whyRef = useReveal<HTMLDivElement>();
@@ -541,7 +531,7 @@ export default function Home() {
           </div>
           <h1 data-intro className="font-display hero-display uppercase mb-6 text-balance">
             Be the business your city
-            <span ref={shimmerRef} className="text-brand hero-underline"> finds first</span>
+            <span className="text-brand"> finds first</span>
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
             When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content. Done for you, so the phone rings while you run the business.

@@ -12,7 +12,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
    themes. */
 
 export type SequenceItem =
-  | { type: 'text'; text: string; offset?: [number, number, number] }
+  | { type: 'text'; text: string; offset?: [number, number, number]; textSize?: number }
   | { type: 'shape'; shape: 'torus' | 'sphere' | 'box'; offset?: [number, number, number] };
 
 export interface MagicDustProps {
@@ -32,6 +32,8 @@ export interface MagicDustProps {
   animationSpeed?: number;
   /** The radius of the scattered cloud when particles are fully deconstructed */
   scatterRadius?: number;
+  /** Text size for text items (default: 12) */
+  textSize?: number;
 }
 
 const DEFAULT_SEQUENCE: SequenceItem[] = [
@@ -236,6 +238,7 @@ export function MagicDustCore({
   holdDuration = 3.0,
   animationSpeed = 1.0,
   scatterRadius = 12,
+  textSize = 12,
 }: MagicDustProps) {
   const colorObj = useState(() => new THREE.Color(particleColor))[0];
 
@@ -254,7 +257,8 @@ export function MagicDustCore({
       let isText = false;
 
       if (item.type === 'text') {
-        dest = getTextPositions(item.text, particleCount, 12, fontFamily);
+        const itemTextSize = item.textSize ?? textSize ?? 12;
+        dest = getTextPositions(item.text, particleCount, itemTextSize, fontFamily);
         isText = true;
       } else {
         if (item.shape === 'torus') dest = getTorusPositions(particleCount, 2.0);

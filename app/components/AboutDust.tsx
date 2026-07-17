@@ -64,13 +64,14 @@ export function AboutDust() {
               <MagicDust
                 key={theme}
                 sequence={[
-                  { type: 'text', text: 'GET NOTICED' },
-                  { type: 'text', text: 'GET REMEMBERED' },
-                  { type: 'text', text: 'GET CHOSEN' },
+                  { type: 'text', text: 'GET NOTICED', textSize: 16 },
+                  { type: 'text', text: 'GET REMEMBERED', textSize: 16 },
+                  { type: 'text', text: 'GET CHOSEN', textSize: 16 },
                 ]}
                 particleColor={theme === 'dark' ? '#f97316' : '#fb923c'}
                 fontFamily={fontFamily}
-                particleCount={7000}
+                particleCount={9000}
+                particleSize={0.03}
                 holdDuration={3.5}
               />
             )

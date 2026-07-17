@@ -9,9 +9,9 @@ import { ThemeToggle } from './ui/theme-toggle';
 const links = [
   { label: 'Home', href: '/' },
   { label: 'Work With Us', href: '/work-with-us' },
-  { label: 'Mechanisms', href: '/mechanisms' },
-  { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'FAQ', href: '/#faq' },
 ];
 

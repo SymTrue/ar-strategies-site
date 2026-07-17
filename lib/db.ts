@@ -81,6 +81,19 @@ function rowToLead(row: Record<string, unknown>): AdminLead {
   };
 }
 
+// Migration 003 (leads.details) is applied lazily by the app itself: every
+// query that touches the column ensures it exists first, once per server
+// instance. ALTER ... IF NOT EXISTS is idempotent and cheap, and it means a
+// deploy can never race a manual migration and take the CRM down.
+let leadDetailsEnsured = false;
+
+async function ensureLeadDetailsColumn(): Promise<void> {
+  if (leadDetailsEnsured) return;
+  await sql`ALTER TABLE leads ADD COLUMN IF NOT EXISTS details JSONB;`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_leads_source ON leads(source);`;
+  leadDetailsEnsured = true;
+}
+
 export async function saveLead(
   email: string,
   source: string = 'homepage',
@@ -88,6 +101,7 @@ export async function saveLead(
 ): Promise<string | null> {
   const detailsJson = details ? JSON.stringify(details) : null;
   try {
+    await ensureLeadDetailsColumn();
     // On conflict, keep existing details unless this submission carries new
     // ones, and never demote an applicant back to a lower-intent source: a
     // newsletter signup after an application must not wipe or bury the
@@ -103,19 +117,6 @@ export async function saveLead(
     `;
     return result.rows[0]?.id || null;
   } catch (err) {
-    // 42703 = undefined column: migration 003 has not run yet. Capture the
-    // lead anyway rather than dropping it; details still reach the owner in
-    // the notification email.
-    if ((err as { code?: string })?.code === '42703') {
-      console.error('leads.details column missing: run migrations/003_lead_details.sql');
-      const fallback = await sql`
-        INSERT INTO leads (email, source, status, created_at, updated_at)
-        VALUES (${email}, ${source}, 'new', NOW(), NOW())
-        ON CONFLICT (email) DO UPDATE SET source = ${source}, updated_at = NOW()
-        RETURNING id;
-      `;
-      return fallback.rows[0]?.id || null;
-    }
     console.error('Database error saving lead:', err);
     throw err;
   }
@@ -156,6 +157,7 @@ export async function checkLeadRateLimit(
 }
 
 export async function listAdminLeads(): Promise<AdminLead[]> {
+  await ensureLeadDetailsColumn();
   const result = await sql`
     SELECT
       id,
@@ -203,6 +205,7 @@ export async function getLeadStats(): Promise<LeadStats> {
 }
 
 export async function updateLeadCRM(id: string, update: LeadCRMUpdate): Promise<AdminLead | null> {
+  await ensureLeadDetailsColumn();
   const result = await sql`
     UPDATE leads
     SET
