@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SiteHeader } from '../components/SiteHeader';
 import { SiteFooter } from '../components/SiteFooter';
+import { AboutDust } from '../components/AboutDust';
 
 export const metadata: Metadata = {
   title: 'About AR Strategies: Founder-Led Perception & Attention Studio',
@@ -200,6 +201,8 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        <AboutDust />
 
         <section className="section-dashed px-6 py-16 md:py-24">
           <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-end md:justify-between">
