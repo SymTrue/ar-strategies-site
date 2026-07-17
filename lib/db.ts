@@ -89,13 +89,14 @@ export async function saveLead(
   const detailsJson = details ? JSON.stringify(details) : null;
   try {
     // On conflict, keep existing details unless this submission carries new
-    // ones: a newsletter signup after an application must not wipe the
-    // application's answers.
+    // ones, and never demote an applicant back to a lower-intent source: a
+    // newsletter signup after an application must not wipe or bury the
+    // application.
     const result = await sql`
       INSERT INTO leads (email, source, status, details, created_at, updated_at)
       VALUES (${email}, ${source}, 'new', ${detailsJson}::jsonb, NOW(), NOW())
       ON CONFLICT (email) DO UPDATE SET
-        source = ${source},
+        source = CASE WHEN leads.source = 'application' THEN 'application' ELSE ${source} END,
         details = COALESCE(${detailsJson}::jsonb, leads.details),
         updated_at = NOW()
       RETURNING id;

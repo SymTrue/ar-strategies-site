@@ -45,8 +45,6 @@ export function AboutDust() {
     };
   }, []);
 
-  if (reduced) return null;
-
   return (
     <section className="section-dashed px-6 py-16 md:py-24" aria-hidden="true">
       <div className="mx-auto max-w-7xl">
@@ -54,18 +52,28 @@ export function AboutDust() {
           Fig. 02, The three jobs of local marketing
         </p>
         <div className="relative h-[380px] md:h-[440px] rounded-lg border border-[var(--border)] overflow-hidden bg-[#0a0806]">
-          {ready && fontFamily !== 'pending' && (
-            <MagicDust
-              sequence={[
-                { type: 'text', text: 'GET NOTICED' },
-                { type: 'text', text: 'GET REMEMBERED' },
-                { type: 'text', text: 'GET CHOSEN' },
-              ]}
-              particleColor={theme === 'dark' ? '#f97316' : '#fb923c'}
-              fontFamily={fontFamily}
-              particleCount={7000}
-              holdDuration={3.5}
-            />
+          {reduced ? (
+            <div className="flex h-full items-center justify-center px-6">
+              <p className="font-display uppercase text-3xl md:text-5xl text-center leading-snug text-balance" style={{ color: '#f97316' }}>
+                Get noticed. Get remembered. Get chosen.
+              </p>
+            </div>
+          ) : (
+            ready &&
+            fontFamily !== 'pending' && (
+              <MagicDust
+                key={theme}
+                sequence={[
+                  { type: 'text', text: 'GET NOTICED' },
+                  { type: 'text', text: 'GET REMEMBERED' },
+                  { type: 'text', text: 'GET CHOSEN' },
+                ]}
+                particleColor={theme === 'dark' ? '#f97316' : '#fb923c'}
+                fontFamily={fontFamily}
+                particleCount={7000}
+                holdDuration={3.5}
+              />
+            )
           )}
         </div>
         <p className="mt-6 max-w-xl text-sm text-[var(--text-tertiary)]">
