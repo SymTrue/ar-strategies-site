@@ -1,28 +1,13 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { track } from '@vercel/analytics';
 import Link from 'next/link';
 import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { DiagnosticNet } from '../../components/DiagnosticNet';
 import { useTheme } from '../../providers';
-
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-
-function subscribeReducedMotion(onChange: () => void) {
-  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
-  mq.addEventListener('change', onChange);
-  return () => mq.removeEventListener('change', onChange);
-}
-
-function usePrefersReducedMotion() {
-  return useSyncExternalStore(
-    subscribeReducedMotion,
-    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
-    () => false,
-  );
-}
+import { usePrefersReducedMotion } from '@/lib/hooks';
 
 const mono = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } as const;
 
