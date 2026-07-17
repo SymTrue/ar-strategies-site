@@ -12,9 +12,9 @@ Context: They're usually on desktop during the workday, evaluating options betwe
 
 ## Product Purpose
 
-AR Strategies is a done-for-you marketing agency for local businesses. We audit, manage, and scale their advertising — Google Ads, Meta Ads, content — and handle the full pipeline from lead to phone call. The site is the primary sales surface: it must convert skeptical visitors into booked audits by demonstrating competence, proving results, and projecting premium operational confidence.
+AR Strategies is a done-for-you marketing agency for local businesses. We audit, manage, and scale their advertising — Google Ads, Meta Ads, content — and handle the full pipeline from lead to phone call. The site is the primary sales surface: it must convert skeptical visitors into weekly-list subscribers and work-with-us applications by demonstrating competence, proving results, and projecting premium operational confidence.
 
-Success: A local business owner lands on the site, feels the agency is sharp and real (not another template agency), reads enough to trust, and submits their email for a free audit.
+Success: A local business owner lands on the site, feels the agency is sharp and real (not another template agency), reads enough to trust, and either joins the free weekly fix list or applies to work with us. There is no free-audit offer: the audit could not be delivered reliably, so the site never promises one.
 
 ## Brand Personality
 
