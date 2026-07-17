@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { track } from '@vercel/analytics';
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
@@ -26,6 +25,7 @@ import {
   PrincipleNoLockInIcon,
 } from './components/home/icons';
 import { PrecisionCursor, ScrollProgress } from './components/home/widgets';
+import { LeadCaptureForm } from './components/home/LeadCaptureForm';
 
 // Lazy-mount GPU-heavy components below fold, saves 3-4 canvases upfront
 const LiquidMetal = dynamic(() => import('./components/ui/liquid-metal'), { ssr: false });
@@ -167,47 +167,9 @@ const faqs = [
 
 const CTA_LABEL = 'Apply Now';
 
-type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
-
-function useLeadForm(placement: string) {
-  const [email, setEmail] = useState('');
-  const [state, setState] = useState<LeadFormState>('idle');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setState('loading');
-    try {
-      // Check honeypot before submitting
-      const form = e.currentTarget as HTMLFormElement;
-      const websiteField = form.querySelector('input[name="website"]') as HTMLInputElement;
-      if (websiteField && websiteField.value.trim() !== '') {
-        setState('success');
-        setEmail('');
-        return;
-      }
-
-      const res = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, website: '' }),
-      });
-      if (!res.ok) throw new Error('failed');
-      track('newsletter_signup', { placement });
-      setState('success');
-      setEmail('');
-    } catch {
-      setState('error');
-    }
-  };
-
-  return { email, setEmail, state, handleSubmit };
-}
-
 export default function Home() {
   const { theme } = useTheme();
   const reducedMotion = usePrefersReducedMotion();
-  const hero = useLeadForm('homepage_hero');
-  const cta = useLeadForm('homepage_footer');
   const [menuOpen, setMenuOpen] = useState(false);
   const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 
@@ -303,52 +265,23 @@ export default function Home() {
             Every week we send one specific fix that helps local businesses get found first: real examples, exact steps, five minutes to read. Join free and put it to work.
           </p>
 
-          <form data-intro onSubmit={hero.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
-            <label htmlFor="hero-email" className="sr-only">Email address</label>
-            <input
-              id="hero-email"
-              type="email"
-              value={hero.email}
-              onChange={(e) => hero.setEmail(e.target.value)}
-              placeholder="name@email.com"
-              required
-              disabled={hero.state === 'loading'}
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/50 transition disabled:opacity-50"
-            />
-            {/* Honeypot field - hidden from users, prevents automated form submission */}
-            <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
-            <button
-              type="submit"
-              aria-label="Get the weekly fix"
-              disabled={hero.state === 'loading'}
-              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
-            >
-              {hero.state === 'loading' ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Sending
-                </span>
-              ) : (
-                'Get the Weekly Fix'
-              )}
-            </button>
-          </form>
-          <p data-intro className="mt-4 text-sm text-[var(--text-tertiary)]">
-            Free forever. One email a week, unsubscribe anytime.{' '}
-            <Link href="/newsletter" className="underline decoration-brand/60 underline-offset-4 hover:text-[var(--text-secondary)] transition-colors">
-              Read a sample issue
-            </Link>
-            .
-          </p>
-          {hero.state === 'success' && (
-            <p className="text-green-400 mt-4 text-sm" role="alert">You&apos;re in. Your first fix lands this week.</p>
-          )}
-          {hero.state === 'error' && (
-            <p className="text-red-400 mt-4 text-sm" role="alert">
-              Something went wrong. Email us directly at{' '}
-              <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
-            </p>
-          )}
+          <LeadCaptureForm
+            placement="homepage_hero"
+            idPrefix="hero"
+            revealAttr="data-intro"
+            formClassName="max-w-md mx-auto flex flex-col sm:flex-row gap-3"
+            successClassName="text-green-400 mt-4 text-sm"
+            errorClassName="text-red-400 mt-4 text-sm"
+            noteBelow={
+              <p data-intro className="mt-4 text-sm text-[var(--text-tertiary)]">
+                Free forever. One email a week, unsubscribe anytime.{' '}
+                <Link href="/newsletter" className="underline decoration-brand/60 underline-offset-4 hover:text-[var(--text-secondary)] transition-colors">
+                  Read a sample issue
+                </Link>
+                .
+              </p>
+            }
+          />
           <p data-intro className="mt-6 text-sm text-[var(--text-tertiary)]">
             See what you&apos;ll get first:{' '}
             <Link href="/tools/three-second-test" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">
@@ -746,44 +679,14 @@ export default function Home() {
             Every week: one specific way local businesses get found first, with real examples and exact steps you can copy. Free, five minutes to read, yours to keep.
           </p>
 
-          <form data-reveal onSubmit={cta.handleSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6">
-            <label htmlFor="cta-email" className="sr-only">Email address</label>
-            <input
-              id="cta-email"
-              type="email"
-              value={cta.email}
-              onChange={(e) => cta.setEmail(e.target.value)}
-              placeholder="name@email.com"
-              required
-              disabled={cta.state === 'loading'}
-              className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/50 transition disabled:opacity-50"
-            />
-            <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
-            <button
-              type="submit"
-              aria-label="Get the weekly fix"
-              disabled={cta.state === 'loading'}
-              className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
-            >
-              {cta.state === 'loading' ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Sending
-                </span>
-              ) : (
-                'Get the Weekly Fix'
-              )}
-            </button>
-          </form>
-          {cta.state === 'success' && (
-            <p className="text-green-400 text-sm" role="alert">You&apos;re in. Your first fix lands this week.</p>
-          )}
-          {cta.state === 'error' && (
-            <p className="text-red-400 text-sm">
-              Something went wrong. Email us directly at{' '}
-              <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
-            </p>
-          )}
+          <LeadCaptureForm
+            placement="homepage_footer"
+            idPrefix="cta"
+            revealAttr="data-reveal"
+            formClassName="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-6"
+            successClassName="text-green-400 text-sm"
+            errorClassName="text-red-400 text-sm"
+          />
           <p className="text-[var(--text-tertiary)] text-xs mt-4">
             Free forever. One email a week, unsubscribe anytime.{' '}
             <Link href="/newsletter" className="underline decoration-brand/60 underline-offset-4 hover:text-gray-300 transition-colors">
