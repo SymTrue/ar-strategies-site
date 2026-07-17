@@ -571,7 +571,11 @@ export default function Home() {
             </button>
           </form>
           <p data-intro className="mt-4 text-sm text-[var(--text-tertiary)]">
-            Free forever. One email a week, unsubscribe anytime.
+            Free forever. One email a week, unsubscribe anytime.{' '}
+            <Link href="/newsletter" className="underline decoration-brand/60 underline-offset-4 hover:text-[var(--text-secondary)] transition-colors">
+              Read a sample issue
+            </Link>
+            .
           </p>
           {hero.state === 'success' && (
             <p className="text-green-400 mt-4 text-sm" role="alert">You&apos;re in. Your first fix lands this week.</p>
@@ -1017,7 +1021,13 @@ export default function Home() {
               <a href="mailto:hello@arstrategists.com" className="underline">hello@arstrategists.com</a>.
             </p>
           )}
-          <p className="text-gray-500 text-xs mt-4">Free forever. One email a week, unsubscribe anytime.</p>
+          <p className="text-gray-500 text-xs mt-4">
+            Free forever. One email a week, unsubscribe anytime.{' '}
+            <Link href="/newsletter" className="underline decoration-brand/60 underline-offset-4 hover:text-gray-300 transition-colors">
+              Read a sample issue
+            </Link>
+            .
+          </p>
           <p className="text-gray-500 text-sm mt-8">
             Want it done for you instead?{' '}
             <Link href="/work-with-us" className="text-gray-300 underline decoration-brand/60 underline-offset-4 hover:text-white transition-colors">

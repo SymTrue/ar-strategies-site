@@ -483,7 +483,11 @@ export default function ThreeSecondTest() {
               </form>
             )}
             <p className="mt-4 text-sm text-[var(--text-tertiary)]">
-              Want the fixes done for you?{' '}
+              Not sure what you&apos;re signing up for?{' '}
+              <Link href="/newsletter" className="text-brand hover:underline">
+                Read a sample issue
+              </Link>
+              . Want the fixes done for you?{' '}
               <Link href="/work-with-us" className="text-brand hover:underline">
                 Apply to work with us
               </Link>

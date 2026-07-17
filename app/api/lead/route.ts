@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkLeadRateLimit, saveLead, updateLeadStatus } from '@/lib/db';
+import { addToNewsletterAudience } from '@/lib/resend';
 import {
   acceptsJson,
   getRequestIp,
@@ -144,6 +145,10 @@ export async function POST(req: NextRequest) {
     } catch (err) {
       console.error('Database error:', err);
       return NextResponse.json({ error: 'Failed to save lead' }, { status: 500 });
+    }
+
+    if (!isApplication) {
+      await addToNewsletterAudience(normalizedEmail);
     }
 
     const notificationSubject = isApplication
