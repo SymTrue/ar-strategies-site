@@ -223,7 +223,7 @@ void main() {
     if (r > 1.0) discard;
 
     float alpha = 1.0 - smoothstep(0.7, 1.0, r);
-    gl_FragColor = vec4(uColor, alpha * vAlpha * 0.5);
+    gl_FragColor = vec4(uColor, alpha * vAlpha * 0.8);
 }
 `;
 

@@ -323,7 +323,6 @@ function useScrollSpy(hrefs: string[]) {
 
 const navLinks = [
   { label: 'Home', href: '#top' },
-  { label: 'Services', href: '#services' },
   { label: 'Work With Us', href: '/work-with-us' },
   { label: 'Mechanisms', href: '/mechanisms' },
   { label: 'Blog', href: '/blog' },

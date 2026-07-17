@@ -51,25 +51,27 @@ export function AboutDust() {
     <section className="section-dashed px-6 py-16 md:py-24" aria-hidden="true">
       <div className="mx-auto max-w-7xl">
         <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-secondary)] mb-6" style={mono}>
-          Fig. 02, What the studio engineers
+          Fig. 02, The three jobs of local marketing
         </p>
         <div className="relative h-[380px] md:h-[440px] rounded-lg border border-[var(--border)] overflow-hidden bg-[#0a0806]">
           {ready && fontFamily !== 'pending' && (
             <MagicDust
               sequence={[
-                { type: 'text', text: 'NOTICED' },
-                { type: 'shape', shape: 'torus' },
-                { type: 'text', text: 'REMEMBERED' },
-                { type: 'shape', shape: 'sphere' },
-                { type: 'text', text: 'CHOSEN' },
-                { type: 'shape', shape: 'box' },
+                { type: 'text', text: 'GET NOTICED' },
+                { type: 'text', text: 'GET REMEMBERED' },
+                { type: 'text', text: 'GET CHOSEN' },
               ]}
               particleColor={theme === 'dark' ? '#f97316' : '#fb923c'}
               fontFamily={fontFamily}
               particleCount={7000}
+              holdDuration={3.5}
             />
           )}
         </div>
+        <p className="mt-6 max-w-xl text-sm text-[var(--text-tertiary)]">
+          Everything the studio builds serves one of three jobs: get the business noticed,
+          keep it remembered, and make it the obvious choice when the customer decides.
+        </p>
       </div>
     </section>
   );
