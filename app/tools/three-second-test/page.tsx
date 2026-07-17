@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { track } from '@vercel/analytics';
 import Link from 'next/link';
 import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
@@ -224,6 +225,14 @@ export default function ThreeSecondTest() {
         : VERDICTS.invisible
     : null;
 
+  const completionTracked = useRef(false);
+  useEffect(() => {
+    if (complete && !completionTracked.current) {
+      completionTracked.current = true;
+      track('three_second_test_completed', { score });
+    }
+  }, [complete, score]);
+
   const submitLead = async (e: React.FormEvent) => {
     e.preventDefault();
     if (leadState === 'sending') return;
@@ -234,6 +243,7 @@ export default function ThreeSecondTest() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email, website: honeypot }),
       });
+      if (res.ok) track('newsletter_signup', { placement: 'three_second_test' });
       setLeadState(res.ok ? 'done' : 'error');
     } catch {
       setLeadState('error');

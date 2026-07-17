@@ -19,6 +19,7 @@ export type AdminLead = {
   status: LeadStatus;
   priority: LeadPriority;
   notes: string | null;
+  details: Record<string, string> | null;
   nextFollowUpAt: string | null;
   lastContactedAt: string | null;
   createdAt: string;
@@ -69,6 +70,10 @@ function rowToLead(row: Record<string, unknown>): AdminLead {
     status: row.status as LeadStatus,
     priority: row.priority as LeadPriority,
     notes: typeof row.notes === 'string' ? row.notes : null,
+    details:
+      row.details && typeof row.details === 'object'
+        ? (row.details as Record<string, string>)
+        : null,
     nextFollowUpAt: row.next_follow_up_at ? new Date(String(row.next_follow_up_at)).toISOString() : null,
     lastContactedAt: row.last_contacted_at ? new Date(String(row.last_contacted_at)).toISOString() : null,
     createdAt: new Date(String(row.created_at)).toISOString(),
@@ -76,16 +81,40 @@ function rowToLead(row: Record<string, unknown>): AdminLead {
   };
 }
 
-export async function saveLead(email: string, source: string = 'homepage'): Promise<string | null> {
+export async function saveLead(
+  email: string,
+  source: string = 'homepage',
+  details: Record<string, string> | null = null,
+): Promise<string | null> {
+  const detailsJson = details ? JSON.stringify(details) : null;
   try {
+    // On conflict, keep existing details unless this submission carries new
+    // ones: a newsletter signup after an application must not wipe the
+    // application's answers.
     const result = await sql`
-      INSERT INTO leads (email, source, status, created_at, updated_at)
-      VALUES (${email}, ${source}, 'new', NOW(), NOW())
-      ON CONFLICT (email) DO UPDATE SET source = ${source}, updated_at = NOW()
+      INSERT INTO leads (email, source, status, details, created_at, updated_at)
+      VALUES (${email}, ${source}, 'new', ${detailsJson}::jsonb, NOW(), NOW())
+      ON CONFLICT (email) DO UPDATE SET
+        source = ${source},
+        details = COALESCE(${detailsJson}::jsonb, leads.details),
+        updated_at = NOW()
       RETURNING id;
     `;
     return result.rows[0]?.id || null;
   } catch (err) {
+    // 42703 = undefined column: migration 003 has not run yet. Capture the
+    // lead anyway rather than dropping it; details still reach the owner in
+    // the notification email.
+    if ((err as { code?: string })?.code === '42703') {
+      console.error('leads.details column missing: run migrations/003_lead_details.sql');
+      const fallback = await sql`
+        INSERT INTO leads (email, source, status, created_at, updated_at)
+        VALUES (${email}, ${source}, 'new', NOW(), NOW())
+        ON CONFLICT (email) DO UPDATE SET source = ${source}, updated_at = NOW()
+        RETURNING id;
+      `;
+      return fallback.rows[0]?.id || null;
+    }
     console.error('Database error saving lead:', err);
     throw err;
   }
@@ -134,6 +163,7 @@ export async function listAdminLeads(): Promise<AdminLead[]> {
       status,
       COALESCE(priority, 'normal') AS priority,
       notes,
+      details,
       next_follow_up_at,
       last_contacted_at,
       created_at,
@@ -192,6 +222,7 @@ export async function updateLeadCRM(id: string, update: LeadCRMUpdate): Promise<
       status,
       COALESCE(priority, 'normal') AS priority,
       notes,
+      details,
       next_follow_up_at,
       last_contacted_at,
       created_at,

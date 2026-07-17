@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import { track } from '@vercel/analytics';
 import { useState, useEffect, useRef, useSyncExternalStore, Suspense } from 'react';
 import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
@@ -405,7 +406,7 @@ const CTA_LABEL = 'Apply Now';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
-function useLeadForm() {
+function useLeadForm(placement: string) {
   const [email, setEmail] = useState('');
   const [state, setState] = useState<LeadFormState>('idle');
 
@@ -428,6 +429,7 @@ function useLeadForm() {
         body: JSON.stringify({ email, website: '' }),
       });
       if (!res.ok) throw new Error('failed');
+      track('newsletter_signup', { placement });
       setState('success');
       setEmail('');
     } catch {
@@ -441,8 +443,8 @@ function useLeadForm() {
 export default function Home() {
   const { theme } = useTheme();
   const reducedMotion = usePrefersReducedMotion();
-  const hero = useLeadForm();
-  const cta = useLeadForm();
+  const hero = useLeadForm('homepage_hero');
+  const cta = useLeadForm('homepage_footer');
   const [menuOpen, setMenuOpen] = useState(false);
   const activeSection = useScrollSpy(navLinks.map((l) => l.href));
 

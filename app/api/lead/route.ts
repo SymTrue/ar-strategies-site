@@ -126,9 +126,17 @@ export async function POST(req: NextRequest) {
     }
 
     // Store lead in database FIRST (before sending emails)
+    const storedDetails = isApplication
+      ? Object.fromEntries(Object.entries(application).filter(([, v]) => v !== ''))
+      : null;
+
     let leadId: string | null;
     try {
-      leadId = await saveLead(normalizedEmail, isApplication ? 'application' : 'newsletter');
+      leadId = await saveLead(
+        normalizedEmail,
+        isApplication ? 'application' : 'newsletter',
+        storedDetails,
+      );
       if (!leadId) {
         console.error('Failed to get lead ID');
         return NextResponse.json({ error: 'Failed to save lead' }, { status: 500 });

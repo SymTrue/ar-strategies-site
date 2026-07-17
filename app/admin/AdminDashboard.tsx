@@ -17,6 +17,15 @@ const statuses: LeadStatus[] = [
 
 const priorities: LeadPriority[] = ['high', 'normal', 'low'];
 
+const DETAIL_LABELS: Record<string, string> = {
+  firstName: 'First name',
+  lastName: 'Last name',
+  phone: 'Phone',
+  industry: 'Industry',
+  spend: 'Marketing spend',
+  help: 'Needs help with',
+};
+
 function formatDate(value: string | null): string {
   if (!value) return 'Not set';
   return new Intl.DateTimeFormat('en', {
@@ -167,6 +176,16 @@ export function AdminDashboard({
                     <p className="mt-2">
                       <StatusPill status={lead.status} />
                     </p>
+                    {lead.details && Object.keys(lead.details).length > 0 && (
+                      <dl className="mt-3 space-y-1 text-xs text-[var(--text-secondary)]">
+                        {Object.entries(lead.details).map(([key, value]) => (
+                          <div key={key} className="flex gap-2">
+                            <dt className="shrink-0 text-[var(--text-tertiary)]">{DETAIL_LABELS[key] ?? key}:</dt>
+                            <dd className="min-w-0 break-words">{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
                   </td>
                   <td className="px-4 py-4">
                     <select

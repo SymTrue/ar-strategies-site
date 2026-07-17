@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import { track } from '@vercel/analytics';
 import { useEffect, useRef, useState } from 'react';
 import { SiteHeader } from '../components/SiteHeader';
 import { SiteFooter } from '../components/SiteFooter';
@@ -235,6 +236,7 @@ function ApplicationForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'application', website: honeypot, ...fields }),
       });
+      if (res.ok) track('application_submitted');
       setState(res.ok ? 'done' : 'error');
     } catch {
       setState('error');
