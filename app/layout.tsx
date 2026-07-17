@@ -58,8 +58,8 @@ export const metadata: Metadata = {
 
 // JSON-LD Structured Data for ProfessionalService
 // areaServed is intentionally omitted: the target market has not been
-// decided yet. Add it back (City/AdministrativeArea entries) once it has —
-// an unspecified areaServed is valid schema; a wrong one actively misleads
+// decided yet. Add it back (City/AdministrativeArea entries) once it has.
+// An unspecified areaServed is valid schema; a wrong one actively misleads
 // both search engines and prospects.
 const jsonLd = {
   "@context": "https://schema.org",
