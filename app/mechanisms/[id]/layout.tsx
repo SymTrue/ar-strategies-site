@@ -4,11 +4,11 @@ import { mechanismMeta } from '../mechanisms-data';
 const SITE_URL = 'https://www.arstrategists.com';
 
 const videoDurations: Record<string, string> = {
-  'pattern-interruption': 'PT42S',
+  'pattern-interruption': 'PT43S',
   'mental-availability': 'PT44S',
-  positioning: 'PT46S',
+  positioning: 'PT47S',
   'familiarity-effect': 'PT41S',
-  'decision-architecture': 'PT41S',
+  'decision-architecture': 'PT42S',
 };
 
 export async function generateMetadata({

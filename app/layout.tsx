@@ -57,6 +57,10 @@ export const metadata: Metadata = {
 };
 
 // JSON-LD Structured Data for ProfessionalService
+// areaServed is intentionally omitted: the target market has not been
+// decided yet. Add it back (City/AdministrativeArea entries) once it has —
+// an unspecified areaServed is valid schema; a wrong one actively misleads
+// both search engines and prospects.
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -67,14 +71,6 @@ const jsonLd = {
   email: "hello@arstrategists.com",
   priceRange: "$$",
   serviceType: ["Local SEO & Google Rankings", "Meta Ads Management", "Content Strategy & Audit"],
-  areaServed: [
-    { "@type": "City", name: "New York" },
-    { "@type": "City", name: "Los Angeles" },
-    { "@type": "City", name: "Austin" },
-    { "@type": "City", name: "Chicago" },
-    { "@type": "City", name: "Miami" },
-    { "@type": "AdministrativeArea", name: "United States" }
-  ],
   image: "https://www.arstrategists.com/logo.png",
   sameAs: ["https://instagram.com/ar_strats.aa"],
 };
