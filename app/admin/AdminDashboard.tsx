@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import type {
@@ -11,6 +12,10 @@ import type {
   LeadStats,
   LeadStatus,
 } from '@/lib/db';
+import { usePrefersReducedMotion } from '@/lib/hooks';
+import { useTheme } from '../providers';
+
+const NeuralNet = dynamic(() => import('../components/NeuralNet'), { ssr: false });
 
 const statuses: LeadStatus[] = [
   'new',
@@ -118,6 +123,8 @@ export function AdminDashboard({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { theme } = useTheme();
+  const reducedMotion = usePrefersReducedMotion();
 
   const [leads, setLeads] = useState<AdminLead[]>(initialLeads.leads);
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -301,8 +308,12 @@ export function AdminDashboard({
     'rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm';
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--text-primary)]">
-      <header className="border-b border-[var(--border)] bg-[var(--nav-background)] px-6 py-5 backdrop-blur">
+    <div className="relative min-h-screen bg-[var(--background)] text-[var(--text-primary)]">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <NeuralNet theme={theme} reducedMotion={reducedMotion} />
+      </div>
+
+      <header className="relative z-10 border-b border-[var(--border)] bg-[var(--nav-background)] px-6 py-5 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-brand">AR Strategies CRM</p>
@@ -321,7 +332,7 @@ export function AdminDashboard({
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-6 py-8">
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-8">
         <section className="grid gap-3 md:grid-cols-4">
           {visibleStats.map((item) => (
             <div key={item.label} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4">
