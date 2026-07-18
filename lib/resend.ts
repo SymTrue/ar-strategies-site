@@ -1,3 +1,38 @@
+export type ResendEmail = {
+  to: string;
+  replyTo: string | null;
+  subject: string;
+  html: string;
+};
+
+export async function sendResendEmail(email: ResendEmail): Promise<{ ok: true } | { ok: false; error: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { ok: false, error: 'RESEND_API_KEY is not configured' };
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'AR Strategies <leads@arstrategists.com>',
+        to: email.to,
+        reply_to: email.replyTo ?? undefined,
+        subject: email.subject,
+        html: email.html,
+      }),
+      signal: AbortSignal.timeout(10_000),
+    });
+
+    if (response.ok) return { ok: true };
+    return { ok: false, error: (await response.text()).slice(0, 1000) };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : 'Resend request failed' };
+  }
+}
+
 // Adds a newsletter subscriber to a Resend Audience so weekly issues can be
 // sent as a Resend Broadcast from the dashboard, without touching this code
 // again. Requires RESEND_AUDIENCE_ID (create the Audience once in the Resend

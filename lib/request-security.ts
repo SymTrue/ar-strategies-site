@@ -1,6 +1,21 @@
 import type { NextRequest } from 'next/server';
+import { timingSafeEqual } from 'node:crypto';
 
 const MAX_JSON_BODY_BYTES = 16 * 1024;
+
+// Vercel Cron sends `Authorization: Bearer $CRON_SECRET` on scheduled
+// invocations. Reject anything else so the endpoint can't be triggered by a
+// random request to a guessed URL.
+export function isAuthorizedCronRequest(request: NextRequest): boolean {
+  const secret = process.env.CRON_SECRET;
+  if (!secret) return false;
+
+  const header = request.headers.get('authorization') ?? '';
+  const expected = `Bearer ${secret}`;
+  const provided = Buffer.from(header);
+  const expectedBuf = Buffer.from(expected);
+  return provided.length === expectedBuf.length && timingSafeEqual(provided, expectedBuf);
+}
 
 type JsonObjectResult =
   | { ok: true; data: Record<string, unknown> }
