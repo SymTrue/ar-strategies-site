@@ -259,7 +259,7 @@ export default function Home() {
             <span className="text-brand"> finds first</span>
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
-            When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and sharpen your content. Done for you, so the phone rings while you run the business.
+            When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and publish content that turns into calls. Done for you, so the phone rings while you run the business.
           </p>
           <p data-intro className="text-base text-gray-400 max-w-xl mx-auto mb-10">
             Every week we send one specific fix that helps local businesses get found first: real examples, exact steps, five minutes to read. Join free and put it to work.
@@ -297,7 +297,7 @@ export default function Home() {
             <div className="marquee-track text-xs uppercase tracking-[0.25em] text-[var(--text-tertiary)]">
               {[0, 1].map((dup) => (
                 <div key={dup} className="flex items-center gap-8 pr-8">
-                  {['Found first on Google', 'Calls, not clicks', 'Booked-out weekends', 'Ads that pay for themselves', 'The name your city remembers'].map((t) => (
+                  {['Found first on Google', 'Calls, not clicks', 'More customers every week', 'Ads that pay for themselves', 'The name your city remembers'].map((t) => (
                     <span key={t} className="flex items-center gap-8 whitespace-nowrap">
                       {t}
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" />
@@ -315,7 +315,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <SectionKicker n="01" label="Services" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-4">
-            The work we do. So you stop doing it.
+            The work we do, so you don&apos;t have to.
           </h2>
           <p data-reveal className="text-[var(--text-secondary)] max-w-xl mb-16">
             Three services, one outcome: your phone rings and you can see why.

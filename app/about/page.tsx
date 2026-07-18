@@ -6,7 +6,7 @@ import { SiteFooter } from '../components/SiteFooter';
 import { AboutDust } from '../components/AboutDust';
 
 export const metadata: Metadata = {
-  title: 'About AR Strategies: Founder-Led Perception & Attention Studio',
+  title: 'About AR Strategies: Marketing Agency for Local Businesses',
   description:
     'Meet Akbar Ahmad, founder of AR Strategies. The studio helps local businesses become easier to notice, remember, trust, and choose.',
   alternates: { canonical: '/about' },
@@ -117,8 +117,9 @@ export default function AboutPage() {
             <div className="border-l border-dashed border-[var(--border)] pl-6">
               <p className="text-xl leading-relaxed text-[var(--text-secondary)]">
                 AR Strategies is run by Akbar Ahmad, a founder/operator who studies how people notice,
-                remember, trust, and choose local businesses. The studio sits between marketing execution
-                and behavioral strategy: search, ads, content, proof, and positioning all engineered as one system.
+                remember, trust, and choose local businesses, then builds marketing around it. Search,
+                ads, content, proof, and positioning aren&apos;t run as separate jobs. They&apos;re built as
+                one system, so your business is the one people find, remember, and pick.
               </p>
             </div>
           </div>
@@ -160,7 +161,7 @@ export default function AboutPage() {
                 <p className="mt-5 text-2xl leading-snug text-[var(--text-primary)]">
                   Local businesses usually do not lose because they are bad. They lose because the market has no clear
                   mental file for them. AR Strategies builds that file: the search result, the ad, the proof, the post,
-                  and the phrase customers remember.
+                  and the phrase customers remember, so when they&apos;re ready to buy, they call you first.
                 </p>
               </div>
 
