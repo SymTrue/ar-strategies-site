@@ -254,7 +254,7 @@ export default function Home() {
           <div data-intro className="hero-kicker inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest text-gray-300 mb-8">
             <span className="h-2 w-2 rounded-full bg-brand" /> The Marketing Agency for Local Businesses
           </div>
-          <h1 data-intro className="font-display hero-display uppercase mb-6 text-balance">
+          <h1 className="font-display hero-display uppercase mb-6 text-balance">
             Be the business your city
             <span className="text-brand"> finds first</span>
           </h1>
