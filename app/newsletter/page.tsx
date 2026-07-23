@@ -18,6 +18,7 @@ export default function NewsletterPage() {
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
       <SiteHeader />
 
+      <main id="main-content">
       {/* Masthead */}
       <header className="px-6 pt-16 md:pt-24 pb-10">
         <div className="max-w-3xl mx-auto">
@@ -142,6 +143,7 @@ export default function NewsletterPage() {
         </div>
       </section>
 
+      </main>
       <SiteFooter />
     </div>
   );

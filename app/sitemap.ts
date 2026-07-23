@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { posts } from './blog/posts';
+import { mechanismsData } from './mechanisms/mechanisms-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.arstrategists.com';
@@ -15,13 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/work-with-us`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/newsletter`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/mechanisms`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    ...[
-      'pattern-interruption',
-      'mental-availability',
-      'positioning',
-      'familiarity-effect',
-      'decision-architecture',
-    ].map((id) => ({
+    ...Object.keys(mechanismsData).map((id) => ({
       url: `${baseUrl}/mechanisms/${id}`,
       lastModified: now,
       changeFrequency: 'monthly' as const,

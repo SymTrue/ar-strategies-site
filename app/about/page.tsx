@@ -98,7 +98,7 @@ export default function AboutPage() {
     <div className="site-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--text-primary)]">
       <SiteHeader />
 
-      <main>
+      <main id="main-content">
         <section className="px-6 pb-14 pt-20 md:pb-20 md:pt-28">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
             <div>

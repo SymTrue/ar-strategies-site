@@ -30,10 +30,49 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const index = posts.findIndex((p) => p.slug === slug);
   const next = posts[(index + 1) % posts.length];
 
+  const SITE = 'https://www.arstrategists.com';
+  const url = `${SITE}/blog/${post.slug}`;
+  const blogPostingLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.standfirst,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Person', name: 'Akbar Ahmad', url: `${SITE}/about` },
+    publisher: {
+      '@type': 'Organization',
+      name: 'AR Strategies',
+      logo: { '@type': 'ImageObject', url: `${SITE}/logo.png` },
+    },
+    image: `${SITE}/og.png`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    articleSection: post.pillar,
+    isPartOf: { '@type': 'Blog', name: 'Field Notes', '@id': `${SITE}/blog` },
+  };
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
+      { '@type': 'ListItem', position: 2, name: 'Field Notes', item: `${SITE}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: url },
+    ],
+  };
+
   return (
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <SiteHeader />
 
+      <main id="main-content">
       {/* Article header */}
       <header className="px-6 pt-16 md:pt-24 pb-10">
         <div className="max-w-3xl mx-auto">
@@ -46,6 +85,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             <span className="text-brand">{post.pillar} Pillar</span>
             <span>{post.dateLabel}</span>
             <span>{post.readTime} read</span>
+            <span>
+              By{' '}
+              <Link href="/about" className="hover:text-brand transition-colors">
+                Akbar Ahmad
+              </Link>
+            </span>
           </div>
           <h1 className="font-display uppercase text-4xl md:text-6xl leading-[1.06] mb-8 text-balance">
             {post.title}
@@ -118,6 +163,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </div>
         </div>
       </section>
+      </main>
       <SiteFooter />
     </div>
   );

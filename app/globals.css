@@ -912,3 +912,24 @@ textarea:focus:not(:focus-visible),
   animation-duration: 12s;
   animation-direction: reverse;
 }
+
+/* Skip-to-content link: visually hidden until keyboard focus (a11y landmark) */
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -64px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 12px;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}

@@ -184,6 +184,7 @@ export default function Home() {
 
   return (
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
+      <a href="#main-content" className="skip-link">Skip to content</a>
       {/* Nav */}
       <nav className="site-header sticky top-0 z-50 bg-[var(--nav-background)] backdrop-blur border-b border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -246,6 +247,7 @@ export default function Home() {
       </nav>
       <PrecisionCursor />
 
+      <main id="main-content">
       {/* Hero: living neural network beneath the typography */}
       <section id="top" ref={heroRef} className="relative overflow-hidden">
         <NeuralNet theme={theme} reducedMotion={reducedMotion} />
@@ -703,6 +705,7 @@ export default function Home() {
           </p>
         </div>
       </section>
+      </main>
 
       <SiteFooter />
     </div>

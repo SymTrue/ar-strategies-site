@@ -239,6 +239,7 @@ export default function ThreeSecondTest() {
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
       <SiteHeader />
 
+      <main id="main-content">
       {/* Masthead */}
       <section className="px-6 pt-20 md:pt-28 pb-12">
         <div className="max-w-5xl mx-auto">
@@ -485,6 +486,7 @@ export default function ThreeSecondTest() {
           </div>
         </div>
       </section>
+      </main>
       <SiteFooter />
     </div>
   );

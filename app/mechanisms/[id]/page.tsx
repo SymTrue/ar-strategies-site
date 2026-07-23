@@ -23,6 +23,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
   return (
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)]">
       <SiteHeader />
+      <main id="main-content">
       {/* Breadcrumb */}
       <div className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-4">
         <div className="max-w-4xl mx-auto">
@@ -62,10 +63,9 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
           <div className="relative w-full aspect-video bg-black rounded-lg border border-brand/30 overflow-hidden">
             <video
               controls
-              autoPlay
-              muted
+              playsInline
               poster={`/videos/posters/${mechanism.id}.jpg`}
-              preload="metadata"
+              preload="none"
               className="w-full h-full"
             >
               <source src={mechanism.videoFile} type="video/mp4" />
@@ -180,6 +180,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
           </Link>
         </div>
       </section>
+      </main>
       <SiteFooter />
     </div>
   );

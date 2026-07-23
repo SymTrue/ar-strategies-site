@@ -220,6 +220,7 @@ export default function MechanismsHub() {
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
       <SiteHeader />
 
+      <main id="main-content">
       {/* Hero: editorial opening */}
       <section className="px-6 pt-20 md:pt-28 pb-10">
         <div className="max-w-7xl mx-auto">
@@ -333,6 +334,7 @@ export default function MechanismsHub() {
           </div>
         </div>
       </section>
+      </main>
       <SiteFooter />
     </div>
   );

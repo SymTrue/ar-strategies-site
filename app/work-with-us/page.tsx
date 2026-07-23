@@ -336,6 +336,7 @@ export default function WorkWithUsPage() {
     <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)]">
       <SiteHeader />
 
+      <main id="main-content">
       {/* Hero */}
       <section className="relative border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-24 md:py-32 overflow-hidden">
         <Waves strokeColor={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(10,8,6,0.08)'} />
@@ -464,6 +465,7 @@ export default function WorkWithUsPage() {
         </div>
       </section>
 
+      </main>
       <SiteFooter />
     </div>
   );

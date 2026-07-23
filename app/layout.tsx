@@ -46,14 +46,22 @@ export const metadata: Metadata = {
     description:
       "Top of Google. Meta ads that bring customers. Content people remember. Done for you.",
     type: "website",
-    images: ["https://www.arstrategists.com/logo.png"],
+    siteName: "AR Strategies",
+    images: [
+      {
+        url: "https://www.arstrategists.com/og.png",
+        width: 1200,
+        height: 630,
+        alt: "AR Strategies — Be the business your city finds first",
+      },
+    ],
     url: "https://www.arstrategists.com",
   },
   twitter: {
     card: "summary_large_image",
     title: "AR Strategies: Be the Business Your City Finds First",
     description: "Top of Google. Meta ads that bring customers. Content people remember.",
-    images: ["https://www.arstrategists.com/logo.png"],
+    images: ["https://www.arstrategists.com/og.png"],
   },
 };
 
@@ -65,6 +73,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
+  "@id": "https://www.arstrategists.com/#organization",
   name: "AR Strategies",
   description:
     "Marketing agency for local businesses: top-of-Google rankings, Meta ads management, and content strategy, done for you.",
@@ -72,7 +81,19 @@ const jsonLd = {
   email: "hello@arstrategists.com",
   priceRange: "$$",
   serviceType: ["Local SEO & Google Rankings", "Meta Ads Management", "Content Strategy & Audit"],
-  image: "https://www.arstrategists.com/logo.png",
+  image: "https://www.arstrategists.com/og.png",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://www.arstrategists.com/logo.png",
+    width: 369,
+    height: 333,
+  },
+  founder: {
+    "@type": "Person",
+    name: "Akbar Ahmad",
+    jobTitle: "Founder",
+    url: "https://www.arstrategists.com/about",
+  },
   sameAs: ["https://instagram.com/ar_strats.aa"],
 };
 
