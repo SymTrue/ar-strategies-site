@@ -464,6 +464,9 @@ button:disabled {
 
 html {
   scroll-behavior: smooth;
+  /* Offset fragment navigation (e.g. /#services, /#strike-den) so the target
+     clears the sticky header instead of tucking underneath it. */
+  scroll-padding-top: 6rem;
 }
 
 /* Heading rhythm — balanced wrapping for display type */

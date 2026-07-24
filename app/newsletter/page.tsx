@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function NewsletterPage() {
   return (
-    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
+    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-clip">
       <SiteHeader />
 
       <main id="main-content">

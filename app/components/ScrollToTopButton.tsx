@@ -13,9 +13,9 @@ export function ScrollToTopButton() {
       setVisible(top > 560);
     };
     onScroll();
-    // Capture phase catches scrolls on nested containers too: .site-shell is
-    // a scroll container (its overflow-x clip makes overflow-y compute to
-    // auto), so window scroll events alone miss some scrolling.
+    // Capture phase, defensively: the page scrolls on the window (.site-shell
+    // uses overflow-x: clip, which does NOT make it a scroll container), but
+    // capturing also catches any nested scroll container without extra wiring.
     document.addEventListener('scroll', onScroll, { capture: true, passive: true });
     return () => document.removeEventListener('scroll', onScroll, { capture: true });
   }, []);

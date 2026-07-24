@@ -217,7 +217,7 @@ function NetworkDiagram() {
 
 export default function MechanismsHub() {
   return (
-    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
+    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-clip">
       <SiteHeader />
 
       <main id="main-content">
@@ -328,7 +328,7 @@ export default function MechanismsHub() {
             <Link href="/work-with-us#apply" className="btn-primary px-7 py-3.5 rounded-full text-sm font-semibold transition-colors">
               Apply to Work With Us
             </Link>
-            <Link href="/#why" className="px-7 py-3.5 rounded-full text-sm font-semibold border border-[var(--border)] hover:border-brand transition-colors">
+            <Link href="/#strike-den" className="px-7 py-3.5 rounded-full text-sm font-semibold border border-[var(--border)] hover:border-brand transition-colors">
               See the Case Study
             </Link>
           </div>

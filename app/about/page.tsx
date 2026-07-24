@@ -75,7 +75,7 @@ function FounderPath() {
 
 export default function AboutPage() {
   return (
-    <div className="site-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--text-primary)]">
+    <div className="site-shell min-h-screen overflow-x-clip bg-[var(--background)] text-[var(--text-primary)]">
       <SiteHeader />
 
       <main id="main-content">

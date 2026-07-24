@@ -183,7 +183,7 @@ export default function Home() {
   const chartRef = useInViewClass<HTMLDivElement>();
 
   return (
-    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-hidden">
+    <div className="site-shell min-h-screen bg-[var(--background)] text-[var(--text-primary)] overflow-x-clip">
       <a href="#main-content" className="skip-link">Skip to content</a>
       {/* Nav */}
       <nav className="site-header sticky top-0 z-50 bg-[var(--nav-background)] backdrop-blur border-b border-[var(--border)]">
@@ -477,7 +477,7 @@ export default function Home() {
       </section>
 
       {/* Social Proof - Featured Case Study */}
-      <section className="py-24 md:py-32 px-6 section-dashed section-premium">
+      <section id="strike-den" className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-6xl mx-auto">
           <h2 data-reveal className="font-display text-3xl md:text-4xl uppercase mb-16 text-center">The real proof</h2>
 
