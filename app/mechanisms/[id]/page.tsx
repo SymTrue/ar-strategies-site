@@ -25,7 +25,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       <SiteHeader />
       <main id="main-content">
       {/* Breadcrumb */}
-      <div className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-4">
+      <div className="px-4 sm:px-6 lg:px-8 py-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-2 text-sm text-[var(--text-tertiary)]">
             <Link href="/mechanisms" className="hover:text-brand transition-colors">
@@ -38,7 +38,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </div>
 
       {/* Hero */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-4 mb-8">
             <span className="kicker-chip">
@@ -58,7 +58,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* Video Player */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-16">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="relative w-full aspect-video bg-black rounded-lg border border-brand/30 overflow-hidden">
             <video
@@ -93,7 +93,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* Why It Works */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-8">Why This Works</h2>
           <div className="prose prose-invert max-w-[50ch]">
@@ -114,7 +114,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* Examples */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">Real Examples</h2>
           <div className="space-y-8">
@@ -131,7 +131,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* How We Use It */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-8">How AR Strategies Uses This</h2>
           <div className="prose prose-invert max-w-[50ch]">
@@ -145,7 +145,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* Related Mechanisms */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">Related Mechanisms</h2>
           <div className="grid gap-6 md:grid-cols-2">
@@ -166,7 +166,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
       </section>
 
       {/* CTA */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-6">See This in Action</h2>
           <p className="text-[var(--text-secondary)] mb-8 text-lg">

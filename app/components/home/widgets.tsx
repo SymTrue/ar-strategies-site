@@ -1,14 +1,21 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { REDUCED_MOTION_QUERY } from '@/lib/hooks';
 
 /* Precision cursor: trailing ring that responds to interactive elements.
-   Fine pointers only; hidden for touch and reduced motion via CSS. */
+   Fine pointers only; hidden for touch and reduced motion via CSS.
+   Portaled to <body> so the fixed ring is never clipped by a page wrapper's
+   overflow (e.g. .site-shell's overflow-x: clip) when it crosses the header. */
 export function PrecisionCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
+  const [container, setContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => setContainer(document.body), []);
 
   useEffect(() => {
+    if (!container) return;
     if (window.matchMedia('(pointer: coarse)').matches) return;
     if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
     const ring = ringRef.current;
@@ -45,9 +52,13 @@ export function PrecisionCursor() {
       document.documentElement.removeEventListener('pointerleave', onLeave);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [container]);
 
-  return <div ref={ringRef} className="precision-ring" aria-hidden="true" />;
+  if (!container) return null;
+  return createPortal(
+    <div ref={ringRef} className="precision-ring" aria-hidden="true" />,
+    container,
+  );
 }
 
 /* Scroll progress hairline under the nav: scrolling communicates progression */

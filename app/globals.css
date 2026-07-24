@@ -658,8 +658,24 @@ textarea:focus:not(:focus-visible),
 }
 
 /* --- Dashed section containment: schematic rule between sections --- */
+/* Section seam: a whisper-soft, center-weighted hairline that fades to nothing
+   at both ends — so sections read as one continuous page instead of hard-lined,
+   boxed-off blocks. Replaces the old edge-to-edge dashed rule. Component
+   "wrapping" (cards, kicker chips, in-card dividers) keeps its own borders. */
 .section-dashed {
-  border-top: 1px dashed var(--border) !important;
+  position: relative;
+  border-top: none !important;
+}
+.section-dashed::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 50%, transparent);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 /* --- Registration corner marks (technical drawing accents) --- */

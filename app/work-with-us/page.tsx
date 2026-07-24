@@ -338,7 +338,7 @@ export default function WorkWithUsPage() {
 
       <main id="main-content">
       {/* Hero */}
-      <section className="relative border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-24 md:py-32 overflow-hidden">
+      <section className="relative px-4 sm:px-6 lg:px-8 py-24 md:py-32 overflow-hidden">
         <Waves strokeColor={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(10,8,6,0.08)'} />
         <div className="hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto">
@@ -369,7 +369,7 @@ export default function WorkWithUsPage() {
       </section>
 
       {/* Advantage */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
           <SectionKicker n="01" label="The Advantage" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
@@ -387,7 +387,7 @@ export default function WorkWithUsPage() {
       </section>
 
       {/* Before / After */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-4xl mx-auto">
           <SectionKicker n="02" label="Before and After" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
@@ -398,7 +398,7 @@ export default function WorkWithUsPage() {
       </section>
 
       {/* How it works */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
           <SectionKicker n="03" label="How It Works" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
@@ -419,7 +419,7 @@ export default function WorkWithUsPage() {
       </section>
 
       {/* FAQ */}
-      <section className="border-b border-dashed border-[var(--border)] px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-3xl mx-auto">
           <SectionKicker n="04" label="FAQ" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
@@ -451,7 +451,7 @@ export default function WorkWithUsPage() {
       </section>
 
       {/* Application */}
-      <section id="apply" className="px-4 sm:px-6 lg:px-8 py-20 md:py-28 section-premium">
+      <section id="apply" className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28 section-premium">
         <div className="max-w-3xl mx-auto">
           <SectionKicker n="05" label="Apply" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-4">
