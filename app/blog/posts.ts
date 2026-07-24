@@ -88,7 +88,7 @@ export const posts: Post[] = [
         heading: 'Reply to every single one',
         paragraphs: [
           'A review you never answered is a customer you ignored in public. Reply to all of them, briefly and specifically. For negative ones, one calm paragraph beats a defensive essay: acknowledge the specific issue, say what changed, and offer to fix it directly. Prospects reading it are not judging the complaint. They are judging how you handle being wrong.',
-          'What never to do: never buy reviews, never trade discounts for them, and never batch-ask fifty customers in one week. Platforms flag velocity spikes, and readers can smell a wall of same-day five-stars. Slow and steady is not just safer, it looks more true, because it is.',
+          'What never to do: never buy reviews, never trade discounts for them, and never batch-ask fifty customers in one week. Review sites flag sudden bursts, and readers can smell a wall of same-day five-stars. Slow and steady is not just safer, it looks more true, because it is.',
         ],
       },
       {
@@ -115,7 +115,7 @@ export const posts: Post[] = [
       {
         paragraphs: [
           'Nobody studies a local business. They glance at it. In roughly three seconds a stranger decides whether your search result is worth clicking, your profile worth reading, your storefront worth entering. The decision is made before a single sentence of your carefully written copy is read.',
-          'The problem is that you cannot see your own business freshly. You know what you do, so everything about it looks obvious to you. This is the curse of knowledge, and it is why confident owners are routinely invisible to the exact people they are trying to reach.',
+          'The problem is that you cannot see your own business freshly. You know what you do, so everything about it looks obvious to you. You are too close to it to see it the way a stranger does, and that is why confident owners are so often invisible to the exact people they are trying to reach.',
         ],
       },
       {
@@ -162,14 +162,14 @@ export const posts: Post[] = [
       {
         heading: 'The shortlist is the whole game',
         paragraphs: [
-          'Marketing researchers call it the evoked set: the two or three names that surface in a customer’s mind when a need appears. If you are in that set, you compete. If you are not, your quality is invisible. The best plumber in the city loses to the third-best plumber who ranks first on Google and whose name the customer has seen four times this month.',
+          'Call it the shortlist: the two or three names that pop into a customer’s head the moment a need appears. If you are on it, you compete. If you are not, your quality is invisible. The best plumber in the city loses to the third-best plumber who ranks first on Google and whose name the customer has seen four times this month.',
           'This is why we treat search rankings as a memory channel, not a technical one. Being found first is being remembered first at the exact moment the need exists. The #1 result does not win because people trust Google. It wins because it is the only name most people ever meet.',
         ],
       },
       {
         heading: 'What this means for your business',
         paragraphs: [
-          'Stop asking "how do we prove we are the best?" and start asking "what would make someone remember us next Tuesday?" Distinctive positioning, a consistent visual identity, and top-of-search presence compound into the same asset: availability in memory.',
+          'Stop asking "how do we prove we are the best?" and start asking "what would make someone remember us next Tuesday?" A clear position, a consistent look, and showing up at the top of search all build the same thing: being the name people think of first.',
           'Quality keeps customers. Memory gets them. Most businesses invest 100% in the first and wonder why the phone is quiet.',
         ],
       },

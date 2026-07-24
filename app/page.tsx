@@ -108,7 +108,7 @@ const services = [
   {
     icon: 'pen',
     title: 'Content That Sells',
-    body: 'We audit your listings and social, kill what isn\'t converting, and publish weekly on channels that rank and convert.',
+    body: 'We audit your listings and social, kill what isn\'t working, and publish weekly on the channels that actually bring in customers.',
   },
 ];
 

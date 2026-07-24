@@ -236,10 +236,10 @@ export default function MechanismsHub() {
             The psychology your <span className="text-brand">customers run on</span>
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty">
-            Every buying decision runs through the same mental machinery: what gets noticed,
-            what gets remembered, what gets trusted, what gets chosen. We map those mechanisms
-            and engineer around them. Five explainers are live, one for each pillar. The rest
-            of the library is in production.
+            Every buying decision runs on the same few things: what gets noticed, what gets
+            remembered, what gets trusted, what gets chosen. We learn how those work, then build
+            your marketing around them. Five short video explainers are live, one for each pillar.
+            The rest are on the way.
           </p>
         </div>
       </section>
@@ -318,10 +318,10 @@ export default function MechanismsHub() {
         <div className="max-w-7xl mx-auto md:flex items-end justify-between gap-10">
           <div>
             <h2 className="font-display uppercase text-3xl md:text-5xl leading-tight mb-4 max-w-2xl">
-              Theory is free. <span className="text-brand">Application is the service.</span>
+              The ideas are free. <span className="text-brand">Putting them to work is the service.</span>
             </h2>
             <p className="text-[var(--text-secondary)] max-w-xl">
-              Watch how these mechanisms took a gym from invisible to the #1 result in its city.
+              See how these ideas took a gym from invisible to #1 in its city.
             </p>
           </div>
           <div className="flex gap-4 mt-8 md:mt-0 shrink-0">

@@ -36,7 +36,7 @@ export default function BlogIndex() {
             Field <span className="text-brand">Notes</span>
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty">
-            Observations from the audit floor. Why customers notice some businesses,
+            What we learn auditing real local businesses. Why customers notice some,
             remember fewer, and choose almost none. Written for owners, not marketers.
           </p>
         </div>
@@ -106,10 +106,10 @@ export default function BlogIndex() {
         <div className="max-w-7xl mx-auto md:flex items-end justify-between gap-10">
           <div>
             <h2 className="font-display uppercase text-3xl md:text-5xl leading-tight mb-4 max-w-2xl">
-              Reading is diagnosis. <span className="text-brand">The work is treatment.</span>
+              Knowing the problem is step one. <span className="text-brand">Fixing it is the job.</span>
             </h2>
             <p className="text-[var(--text-secondary)] max-w-xl">
-              We will show you exactly where your business is invisible, and what it costs you monthly.
+              We&apos;ll show you exactly where your business is invisible, and what it&apos;s costing you every month.
             </p>
           </div>
           <div className="flex gap-4 mt-8 md:mt-0 shrink-0">

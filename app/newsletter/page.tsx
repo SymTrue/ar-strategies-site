@@ -103,10 +103,10 @@ export default function NewsletterPage() {
             What this doesn&apos;t fix
           </h3>
           <p className="text-[var(--text-secondary)] leading-relaxed mb-6 text-pretty">
-            NAP consistency won&apos;t rank a business with no reviews above one with two hundred,
-            and it won&apos;t save a Google profile with the wrong category. It removes a quiet
-            drag on trust that most businesses are carrying without knowing it. Ten minutes,
-            no cost, done once.
+            Matching your details everywhere won&apos;t rank a business with no reviews above one
+            with two hundred, and it won&apos;t save a Google profile in the wrong category. What it
+            does is remove a quiet drag on trust that most businesses carry without knowing it. Ten
+            minutes, no cost, done once.
           </p>
 
           <div className="mt-14 border border-dashed border-[var(--border)] rounded-lg p-6 md:p-8">

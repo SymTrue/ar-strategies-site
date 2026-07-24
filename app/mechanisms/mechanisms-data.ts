@@ -31,11 +31,11 @@ export interface MechanismData {
 /* One sentence per mechanism for the "In One Sentence" takeaway callout
    that sits directly under the video on each detail page. */
 export const mechanismTakeaways: Record<string, string> = {
-  'pattern-interruption': 'The brain deletes the expected, so different beats louder.',
+  'pattern-interruption': 'Your brain tunes out the expected, so different beats louder.',
   'mental-availability': 'Customers choose whoever comes to mind first, not whoever is best.',
-  positioning: 'You are chosen relative to alternatives, so own one clear difference.',
-  'familiarity-effect': 'Every exposure lowers the risk a buyer assigns to your name.',
-  'decision-architecture': 'More options create fewer choosers; make one path obvious.',
+  positioning: "You're judged against the alternatives, so own one clear difference.",
+  'familiarity-effect': 'Every time someone sees your name, it feels a little safer.',
+  'decision-architecture': 'More options mean fewer people choose. Make one path obvious.',
 };
 
 /* SEO meta descriptions, hand-tuned separately from the on-page subtitle
@@ -62,18 +62,18 @@ export const mechanismsData: Record<string, MechanismData> = {
     id: 'pattern-interruption',
     name: 'Pattern Interruption',
     fullTitle: 'Pattern Interruption: The Psychology Behind Getting Noticed',
-    subtitle: 'Understand how breaking expected patterns forces attention and makes your business impossible to ignore.',
+    subtitle: 'How breaking the pattern people expect forces them to notice you, and makes your business impossible to ignore.',
     pillar: 'Attention',
     videoFile: '/videos/pattern-interruption.mp4',
-    whyWorks: `Most businesses try to get noticed by being louder. They're wasting money.
+    whyWorks: `Most businesses try to get noticed by being louder. That's a waste of money.
 
-Pattern interruption isn't about volume. It's about surprise. The human brain is wired to ignore repetition and notice anomalies. When your message breaks the pattern of what people expect, it forces attention.
+Getting noticed isn't about volume. It's about surprise. Your brain is built to tune out anything repetitive and snap to attention when something breaks the pattern. So when your message isn't what people expect, they can't help but look.
 
-Here's the neurological fact: Your brain processes ~11 million bits of information per second, but your conscious mind can only handle ~40 bits. Everything else gets filtered out automatically.
+The numbers behind it: your brain takes in about 11 million pieces of information every second, but you can only consciously handle about 40. Everything else gets filtered out before you even notice it.
 
-Pattern interruption exploits this filter. It hijacks the survival mechanism that says: "If something is different, it might be dangerous. Pay attention."
+Breaking the pattern slips past that filter. It trips the old survival instinct that says: that's different, it might matter, pay attention.
 
-That's why unexpected headlines outperform expected ones, why color breaks in monochrome designs stop scrollers, and why contrarian claims get shared more than safe statements.`,
+That's why a surprising headline beats a safe one, why a splash of color stops the scroll, and why a bold claim gets shared while a careful one gets ignored.`,
     whyWorksSubheadIndex: 4,
     examples: [
       {
@@ -91,7 +91,7 @@ That's why unexpected headlines outperform expected ones, why color breaks in mo
       {
         title: 'Blendtec "Will It Blend?" Videos',
         context: 'Blending competition was saturated with identical products',
-        explanation: 'Expected pattern: Blender ads show smooth operating, clean recipes, sleek kitchens. Blendtec asked: What if we blend things that shouldn\'t go in a blender? iPhones, golf balls, marbles, light bulbs. Pure curiosity interrupt.',
+        explanation: 'Expected pattern: Blender ads show smooth blending, clean recipes, sleek kitchens. Blendtec asked: What if we blend things that should never go in a blender? iPhones, golf balls, marbles, light bulbs. You can\'t look away.',
         result: 'Blendtec became known for durability through an absurdist, attention-grabbing series.',
       },
     ],
@@ -109,10 +109,10 @@ Instead of "Transform Your Body," we positioned them as "The place serious fight
 We showed real athletes, real training footage, real intensity.
 We talked about mindset, discipline, and mastery. Not just muscles.
 
-That one pattern interrupt shifted their entire positioning.
-#1 in SEO within 6 months. 2x membership growth.
+That one move changed how the whole market saw them.
+#1 on Google within 6 months. Double the members.
 
-Because we didn't try to be loud. We tried to be different. And different is what makes humans pay attention.`,
+We didn't try to be loud. We tried to be different. And different is what makes people pay attention.`,
     relatedMechanisms: [
       {
         id: 'mental-availability',
@@ -130,25 +130,23 @@ Because we didn't try to be loud. We tried to be different. And different is wha
     id: 'mental-availability',
     name: 'Mental Availability',
     fullTitle: 'Mental Availability: The Psychology Behind Being Remembered',
-    subtitle: 'Discover how top-of-mind awareness works and why businesses that are remembered first get chosen first.',
+    subtitle: 'How being the first business people think of turns into being the one they choose.',
     pillar: 'Memory',
     videoFile: '/videos/mental-availability.mp4',
-    whyWorks: `People don't remember everything they see. They remember what's relevant, recent, and repeatedly reinforced.
+    whyWorks: `People don't remember everything they see. They remember what's useful, recent, and repeated.
 
-This is mental availability. It's not about being everywhere. It's about being in the right place, at the right time, in the right context. Repeatedly.
+That's mental availability. It's not about being everywhere. It's about showing up in the right place, at the right moment, again and again.
 
-When someone searches for what you do, they don't evaluate all options equally. They evaluate the options they remember first.
+When someone searches for what you do, they don't weigh every option evenly. They start with the ones they already remember.
 
-Watch real buying decisions and the pattern is hard to miss: availability in memory decides more purchases than ads, websites, or even quality. Not because those don't matter, but because they never get considered if you aren't recalled.
+Watch how people actually buy and it's hard to miss: being remembered wins more sales than ads, websites, or even being the best. Not because those don't matter, but because you never get considered if you don't come to mind.
 
-Availability in memory.
+The businesses that win usually aren't the best ones. They're the ones people think of first when the need shows up.
 
-The businesses that win are not the "best." They're the ones that are remembered first when someone needs them.
+That's why ranking on local search matters. Why saying the same thing consistently matters. Why showing up often matters.
 
-That's why local search rankings matter. That's why consistent messaging matters. That's why frequency matters.
-
-Because being remembered isn't an accident. It's a system.`,
-    whyWorksSubheadIndex: 5,
+Being remembered isn't luck. It's something you build on purpose.`,
+    whyWorksSubheadIndex: 4,
     examples: [
       {
         title: 'Coke vs. Pepsi',
@@ -190,26 +188,26 @@ We build mental availability intentionally. Every touchpoint reinforces it.`,
     id: 'positioning',
     name: 'Positioning',
     fullTitle: 'Positioning: The Psychology Behind Differentiation',
-    subtitle: 'Learn how strategic positioning shapes perception and becomes the foundation for all business success.',
+    subtitle: 'How the way people place you against the competition decides whether they pick you.',
     pillar: 'Positioning',
     videoFile: '/videos/positioning.mp4',
-    whyWorks: `Positioning isn't what you say. It's what people believe about you relative to alternatives.
+    whyWorks: `Positioning isn't what you say about yourself. It's what people believe about you compared to the alternatives.
 
-When someone evaluates your business, they're not evaluating it in isolation. They're evaluating it against other options. Their decision isn't "Is this good?" It's "Is this better than the alternative?"
+Nobody judges your business on its own. They judge it against the other options. The question in their head isn't "Is this good?" It's "Is this better than the next one?"
 
-If you position yourself as "one of many," you lose on price.
-If you position yourself as "different," you win on value.
+Come across as one of many, and you lose on price.
+Come across as clearly different, and you win on value.
 
-The most powerful positioning isn't about being bigger, cheaper, or faster. It's about being perceived as different in a way that matters.
+The strongest positioning isn't about being bigger, cheaper, or faster. It's about being seen as different in a way people actually care about.
 
-Apple isn't the fastest computer. They're positioned as the thoughtful alternative.
-BMW isn't the cheapest car. They're positioned as the "driving machine."
-Nike isn't the most comfortable shoe. They're positioned as for winners.
+Apple isn't the fastest computer. It's the one for people who care about design.
+BMW isn't the cheapest car. It's the one that's fun to drive.
+Nike isn't the comfiest shoe. It's the one for people who want to win.
 
-Positioning shapes perception. Perception drives choice. Choice drives revenue.
+How people see you drives what they choose. What they choose drives your revenue.
 
-That's why positioning comes first. Everything else - your ads, your website, your sales pitch - amplifies your position. But if your position is weak, everything else is noise.`,
-    whyWorksSubheadIndex: 7,
+That's why positioning comes first. Your ads, your website, your pitch all just amplify your position. If the position is weak, louder only spreads the weakness.`,
+    whyWorksSubheadIndex: 6,
     examples: [
       {
         title: 'Tesla vs. Traditional Automakers',
@@ -261,22 +259,22 @@ Positioning shapes everything. Get it right, and the rest becomes easy. Get it w
     id: 'familiarity-effect',
     name: 'Familiarity Effect',
     fullTitle: 'The Familiarity Effect: The Psychology Behind Being Trusted',
-    subtitle: 'Understand how repeated exposure quietly converts recognition into trust, and why customers buy from names they have already seen.',
+    subtitle: "Why customers trust the names they've seen before, and how showing up again and again builds that trust.",
     pillar: 'Trust',
     videoFile: '/videos/familiarity-effect.mp4',
-    whyWorks: `Ask a customer why they chose a business and they will give you rational answers: price, reviews, convenience. Watch what they actually do and a quieter force shows up. They pick the name they have seen before.
+    whyWorks: `Ask a customer why they chose a business and you'll hear sensible reasons: price, reviews, convenience. Watch what they actually do and something quieter is at work. They pick the name they've seen before.
 
-Psychologists call it the mere exposure effect, first documented by Robert Zajonc in the 1960s: people rate things they have encountered before as more likeable and more trustworthy than things they see for the first time, even when they don't consciously remember the encounters.
+Psychologists have a name for it: the mere exposure effect. Study after study since the 1960s shows the same thing. People trust and like what's familiar more than what's new, even when they don't remember ever seeing it.
 
-The mechanism underneath is processing fluency. A name the brain has processed before is processed faster the next time, and the brain misreads that ease as safety. Familiar equals safe. Unfamiliar equals risk. No argument is made, no claim is evaluated. The discount on perceived risk happens before thinking starts.
+Here's why. A name your brain has seen before is easier to take in the next time, and your brain reads that ease as safety. Familiar feels safe. New feels risky. No argument, no weighing of facts. The trust is handed out before any thinking starts.
 
-For a local business this is enormous, because most of your market is not buying today. They are walking past your signboard, scrolling past your posts, hearing your name from a friend. None of those moments produce a sale, and all of them produce the thing that decides the sale later.`,
+For a local business, this is everything, because most of your market isn't buying today. They're passing your sign, scrolling past your posts, hearing your name from a friend. None of it makes a sale that day. All of it decides who they trust when the day comes.`,
     whyWorksSubheadIndex: 3,
     examples: [
       {
         title: 'Coca-Cola\'s "pointless" advertising',
         context: 'The most recognized brand on earth still spends billions on ads',
-        explanation: 'Coke ads contain no information. No price, no features, no argument. They exist to keep the name familiar, because familiarity is the asset that makes Coke the default reach in the fridge aisle. The advertising is not persuasion. It is maintenance of mental risk-discount.',
+        explanation: "Coke ads contain no information. No price, no features, no argument. They aren't there to convince you of anything. They're there to keep the name familiar, so Coke stays the one your hand reaches for without thinking.",
         result: 'Coke stays the default choice in a category with functionally identical products.',
       },
       {
@@ -316,16 +314,16 @@ Then we widen the surface area. Search rankings, maps presence, review responses
     id: 'decision-architecture',
     name: 'Decision Architecture',
     fullTitle: 'Decision Architecture: The Psychology Behind Getting Chosen',
-    subtitle: 'Learn how the structure of your options decides whether people choose at all, and why fewer, clearer paths convert more.',
+    subtitle: 'How the way you lay out choices decides whether people pick at all, and why fewer, clearer options win.',
     pillar: 'Psychology',
     videoFile: '/videos/decision-architecture.mp4',
-    whyWorks: `Every option you present is a comparison your buyer has to run. Two options is one comparison. Six options is fifteen. The brain does this math whether the buyer wants it to or not, and past a small number the cost of deciding outweighs the value of choosing.
+    whyWorks: `Every option you put in front of a buyer is one more comparison they have to run. Two options, one comparison. Six options, fifteen. Their brain does that math whether they want it to or not, and past a handful, deciding gets so tiring it isn't worth the effort.
 
-When deciding gets expensive, people do not choose badly. They defer. "I'll think about it" is rarely a rejection of your offer. It is a rejection of the decision you asked them to make.
+When choosing gets hard, people don't choose badly. They put it off. "I'll think about it" usually isn't a no to your offer. It's a no to the hard decision you just handed them.
 
-The most famous demonstration is the jam study by Sheena Iyengar and Mark Lepper. A supermarket tasting booth offered either 24 jams or 6. The bigger display attracted more browsers, but the smaller display sold to roughly ten times the share of them. More choice pulled attention and killed conversion.
+The classic proof is the jam study by researchers Sheena Iyengar and Mark Lepper. A store set out either 24 jams or 6 to taste. The big display drew a bigger crowd, but the small one sold about ten times as well. More choice pulled people in, then killed the sale.
 
-This is decision architecture: the structure of options is itself a message. A page with one obvious next step tells the visitor you know what they need. A page with seven equal buttons tells them to figure it out themselves. They won't.`,
+That's decision architecture: the way you lay out the options is itself a message. One clear next step tells a visitor you know what they need. Seven equal buttons tell them to figure it out alone. They won't. They'll leave.`,
     whyWorksSubheadIndex: 3,
     examples: [
       {

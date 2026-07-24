@@ -13,83 +13,63 @@ export const metadata: Metadata = {
 };
 
 const fieldNotes = [
-  ['Attention', 'If the market filters you out, nothing downstream matters.'],
-  ['Positioning', 'Most businesses sound interchangeable before they ever compete.'],
-  ['Memory', 'Customers choose from the names that are easiest to recall.'],
-  ['Trust', 'Proof has to be specific enough to survive skepticism.'],
-  ['Psychology', 'The sale starts before the customer knows they are deciding.'],
+  ['Attention', "If customers can't find you, nothing else you do matters."],
+  ['Positioning', 'Most businesses sound the same, so customers pick on price.'],
+  ['Memory', 'Customers pick the name they remember first, not the best one.'],
+  ['Trust', "Proof has to be specific, or nobody believes it."],
+  ['Psychology', "The sale starts before the customer knows they're choosing."],
 ];
 
 const operatingRules = [
-  'One business per market, so incentives stay clean.',
-  'Every recommendation ties to a number, a search result, or a buying behavior.',
-  'Content begins with the mechanism, not the aesthetic.',
-  'Ad spend is tested like capital, not treated like rent.',
+  'One business per market. We never work with your competitor.',
+  'Every recommendation ties to a real number: a ranking, a lead, or a sale.',
+  "Content starts with what makes customers act, not what looks pretty.",
+  "We test every ad dollar and cut what doesn't bring in customers.",
 ];
 
-function FounderSignalMap() {
+const mono = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } as const;
+
+const founderPath = [
+  ['01', 'In the field', 'Took Strike Den from no online presence to the #1 gym in its city.'],
+  ['02', 'Found what works', 'Learned what actually makes local customers notice and choose.'],
+  ['03', 'Built a system', 'Turned those lessons into a repeatable playbook, not guesswork.'],
+  ['04', 'Your market', 'Now runs that same playbook for local businesses like yours.'],
+];
+
+function FounderPath() {
   return (
-    <svg
-      viewBox="0 0 760 420"
-      className="h-auto w-full"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="Founder operating map connecting field work, psychology, rankings, ads, and content."
-    >
-      <defs>
-        <linearGradient id="aboutTrace" x1="80" y1="40" x2="690" y2="380" gradientUnits="userSpaceOnUse">
-          <stop stopColor="var(--brand-light)" />
-          <stop offset="0.55" stopColor="var(--brand)" />
-          <stop offset="1" stopColor="var(--brand-dark)" />
-        </linearGradient>
-      </defs>
-      <rect x="1" y="1" width="758" height="418" rx="8" stroke="var(--border)" strokeDasharray="6 8" />
-      <g stroke="var(--text-tertiary)" strokeWidth="0.7" opacity="0.22">
-        {Array.from({ length: 13 }).map((_, index) => (
-          <path key={`v-${index}`} d={`M${60 + index * 54} 32V388`} />
-        ))}
-        {Array.from({ length: 7 }).map((_, index) => (
-          <path key={`h-${index}`} d={`M42 ${58 + index * 54}H718`} />
-        ))}
-      </g>
-      <path
-        d="M104 308 C170 196 238 156 326 196 C426 244 451 92 554 126 C632 152 651 230 670 310"
-        stroke="url(#aboutTrace)"
-        strokeWidth="2"
-      />
-      <path
-        d="M118 118 C222 86 295 110 338 172 C403 264 489 252 618 184"
-        stroke="var(--text-tertiary)"
-        strokeWidth="1"
-        strokeDasharray="5 7"
-        opacity="0.55"
-      />
-      {[
-        [104, 308, 'FIELD'],
-        [326, 196, 'INSIGHT'],
-        [554, 126, 'SYSTEM'],
-        [670, 310, 'MARKET'],
-      ].map(([x, y, label]) => (
-        <g key={label}>
-          <circle cx={x} cy={y} r="23" fill="var(--background)" stroke="var(--brand)" />
-          <circle cx={x} cy={y} r="6" fill="var(--brand)" className="node-pulse" />
-          <text
-            x={x}
-            y={Number(y) + 44}
-            textAnchor="middle"
-            fill="var(--text-primary)"
-            style={{ font: '600 11px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.16em' }}
-          >
-            {label}
-          </text>
-        </g>
-      ))}
-      <g fill="var(--text-tertiary)" style={{ font: '500 10px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.14em' }}>
-        <text x="52" y="48">FOUNDER OPERATING MAP</text>
-        <text x="546" y="384">PERCEPTION → ATTENTION → CHOICE</text>
-      </g>
-    </svg>
+    <div className="rounded-lg border border-dashed border-[var(--border)] p-6 md:p-10">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-secondary)]" style={mono}>
+          Fig. 02, How one gym&apos;s playbook became a studio
+        </p>
+        <span className="hidden text-[11.5px] uppercase tracking-[0.16em] text-brand sm:block" style={mono}>
+          Field → System → Your market
+        </span>
+      </div>
+      <div className="relative">
+        <span
+          className="absolute left-[12.5%] right-[12.5%] top-[18px] hidden h-px bg-[var(--border)] md:block"
+          aria-hidden="true"
+        />
+        <ol className="relative grid gap-8 md:grid-cols-4 md:gap-6">
+          {founderPath.map(([n, title, body]) => (
+            <li key={n} className="flex items-start gap-4 md:flex-col md:items-center md:gap-5 md:text-center">
+              <span
+                className="relative z-10 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brand bg-[var(--background)] text-sm text-brand"
+                style={mono}
+              >
+                {n}
+              </span>
+              <div>
+                <h3 className="font-display mb-2 text-lg uppercase md:text-xl">{title}</h3>
+                <p className="max-w-[30ch] text-sm leading-relaxed text-[var(--text-secondary)] md:mx-auto">{body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   );
 }
 
@@ -116,20 +96,16 @@ export default function AboutPage() {
             </div>
             <div className="border-l border-dashed border-[var(--border)] pl-6">
               <p className="text-xl leading-relaxed text-[var(--text-secondary)]">
-                AR Strategies is run by Akbar Ahmad, a founder/operator who studies how people notice,
-                remember, trust, and choose local businesses, then builds marketing around it. Search,
-                ads, content, proof, and positioning aren&apos;t run as separate jobs. They&apos;re built as
-                one system, so your business is the one people find, remember, and pick.
+                AR Strategies is run by Akbar Ahmad. He studies why customers pick one local business
+                over another, then builds the marketing that makes yours the pick. Search, ads, and
+                content don&apos;t run as separate jobs. They work as one system, so your business is the
+                one people find first, remember, and call.
               </p>
             </div>
           </div>
         </section>
 
-        <section className="px-6 pb-16">
-          <div className="mx-auto max-w-7xl">
-            <FounderSignalMap />
-          </div>
-        </section>
+        <AboutDust />
 
         <section className="section-dashed px-6 py-16 md:py-24">
           <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[0.8fr_1.2fr]">
@@ -141,8 +117,8 @@ export default function AboutPage() {
                 <h2 className="font-display text-4xl uppercase">Akbar Ahmad</h2>
                 <p className="mt-2 text-brand">Founder, AR Strategies</p>
                 <p className="mt-5 max-w-sm text-[var(--text-secondary)]">
-                  Built Strike Den from no meaningful online presence to the top local search position in six months,
-                  then turned the lessons into a repeatable studio model.
+                  Took Strike Den from no online presence to the #1 gym in its city in six months, then built
+                  those lessons into a repeatable system for other local businesses.
                 </p>
                 <a
                   href="https://www.linkedin.com/in/akbararstrats/"
@@ -159,9 +135,9 @@ export default function AboutPage() {
               <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 md:p-8">
                 <p className="text-xs uppercase tracking-[0.22em] text-[var(--text-tertiary)]">Why the studio exists</p>
                 <p className="mt-5 text-2xl leading-snug text-[var(--text-primary)]">
-                  Local businesses usually do not lose because they are bad. They lose because the market has no clear
-                  mental file for them. AR Strategies builds that file: the search result, the ad, the proof, the post,
-                  and the phrase customers remember, so when they&apos;re ready to buy, they call you first.
+                  Most local businesses don&apos;t lose because they&apos;re bad at what they do. They lose because
+                  customers never think of them. We fix that: the search result, the ad, the proof, and the words
+                  people remember, so when they&apos;re ready to buy, they call you first.
                 </p>
               </div>
 
@@ -184,9 +160,9 @@ export default function AboutPage() {
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-brand">Operating rules</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-brand">How we work</p>
                 <h2 className="font-display mt-4 max-w-xl text-4xl uppercase leading-tight md:text-5xl">
-                  The discipline behind the work.
+                  The rules we don&apos;t break.
                 </h2>
               </div>
               <div className="grid gap-4">
@@ -203,16 +179,20 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <AboutDust />
+        <section className="section-dashed px-6 py-16 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <FounderPath />
+          </div>
+        </section>
 
         <section className="section-dashed px-6 py-16 md:py-24">
           <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="font-display max-w-2xl text-4xl uppercase leading-tight md:text-5xl">
-                Theory is useful only when it changes what the market does next.
+                Ideas only matter when they bring in customers.
               </h2>
               <p className="mt-4 max-w-xl text-[var(--text-secondary)]">
-                See the mechanisms behind the studio model, then apply when you want them working for your market.
+                See the psychology behind the work, then put it to work for your business.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

@@ -170,7 +170,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-6">See This in Action</h2>
           <p className="text-[var(--text-secondary)] mb-8 text-lg">
-            Watch how we applied these mechanisms to achieve real results.
+            See how we used these ideas to take a real business from invisible to #1.
           </p>
           <Link
             href="/#strike-den"

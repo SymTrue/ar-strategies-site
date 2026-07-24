@@ -49,7 +49,7 @@ export function AboutDust() {
     <section className="section-dashed px-6 py-16 md:py-24" aria-hidden="true">
       <div className="mx-auto max-w-7xl">
         <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-secondary)] mb-6" style={mono}>
-          Fig. 02, The three jobs of local marketing
+          Fig. 01, The three jobs of local marketing
         </p>
         <div className="relative h-[380px] md:h-[440px] rounded-lg border border-[var(--border)] overflow-hidden bg-[#0a0806]">
           {reduced ? (
