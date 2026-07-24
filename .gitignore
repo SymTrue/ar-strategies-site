@@ -44,3 +44,7 @@ next-env.d.ts
 
 # graphify (local knowledge-graph tooling output — derived, not source)
 /graphify-out/
+
+# claude-seo (third-party dev tool cloned locally — not part of the app; was
+# accidentally committed as a phantom submodule with no .gitmodules mapping)
+/claude-seo/
