@@ -339,7 +339,7 @@ export default function Home() {
       </section>
 
       {/* Process - horizontal step sequence */}
-      <section id="process" ref={processRef} className="py-24 md:py-32 px-6 section-dashed section-premium dense">
+      <section id="process" ref={processRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-7xl mx-auto">
           <SectionKicker n="02" label="Process" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
@@ -411,7 +411,7 @@ export default function Home() {
       </section>
 
       {/* Statement */}
-      <section ref={quoteRef} className="py-24 md:py-32 px-6 section-dashed section-premium subtle">
+      <section ref={quoteRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-4xl mx-auto text-center">
           <h2 data-reveal className="font-display text-4xl md:text-6xl uppercase leading-tight text-balance">
             If they can&apos;t find you,

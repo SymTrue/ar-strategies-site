@@ -158,11 +158,36 @@ p {
   box-shadow: 0 8px 26px -6px rgba(194, 65, 12, 0.65);
 }
 
-.site-shell {
+/* One continuous ambient behind the whole site. Wrappers are transparent so
+   this single layer flows through every section (no per-section backgrounds).
+   Technique (researched aurora/mesh): layered radial "spotlights" in the brand
+   orange over a near-black base, heavily blurred so they melt into smooth
+   organic light with no banding. Rendered on body::before (fixed) so it's
+   viewport-anchored and continuous while content scrolls over it — and kept
+   OFF .site-shell, whose overflow-x: clip would clip a fixed layer. */
+.site-shell { background: transparent; }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -14%; /* overscan so the blurred edges never reveal a hard border */
+  z-index: -1;
+  pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 44rem at 12% 4%, var(--shell-glow), transparent 70%),
-    radial-gradient(ellipse 65% 40rem at 88% 52%, rgba(234, 88, 12, 0.08), transparent 72%),
-    var(--background);
+    radial-gradient(38% 46% at 15% 18%, rgba(249, 115, 22, 0.17), transparent 68%),
+    radial-gradient(44% 50% at 85% 26%, rgba(234, 88, 12, 0.14), transparent 70%),
+    radial-gradient(50% 55% at 66% 68%, rgba(251, 146, 60, 0.12), transparent 70%),
+    radial-gradient(42% 48% at 22% 88%, rgba(194, 65, 12, 0.15), transparent 72%);
+  filter: blur(90px) saturate(1.1);
+}
+
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(40% 48% at 15% 16%, rgba(234, 88, 12, 0.10), transparent 72%),
+    radial-gradient(46% 52% at 85% 28%, rgba(249, 115, 22, 0.08), transparent 74%),
+    radial-gradient(50% 55% at 66% 72%, rgba(251, 146, 60, 0.07), transparent 74%),
+    radial-gradient(42% 50% at 22% 90%, rgba(234, 88, 12, 0.08), transparent 76%);
+  filter: blur(100px) saturate(1.05);
 }
 
 .site-header {
@@ -172,7 +197,6 @@ p {
 
 .site-footer {
   background: var(--footer-gradient);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .hero-overlay {
@@ -321,62 +345,12 @@ button:disabled {
 }
 
 /* Section premium backgrounds */
+/* Sections carry no background of their own — the continuous .site-shell
+   background flows through them so the page reads as one smooth surface.
+   Kept position: relative for absolutely-positioned children (glows on cards,
+   reg-marks, etc.). */
 .section-premium {
   position: relative;
-  background: var(--section-gradient);
-}
-
-[data-theme="light"] .section-premium {
-  background: var(--section-gradient);
-}
-
-#process.section-premium {
-  background:
-    radial-gradient(ellipse 65% 34rem at 92% 20%, rgba(234, 88, 12, 0.1), transparent 70%),
-    var(--section-gradient);
-}
-
-#why.section-premium {
-  background:
-    radial-gradient(ellipse 58% 34rem at 6% 50%, rgba(249, 115, 22, 0.08), transparent 72%),
-    var(--section-gradient);
-}
-
-#contact.section-premium {
-  background:
-    radial-gradient(ellipse 70% 36rem at 50% 100%, rgba(234, 88, 12, 0.14), transparent 68%),
-    linear-gradient(180deg, rgba(234, 88, 12, 0.08) 0%, rgba(0, 0, 0, 0) 88%);
-}
-
-[data-theme="light"] #contact.section-premium {
-  background:
-    radial-gradient(ellipse 70% 36rem at 50% 100%, rgba(234, 88, 12, 0.16), transparent 68%),
-    linear-gradient(180deg, rgba(234, 88, 12, 0.08) 0%, rgba(250, 250, 249, 0) 88%);
-}
-
-[data-theme="light"] #process.section-premium {
-  background:
-    radial-gradient(ellipse 65% 34rem at 92% 20%, rgba(234, 88, 12, 0.12), transparent 70%),
-    linear-gradient(180deg, #fff7ee 0%, #ffffff 60%);
-}
-
-[data-theme="light"] #why.section-premium {
-  background:
-    radial-gradient(ellipse 58% 34rem at 6% 50%, rgba(234, 88, 12, 0.1), transparent 72%),
-    #ffffff;
-}
-
-.section-premium::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 20px 20px;
-  pointer-events: none;
-}
-
-[data-theme="light"] .section-premium::before {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
 }
 
 /* Reveal animation */
@@ -510,16 +484,7 @@ button, a[role="button"], [role="button"] {
   min-height: 44px;
 }
 
-/* Section-specific dot-grid variations */
-.section-premium.dense::before {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 16px 16px;
-}
-
-.section-premium.subtle::before {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
+/* (dot-grid removed — the page is one smooth continuous surface now) */
 
 /* Secondary accent variations for visual depth */
 .accent-light {
@@ -658,24 +623,12 @@ textarea:focus:not(:focus-visible),
 }
 
 /* --- Dashed section containment: schematic rule between sections --- */
-/* Section seam: a whisper-soft, center-weighted hairline that fades to nothing
-   at both ends — so sections read as one continuous page instead of hard-lined,
-   boxed-off blocks. Replaces the old edge-to-edge dashed rule. Component
-   "wrapping" (cards, kicker chips, in-card dividers) keeps its own borders. */
+/* No visible separator between sections at all — spacing + the one continuous
+   background do the work. Class kept as a no-op so the section structure
+   ("wrapping") stays intact without drawing any line. */
 .section-dashed {
   position: relative;
   border-top: none !important;
-}
-.section-dashed::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 18%;
-  right: 18%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border) 50%, transparent);
-  opacity: 0.55;
-  pointer-events: none;
 }
 
 /* --- Registration corner marks (technical drawing accents) --- */

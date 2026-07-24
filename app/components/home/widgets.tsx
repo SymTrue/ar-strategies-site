@@ -21,36 +21,36 @@ export function PrecisionCursor() {
     const ring = ringRef.current;
     if (!ring) return;
 
+    // Pinned directly to the pointer (one rAF-batched write per event, no
+    // lerp/easing toward a target) so the ring never trails or reads as
+    // "displaced" during normal-speed mouse movement — a lerp-follow ring
+    // visibly lags behind real cursor velocity, which looked like a bug.
     let raf = 0;
-    let targetX = -100;
-    let targetY = -100;
-    let x = targetX;
-    let y = targetY;
+    let pendingX = -100;
+    let pendingY = -100;
+
+    const applyPosition = () => {
+      ring.style.transform = `translate3d(${pendingX}px, ${pendingY}px, 0)`;
+      raf = 0;
+    };
 
     const onMove = (e: PointerEvent) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
+      pendingX = e.clientX;
+      pendingY = e.clientY;
       ring.classList.add('is-visible');
       const interactive = (e.target as Element | null)?.closest?.('a, button, input, [role="button"]');
       ring.classList.toggle('is-active', !!interactive);
+      if (!raf) raf = requestAnimationFrame(applyPosition);
     };
     const onLeave = () => ring.classList.remove('is-visible');
 
-    const tick = () => {
-      x += (targetX - x) * 0.22;
-      y += (targetY - y) * 0.22;
-      ring.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      raf = requestAnimationFrame(tick);
-    };
-
     window.addEventListener('pointermove', onMove, { passive: true });
     document.documentElement.addEventListener('pointerleave', onLeave);
-    raf = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener('pointermove', onMove);
       document.documentElement.removeEventListener('pointerleave', onLeave);
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
     };
   }, [container]);
 
