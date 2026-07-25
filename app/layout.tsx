@@ -115,7 +115,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full bg-[var(--background)] text-[var(--text-primary)] transition-colors duration-300">
+      <body className="min-h-full text-[var(--text-primary)] transition-colors duration-300">
         <ThemeProvider>
           {children}
           <ScrollToTopButton />

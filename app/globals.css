@@ -158,36 +158,54 @@ p {
   box-shadow: 0 8px 26px -6px rgba(194, 65, 12, 0.65);
 }
 
-/* One continuous ambient behind the whole site. Wrappers are transparent so
-   this single layer flows through every section (no per-section backgrounds).
-   Technique (researched aurora/mesh): layered radial "spotlights" in the brand
-   orange over a near-black base, heavily blurred so they melt into smooth
-   organic light with no banding. Rendered on body::before (fixed) so it's
-   viewport-anchored and continuous while content scrolls over it — and kept
-   OFF .site-shell, whose overflow-x: clip would clip a fixed layer. */
-.site-shell { background: transparent; }
+/* ---- One continuous ambient background for the whole site ----------------
+   Technique (mesh/aurora): layered radial "spotlights" in the brand palette
+   over a near-black base, heavily blurred so they melt into smooth organic
+   light. The film grain above (body::before) breaks up any residual banding.
 
-body::before {
+   Stacking notes, both of which previously made this invisible:
+   - It lives on body::AFTER, because body::before is already the grain layer;
+     sharing one pseudo-element merged the rules and inherited the grain's
+     opacity: 0.05 + mix-blend-mode: overlay.
+   - A z-index: -1 child paints BEHIND its parent's background, so `body` must
+     be transparent and the base colour must sit on `html`, or the body fill
+     covers the whole effect.
+   Kept off .site-shell, whose overflow-x: clip would clip a fixed layer. */
+html {
+  background: var(--background);
+}
+
+body {
+  background: transparent;
+}
+
+.site-shell {
+  background: transparent;
+}
+
+body::after {
   content: "";
   position: fixed;
-  inset: -14%; /* overscan so the blurred edges never reveal a hard border */
+  inset: -20%; /* overscan so blurred edges never reveal a hard border */
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(38% 46% at 15% 18%, rgba(249, 115, 22, 0.17), transparent 68%),
-    radial-gradient(44% 50% at 85% 26%, rgba(234, 88, 12, 0.14), transparent 70%),
-    radial-gradient(50% 55% at 66% 68%, rgba(251, 146, 60, 0.12), transparent 70%),
-    radial-gradient(42% 48% at 22% 88%, rgba(194, 65, 12, 0.15), transparent 72%);
-  filter: blur(90px) saturate(1.1);
+    radial-gradient(42% 42% at 16% 10%, rgba(249, 115, 22, 0.30), transparent 62%),
+    radial-gradient(46% 44% at 86% 28%, rgba(194, 65, 12, 0.26), transparent 64%),
+    radial-gradient(48% 46% at 26% 58%, rgba(251, 146, 60, 0.17), transparent 66%),
+    radial-gradient(52% 50% at 80% 80%, rgba(234, 88, 12, 0.24), transparent 66%),
+    radial-gradient(60% 40% at 45% 100%, rgba(120, 53, 15, 0.30), transparent 70%);
+  filter: blur(110px) saturate(1.18);
 }
 
-[data-theme="light"] body::before {
+[data-theme="light"] body::after {
   background:
-    radial-gradient(40% 48% at 15% 16%, rgba(234, 88, 12, 0.10), transparent 72%),
-    radial-gradient(46% 52% at 85% 28%, rgba(249, 115, 22, 0.08), transparent 74%),
-    radial-gradient(50% 55% at 66% 72%, rgba(251, 146, 60, 0.07), transparent 74%),
-    radial-gradient(42% 50% at 22% 90%, rgba(234, 88, 12, 0.08), transparent 76%);
-  filter: blur(100px) saturate(1.05);
+    radial-gradient(42% 42% at 16% 10%, rgba(249, 115, 22, 0.16), transparent 66%),
+    radial-gradient(46% 44% at 86% 28%, rgba(234, 88, 12, 0.13), transparent 68%),
+    radial-gradient(48% 46% at 26% 58%, rgba(251, 146, 60, 0.10), transparent 70%),
+    radial-gradient(52% 50% at 80% 80%, rgba(234, 88, 12, 0.12), transparent 68%),
+    radial-gradient(60% 40% at 45% 100%, rgba(217, 119, 6, 0.12), transparent 72%);
+  filter: blur(120px) saturate(1.08);
 }
 
 .site-header {
@@ -506,6 +524,10 @@ button, a[role="button"], [role="button"] {
 /* Brand watermark pattern (subtle background overlay) */
 .brand-watermark {
   position: relative;
+  /* Clip the oversized "AR" glyph below. Without this its 384px line box
+     overflows the footer and adds ~97px of empty scrollable space under the
+     page, which read as a second, blank footer. */
+  overflow: hidden;
 }
 
 .brand-watermark::after {
@@ -682,51 +704,6 @@ textarea:focus:not(:focus-visible),
 .node-pulse.delay-1 { animation-delay: 0.8s; }
 .node-pulse.delay-2 { animation-delay: 1.6s; }
 .node-pulse.delay-3 { animation-delay: 2.4s; }
-
-/* --- Precision cursor (fine pointers only; native cursor stays) --- */
-.precision-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 28px;
-  height: 28px;
-  margin: -14px 0 0 -14px;
-  border: 1px solid var(--brand);
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-  scale: 1;
-  /* Position is driven by JS via `transform: translate3d(...)` every frame
-     (see PrecisionCursor in home/widgets.tsx) — the hover size change uses
-     the independent `scale` property instead of width/height/margin so it
-     never triggers layout, and so it doesn't collide with JS's transform. */
-  transition: scale 0.25s ease, opacity 0.3s ease, border-color 0.25s ease;
-  will-change: transform;
-}
-.precision-ring::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 3px;
-  height: 3px;
-  margin: -1.5px 0 0 -1.5px;
-  border-radius: 50%;
-  background: var(--brand);
-}
-.precision-ring.is-visible {
-  opacity: 0.6;
-}
-.precision-ring.is-active {
-  scale: 1.5714;
-  opacity: 0.9;
-}
-@media (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .precision-ring {
-    display: none;
-  }
-}
 
 /* ============================================================
    Flagship graphics layer — data terminal, live network, charts

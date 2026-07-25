@@ -24,7 +24,7 @@ import {
   PrincipleTransparencyIcon,
   PrincipleNoLockInIcon,
 } from './components/home/icons';
-import { PrecisionCursor, ScrollProgress } from './components/home/widgets';
+import { ScrollProgress } from './components/home/widgets';
 import { LeadCaptureForm } from './components/home/LeadCaptureForm';
 
 // Lazy-mount GPU-heavy components below fold, saves 3-4 canvases upfront
@@ -245,7 +245,6 @@ export default function Home() {
         )}
         <ScrollProgress />
       </nav>
-      <PrecisionCursor />
 
       <main id="main-content">
       {/* Hero: living neural network beneath the typography */}
