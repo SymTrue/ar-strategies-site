@@ -3,12 +3,13 @@
 import { useEffect, useRef } from 'react';
 
 /* Diagnostic variant of the hero NeuralNet: same glow-sprite canvas
-   language (radial gradients, dark-mode blue-white / light-mode brand
-   orange activation), applied to a small labeled graph instead of an
-   ambient particle canopy. One hub node (the business), four surface
+   language (radial gradients), applied to a small labeled graph instead of
+   an ambient particle canopy. One hub node (the business), four surface
    nodes in a ring, three question satellites per surface. Nodes and
    edges light up live as the visitor answers, so the diagram doubles
-   as the score readout. */
+   as the score readout — the "pass" glow is Electric Ice (the site's one
+   live/diagnostic signal accent); the hub and surface structure stay
+   steel/neutral. */
 
 export interface DiagnosticAnswer {
   surfaceIndex: number;
@@ -69,7 +70,11 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const isDark = () => themeRef.current === 'dark';
-    const passGlow = makeGlowSprite('rgba(83,107,124,0.95)', 160);
+    // The "pass" signal (an answer just confirmed true) is a live/diagnostic
+    // event, not the general brand color — Electric Ice, mirroring
+    // app/globals.css's --signal-electric-rgb. Structural elements (hub,
+    // surface nodes, waiting/neutral states) stay steel/neutral below.
+    const passGlow = makeGlowSprite('rgba(121,213,255,0.95)', 160);
     const dimGlowDark = makeGlowSprite('rgba(140,170,255,0.5)', 140);
     const dimGlowLight = makeGlowSprite('rgba(120,120,130,0.35)', 140);
     const hubGlowDark = makeGlowSprite('rgba(200,215,255,0.9)', 200);
@@ -176,7 +181,11 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
             ctx.globalAlpha = 0.9;
             ctx.drawImage(g, qx - s / 2, qy - s / 2, s, s);
             ctx.globalAlpha = 1;
-            ctx.fillStyle = 'rgba(255,214,170,0.95)';
+            // Was rgba(255,214,170,...) — a literal orange leftover from the
+            // original brand palette, missed by earlier sweeps. This dot
+            // fill marks the same "pass" event as passGlow above, so it
+            // gets the same Electric Ice color, not the general brand color.
+            ctx.fillStyle = 'rgba(121,213,255,0.95)';
           } else if (val === false) {
             ctx.fillStyle = isDark() ? 'rgba(230,232,240,0.75)' : 'rgba(60,60,68,0.6)';
           } else {

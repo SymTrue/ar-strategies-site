@@ -10,6 +10,13 @@
   --color-accent: #91a7b8;      /* muted signal steel (was --color-orange, then purple) */
   --color-accent-dark: #536b7c;
   --color-accent-light: #aec1d0;
+  /* Electric Ice: high-energy signal accent, not the brand colour — see
+     app/globals.css for the full usage rules. Consolidated here so this
+     file and design-tokens.json never drift out of sync with it again. */
+  --signal-electric: #79d5ff;
+  --signal-electric-rgb: 121, 213, 255;
+  --signal-electric-soft: rgba(121, 213, 255, 0.14);
+  --signal-electric-glow: rgba(121, 213, 255, 0.32);
   --color-gray-900: #111111;
   --color-gray-800: #1a1a1a;
   --color-gray-700: #2d2d2d;

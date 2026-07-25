@@ -20,12 +20,14 @@ interface GlowCardProps {
    the card (hue = base + xp * spread); saturation keeps it a muted "signal"
    accent rather than a neon one. 'steel' is the only brand-sanctioned
    default: hue stays within 205-210 (spread is deliberately tight) at
-   18-28% saturation — never 100%, which is what made the previous purple
+   32-38% saturation — never 100%, which is what made the previous purple
    preset read as neon once combined with the border layer's brightness
-   amplification (removed in globals.css). The other presets are generic,
-   reusable hue options for explicit non-brand use, not silently loaded. */
+   amplification (removed in globals.css, not restored — this saturation
+   bump is a deliberate, separate readability fix, not a step back toward
+   that). The other presets are generic, reusable hue options for explicit
+   non-brand use, not silently loaded. */
 const glowColorMap = {
-  steel:  { base: 207, spread: 4,   saturation: 22 },
+  steel:  { base: 207, spread: 4,   saturation: 35 },
   blue:   { base: 220, spread: 20,  saturation: 45 },
   purple: { base: 280, spread: 20,  saturation: 40 },
   green:  { base: 120, spread: 20,  saturation: 40 },
@@ -98,9 +100,9 @@ const GlowCard: React.FC<GlowCardProps> = ({
       '--backdrop': 'hsl(0 0% 60% / 0.12)',
       '--backup-border': 'var(--backdrop)',
       '--size': '220',
-      '--outer': '0.5',
+      '--outer': '0.65',
       '--bg-spot-opacity': '0.08',
-      '--border-spot-opacity': '0.6',
+      '--border-spot-opacity': '0.72',
       '--border-light-opacity': '0.5',
       '--border-size': 'calc(var(--border, 2) * 1px)',
       '--spotlight-size': 'calc(var(--size, 150) * 1px)',

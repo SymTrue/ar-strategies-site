@@ -549,11 +549,13 @@ export default function Home() {
                             <circle className="chart-dot" cx="215" cy="43" r="2.5" />
                             <circle className="chart-dot" cx="259" cy="33" r="2.5" />
                           </g>
-                          {/* Terminal node: the #1 result, lands after the line completes */}
+                          {/* Terminal node: the #1 result, lands after the line completes.
+                              The one proof-moment Electric Ice signal (BRAND_GUIDELINES) —
+                              everywhere else in this chart stays steel/brand. */}
                           <g className="chart-terminal-node">
-                            <circle cx="304" cy="28" r="8" stroke="var(--brand)" strokeWidth="1" opacity="0.5" />
-                            <circle cx="304" cy="28" r="3.5" fill="var(--brand)" className="node-pulse" />
-                            <text x="292" y="18" textAnchor="end" fill="var(--brand)" style={{ font: '600 9px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.1em' }}>RANKED #1</text>
+                            <circle cx="304" cy="28" r="8" stroke="var(--signal-electric)" strokeWidth="1" opacity="0.5" />
+                            <circle cx="304" cy="28" r="3.5" fill="var(--signal-electric)" className="node-pulse" />
+                            <text x="292" y="18" textAnchor="end" fill="var(--signal-electric)" style={{ font: '600 9px ui-monospace, SFMono-Regular, Menlo, monospace', letterSpacing: '0.1em' }}>RANKED #1</text>
                           </g>
                         </svg>
                       </div>

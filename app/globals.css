@@ -32,6 +32,18 @@
   --cta-border: rgba(145, 167, 184, 0.35);
   --cta-border-hover: rgba(174, 193, 208, 0.55);
 
+  /* Electric Ice: ONE high-energy signal accent, not the brand colour.
+     Reserved for ~2-3% of visible weight — hero neural-net activation +
+     travelling pulses, a restrained CTA hover/focus glow, and one proof-
+     moment result marker. Theme-invariant (not overridden in [data-theme
+     ="light"]) so it reads as a single consistent signal everywhere it
+     appears. Never used for text, default borders, icons, or broad
+     gradients — see BRAND_GUIDELINES.md. */
+  --signal-electric: #79d5ff;
+  --signal-electric-rgb: 121, 213, 255;
+  --signal-electric-soft: rgba(121, 213, 255, 0.14);
+  --signal-electric-glow: rgba(121, 213, 255, 0.32);
+
   --surface: var(--bg-elevated);
   --surface-hover: #191f27;
   --border: #27313b;
@@ -175,7 +187,23 @@ p {
 .btn-primary:hover {
   background: var(--cta-bg-hover);
   border-color: var(--cta-border-hover);
-  box-shadow: 0 6px 22px -8px rgba(83, 107, 124, 0.55);
+  /* Restrained Electric Ice edge on top of the existing steel shadow — a
+     reflected glow, not a cyan-filled button. Silver fill is untouched. */
+  box-shadow:
+    0 6px 22px -8px rgba(83, 107, 124, 0.55),
+    0 0 0 1px var(--signal-electric-soft),
+    0 0 16px var(--signal-electric-glow);
+}
+
+/* Focus-visible: layered on top of the site-wide steel outline (below),
+   not a replacement for it — the outline stays for a11y, this box-shadow
+   adds the same restrained electric edge the CTA gets on hover. Scoped to
+   .btn-primary only; the global focus ring for every other control stays
+   steel. */
+.btn-primary:focus-visible {
+  box-shadow:
+    0 0 0 1px var(--signal-electric-soft),
+    0 0 16px var(--signal-electric-glow);
 }
 
 /* ---- "Signal graphite": one continuous ambient for the whole site --------
@@ -310,9 +338,9 @@ body::after {
    revealed only via .is-glowing, toggled on pointerenter/pointerleave —
    without this gate the glow is always partially visible everywhere, which
    is what made ungated cards look like they were all lit at once. The
-   default preset ('steel') keeps saturation low (18-28%) and there is no
-   brightness amplification, so the glow reads as a muted signal accent,
-   not neon. */
+   default preset ('steel') keeps saturation moderate (32-38%) and there is
+   no brightness amplification, so the glow reads as a legible muted signal
+   accent, not neon. */
 [data-glow]::before,
 [data-glow]::after {
   pointer-events: none;
@@ -341,7 +369,7 @@ body::after {
     calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
     calc(var(--x, 0) * 1px)
     calc(var(--y, 0) * 1px),
-    hsl(var(--hue, 210) calc(var(--saturation, 22) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 0.6)), transparent 100%
+    hsl(var(--hue, 210) calc(var(--saturation, 35) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 0.72)), transparent 100%
   );
   /* No brightness amplification: a brightness(2) filter here is what made
      even a muted low-saturation hue read as neon. Saturation alone now
@@ -372,7 +400,7 @@ body::after {
 }
 
 [data-glow].is-glowing [data-glow] {
-  opacity: var(--outer, 0.5);
+  opacity: var(--outer, 0.65);
 }
 
 [data-glow] > [data-glow]::before {
@@ -603,21 +631,17 @@ button, a[role="button"], [role="button"] {
 
 /* (dot-grid removed — the page is one smooth continuous surface now) */
 
-/* Secondary accent variations for visual depth */
+/* Secondary accent variation for visual depth. There is no .accent-dark /
+   .hover-accent-dark counterpart on purpose: --brand-dark (#536b7c) only
+   reaches ~3.2-3.5:1 against the dark backgrounds, below WCAG AA's 4.5:1
+   for normal text — it's a border/glow-source color, not a text color. Use
+   --brand or --brand-light for accent text instead. */
 .accent-light {
   color: var(--brand-light);
 }
 
-.accent-dark {
-  color: var(--brand-dark);
-}
-
 .hover-accent-light:hover {
   color: var(--brand-light);
-}
-
-.hover-accent-dark:hover {
-  color: var(--brand-dark);
 }
 
 /* Brand watermark pattern (subtle background overlay) */
@@ -926,7 +950,11 @@ textarea:focus:not(:focus-visible),
 .in-view .chart-dot:nth-of-type(6) { transition-delay: 1.95s; }
 .chart-terminal-node {
   opacity: 0;
-  transition: opacity 0.5s ease 2.3s;
+  transition: opacity 0.5s ease 2.3s, filter 0.5s ease 2.3s;
+  /* The one Strike Den proof-moment Electric Ice signal — a faint reflected
+     glow behind the RANKED #1 marker only; the rest of the chart (line,
+     intermediate dots) stays steel/brand. */
+  filter: drop-shadow(0 0 6px var(--signal-electric-glow));
 }
 .in-view .chart-terminal-node {
   opacity: 1;

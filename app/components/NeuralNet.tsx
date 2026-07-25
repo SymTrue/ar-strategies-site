@@ -4,9 +4,12 @@ import { useEffect, useRef } from 'react';
 
 /* Premium hero background: dense neural canopy surrounding hero text.
    8-lobe halo + inner ring, ~500 nodes, ~2000 edges.
-   Dark mode: white nodes + blue glow.
-   Light mode: monochrome slate nodes + muted signal steel (#536b7c) accent glows only on activation.
-   Cursor glow halo (Interactive Cursor pattern).
+   Resting nodes: white (dark mode) / monochrome slate (light mode) — no
+   accent color at rest. Activation glow, activation ring, and traveling
+   edge pulses are the hero's one signal moment: Electric Ice (#79d5ff),
+   shared across both themes, only visible while a node/edge is firing.
+   Cursor glow halo stays muted steel (Interactive Cursor pattern) — that's
+   a decorative interaction detail, not the signal.
    Canvas 2D, pre-rendered sprites. 60fps. */
 
 interface Node {
@@ -182,20 +185,18 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
           mkTier('rgba(85,95,115,0.60)', 'rgba(200,210,225,0.30)', 28, 1.8),  // deep: slate-400/300
         ];
 
-    // Accent sprites: activation glow
-    // Dark mode: cyan-blue accent (brand blue) — unrelated to the orange
-    // rebrand, kept as-is; not part of the orange/red cleanup.
-    const sAccDark   = mkTier('rgba(56,189,248,0.72)',  'rgba(125,211,252,0.35)');
-    // Light mode: muted signal steel #536b7c (rgba(83,107,124,...))
-    const sAccLight  = mkTier('rgba(83,107,124,0.95)',  'rgba(145,167,184,0.58)');
-
-    // Rings: soft feathered via makeRing
-    const sRingDark  = makeRing('rgba(56,189,248,0.18)',    'rgba(56,189,248,0.03)');
-    const sRingLight = makeRing('rgba(83,107,124,0.24)',    'rgba(83,107,124,0.06)');
-
-    // Pulses: traveling edge highlights
-    const sPulseDark = mkTier('rgba(125,211,252,0.88)', 'rgba(56,189,248,0.38)', 24);
-    const sPulseLight= mkTier('rgba(145,167,184,0.95)', 'rgba(174,193,208,0.55)', 24);
+    // Accent sprites: node activation glow, activation ring, and traveling
+    // edge pulses are one "signal firing" event, so they share a single hue
+    // — Electric Ice (--signal-electric-rgb: 121,213,255) — instead of the
+    // previous split (dark mode: ad hoc cyan-blue; light mode: dull steel).
+    // Shared across both themes on purpose: this is the hero's one
+    // high-energy signal, not a per-theme brand color. Literal, not a live
+    // CSS var read — canvas 2D has no access to custom properties, so this
+    // mirrors app/globals.css's --signal-electric-rgb by value (same
+    // convention already used for the steel sprites above).
+    const sAcc   = mkTier('rgba(121,213,255,0.75)', 'rgba(190,235,255,0.34)');
+    const sRing  = makeRing('rgba(121,213,255,0.20)', 'rgba(121,213,255,0.035)');
+    const sPulse = mkTier('rgba(190,235,255,0.85)', 'rgba(121,213,255,0.36)', 24);
 
     // Cursor glow sprite: subtle 120px halo
     const sCursorDark  = mkTier('rgba(56,189,248,0.22)', 'rgba(56,189,248,0.06)', 120);
@@ -260,9 +261,13 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
 
+      // Near-invisible ambient wash (broad background gradient — Electric
+      // Ice is explicitly not used here, per the "no broad gradients" rule).
+      // Light-mode stops were still literal orange (#f57d28-ish) leftover
+      // from the original brand palette; retuned to steel-neutral.
       const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.5);
-      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(245,125,40,0.005)');
-      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(255,175,80,0.003)');
+      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(83,107,124,0.005)');
+      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(83,107,124,0.003)');
       bg.addColorStop(1, 'transparent');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
@@ -338,9 +343,9 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       drawBucket(bucketEdges[2], 0.35, 0.26, 0.42);
 
       const spBase  = isDark ? sDarkTier : sLightTier;  // 4-tier array
-      const spAcc   = isDark ? sAccDark   : sAccLight;
-      const spRing  = isDark ? sRingDark  : sRingLight;
-      const spPulse = isDark ? sPulseDark : sPulseLight;
+      const spAcc   = sAcc;
+      const spRing  = sRing;
+      const spPulse = sPulse;
       const spCursor= isDark ? sCursorDark: sCursorLight;
 
       for (const n of nodes) {
