@@ -2,90 +2,110 @@
 @import "./design-tokens.css";
 
 :root {
-  /* OLED-optimized layered dark depths (no pure #000 smear) */
-  --bg-deepest: #020203;   /* root background — avoids OLED smear */
-  --bg-base:    #0a0806;   /* page surface */
-  --bg-elevated: #12100e;  /* cards, sections */
-  --bg-overlay:  rgba(2, 2, 3, 0.82); /* nav / modal backdrop */
+  /* OLED-optimized layered dark depths (no pure #000 smear), navy-tinted —
+     matches the actual AR Strategies logo (monochrome white/silver/grey),
+     not the orange/red this file used to hold. See BRAND_GUIDELINES.md for
+     the full rationale for the 2026-07 rebrand. */
+  --bg-deepest: #03040a;   /* root background — avoids OLED smear */
+  --bg-base:    #090c16;   /* page surface */
+  --bg-elevated: #121a2c;  /* cards, sections */
+  --bg-overlay:  rgba(3, 5, 12, 0.82); /* nav / modal backdrop */
 
   --background: var(--bg-base);
-  --foreground: #ffffff;
-  --brand: #f97316;          /* accent orange (bright, for text/icons on dark) */
-  --brand-light: #fbbf24;    /* amber / gold */
-  --brand-dark: #c2410c;     /* deep burnt orange */
-  --brand-ember: #c2410c;    /* deep orange — far end of the heat ramp (stays on-brand) */
-  --color-orange: #f97316;
+  --foreground: #f5f6fa;
+  /* 2026-07-25 retune: v1 of this palette made purple Committed (headline
+     color, solid CTA fill, ~30%+ of visual weight) — too loud for a brand
+     whose actual logo is pure monochrome, and saturated accents "vibrate"
+     against dark surfaces (see BRAND_GUIDELINES.md). Desaturated + pulled
+     back to Restrained: neutrals carry the page, purple only for hairlines,
+     glow, and small deliberate touches — closer to Vercel's "the ink IS the
+     brand" approach. */
+  --brand: #9b89d2;           /* desaturated midnight purple (verified 4.5:1+ on bg-base AND bg-elevated) */
+  --brand-light: #c2b8e8;     /* light violet — hover-brighten states */
+  --brand-dark: #6b5f96;      /* muted deep violet — CTA hairline border, background/gradient fills; not text (fails text contrast) */
+  --brand-ember: #6b5f96;
+  --color-accent: #9b89d2;    /* focus rings + misc accent primitive (was --color-orange) */
 
-  /* Accessible CTA fill (white text passes AA in both themes) */
-  --cta-bg: #c2410c;
-  --cta-bg-hover: #9a3412;
+  /* CTA is near-black (matches surface), not a solid purple fill — a thin
+     purple hairline + glow on hover is the only color, not the button
+     itself. White text passes AA trivially against a near-black fill. */
+  --cta-bg: var(--bg-elevated);
+  --cta-bg-hover: #1a2438;
   --cta-text: #ffffff;
+  --cta-border: rgba(107, 95, 150, 0.55);
+  --cta-border-hover: rgba(155, 137, 210, 0.85);
 
   --surface: var(--bg-elevated);
-  --surface-hover: rgba(26, 22, 18, 0.92);
-  --border: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(249, 115, 22, 0.42);
-  --text-primary: #fefaf6;
-  --text-secondary: #e2d9d2;
-  --text-tertiary: #a99e96;
+  --surface-hover: rgba(30, 38, 58, 0.92);
+  --border: rgba(155, 137, 210, 0.08);
+  --border-hover: rgba(155, 137, 210, 0.38);
+  --text-primary: #f5f6fa;
+  --text-secondary: #c7cbdb;
+  --text-tertiary: #8890a6;
   --nav-background: var(--bg-overlay);
   --grain-opacity: 0.05;
 
   /* "Signal black" ambient — 2 directed light sources + 1 faint accent, not
-     a diffuse wash. See body::after in globals.css for placement/rationale. */
-  --ambient-key: rgba(249, 115, 22, 0.20);
-  --ambient-fill: rgba(194, 65, 12, 0.15);
-  --ambient-accent: rgba(251, 191, 36, 0.06);
+     a diffuse wash. See body::after in globals.css for placement/rationale.
+     Navy fill + muted-purple key gives the two-tone palette its own
+     presence in the ambient, not just a straight purple wash. */
+  --ambient-key: rgba(107, 95, 150, 0.18);
+  --ambient-fill: rgba(30, 58, 95, 0.20);
+  --ambient-accent: rgba(155, 137, 210, 0.05);
 
-  --card-border-gradient: linear-gradient(160deg, rgba(249, 115, 22, 0.45), rgba(255, 255, 255, 0.08) 45%, rgba(255, 255, 255, 0.03) 100%);
+  --card-border-gradient: linear-gradient(160deg, rgba(155, 137, 210, 0.35), rgba(255, 255, 255, 0.08) 45%, rgba(255, 255, 255, 0.03) 100%);
 
-  --header-gradient: linear-gradient(110deg, rgba(249, 115, 22, 0.14) 0%, rgba(11, 8, 6, 0) 40%, rgba(249, 115, 22, 0.06) 100%);
-  --hero-overlay: linear-gradient(180deg, rgba(11, 8, 6, 0.08) 0%, rgba(11, 8, 6, 0.3) 48%, rgba(11, 8, 6, 0.72) 78%, var(--background) 100%);
-  --hero-kicker-bg: rgba(11, 8, 6, 0.28);
-  --hero-kicker-border: rgba(251, 191, 36, 0.28);
-  --icon-tile: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(249, 115, 22, 0.1));
-  --icon-tile-border: rgba(249, 115, 22, 0.34);
+  --header-gradient: linear-gradient(110deg, rgba(107, 95, 150, 0.12) 0%, rgba(3, 5, 12, 0) 40%, rgba(107, 95, 150, 0.05) 100%);
+  --hero-overlay: linear-gradient(180deg, rgba(3, 5, 12, 0.08) 0%, rgba(3, 5, 12, 0.3) 48%, rgba(3, 5, 12, 0.72) 78%, var(--background) 100%);
+  --hero-kicker-bg: rgba(3, 5, 12, 0.28);
+  --hero-kicker-border: rgba(155, 137, 210, 0.22);
+  --icon-tile: linear-gradient(135deg, rgba(155, 137, 210, 0.12), rgba(107, 95, 150, 0.08));
+  --icon-tile-border: rgba(155, 137, 210, 0.28);
 }
 
 [data-theme="light"] {
-  /* Clean white base with high-contrast dark text */
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  /* Clean cool-white base with high-contrast dark text */
+  --background: #fafbfe;
+  --foreground: #0a0b12;
 
-  --brand: #ea580c;          /* accent orange on light */
-  --brand-light: #d97706;    /* amber, darkened for light-bg contrast */
-  --brand-dark: #9a3412;
-  --brand-ember: #9a3412;
-  --color-orange: #c2410c;
+  --brand: #5f52a3;           /* desaturated midnight purple, darkened for light-bg contrast */
+  --brand-light: #6f61b8;     /* hover state, still dark enough for AA on white */
+  --brand-dark: #453a78;
+  --brand-ember: #453a78;
+  --color-accent: #453a78;    /* focus rings + misc accent primitive (was --color-orange) */
 
-  --cta-bg: #c2410c;
-  --cta-bg-hover: #9a3412;
+  /* CTA near-black-on-white equivalent: a dark ink fill (not saturated
+     purple), matching the dark theme's "ink over color" direction. */
+  --cta-bg: #17181f;
+  --cta-bg-hover: #24252e;
   --cta-text: #ffffff;
+  --cta-border: rgba(95, 82, 163, 0.4);
+  --cta-border-hover: rgba(95, 82, 163, 0.7);
 
-  --surface: rgba(245, 245, 245, 0.98);
-  --surface-hover: rgba(250, 250, 250, 1);
-  --border: rgba(0, 0, 0, 0.1);
-  --border-hover: rgba(194, 65, 12, 0.3);
-  --text-primary: #0a0a0a;
-  --text-secondary: #3f3f3f;
-  --text-tertiary: #707070;
-  --nav-background: rgba(251, 247, 241, 0.86);
+  --surface: rgba(245, 246, 250, 0.98);
+  --surface-hover: rgba(250, 250, 252, 1);
+  --border: rgba(95, 82, 163, 0.08);
+  --border-hover: rgba(95, 82, 163, 0.3);
+  --text-primary: #0a0b12;
+  --text-secondary: #3a3f52;
+  --text-tertiary: #6b7085;
+  --nav-background: rgba(250, 251, 254, 0.86);
   --grain-opacity: 0.05;
 
   /* Same "signal black" ambient, retuned for a white base: an aurora dies
      against light, so alphas drop sharply rather than scaling proportionally. */
-  --ambient-key: rgba(234, 88, 12, 0.10);
-  --ambient-fill: rgba(154, 52, 18, 0.08);
-  --ambient-accent: rgba(217, 119, 6, 0.05);
+  --ambient-key: rgba(95, 82, 163, 0.07);
+  --ambient-fill: rgba(30, 58, 95, 0.06);
+  --ambient-accent: rgba(95, 82, 163, 0.04);
 
-  --card-border-gradient: linear-gradient(160deg, rgba(194, 65, 12, 0.4), rgba(0, 0, 0, 0.08) 45%, rgba(0, 0, 0, 0.04) 100%);
+  --card-border-gradient: linear-gradient(160deg, rgba(95, 82, 163, 0.3), rgba(0, 0, 0, 0.08) 45%, rgba(0, 0, 0, 0.04) 100%);
 
-  --header-gradient: linear-gradient(110deg, rgba(234, 88, 12, 0.1) 0%, rgba(251, 247, 241, 0) 42%, rgba(234, 88, 12, 0.05) 100%);
-  --hero-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 246, 236, 0.44) 48%, rgba(255, 251, 246, 0.88) 78%, var(--background) 100%);
+  --header-gradient: linear-gradient(110deg, rgba(95, 82, 163, 0.08) 0%, rgba(250, 251, 254, 0) 42%, rgba(95, 82, 163, 0.04) 100%);
+  --hero-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(247, 244, 255, 0.44) 48%, rgba(250, 248, 255, 0.88) 78%, var(--background) 100%);
   --hero-kicker-bg: rgba(255, 255, 255, 0.6);
-  --hero-kicker-border: rgba(154, 52, 18, 0.26);
-  --icon-tile: linear-gradient(135deg, rgba(234, 88, 12, 0.12), rgba(234, 88, 12, 0.07));
-  --icon-tile-border: rgba(194, 65, 12, 0.3);
+  --hero-kicker-border: rgba(95, 82, 163, 0.22);
+  --icon-tile: linear-gradient(135deg, rgba(95, 82, 163, 0.10), rgba(95, 82, 163, 0.06));
+  --icon-tile-border: rgba(95, 82, 163, 0.26);
   color-scheme: light;
 }
 
@@ -144,24 +164,28 @@ p {
   color: var(--text-secondary);
 }
 
-/* Accessible primary CTA — replaces bg-brand+white (which failed AA on dark) */
+/* Primary CTA: near-black ink fill (matches surface), not a solid purple
+   fill — restrained per the 2026-07-25 retune. The only color is a thin
+   purple hairline border that brightens with a soft glow on hover. */
 .btn-primary {
   background: var(--cta-bg);
   color: var(--cta-text);
   font-weight: 700;
   letter-spacing: 0.01em;
-  box-shadow: 0 6px 20px -6px rgba(194, 65, 12, 0.55);
+  border: 1px solid var(--cta-border);
+  box-shadow: 0 4px 16px -8px rgba(107, 95, 150, 0.4);
 }
 
 .btn-primary:hover {
   background: var(--cta-bg-hover);
-  box-shadow: 0 8px 26px -6px rgba(194, 65, 12, 0.65);
+  border-color: var(--cta-border-hover);
+  box-shadow: 0 6px 22px -8px rgba(107, 95, 150, 0.55);
 }
 
 /* ---- "Signal black": one continuous ambient for the whole site -----------
    Named strategy: Vercel/Linear-style near-black monochrome base with the
-   brand orange used as 2-3 DIRECTED light sources, not a diffuse wash. Most
-   of the canvas (~75%+) stays true near-black between sources, so nothing
+   brand midnight purple used as 2-3 DIRECTED light sources, not a diffuse
+   wash. Most of the canvas (~75%+) stays true near-black between sources, so nothing
    muddies and the glows read as deliberate signal lights, not weather — the
    "sharp operator / engineering console" personality from PRODUCT.md, not a
    consumer-dreamy aurora cloud. Heavily blurred so each source melts to
@@ -281,6 +305,80 @@ body::after {
   background-size: 16px 16px;
 }
 
+/* Spotlight/glow card (app/components/ui/spotlight-card.tsx). Border-light
+   and blurred outer-glow layers, driven by --x/--y/--hue custom properties
+   the component sets on pointermove, scoped to each card's own bounding box
+   (not viewport-fixed — see the component's comment for why). Kept here
+   (not injected per-instance) so N mounted cards share one rule instead of
+   duplicating a <style> tag. Hidden by default (opacity: 0) and revealed
+   only via .is-glowing, toggled on pointerenter/pointerleave — without this
+   gate the glow is always partially visible everywhere, which is what made
+   ungated cards look like they were all lit at once. */
+[data-glow]::before,
+[data-glow]::after {
+  pointer-events: none;
+  content: '';
+  position: absolute;
+  inset: calc(var(--border-size) * -1);
+  border: var(--border-size) solid transparent;
+  border-radius: calc(var(--radius) * 1px);
+  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+[data-glow].is-glowing::before,
+[data-glow].is-glowing::after {
+  opacity: 1;
+}
+
+[data-glow]::before {
+  background-image: radial-gradient(
+    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 1)), transparent 100%
+  );
+  filter: brightness(2);
+}
+
+[data-glow]::after {
+  background-image: radial-gradient(
+    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(0 100% 100% / var(--border-light-opacity, 1)), transparent 100%
+  );
+}
+
+[data-glow] [data-glow] {
+  position: absolute;
+  inset: 0;
+  will-change: filter, opacity;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  border-radius: calc(var(--radius) * 1px);
+  border-width: calc(var(--border-size) * 20);
+  filter: blur(calc(var(--border-size) * 10));
+  background: none;
+  pointer-events: none;
+  border: none;
+}
+
+[data-glow].is-glowing [data-glow] {
+  opacity: var(--outer, 1);
+}
+
+[data-glow] > [data-glow]::before {
+  inset: -10px;
+  border-width: 10px;
+}
+
 /* Premium Glassmorphism Card */
 .glass-card {
   border: 1px solid transparent;
@@ -297,14 +395,14 @@ body::after {
     linear-gradient(var(--surface-hover), var(--surface-hover)) padding-box,
     var(--card-border-gradient) border-box;
   box-shadow:
-    0 0 24px rgba(234, 88, 12, 0.2),
+    0 0 24px rgba(109, 40, 217, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
   transform: translateY(-4px);
 }
 
 [data-theme="light"] .glass-card:hover {
   box-shadow:
-    0 0 24px rgba(234, 88, 12, 0.15),
+    0 0 24px rgba(109, 40, 217, 0.15),
     inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
@@ -319,22 +417,16 @@ button:active {
 .glass-card:active {
   transform: scale(0.98);
   box-shadow:
-    0 0 16px rgba(234, 88, 12, 0.15),
+    0 0 16px rgba(109, 40, 217, 0.15),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
-/* Glow effects */
-.glow-orange {
-  box-shadow: 0 0 24px rgba(234, 88, 12, 0.4);
-}
-
-.glow-orange-lg {
-  box-shadow: 0 0 48px rgba(234, 88, 12, 0.5);
-}
-
-.glow-text-orange {
-  color: #ea580c;
-  text-shadow: 0 0 16px rgba(234, 88, 12, 0.3);
+/* Glow effects (glow-text-accent: was glow-text-orange, renamed with the
+   2026-07 rebrand — a class named "orange" producing purple would be
+   exactly the kind of misleading token the rebrand exists to fix) */
+.glow-text-accent {
+  color: #9d7bf9;
+  text-shadow: 0 0 16px rgba(109, 40, 217, 0.3);
 }
 
 /* Button and CTA feedback states */
@@ -351,9 +443,9 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Improved orange text contrast */
-.text-brand, .text-orange-500 {
-  text-shadow: 0 0 8px rgba(234, 88, 12, 0.2);
+/* Improved brand text contrast */
+.text-brand {
+  text-shadow: 0 0 8px rgba(109, 40, 217, 0.2);
 }
 
 /* Section premium backgrounds */
@@ -531,7 +623,7 @@ button, a[role="button"], [role="button"] {
   right: 0;
   font-size: clamp(180px, 30vw, 400px);
   font-weight: 900;
-  color: rgba(234, 88, 12, 0.03);
+  color: rgba(109, 40, 217, 0.03);
   font-family: var(--font-display);
   pointer-events: none;
   z-index: 0;
@@ -545,13 +637,13 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 [role="button"]:focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
 /* Ensure focus is always visible on interactive elements */
 :focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -711,7 +803,7 @@ textarea:focus:not(:focus-visible),
   border: 1px dashed var(--border);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(249, 115, 22, 0.04) 0%, transparent 30%),
+    linear-gradient(180deg, rgba(109, 40, 217, 0.04) 0%, transparent 30%),
     var(--surface);
 }
 .terminal-head {
@@ -773,8 +865,8 @@ textarea:focus:not(:focus-visible),
 
 /* Live status dot */
 @keyframes liveDot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.5); }
-  60% { box-shadow: 0 0 0 5px rgba(249, 115, 22, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(109, 40, 217, 0.5); }
+  60% { box-shadow: 0 0 0 5px rgba(109, 40, 217, 0); }
 }
 .t-live {
   display: inline-block;

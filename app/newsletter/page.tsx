@@ -31,7 +31,7 @@ export default function NewsletterPage() {
             <span className="kicker-line" style={{ transform: 'scaleX(1)' }} aria-hidden="true" />
           </div>
           <h1 className="font-display uppercase text-4xl md:text-6xl leading-[1.06] mb-6 text-balance">
-            One fix a week. <span className="text-brand">This is one of them.</span>
+            One fix a week. This is one of them.
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl text-pretty mb-10">
             Not a pitch for the newsletter. The newsletter itself. Real example, exact steps, five

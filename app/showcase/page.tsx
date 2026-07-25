@@ -6,9 +6,11 @@ import AnimatedGradient from '../components/ui/animated-gradient';
 import LiquidMetal from '../components/ui/liquid-metal';
 import LiquidMetalDemo from '../components/ui/liquid-metal-demo';
 import AnimatedGradientDemo from '../components/ui/animated-gradient-demo';
+import SpotlightCardDemo from '../components/ui/spotlight-card-demo';
+import GradientDotsDemo from '../components/ui/gradient-dots-demo';
 
 export default function ShowcasePage() {
-  const [activeTab, setActiveTab] = useState<'animated-gradient' | 'liquid-metal' | 'both'>('both');
+  const [activeTab, setActiveTab] = useState<'animated-gradient' | 'liquid-metal' | 'spotlight-card' | 'gradient-dots' | 'both'>('both');
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -17,9 +19,9 @@ export default function ShowcasePage() {
         <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
           <div>
             <h1 className="font-display text-2xl uppercase mb-1">AR Strategies Effects</h1>
-            <p className="text-sm text-gray-400">Showcase: AnimatedGradient & LiquidMetal</p>
+            <p className="text-sm text-gray-400">Showcase: AnimatedGradient, LiquidMetal, Spotlight Card & Gradient Dots</p>
           </div>
-          <Link href="/" className="text-sm bg-brand hover:bg-orange-700 px-4 py-2 rounded-full">
+          <Link href="/" className="text-sm bg-brand hover:bg-violet-700 px-4 py-2 rounded-full">
             Back to Site
           </Link>
         </div>
@@ -28,7 +30,7 @@ export default function ShowcasePage() {
       {/* Navigation */}
       <div className="bg-white/[0.02] border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex gap-4">
-          {(['both', 'animated-gradient', 'liquid-metal'] as const).map((tab) => (
+          {(['both', 'animated-gradient', 'liquid-metal', 'spotlight-card', 'gradient-dots'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -38,7 +40,7 @@ export default function ShowcasePage() {
                   : 'bg-white/5 text-gray-300 hover:bg-white/10'
               }`}
             >
-              {tab === 'both' ? 'Combined Demo' : tab === 'animated-gradient' ? 'Animated Gradient' : 'Liquid Metal'}
+              {tab === 'both' ? 'Combined Demo' : tab === 'animated-gradient' ? 'Animated Gradient' : tab === 'liquid-metal' ? 'Liquid Metal' : tab === 'spotlight-card' ? 'Spotlight Card' : 'Gradient Dots'}
             </button>
           ))}
         </div>
@@ -52,13 +54,13 @@ export default function ShowcasePage() {
             <section>
               <h2 className="font-display text-3xl uppercase mb-8">Hero with Animated Gradient</h2>
               <div className="relative h-96 rounded-2xl overflow-hidden">
-                <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-black to-orange-900/50" />}>
+                <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-black to-violet-900/50" />}>
                   <AnimatedGradient
                     config={{
                       preset: 'custom',
                       color1: '#0a0a0a',
-                      color2: '#1a0f00',
-                      color3: '#ea580c',
+                      color2: '#120a1f',
+                      color3: '#6d28d9',
                       speed: 12,
                       distortion: 35,
                       swirl: 70,
@@ -88,7 +90,7 @@ export default function ShowcasePage() {
                     <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0" />}>
                       <LiquidMetal
                         colorBack="#00000000"
-                        colorTint="#ea580c"
+                        colorTint="#6d28d9"
                         shape="circle"
                         repetition={2}
                         softness={0.6}
@@ -116,7 +118,7 @@ export default function ShowcasePage() {
           <div className="space-y-8">
             <div>
               <h2 className="font-display text-3xl uppercase mb-6">Animated Gradient - Full Demo</h2>
-              <Suspense fallback={<div className="h-96 bg-gradient-to-br from-black to-orange-900/50 rounded-2xl" />}>
+              <Suspense fallback={<div className="h-96 bg-gradient-to-br from-black to-violet-900/50 rounded-2xl" />}>
                 <AnimatedGradientDemo />
               </Suspense>
             </div>
@@ -155,6 +157,45 @@ export default function ShowcasePage() {
             </div>
           </div>
         )}
+        {/* Spotlight Card Only */}
+        {activeTab === 'spotlight-card' && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="font-display text-3xl uppercase mb-6">Spotlight Card - Pointer-Tracked Glow</h2>
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8">
+                <SpotlightCardDemo />
+              </div>
+            </div>
+            <div className="bg-white/[0.02] border border-white/10 rounded-xl p-8">
+              <h3 className="font-display text-xl uppercase mb-4">Features</h3>
+              <ul className="space-y-2 text-gray-300 text-sm">
+                <li>✓ Border + inner glow tracks the real pointer position, scoped per card</li>
+                <li>✓ 7 hue presets (midnight purple is the on-brand default for this site)</li>
+                <li>✓ customSize escape hatch for real content, not just fixed demo tiles</li>
+                <li>✓ Shared CSS rules in globals.css, no per-instance style injection</li>
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Gradient Dots Only */}
+        {activeTab === 'gradient-dots' && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="font-display text-3xl uppercase mb-6">Gradient Dots - Ambient Dot Field</h2>
+              <GradientDotsDemo />
+            </div>
+            <div className="bg-white/[0.02] border border-white/10 rounded-xl p-8">
+              <h3 className="font-display text-xl uppercase mb-4">Features</h3>
+              <ul className="space-y-2 text-gray-300 text-sm">
+                <li>✓ Animated hex-spaced dot grid with drifting color blobs</li>
+                <li>✓ Retinted to navy/midnight-purple. Original was a literal red/yellow/green/blue rainbow</li>
+                <li>✓ Hue wobble narrowed to ±8deg. A full hue-rotate sweep cycles through unrelated colors regardless of the base palette</li>
+                <li>✓ Powered by framer-motion</li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Footer */}
@@ -176,7 +217,7 @@ export default function ShowcasePage() {
           </div>
           <div className="border-t border-white/10 pt-8 flex justify-between items-center text-sm text-[var(--text-tertiary)]">
             <p>© 2026 AR Strategies. Effects showcase.</p>
-            <Link href="/" className="text-brand hover:text-orange-400">
+            <Link href="/" className="text-brand hover:text-violet-400">
               Return to Main Site
             </Link>
           </div>

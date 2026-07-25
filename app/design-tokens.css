@@ -7,9 +7,9 @@
   /* Colors */
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-orange: #ea580c;
-  --color-orange-dark: #d97757;
-  --color-orange-light: #f5a962;
+  --color-accent: #9d7bf9;      /* midnight purple (was --color-orange) */
+  --color-accent-dark: #6d28d9;
+  --color-accent-light: #c4b5fd;
   --color-gray-900: #111111;
   --color-gray-800: #1a1a1a;
   --color-gray-700: #2d2d2d;
@@ -98,8 +98,8 @@
   --bg-primary: var(--color-black);
   --bg-secondary: var(--color-gray-900);
   --bg-tertiary: var(--color-gray-800);
-  --bg-accent: var(--color-orange);
-  --bg-accent-hover: var(--color-orange-light);
+  --bg-accent: var(--color-accent);
+  --bg-accent-hover: var(--color-accent-light);
   --bg-success: var(--color-green-success);
   --bg-error: var(--color-red-error);
 
@@ -107,13 +107,13 @@
   --text-primary: var(--color-white);
   --text-secondary: var(--color-gray-400);
   --text-tertiary: var(--color-gray-500);
-  --text-accent: var(--color-orange);
+  --text-accent: var(--color-accent);
   --text-inverse: var(--color-black);
 
   /* Borders */
   --border-primary: var(--color-gray-700);
   --border-secondary: var(--color-gray-600);
-  --border-accent: var(--color-orange);
+  --border-accent: var(--color-accent);
 
   /* Surface States */
   --surface-hover: var(--color-gray-800);
@@ -130,15 +130,15 @@
   --gap-3xl: var(--space-16);
 
   /* Premium Visual Effects */
-  --glow-sm: 0 0 12px rgba(234, 88, 12, 0.3);
-  --glow-md: 0 0 24px rgba(234, 88, 12, 0.4);
-  --glow-lg: 0 0 48px rgba(234, 88, 12, 0.5);
-  --glow-xl: 0 0 64px rgba(234, 88, 12, 0.6);
+  --glow-sm: 0 0 12px rgba(109, 40, 217, 0.3);
+  --glow-md: 0 0 24px rgba(109, 40, 217, 0.4);
+  --glow-lg: 0 0 48px rgba(109, 40, 217, 0.5);
+  --glow-xl: 0 0 64px rgba(109, 40, 217, 0.6);
 
   /* Glassmorphism surfaces */
   --glass-bg: rgba(26, 26, 26, 0.5);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-hover: rgba(234, 88, 12, 0.3);
+  --glass-border-hover: rgba(109, 40, 217, 0.3);
   --glass-backdrop: blur(20px);
 
   /* Animations */

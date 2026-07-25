@@ -1,8 +1,19 @@
 # AR Strategies Brand Guidelines
 
-**Version:** 1.0.0  
-**Last Updated:** 2026-07-11  
+**Version:** 2.0.0
+**Last Updated:** 2026-07-25
 **Maintained by:** AR Strategies Design System
+
+**2026-07-25 rebrand note:** v1.0.0 of this document specified orange
+(`#ea580c`) as the brand accent. That was never derived from the actual
+AR Strategies logo — the logo is pure monochrome (white → silver → grey
+gradient hexagon, zero orange or red). The orange/red palette instead
+matched Strike Den, a case-study client whose own logo is a red/black
+tiger mark — a combat-sports brand identity, not this agency's. v1.0.0
+was authored by a prior AI session and never checked against the actual
+brand assets. v2.0.0 corrects this: a navy structural base with midnight
+purple as the sparing accent, verified against the real logo and checked
+for WCAG AA contrast (see Section 13) before being written down here.
 
 ---
 
@@ -27,38 +38,41 @@ Advertising systems that convert. We audit, run, and scale campaigns for local b
 
 ### Color Palette
 
+Sourced from the actual AR Strategies logo — a monochrome white → silver →
+grey gradient hexagon. The palette is navy-black as the structural base
+(matching the logo's cool, neutral tone) with midnight purple as the one
+sparing accent that carries what orange used to carry: CTAs, highlights,
+brand moments.
+
 #### Primary Colors
-- **Black:** `#000000` — Primary background, main text on light
-- **White:** `#FFFFFF` — Primary text on dark, light backgrounds
-- **Orange (Brand Accent):** `#ea580c` — CTAs, highlights, emphasis
+- **Navy-black:** `#090c16` — Primary background (dark theme), cool near-black matching the logo
+- **White:** `#f5f6fa` — Primary text on dark
+- **Midnight Purple (Brand Accent):** `#9d7bf9` — CTAs, highlights, emphasis (text/icon usage; verified 4.5:1+ on both `--bg-base` and `--bg-elevated`)
 
 #### Secondary Colors
-- **Orange Dark:** `#d97757` — Hover states, darker accents
-- **Orange Light:** `#f5a962` — Light accents, hover backgrounds
+- **Purple Light:** `#c4b5fd` — Hover-brighten states, lighter accents
+- **Purple Dark:** `#6d28d9` — Deep accent; background/gradient fills and CTA button fill (`--cta-bg`); not used as text color (fails contrast on dark surfaces)
 
-#### Neutral Colors
+#### Neutral Colors (navy-tinted, not warm)
 | Color | Hex | Usage |
 |-------|-----|-------|
-| Gray 900 | `#111111` | Near-black, dark surfaces |
-| Gray 800 | `#1a1a1a` | Dark backgrounds |
-| Gray 700 | `#2d2d2d` | Borders, dividers |
-| Gray 600 | `#4a4a4a` | Medium gray, secondary elements |
-| Gray 500 | `#666666` | Light gray text |
-| Gray 400 | `#999999` | Lighter gray, muted text |
-| Gray 300 | `#b3b3b3` | Very light gray |
-| Gray 200 | `#e6e6e6` | Almost white |
+| Bg Elevated | `#121a2c` | Cards, elevated surfaces |
+| Bg Deepest | `#03040a` | Root background, OLED-safe |
+| Text Secondary | `#c7cbdb` | Secondary text (dark theme) |
+| Text Tertiary | `#8890a6` | Muted text, captions (dark theme) |
+| Border | `rgba(157,123,249,0.10)` | Subtle purple-tinted hairline borders |
 
 #### Status Colors
-- **Success:** `#10b981` — Positive actions, confirmations
-- **Error:** `#ef4444` — Errors, warnings
+- **Success:** `#10b981` — Positive actions, confirmations (unchanged — semantic, not brand)
+- **Error:** `#ef4444` — Errors, warnings (unchanged — semantic, not brand; do not repurpose for brand accents)
 
 ### Color Usage Rules
 
-1. **Background:** Black (`#000000`) is the primary background
-2. **Text on Dark:** White (`#FFFFFF`) for primary, Gray 400+ for secondary
-3. **Accents:** Orange (`#ea580c`) for CTAs, highlights, and brand moments
-4. **Borders:** Gray 700 for subtle borders, Orange for emphasis
-5. **Hover States:** Use Orange Light (`#f5a962`) or Gray 800
+1. **Background:** Navy-black (`#090c16`) is the primary dark-theme background
+2. **Text on Dark:** White (`#f5f6fa`) for primary, Text Tertiary (`#8890a6`) or lighter for secondary
+3. **Accents:** Midnight Purple (`#9d7bf9`) for CTAs, highlights, and brand moments
+4. **Borders:** Purple-tinted hairline (`rgba(157,123,249,0.10)`) for subtle borders, full Purple Dark for emphasis
+5. **Hover States:** Use Purple Light (`#c4b5fd`) or a darker surface tone
 
 ### Glassmorphism Effects
 
@@ -213,38 +227,38 @@ Always tint shadows to the background color. For dark backgrounds, use `rgba(0, 
 ### Buttons
 
 #### Primary Button
-- **Background:** Orange (`#ea580c`)
+- **Background:** Purple Dark (`#6d28d9`, the `--cta-bg` token)
 - **Text:** White (`#FFFFFF`)
 - **Padding:** 12px 24px (space-3 space-6)
 - **Radius:** Fully rounded (pill)
 - **Font Weight:** 600
 - **Transition:** All 200ms
-- **Hover:** Orange Light (`#f5a962`)
-- **Active:** Scale 0.97, Orange Dark (`#d97757`)
+- **Hover:** darker still (`--cta-bg-hover: #5b21b6`)
+- **Active:** Scale 0.97
 
 ```jsx
-<button className="bg-brand hover:bg-orange-700 active:scale-[0.97] px-6 py-3 rounded-full font-semibold transition">
+<button className="bg-brand hover:bg-violet-700 active:scale-[0.97] px-6 py-3 rounded-full font-semibold transition">
   Schedule Free Audit
 </button>
 ```
 
 #### Secondary Button
-- **Background:** Gray 800 (`#1a1a1a`)
-- **Border:** 1px Gray 600
+- **Background:** Bg Elevated (`#121a2c`)
+- **Border:** 1px purple-tinted hairline
 - **Text:** White
 - **Same padding/radius as primary**
 
 #### Ghost Button
 - **Background:** Transparent
-- **Border:** 1px Orange
-- **Text:** Orange
-- **Hover:** Gray 800 background
+- **Border:** 1px Midnight Purple
+- **Text:** Midnight Purple
+- **Hover:** Bg Elevated background
 
 ### Cards
 
 #### Default Card
-- **Background:** Gray 900 (`#111111`) with glassmorphism
-- **Border:** 1px Gray 700
+- **Background:** Bg Elevated (`#121a2c`) with glassmorphism
+- **Border:** 1px purple-tinted hairline
 - **Radius:** 16px (rounded-2xl)
 - **Padding:** 32px (space-8)
 - **Shadow:** Medium (box-shadow-md)
@@ -258,8 +272,8 @@ Always tint shadows to the background color. For dark backgrounds, use `rgba(0, 
 - **Radius:** Fully rounded
 - **Padding:** 12px 16px
 - **Text:** White
-- **Placeholder:** Gray 500
-- **Focus Border:** Orange
+- **Placeholder:** Text Tertiary
+- **Focus Border:** Midnight Purple
 
 ---
 
@@ -323,11 +337,11 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 
 ### Color Variables
 ```css
---color-orange: #ea580c;
---bg-primary: #000000;
---text-primary: #ffffff;
---text-accent: #ea580c;
---border-primary: #2d2d2d;
+--color-accent: #9d7bf9;
+--bg-primary: #090c16;
+--text-primary: #f5f6fa;
+--text-accent: #9d7bf9;
+--border-primary: rgba(157, 123, 249, 0.10);
 ```
 
 ### Typography Variables
@@ -340,9 +354,9 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 
 ### Component Variables
 ```css
---button-primary-bg: #ea580c;
---card-bg: #111111;
---input-focus-border: #ea580c;
+--button-primary-bg: #6d28d9;
+--card-bg: #121a2c;
+--input-focus-border: #9d7bf9;
 ```
 
 ### Spacing Variables
@@ -357,28 +371,28 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 ## 11. Usage Examples
 
 ### Hero Section
-- Black background with animated gradient
+- Navy-black background with animated gradient
 - Large H1 in Anton display font
-- Orange accent text
+- Midnight purple accent text
 - Rounded pill buttons
 
 ### Card Component
-- Gray 900 background with glassmorphism
+- Bg Elevated background with glassmorphism
 - 16px border radius
 - 32px padding
 - Medium shadow
-- White text, Orange accents
+- White text, midnight purple accents
 
 ### Process Section
 - Grid layout (1 col mobile, 2 col tablet, 4 col desktop)
-- Cards with large H3 numbers in Orange
+- Cards with large H3 numbers in midnight purple
 - Staggered scroll reveal animations
 - 24px gaps between items
 
 ### Navigation
 - Sticky top, dark background with blur
-- White text, Orange hover state
-- Orange rounded pill CTA button
+- White text, midnight purple hover state
+- Midnight purple rounded pill CTA button
 - Responsive mobile hamburger menu
 
 ---
@@ -447,7 +461,7 @@ In any component:
 - Apply glassmorphism to elevated surfaces
 - Test on mobile, tablet, desktop
 - Animate entrance on scroll, not just hover
-- Use Orange sparingly for maximum impact
+- Use Midnight Purple sparingly for maximum impact
 - Ensure color contrast meets WCAG AA minimum
 
 ### DON'T ❌

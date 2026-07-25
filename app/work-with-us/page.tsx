@@ -337,7 +337,7 @@ export default function WorkWithUsPage() {
             </span>
           </div>
           <h1 className="font-display uppercase text-5xl md:text-7xl leading-[1.05] mb-6 max-w-3xl text-balance">
-            Own the top of Google <span className="text-brand">in your market.</span>
+            Own the top of Google in your market.
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty mb-10">
             We take one business per market and make it the one its city finds first. Send in

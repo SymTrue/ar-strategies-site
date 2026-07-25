@@ -9,6 +9,7 @@ import { useReveal, useHeroIntro } from './components/useReveal';
 import { AnimatedSection } from './components/AnimatedSection';
 import NeuralNet from './components/NeuralNet';
 import { ThemeToggle } from './components/ui/theme-toggle';
+import { GlowCard } from './components/ui/spotlight-card';
 import { SiteFooter } from './components/SiteFooter';
 import { useTheme } from './providers';
 import { usePrefersReducedMotion } from '@/lib/hooks';
@@ -18,7 +19,6 @@ import {
   LinkedInIcon,
   WebsiteIcon,
   ProcessFlow,
-  RegMarks,
   FAQTag,
   PrincipleExclusivityIcon,
   PrincipleTransparencyIcon,
@@ -242,8 +242,7 @@ export default function Home() {
             <span className="h-2 w-2 rounded-full bg-brand" /> The Marketing Agency for Local Businesses
           </div>
           <h1 className="font-display hero-display uppercase mb-6 text-balance">
-            Be the business your city
-            <span className="text-brand"> finds first</span>
+            Be the business your city finds first
           </h1>
           <p data-intro className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto mb-6 text-pretty">
             When locals search for what you do, whoever shows up first gets the call. We put you at the top of Google, run Meta ads that bring real customers, and publish content that turns into calls. Done for you, so the phone rings while you run the business.
@@ -343,7 +342,7 @@ export default function Home() {
 
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="font-display text-4xl text-brand font-bold group-hover:text-orange-400 transition-colors">{step.n}</div>
+                        <div className="font-display text-4xl text-brand font-bold group-hover:text-violet-400 transition-colors">{step.n}</div>
                         <div className="flex-1 h-0.5 bg-gradient-to-r from-brand to-transparent" />
                       </div>
                       <h3 className="font-display text-lg uppercase font-semibold text-[var(--text-primary)] group-hover:text-brand transition-colors">{step.title}</h3>
@@ -366,26 +365,17 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p, idx) => (
               <AnimatedSection key={p.title} delay={idx * 0.1} className="h-full">
-                <div className="group relative h-full overflow-hidden glass-card">
-                  <RegMarks />
-                  {/* Full-card orange glow on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand/40 via-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
-
-                  <div className="relative h-full px-8 py-8">
-                    <div className={`absolute top-0 left-0 w-1.5 h-16 rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      idx === 0 ? 'bg-gradient-to-b from-brand-light via-brand-light/50' : idx === 1 ? 'bg-gradient-to-b from-brand-dark via-brand-dark/50' : 'bg-gradient-to-b from-brand via-brand/50'
-                    } to-transparent`} />
+                <GlowCard glowColor="midnightPurple" customSize className="h-full">
+                  <div className="flex h-full flex-col px-4 py-4">
                     <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-brand" style={{ background: 'var(--icon-tile)', border: '1px solid var(--icon-tile-border)' }}>
                       {p.icon === 'exclusivity' && <PrincipleExclusivityIcon />}
                       {p.icon === 'transparency' && <PrincipleTransparencyIcon />}
                       {p.icon === 'freedom' && <PrincipleNoLockInIcon />}
                     </div>
-                    <h3 className={`font-display text-xl uppercase mt-5 mb-3 text-[var(--text-primary)] transition-colors ${
-                      idx === 0 ? 'group-hover:text-brand-light' : idx === 1 ? 'group-hover:text-brand-dark' : 'group-hover:text-brand'
-                    }`}>{p.title}</h3>
-                    <p className="text-gray-400 leading-relaxed group-hover:text-gray-200 transition-colors">{p.body}</p>
+                    <h3 className="font-display text-xl uppercase mt-5 mb-3 text-[var(--text-primary)]">{p.title}</h3>
+                    <p className="text-gray-400 leading-relaxed">{p.body}</p>
                   </div>
-                </div>
+                </GlowCard>
               </AnimatedSection>
             ))}
           </div>
@@ -396,8 +386,7 @@ export default function Home() {
       <section ref={quoteRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-4xl mx-auto text-center">
           <h2 data-reveal className="font-display text-4xl md:text-6xl uppercase leading-tight text-balance">
-            If they can&apos;t find you,
-            <span className="text-brand glow-text-orange"> they buy from someone else.</span>
+            If they can&apos;t find you, they buy from someone else.
           </h2>
           <p data-reveal className="text-gray-300 text-lg mt-8 max-w-2xl mx-auto">
             Every search for what you do is a customer deciding where to spend. Every day you&apos;re buried, that decision goes to a competitor. Let&apos;s fix that.
@@ -493,7 +482,7 @@ export default function Home() {
                           <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-500">
                             <LiquidMetal
                               colorBack="#00000000"
-                              colorTint="#ea580c"
+                              colorTint="#6d28d9"
                               shape="circle"
                               repetition={1}
                               softness={0.7}

@@ -252,7 +252,7 @@ export default function ThreeSecondTest() {
             <span className="kicker-line" style={{ transform: 'scaleX(1)' }} aria-hidden="true" />
           </div>
           <h1 className="font-display uppercase text-5xl md:text-7xl leading-[1.05] mb-6 text-balance">
-            The Three-Second <span className="text-brand">Test</span>
+            The Three-Second Test
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty">
             Strangers give your business about three seconds per surface before deciding
@@ -417,7 +417,7 @@ export default function ThreeSecondTest() {
         <div className="max-w-5xl mx-auto md:flex items-start justify-between gap-12">
           <div className="max-w-xl">
             <h2 className="font-display uppercase text-3xl md:text-5xl leading-tight mb-4">
-              Keep the fixes <span className="text-brand">coming.</span>
+              Keep the fixes coming.
             </h2>
             <p className="text-[var(--text-secondary)] text-base md:text-lg text-pretty">
               That was the free test. Every week we send one more fix like the ones on

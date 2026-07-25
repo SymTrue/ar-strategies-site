@@ -233,7 +233,7 @@ export default function MechanismsHub() {
             <span className="kicker-line" style={{ transform: 'scaleX(1)' }} aria-hidden="true" />
           </div>
           <h1 className="font-display uppercase text-5xl md:text-7xl leading-[1.05] mb-6 max-w-4xl text-balance">
-            The psychology your <span className="text-brand">customers run on</span>
+            The psychology your customers run on
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl text-pretty">
             Every buying decision runs on the same few things: what gets noticed, what gets
@@ -318,7 +318,7 @@ export default function MechanismsHub() {
         <div className="max-w-7xl mx-auto md:flex items-end justify-between gap-10">
           <div>
             <h2 className="font-display uppercase text-3xl md:text-5xl leading-tight mb-4 max-w-2xl">
-              The ideas are free. <span className="text-brand">Putting them to work is the service.</span>
+              The ideas are free. Putting them to work is the service.
             </h2>
             <p className="text-[var(--text-secondary)] max-w-xl">
               See how these ideas took a gym from invisible to #1 in its city.

@@ -10,7 +10,7 @@ const SITE = 'https://www.arstrategists.com';
 
 export function GET() {
   const out: string[] = [
-    '# AR Strategies — Full Content',
+    '# AR Strategies: Full Content',
     '',
     '> The marketing agency for local businesses. One business per market. Top of Google, Meta ads that bring customers, and content people remember. Contact: hello@arstrategists.com.',
     '',

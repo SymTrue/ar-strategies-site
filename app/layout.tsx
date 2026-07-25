@@ -52,7 +52,7 @@ export const metadata: Metadata = {
         url: "https://www.arstrategists.com/og.png",
         width: 1200,
         height: 630,
-        alt: "AR Strategies — Be the business your city finds first",
+        alt: "AR Strategies: Be the business your city finds first",
       },
     ],
     url: "https://www.arstrategists.com",
