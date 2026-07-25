@@ -30,20 +30,6 @@ import { LeadCaptureForm } from './components/home/LeadCaptureForm';
 // Lazy-mount GPU-heavy components below fold, saves 3-4 canvases upfront
 const LiquidMetal = dynamic(() => import('./components/ui/liquid-metal'), { ssr: false });
 
-function SectionKicker({ n, label, center }: { n: string; label: string; center?: boolean }) {
-  const ref = useInViewClass<HTMLDivElement>();
-  return (
-    <div ref={ref} data-reveal className={`kicker-root flex items-center gap-4 mb-8 ${center ? 'justify-center' : ''}`}>
-      <span className="kicker-chip">
-        <span className="kicker-n">{n}</span>
-        <span className="kicker-sep" aria-hidden="true">/</span>
-        <span>{label}</span>
-      </span>
-      {!center && <span className="kicker-line" aria-hidden="true" />}
-    </div>
-  );
-}
-
 function useInViewClass<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   useEffect(() => {
@@ -314,7 +300,6 @@ export default function Home() {
       {/* Services - divided list, not a card grid */}
       <section id="services" ref={servicesRef} className="py-24 md:py-32 px-6 section-premium">
         <div className="max-w-4xl mx-auto">
-          <SectionKicker n="01" label="Services" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-4">
             The work we do, so you don&apos;t have to.
           </h2>
@@ -340,7 +325,6 @@ export default function Home() {
       {/* Process - horizontal step sequence */}
       <section id="process" ref={processRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-7xl mx-auto">
-          <SectionKicker n="02" label="Process" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Our proven process
           </h2>
@@ -376,7 +360,6 @@ export default function Home() {
       {/* Why us */}
       <section id="why" ref={whyRef} className="py-24 md:py-32 px-6 section-dashed section-premium">
         <div className="max-w-7xl mx-auto">
-          <SectionKicker n="03" label="Why Us" />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-16">
             Why we&apos;re different
           </h2>
@@ -439,7 +422,6 @@ export default function Home() {
           }}
         />
         <div className="max-w-3xl mx-auto">
-          <SectionKicker n="04" label="FAQ" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase text-center mb-16">
             Straight answers
           </h2>
@@ -672,7 +654,6 @@ export default function Home() {
         </div>
 
         <div className="max-w-2xl mx-auto text-center relative z-10">
-          <SectionKicker n="05" label="The Weekly Fix" center />
           <h2 data-reveal className="font-display text-4xl md:text-5xl uppercase leading-tight mb-6 text-balance">
             One fix a week. A phone that rings more.
           </h2>

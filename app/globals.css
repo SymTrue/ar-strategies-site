@@ -29,17 +29,17 @@
   --text-secondary: #e2d9d2;
   --text-tertiary: #a99e96;
   --nav-background: var(--bg-overlay);
-  --shell-glow: rgba(249, 115, 22, 0.12);
   --grain-opacity: 0.05;
+
+  /* "Signal black" ambient — 2 directed light sources + 1 faint accent, not
+     a diffuse wash. See body::after in globals.css for placement/rationale. */
+  --ambient-key: rgba(249, 115, 22, 0.20);
+  --ambient-fill: rgba(194, 65, 12, 0.15);
+  --ambient-accent: rgba(251, 191, 36, 0.06);
 
   --card-border-gradient: linear-gradient(160deg, rgba(249, 115, 22, 0.45), rgba(255, 255, 255, 0.08) 45%, rgba(255, 255, 255, 0.03) 100%);
 
-  --section-gradient: linear-gradient(180deg, rgba(249, 115, 22, 0.05) 0%, rgba(11, 8, 6, 0) 44%);
   --header-gradient: linear-gradient(110deg, rgba(249, 115, 22, 0.14) 0%, rgba(11, 8, 6, 0) 40%, rgba(249, 115, 22, 0.06) 100%);
-  --footer-gradient:
-    radial-gradient(ellipse at 82% 112%, rgba(249, 115, 22, 0.2), transparent 46%),
-    radial-gradient(ellipse at 18% -10%, rgba(249, 115, 22, 0.08), transparent 44%),
-    linear-gradient(140deg, #0f0b08 0%, #0b0806 52%, #120c07 100%);
   --hero-overlay: linear-gradient(180deg, rgba(11, 8, 6, 0.08) 0%, rgba(11, 8, 6, 0.3) 48%, rgba(11, 8, 6, 0.72) 78%, var(--background) 100%);
   --hero-kicker-bg: rgba(11, 8, 6, 0.28);
   --hero-kicker-border: rgba(251, 191, 36, 0.28);
@@ -70,17 +70,17 @@
   --text-secondary: #3f3f3f;
   --text-tertiary: #707070;
   --nav-background: rgba(251, 247, 241, 0.86);
-  --shell-glow: rgba(234, 88, 12, 0.14);
   --grain-opacity: 0.05;
+
+  /* Same "signal black" ambient, retuned for a white base: an aurora dies
+     against light, so alphas drop sharply rather than scaling proportionally. */
+  --ambient-key: rgba(234, 88, 12, 0.10);
+  --ambient-fill: rgba(154, 52, 18, 0.08);
+  --ambient-accent: rgba(217, 119, 6, 0.05);
 
   --card-border-gradient: linear-gradient(160deg, rgba(194, 65, 12, 0.4), rgba(0, 0, 0, 0.08) 45%, rgba(0, 0, 0, 0.04) 100%);
 
-  --section-gradient: linear-gradient(180deg, rgba(234, 88, 12, 0.1) 0%, rgba(251, 247, 241, 0) 44%);
   --header-gradient: linear-gradient(110deg, rgba(234, 88, 12, 0.1) 0%, rgba(251, 247, 241, 0) 42%, rgba(234, 88, 12, 0.05) 100%);
-  --footer-gradient:
-    radial-gradient(ellipse at 82% 112%, rgba(234, 88, 12, 0.2), transparent 46%),
-    radial-gradient(ellipse at 18% -10%, rgba(234, 88, 12, 0.06), transparent 44%),
-    linear-gradient(140deg, #fbeee2 0%, #fbf7f1 52%, #fff1e6 100%);
   --hero-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 246, 236, 0.44) 48%, rgba(255, 251, 246, 0.88) 78%, var(--background) 100%);
   --hero-kicker-bg: rgba(255, 255, 255, 0.6);
   --hero-kicker-border: rgba(154, 52, 18, 0.26);
@@ -158,18 +158,24 @@ p {
   box-shadow: 0 8px 26px -6px rgba(194, 65, 12, 0.65);
 }
 
-/* ---- One continuous ambient background for the whole site ----------------
-   Technique (mesh/aurora): layered radial "spotlights" in the brand palette
-   over a near-black base, heavily blurred so they melt into smooth organic
-   light. The film grain above (body::before) breaks up any residual banding.
+/* ---- "Signal black": one continuous ambient for the whole site -----------
+   Named strategy: Vercel/Linear-style near-black monochrome base with the
+   brand orange used as 2-3 DIRECTED light sources, not a diffuse wash. Most
+   of the canvas (~75%+) stays true near-black between sources, so nothing
+   muddies and the glows read as deliberate signal lights, not weather — the
+   "sharp operator / engineering console" personality from PRODUCT.md, not a
+   consumer-dreamy aurora cloud. Heavily blurred so each source melts to
+   nothing at its edge; the film grain above (body::before) breaks up any
+   residual banding. Fixed to the viewport (not the document), so the same
+   restrained composition sits consistently behind every section as the page
+   scrolls — including the footer, which no longer paints its own gradient.
 
-   Stacking notes, both of which previously made this invisible:
-   - It lives on body::AFTER, because body::before is already the grain layer;
+   Stacking notes (both previously made this invisible):
+   - Lives on body::AFTER, because body::before is already the grain layer;
      sharing one pseudo-element merged the rules and inherited the grain's
      opacity: 0.05 + mix-blend-mode: overlay.
-   - A z-index: -1 child paints BEHIND its parent's background, so `body` must
-     be transparent and the base colour must sit on `html`, or the body fill
-     covers the whole effect.
+   - A z-index: -1 child paints BEHIND its parent's background, so `body`
+     must be transparent and the base colour must sit on `html`.
    Kept off .site-shell, whose overflow-x: clip would clip a fixed layer. */
 html {
   background: var(--background);
@@ -190,22 +196,10 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(42% 42% at 16% 10%, rgba(249, 115, 22, 0.30), transparent 62%),
-    radial-gradient(46% 44% at 86% 28%, rgba(194, 65, 12, 0.26), transparent 64%),
-    radial-gradient(48% 46% at 26% 58%, rgba(251, 146, 60, 0.17), transparent 66%),
-    radial-gradient(52% 50% at 80% 80%, rgba(234, 88, 12, 0.24), transparent 66%),
-    radial-gradient(60% 40% at 45% 100%, rgba(120, 53, 15, 0.30), transparent 70%);
-  filter: blur(110px) saturate(1.18);
-}
-
-[data-theme="light"] body::after {
-  background:
-    radial-gradient(42% 42% at 16% 10%, rgba(249, 115, 22, 0.16), transparent 66%),
-    radial-gradient(46% 44% at 86% 28%, rgba(234, 88, 12, 0.13), transparent 68%),
-    radial-gradient(48% 46% at 26% 58%, rgba(251, 146, 60, 0.10), transparent 70%),
-    radial-gradient(52% 50% at 80% 80%, rgba(234, 88, 12, 0.12), transparent 68%),
-    radial-gradient(60% 40% at 45% 100%, rgba(217, 119, 6, 0.12), transparent 72%);
-  filter: blur(120px) saturate(1.08);
+    radial-gradient(40% 42% at 16% 10%, var(--ambient-key), transparent 66%),
+    radial-gradient(46% 48% at 86% 84%, var(--ambient-fill), transparent 68%),
+    radial-gradient(28% 28% at 82% 12%, var(--ambient-accent), transparent 70%);
+  filter: blur(120px) saturate(1.12);
 }
 
 .site-header {
@@ -214,7 +208,7 @@ body::after {
 }
 
 .site-footer {
-  background: var(--footer-gradient);
+  background: transparent;
 }
 
 .hero-overlay {
@@ -294,7 +288,7 @@ body::after {
     linear-gradient(var(--surface), var(--surface)) padding-box,
     var(--card-border-gradient) border-box;
   backdrop-filter: blur(20px);
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 

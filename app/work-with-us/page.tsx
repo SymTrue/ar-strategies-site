@@ -15,19 +15,6 @@ const Waves = dynamic(() => import('../components/ui/wave-background').then((m) 
 
 const mono = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } as const;
 
-function SectionKicker({ n, label }: { n: string; label: string }) {
-  return (
-    <div className="flex items-center gap-4 mb-8">
-      <span className="kicker-chip">
-        <span className="kicker-n">{n}</span>
-        <span className="kicker-sep" aria-hidden="true">/</span>
-        <span>{label}</span>
-      </span>
-      <span className="kicker-line" style={{ transform: 'scaleX(1)' }} aria-hidden="true" />
-    </div>
-  );
-}
-
 const advantages = [
   {
     title: 'Buyers, not browsers',
@@ -342,7 +329,13 @@ export default function WorkWithUsPage() {
         <Waves strokeColor={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(10,8,6,0.08)'} />
         <div className="hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto">
-          <SectionKicker n="00" label="Done For You" />
+          <div className="flex items-center gap-4 mb-8">
+            <span className="kicker-chip">
+              <span className="kicker-n">Work With Us</span>
+              <span className="kicker-sep" aria-hidden="true">/</span>
+              <span>Done For You</span>
+            </span>
+          </div>
           <h1 className="font-display uppercase text-5xl md:text-7xl leading-[1.05] mb-6 max-w-3xl text-balance">
             Own the top of Google <span className="text-brand">in your market.</span>
           </h1>
@@ -371,7 +364,6 @@ export default function WorkWithUsPage() {
       {/* Advantage */}
       <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
-          <SectionKicker n="01" label="The Advantage" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
             Why the top spot beats renting ads
           </h2>
@@ -389,7 +381,6 @@ export default function WorkWithUsPage() {
       {/* Before / After */}
       <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-4xl mx-auto">
-          <SectionKicker n="02" label="Before and After" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
             What moving up looks like
           </h2>
@@ -400,7 +391,6 @@ export default function WorkWithUsPage() {
       {/* How it works */}
       <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
-          <SectionKicker n="03" label="How It Works" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
             Four steps, no mystery
           </h2>
@@ -421,7 +411,6 @@ export default function WorkWithUsPage() {
       {/* FAQ */}
       <section className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-3xl mx-auto">
-          <SectionKicker n="04" label="FAQ" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-12">
             Straight answers
           </h2>
@@ -453,7 +442,6 @@ export default function WorkWithUsPage() {
       {/* Application */}
       <section id="apply" className="section-dashed px-4 sm:px-6 lg:px-8 py-20 md:py-28 section-premium">
         <div className="max-w-3xl mx-auto">
-          <SectionKicker n="05" label="Apply" />
           <h2 className="font-display uppercase text-3xl md:text-4xl mb-4">
             Send in your application
           </h2>
