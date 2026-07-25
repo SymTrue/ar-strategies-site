@@ -342,7 +342,7 @@ export default function Home() {
 
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="font-display text-4xl text-brand font-bold group-hover:text-violet-400 transition-colors">{step.n}</div>
+                        <div className="font-display text-4xl text-brand font-bold group-hover:text-[var(--brand-light)] transition-colors">{step.n}</div>
                         <div className="flex-1 h-0.5 bg-gradient-to-r from-brand to-transparent" />
                       </div>
                       <h3 className="font-display text-lg uppercase font-semibold text-[var(--text-primary)] group-hover:text-brand transition-colors">{step.title}</h3>
@@ -365,7 +365,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-10">
             {principles.map((p, idx) => (
               <AnimatedSection key={p.title} delay={idx * 0.1} className="h-full">
-                <GlowCard glowColor="midnightPurple" customSize className="h-full">
+                <GlowCard glowColor="steel" customSize className="h-full">
                   <div className="flex h-full flex-col px-4 py-4">
                     <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-brand" style={{ background: 'var(--icon-tile)', border: '1px solid var(--icon-tile-border)' }}>
                       {p.icon === 'exclusivity' && <PrincipleExclusivityIcon />}
@@ -482,7 +482,7 @@ export default function Home() {
                           <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-500">
                             <LiquidMetal
                               colorBack="#00000000"
-                              colorTint="#6d28d9"
+                              colorTint="#536b7c"
                               shape="circle"
                               repetition={1}
                               softness={0.7}

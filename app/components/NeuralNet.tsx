@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 /* Premium hero background: dense neural canopy surrounding hero text.
    8-lobe halo + inner ring, ~500 nodes, ~2000 edges.
    Dark mode: white nodes + blue glow.
-   Light mode: monochrome slate nodes + brand midnight purple (#6d28d9) accent glows only on activation.
+   Light mode: monochrome slate nodes + muted signal steel (#536b7c) accent glows only on activation.
    Cursor glow halo (Interactive Cursor pattern).
    Canvas 2D, pre-rendered sprites. 60fps. */
 
@@ -174,7 +174,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     ];
     // Light mode: 4 tiers, cool slate/charcoal with barely-perceptible violet undertone.
         // Near (slate-900 + whisper of violet) → Mid (slate-600) → Far (slate-400) → Deep (slate-300)
-        // Base nodes recede; only activation glows use brand midnight purple #6d28d9.
+        // Base nodes recede; only activation glows use muted signal steel #536b7c.
         const sLightTier = [
           mkTier('rgba(18,24,38,0.92)',  'rgba(85,95,115,0.55)', 44, 0.8),   // near: slate-950 + warmth
           mkTier('rgba(40,48,62,0.85)',  'rgba(110,122,140,0.50)', 36, 1.0),  // mid: slate-700/600
@@ -186,20 +186,20 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     // Dark mode: cyan-blue accent (brand blue) — unrelated to the orange
     // rebrand, kept as-is; not part of the orange/red cleanup.
     const sAccDark   = mkTier('rgba(56,189,248,0.72)',  'rgba(125,211,252,0.35)');
-    // Light mode: brand midnight purple #6d28d9 (rgba(109,40,217,...))
-    const sAccLight  = mkTier('rgba(109,40,217,0.95)',  'rgba(167,139,250,0.58)');
+    // Light mode: muted signal steel #536b7c (rgba(83,107,124,...))
+    const sAccLight  = mkTier('rgba(83,107,124,0.95)',  'rgba(145,167,184,0.58)');
 
     // Rings: soft feathered via makeRing
     const sRingDark  = makeRing('rgba(56,189,248,0.18)',    'rgba(56,189,248,0.03)');
-    const sRingLight = makeRing('rgba(109,40,217,0.24)',    'rgba(109,40,217,0.06)');
+    const sRingLight = makeRing('rgba(83,107,124,0.24)',    'rgba(83,107,124,0.06)');
 
     // Pulses: traveling edge highlights
     const sPulseDark = mkTier('rgba(125,211,252,0.88)', 'rgba(56,189,248,0.38)', 24);
-    const sPulseLight= mkTier('rgba(167,139,250,0.95)', 'rgba(196,181,253,0.55)', 24);
+    const sPulseLight= mkTier('rgba(145,167,184,0.95)', 'rgba(174,193,208,0.55)', 24);
 
     // Cursor glow sprite: subtle 120px halo
     const sCursorDark  = mkTier('rgba(56,189,248,0.22)', 'rgba(56,189,248,0.06)', 120);
-    const sCursorLight = mkTier('rgba(109,40,217,0.25)',  'rgba(196,181,253,0.08)', 120);
+    const sCursorLight = mkTier('rgba(83,107,124,0.25)',  'rgba(174,193,208,0.08)', 120);
 
     const parent = canvas.parentElement ?? canvas;
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;

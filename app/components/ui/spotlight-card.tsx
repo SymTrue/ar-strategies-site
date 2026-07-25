@@ -6,21 +6,31 @@ import { cn } from '@/lib/utils';
 interface GlowCardProps {
   children: ReactNode;
   className?: string;
-  glowColor?: 'midnightPurple' | 'navy' | 'blue' | 'purple' | 'green' | 'red' | 'orange';
+  /** 'steel' (the brand default: muted cool-steel, hue ~205-210, low
+   * saturation) or a generic hue for one-off, explicitly-chosen use —
+   * these are reusable UI primitives, not brand colors. */
+  glowColor?: 'steel' | 'blue' | 'purple' | 'green' | 'red' | 'orange';
   size?: 'sm' | 'md' | 'lg';
   width?: string | number;
   height?: string | number;
   customSize?: boolean; // When true, ignores size prop and uses width/height or className
 }
 
+/* base/spread define the hue range the glow sweeps as the pointer crosses
+   the card (hue = base + xp * spread); saturation keeps it a muted "signal"
+   accent rather than a neon one. 'steel' is the only brand-sanctioned
+   default: hue stays within 205-210 (spread is deliberately tight) at
+   18-28% saturation — never 100%, which is what made the previous purple
+   preset read as neon once combined with the border layer's brightness
+   amplification (removed in globals.css). The other presets are generic,
+   reusable hue options for explicit non-brand use, not silently loaded. */
 const glowColorMap = {
-  midnightPurple: { base: 265, spread: 40 },
-  navy: { base: 222, spread: 30 },
-  blue: { base: 220, spread: 200 },
-  purple: { base: 280, spread: 300 },
-  green: { base: 120, spread: 200 },
-  red: { base: 0, spread: 200 },
-  orange: { base: 30, spread: 200 },
+  steel:  { base: 207, spread: 4,   saturation: 22 },
+  blue:   { base: 220, spread: 20,  saturation: 45 },
+  purple: { base: 280, spread: 20,  saturation: 40 },
+  green:  { base: 120, spread: 20,  saturation: 40 },
+  red:    { base: 0,   spread: 20,  saturation: 45 },
+  orange: { base: 30,  spread: 20,  saturation: 45 },
 };
 
 const sizeMap = {
@@ -42,13 +52,16 @@ const sizeMap = {
      distance. Against a card much larger than the glow radius, hovering near the
      center left most of the border ring further from the spotlight than hovering
      right at an edge — reading as "only lights up outside the card."
+   - Saturation is explicit per preset (was hardcoded to 100% in the shared CSS,
+     which combined with a brightness(2) amplification on the border layer made
+     any glow color read as neon regardless of the hue chosen).
    The shared [data-glow] ::before/::after rules live once in globals.css, not
    injected per instance — with N cards mounted, a per-instance <style> tag would
    duplicate the same rule N times in the DOM for no reason. */
 const GlowCard: React.FC<GlowCardProps> = ({
   children,
   className = '',
-  glowColor = 'midnightPurple',
+  glowColor = 'steel',
   size = 'md',
   width,
   height,
@@ -56,7 +69,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const { base, spread } = glowColorMap[glowColor];
+  const { base, spread, saturation } = glowColorMap[glowColor];
 
   const sizeClasses = customSize ? '' : sizeMap[size];
 
@@ -79,12 +92,16 @@ const GlowCard: React.FC<GlowCardProps> = ({
     const styles: Record<string, string | number> = {
       '--base': base,
       '--spread': spread,
+      '--saturation': saturation,
       '--radius': '14',
       '--border': '3',
       '--backdrop': 'hsl(0 0% 60% / 0.12)',
       '--backup-border': 'var(--backdrop)',
       '--size': '220',
-      '--outer': '1',
+      '--outer': '0.5',
+      '--bg-spot-opacity': '0.08',
+      '--border-spot-opacity': '0.6',
+      '--border-light-opacity': '0.5',
       '--border-size': 'calc(var(--border, 2) * 1px)',
       '--spotlight-size': 'calc(var(--size, 150) * 1px)',
       '--hue': 'calc(var(--base) + (var(--xp, 0) * var(--spread, 0)))',
@@ -92,7 +109,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
         var(--spotlight-size) var(--spotlight-size) at
         calc(var(--x, 0) * 1px)
         calc(var(--y, 0) * 1px),
-        hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
+        hsl(var(--hue, 210) calc(var(--saturation, 22) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.08)), transparent
       )`,
       backgroundColor: 'var(--backdrop, transparent)',
       backgroundSize: 'calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)))',

@@ -21,7 +21,7 @@ export default function ShowcasePage() {
             <h1 className="font-display text-2xl uppercase mb-1">AR Strategies Effects</h1>
             <p className="text-sm text-gray-400">Showcase: AnimatedGradient, LiquidMetal, Spotlight Card & Gradient Dots</p>
           </div>
-          <Link href="/" className="text-sm bg-brand hover:bg-violet-700 px-4 py-2 rounded-full">
+          <Link href="/" className="text-sm bg-brand hover:bg-[var(--brand-dark)] px-4 py-2 rounded-full">
             Back to Site
           </Link>
         </div>
@@ -54,13 +54,13 @@ export default function ShowcasePage() {
             <section>
               <h2 className="font-display text-3xl uppercase mb-8">Hero with Animated Gradient</h2>
               <div className="relative h-96 rounded-2xl overflow-hidden">
-                <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-black to-violet-900/50" />}>
+                <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-black to-[color:var(--brand-dark)]/50" />}>
                   <AnimatedGradient
                     config={{
                       preset: 'custom',
                       color1: '#0a0a0a',
-                      color2: '#120a1f',
-                      color3: '#6d28d9',
+                      color2: '#12171e',
+                      color3: '#536b7c',
                       speed: 12,
                       distortion: 35,
                       swirl: 70,
@@ -90,7 +90,7 @@ export default function ShowcasePage() {
                     <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0" />}>
                       <LiquidMetal
                         colorBack="#00000000"
-                        colorTint="#6d28d9"
+                        colorTint="#536b7c"
                         shape="circle"
                         repetition={2}
                         softness={0.6}
@@ -118,7 +118,7 @@ export default function ShowcasePage() {
           <div className="space-y-8">
             <div>
               <h2 className="font-display text-3xl uppercase mb-6">Animated Gradient - Full Demo</h2>
-              <Suspense fallback={<div className="h-96 bg-gradient-to-br from-black to-violet-900/50 rounded-2xl" />}>
+              <Suspense fallback={<div className="h-96 bg-gradient-to-br from-black to-[color:var(--brand-dark)]/50 rounded-2xl" />}>
                 <AnimatedGradientDemo />
               </Suspense>
             </div>
@@ -217,7 +217,7 @@ export default function ShowcasePage() {
           </div>
           <div className="border-t border-white/10 pt-8 flex justify-between items-center text-sm text-[var(--text-tertiary)]">
             <p>© 2026 AR Strategies. Effects showcase.</p>
-            <Link href="/" className="text-brand hover:text-violet-400">
+            <Link href="/" className="text-brand hover:text-[var(--brand-light)]">
               Return to Main Site
             </Link>
           </div>

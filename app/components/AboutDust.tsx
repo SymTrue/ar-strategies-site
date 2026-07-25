@@ -51,10 +51,10 @@ export function AboutDust() {
         <p className="text-[11.5px] uppercase tracking-[0.16em] text-[var(--text-secondary)] mb-6" style={mono}>
           Fig. 01, The three jobs of local marketing
         </p>
-        <div className="relative h-[380px] md:h-[440px] rounded-lg border border-[var(--border)] overflow-hidden bg-[#090c16]">
+        <div className="relative h-[380px] md:h-[440px] rounded-lg border border-[var(--border)] overflow-hidden bg-[#07090d]">
           {reduced ? (
             <div className="flex h-full items-center justify-center px-6">
-              <p className="font-display uppercase text-3xl md:text-5xl text-center leading-snug text-balance" style={{ color: '#9d7bf9' }}>
+              <p className="font-display uppercase text-3xl md:text-5xl text-center leading-snug text-balance" style={{ color: '#91a7b8' }}>
                 Get noticed. Get remembered. Get chosen.
               </p>
             </div>
@@ -68,7 +68,7 @@ export function AboutDust() {
                   { type: 'text', text: 'REMEMBERED', textSize: 20 },
                   { type: 'text', text: 'CHOSEN', textSize: 20 },
                 ]}
-                particleColor={theme === 'dark' ? '#9d7bf9' : '#a78bfa'}
+                particleColor={theme === 'dark' ? '#91a7b8' : '#aec1d0'}
                 fontFamily={fontFamily}
                 particleCount={9000}
                 particleSize={0.04}

@@ -96,7 +96,7 @@ export const FAQTag = ({ category }: { category: 'timeline' | 'pricing' | 'servi
   const colors = {
     timeline: 'bg-blue-500/20 border-blue-500/50 text-blue-400',
     pricing: 'bg-green-500/20 border-green-500/50 text-green-400',
-    service: 'bg-purple-500/20 border-purple-500/50 text-purple-400',
+    service: 'bg-slate-500/20 border-slate-500/50 text-slate-400',
     contract: 'bg-teal-500/20 border-teal-500/50 text-teal-400',
   };
   const labels = {

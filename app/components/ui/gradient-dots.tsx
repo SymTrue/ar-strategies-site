@@ -18,12 +18,12 @@ type GradientDotsProps = React.ComponentProps<typeof motion.div> & {
 
 /* Animated dot-grid with drifting colored blobs showing through the mask.
    The original recipe used four saturated primaries (red/yellow/green/blue)
-   plus a full 0->360deg hue-rotate sweep — that cycles through the whole
+   plus a full 0->360deg hue-rotate sweep, which cycles through the whole
    rainbow regardless of which colors you hand it, since hue-rotate shifts
-   hue independent of the source color. Retinted to the site's navy/midnight-
-   purple palette, with the hue-rotate narrowed to a small wobble (rather than
-   removed outright) so the blobs still breathe subtly instead of cycling
-   through unrelated hues. */
+   hue independent of the source color. Retinted to the site's signal-
+   graphite palette (muted steel, no purple), with the hue-rotate narrowed
+   to a small wobble (rather than removed outright) so the blobs still
+   breathe subtly instead of cycling through unrelated hues. */
 export function GradientDots({
   dotSize = 8,
   spacing = 10,
@@ -43,10 +43,10 @@ export function GradientDots({
         backgroundImage: `
           radial-gradient(circle at 50% 50%, transparent 1.5px, ${backgroundColor} 0 ${dotSize}px, transparent ${dotSize}px),
           radial-gradient(circle at 50% 50%, transparent 1.5px, ${backgroundColor} 0 ${dotSize}px, transparent ${dotSize}px),
-          radial-gradient(circle at 50% 50%, var(--ambient-key, #3730a3), transparent 60%),
-          radial-gradient(circle at 50% 50%, var(--ambient-accent, #4c1d95), transparent 60%),
-          radial-gradient(circle at 50% 50%, var(--ambient-fill, #1e293b), transparent 60%),
-          radial-gradient(ellipse at 50% 50%, #6d28d9, transparent 60%)
+          radial-gradient(circle at 50% 50%, var(--ambient-key, #536b7c), transparent 60%),
+          radial-gradient(circle at 50% 50%, var(--ambient-accent, #91a7b8), transparent 60%),
+          radial-gradient(circle at 50% 50%, var(--ambient-fill, #27313b), transparent 60%),
+          radial-gradient(ellipse at 50% 50%, #536b7c, transparent 60%)
         `,
         backgroundSize: `
           ${spacing}px ${hexSpacing}px,

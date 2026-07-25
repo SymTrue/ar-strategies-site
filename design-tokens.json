@@ -7,9 +7,9 @@
     "color": {
       "black": { "value": "#000000", "description": "Primary background" },
       "white": { "value": "#FFFFFF", "description": "Primary text on dark" },
-      "accent": { "value": "#9d7bf9", "description": "Brand accent — midnight purple" },
-      "accent-dark": { "value": "#6d28d9", "description": "Darker accent for states" },
-      "accent-light": { "value": "#c4b5fd", "description": "Lighter accent for hover" },
+      "accent": { "value": "#91a7b8", "description": "Brand accent: muted signal steel" },
+      "accent-dark": { "value": "#536b7c", "description": "Darker accent for states" },
+      "accent-light": { "value": "#aec1d0", "description": "Lighter accent for hover" },
       "gray-900": { "value": "#111111", "description": "Near-black" },
       "gray-800": { "value": "#1a1a1a", "description": "Dark gray" },
       "gray-700": { "value": "#2d2d2d", "description": "Medium dark gray" },

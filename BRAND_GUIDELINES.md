@@ -1,19 +1,24 @@
 # AR Strategies Brand Guidelines
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 **Last Updated:** 2026-07-25
 **Maintained by:** AR Strategies Design System
 
-**2026-07-25 rebrand note:** v1.0.0 of this document specified orange
-(`#ea580c`) as the brand accent. That was never derived from the actual
-AR Strategies logo — the logo is pure monochrome (white → silver → grey
-gradient hexagon, zero orange or red). The orange/red palette instead
-matched Strike Den, a case-study client whose own logo is a red/black
-tiger mark — a combat-sports brand identity, not this agency's. v1.0.0
-was authored by a prior AI session and never checked against the actual
-brand assets. v2.0.0 corrects this: a navy structural base with midnight
-purple as the sparing accent, verified against the real logo and checked
-for WCAG AA contrast (see Section 13) before being written down here.
+**Palette history:** v1.0.0 specified orange (`#ea580c`) as the brand
+accent — never derived from the actual logo (pure monochrome: white to
+silver to grey gradient hexagon, zero orange or red). It matched Strike
+Den, a case-study client whose own logo is a red/black tiger mark, not
+this agency's. v2.0.0 corrected the hue to midnight purple but kept it as
+a Committed, then merely-desaturated, dominant color (headline text,
+solid CTA fill) — still too loud for a monochrome logo, and two source-
+of-truth files (`design-tokens.css` and `globals.css`) had drifted out of
+sync with different purple values. v3.0.0 ("signal graphite") is the
+correction: graphite and silver carry ~90% of visual weight, derived
+directly from the logo; a muted cool-steel accent is reserved for small
+interactive details only. A single, tightly-scoped violet trace is kept
+as an explicit exception (Section 2, rule 7) at the user's request, never
+as a general brand color. All values checked for WCAG AA contrast (see
+Section 13) before being written down here.
 
 ---
 
@@ -38,41 +43,46 @@ Advertising systems that convert. We audit, run, and scale campaigns for local b
 
 ### Color Palette
 
-Sourced from the actual AR Strategies logo — a monochrome white → silver →
-grey gradient hexagon. The palette is navy-black as the structural base
-(matching the logo's cool, neutral tone) with midnight purple as the one
-sparing accent that carries what orange used to carry: CTAs, highlights,
-brand moments.
+Sourced from the actual AR Strategies logo: a monochrome white to silver to
+grey gradient hexagon. Graphite and silver are the brand; the logo, not
+the accent color, is the brightest visual brand object anywhere on the
+site. Signal steel is reserved for small interactive details only.
 
 #### Primary Colors
-- **Navy-black:** `#090c16` — Primary background (dark theme), cool near-black matching the logo
-- **White:** `#f5f6fa` — Primary text on dark
-- **Midnight Purple (Brand Accent):** `#9d7bf9` — CTAs, highlights, emphasis (text/icon usage; verified 4.5:1+ on both `--bg-base` and `--bg-elevated`)
+- **Graphite-black:** `#0b0e13` — Primary background (dark theme)
+- **Off-white:** `#f1f4f6` — Primary text on dark
+- **Signal Steel (Brand Accent):** `#91a7b8` — small interactive details only: icons, active states, focus rings, diagram lines, hover outlines (verified 4.5:1+ against both background and surface)
 
 #### Secondary Colors
-- **Purple Light:** `#c4b5fd` — Hover-brighten states, lighter accents
-- **Purple Dark:** `#6d28d9` — Deep accent; background/gradient fills and CTA button fill (`--cta-bg`); not used as text color (fails contrast on dark surfaces)
+- **Steel Light:** `#aec1d0` — Hover/focus state
+- **Steel Dark:** `#536b7c` — Subtle borders and glow source; background/gradient fills, not body text (fails text contrast)
 
-#### Neutral Colors (navy-tinted, not warm)
+#### Neutral Colors
 | Color | Hex | Usage |
 |-------|-----|-------|
-| Bg Elevated | `#121a2c` | Cards, elevated surfaces |
-| Bg Deepest | `#03040a` | Root background, OLED-safe |
-| Text Secondary | `#c7cbdb` | Secondary text (dark theme) |
-| Text Tertiary | `#8890a6` | Muted text, captions (dark theme) |
-| Border | `rgba(157,123,249,0.10)` | Subtle purple-tinted hairline borders |
+| Surface | `#12171e` | Cards, elevated surfaces |
+| Surface Hover | `#191f27` | Hover state on surfaces |
+| Bg Deepest | `#07090d` | Root background, OLED-safe |
+| Text Secondary | `#b7c0c9` | Secondary text (dark theme) |
+| Text Tertiary | `#8995a1` | Muted text, captions (dark theme) |
+| Border | `#27313b` | Default card/section borders (graphite, not tinted) |
 
 #### Status Colors
-- **Success:** `#10b981` — Positive actions, confirmations (unchanged — semantic, not brand)
-- **Error:** `#ef4444` — Errors, warnings (unchanged — semantic, not brand; do not repurpose for brand accents)
+- **Success:** `#10b981` — Positive actions, confirmations (unchanged, semantic, not brand)
+- **Error:** `#ef4444` — Errors, warnings (unchanged, semantic, not brand; never repurpose for brand accents)
+
+#### Primary CTA
+- **Silver fill:** `#e4e9ee`, **dark text:** `#0b0e13` — the brightest interactive surface on the page. Secondary buttons stay dark with a steel border instead.
 
 ### Color Usage Rules
 
-1. **Background:** Navy-black (`#090c16`) is the primary dark-theme background
-2. **Text on Dark:** White (`#f5f6fa`) for primary, Text Tertiary (`#8890a6`) or lighter for secondary
-3. **Accents:** Midnight Purple (`#9d7bf9`) for CTAs, highlights, and brand moments
-4. **Borders:** Purple-tinted hairline (`rgba(157,123,249,0.10)`) for subtle borders, full Purple Dark for emphasis
-5. **Hover States:** Use Purple Light (`#c4b5fd`) or a darker surface tone
+1. Graphite and silver account for roughly 90% of visual weight. Signal steel is the exception, not the rule.
+2. Signal steel appears only on focused/interactive details: small icons, active states, focus rings, diagram lines, hover card outlines. Never on body text, section headlines, or general borders.
+3. Primary buttons use the silver CTA fill with dark text. Secondary buttons stay dark with steel borders.
+4. Default card borders are graphite/steel (`#27313b`), never a colored gradient.
+5. No purple in text, button fills, general borders, large background gradients, or ambient fields.
+6. GlowCard (`app/components/ui/spotlight-card.tsx`) may show one extremely subtle cool-steel glow on hover: hue 205 to 210, saturation 18 to 28% (never 100%), low opacity, hover-only, no brightness amplification.
+7. **Exception, kept at the user's explicit request:** GlowCard's outer glow (not the crisp border, not text, not buttons, not general borders, not page ambience) may carry a faint, static violet trace: `rgba(118, 107, 149, 0.12–0.18)`. It is not a brand color. If this exception is ever removed, delete the `[data-glow].is-glowing` box-shadow rule in `globals.css` and nothing else changes.
 
 ### Glassmorphism Effects
 
@@ -227,38 +237,38 @@ Always tint shadows to the background color. For dark backgrounds, use `rgba(0, 
 ### Buttons
 
 #### Primary Button
-- **Background:** Purple Dark (`#6d28d9`, the `--cta-bg` token)
-- **Text:** White (`#FFFFFF`)
+- **Background:** Silver (`#e4e9ee`, the `--cta-bg` token) — the brightest interactive surface on the page
+- **Text:** Dark graphite (`#0b0e13`)
 - **Padding:** 12px 24px (space-3 space-6)
 - **Radius:** Fully rounded (pill)
 - **Font Weight:** 600
 - **Transition:** All 200ms
-- **Hover:** darker still (`--cta-bg-hover: #5b21b6`)
+- **Hover:** brighter still (`--cta-bg-hover: #eff3f6`)
 - **Active:** Scale 0.97
 
 ```jsx
-<button className="bg-brand hover:bg-violet-700 active:scale-[0.97] px-6 py-3 rounded-full font-semibold transition">
+<button className="bg-[var(--cta-bg)] text-[var(--cta-text)] hover:bg-[var(--cta-bg-hover)] active:scale-[0.97] px-6 py-3 rounded-full font-semibold transition">
   Schedule Free Audit
 </button>
 ```
 
 #### Secondary Button
-- **Background:** Bg Elevated (`#121a2c`)
-- **Border:** 1px purple-tinted hairline
+- **Background:** Surface (`#12171e`), dark
+- **Border:** 1px steel hairline
 - **Text:** White
 - **Same padding/radius as primary**
 
 #### Ghost Button
 - **Background:** Transparent
-- **Border:** 1px Midnight Purple
-- **Text:** Midnight Purple
-- **Hover:** Bg Elevated background
+- **Border:** 1px Signal Steel
+- **Text:** Signal Steel
+- **Hover:** Surface background
 
 ### Cards
 
 #### Default Card
-- **Background:** Bg Elevated (`#121a2c`) with glassmorphism
-- **Border:** 1px purple-tinted hairline
+- **Background:** Surface (`#12171e`) with glassmorphism
+- **Border:** 1px graphite/steel (`#27313b`), never a colored gradient
 - **Radius:** 16px (rounded-2xl)
 - **Padding:** 32px (space-8)
 - **Shadow:** Medium (box-shadow-md)
@@ -273,7 +283,7 @@ Always tint shadows to the background color. For dark backgrounds, use `rgba(0, 
 - **Padding:** 12px 16px
 - **Text:** White
 - **Placeholder:** Text Tertiary
-- **Focus Border:** Midnight Purple
+- **Focus Border:** Signal Steel
 
 ---
 
@@ -337,11 +347,11 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 
 ### Color Variables
 ```css
---color-accent: #9d7bf9;
---bg-primary: #090c16;
---text-primary: #f5f6fa;
---text-accent: #9d7bf9;
---border-primary: rgba(157, 123, 249, 0.10);
+--color-accent: #91a7b8;
+--bg-primary: #0b0e13;
+--text-primary: #f1f4f6;
+--text-accent: #91a7b8;
+--border-primary: #27313b;
 ```
 
 ### Typography Variables
@@ -354,9 +364,9 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 
 ### Component Variables
 ```css
---button-primary-bg: #6d28d9;
---card-bg: #121a2c;
---input-focus-border: #9d7bf9;
+--button-primary-bg: #e4e9ee;
+--card-bg: #12171e;
+--input-focus-border: #91a7b8;
 ```
 
 ### Spacing Variables
@@ -371,28 +381,27 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 ## 11. Usage Examples
 
 ### Hero Section
-- Navy-black background with animated gradient
-- Large H1 in Anton display font
-- Midnight purple accent text
-- Rounded pill buttons
+- Graphite-black background with animated gradient
+- Large H1 in Anton display font, plain off-white ink (no colored headline text)
+- Silver rounded pill CTA button
 
 ### Card Component
-- Bg Elevated background with glassmorphism
+- Surface background with glassmorphism
 - 16px border radius
 - 32px padding
 - Medium shadow
-- White text, midnight purple accents
+- White text, signal steel used only for small icons/labels, not body copy
 
 ### Process Section
 - Grid layout (1 col mobile, 2 col tablet, 4 col desktop)
-- Cards with large H3 numbers in midnight purple
+- Cards with large H3 numbers in signal steel (a real sequence, so the color-coded number earns its place)
 - Staggered scroll reveal animations
 - 24px gaps between items
 
 ### Navigation
 - Sticky top, dark background with blur
-- White text, midnight purple hover state
-- Midnight purple rounded pill CTA button
+- White text, signal steel hover state
+- Silver rounded pill CTA button
 - Responsive mobile hamburger menu
 
 ---
@@ -461,7 +470,7 @@ In any component:
 - Apply glassmorphism to elevated surfaces
 - Test on mobile, tablet, desktop
 - Animate entrance on scroll, not just hover
-- Use Midnight Purple sparingly for maximum impact
+- Use Signal Steel sparingly, on interactive details only, for maximum impact
 - Ensure color contrast meets WCAG AA minimum
 
 ### DON'T ❌

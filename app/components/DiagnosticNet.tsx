@@ -69,7 +69,7 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const isDark = () => themeRef.current === 'dark';
-    const passGlow = makeGlowSprite('rgba(109,40,217,0.95)', 160);
+    const passGlow = makeGlowSprite('rgba(83,107,124,0.95)', 160);
     const dimGlowDark = makeGlowSprite('rgba(140,170,255,0.5)', 140);
     const dimGlowLight = makeGlowSprite('rgba(120,120,130,0.35)', 140);
     const hubGlowDark = makeGlowSprite('rgba(200,215,255,0.9)', 200);
@@ -135,7 +135,7 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
         const answeredAll = row.every((v) => v !== null) && row.length > 0;
         const strength = row.length ? passed / row.length : 0;
 
-        ctx.strokeStyle = strength > 0 ? `rgba(109,40,217,${0.14 + strength * 0.4})` : lineDim;
+        ctx.strokeStyle = strength > 0 ? `rgba(83,107,124,${0.14 + strength * 0.4})` : lineDim;
         ctx.lineWidth = (1 + strength * 1.6) * dpr;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
@@ -162,7 +162,7 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
           const qy = cy + Math.sin(qa) * (R + r * 1.15);
           const val = row[qi];
 
-          ctx.strokeStyle = val === true ? 'rgba(109,40,217,0.55)' : lineDimQ;
+          ctx.strokeStyle = val === true ? 'rgba(83,107,124,0.55)' : lineDimQ;
           ctx.lineWidth = 1 * dpr;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -210,7 +210,7 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
           ctx.globalAlpha = 1;
         }
 
-        ctx.fillStyle = answeredAll ? (passed >= 2 ? '#6d28d9' : dotDim) : (isDark() ? 'rgba(180,192,225,0.7)' : 'rgba(110,110,120,0.65)');
+        ctx.fillStyle = answeredAll ? (passed >= 2 ? '#536b7c' : dotDim) : (isDark() ? 'rgba(180,192,225,0.7)' : 'rgba(110,110,120,0.65)');
         ctx.beginPath();
         ctx.arc(p.x, p.y, nodeR, 0, Math.PI * 2);
         ctx.fill();
