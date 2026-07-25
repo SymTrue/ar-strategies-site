@@ -18,19 +18,26 @@
   --background: var(--bg-base);
   --foreground: #f1f4f6;
 
-  --brand: #91a7b8;           /* muted signal steel — small interactive details only */
-  --brand-light: #aec1d0;     /* hover/focus */
-  --brand-dark: #536b7c;      /* subtle borders and glow source; background/gradient fills, not body text */
-  --brand-ember: #536b7c;
-  --color-accent: #91a7b8;    /* focus rings + misc accent primitive */
+  /* Signal steel, at real chroma. These were hsl(206, 21.5%, …) — so
+     desaturated they rendered as plain grey, which meant every "accent"
+     moment on the page (kicker dots, icon tiles, nav underline, chart
+     lines, text-brand spans) carried no colour at all. Same hue family,
+     saturation raised 21.5% -> 50%, so accents actually register as a
+     colour while staying well short of the Electric Ice signal
+     (hsl(200, 100%, 74%)) that sits above them in the hierarchy. */
+  --brand: #7daed4;           /* signal steel — small interactive details only */
+  --brand-light: #a8cbe6;     /* hover/focus */
+  --brand-dark: #3e7198;      /* subtle borders and glow source; background/gradient fills, not body text */
+  --brand-ember: #3e7198;
+  --color-accent: #7daed4;    /* focus rings + misc accent primitive */
 
   /* Primary CTA: silver fill, dark text — the CTA is the brightest
      interactive surface, but the logo remains the brightest brand object. */
   --cta-bg: #e4e9ee;
   --cta-bg-hover: #eff3f6;
   --cta-text: #0b0e13;
-  --cta-border: rgba(145, 167, 184, 0.35);
-  --cta-border-hover: rgba(174, 193, 208, 0.55);
+  --cta-border: rgba(125, 174, 212, 0.35);
+  --cta-border-hover: rgba(168, 203, 230, 0.55);
 
   /* Electric Ice: ONE high-energy signal accent, not the brand colour.
      Reserved for ~2-3% of visible weight — hero neural-net activation +
@@ -47,27 +54,31 @@
   --surface: var(--bg-elevated);
   --surface-hover: #191f27;
   --border: #27313b;
-  --border-hover: rgba(145, 167, 184, 0.4);
+  --border-hover: rgba(125, 174, 212, 0.4);
   --text-primary: #f1f4f6;
   --text-secondary: #b7c0c9;
   --text-tertiary: #8995a1;
   --nav-background: var(--bg-overlay);
   --grain-opacity: 0.05;
 
-  /* Ambient: graphite depth only, no purple wash. Two low-opacity steel
+  /* Ambient: graphite depth, no purple wash. Alphas raised ~2.5x from the
+     original pass — at 0.14/0.22/0.05 behind a 120px blur these resolved to
+     flat black, so the "depth from layering" the palette is built on wasn't
+     actually reaching the screen. Still directed sources, not a wash: three
+     low-opacity steel
      sources, not a diffuse color field — depth comes from layering, not hue. */
-  --ambient-key: rgba(83, 107, 124, 0.14);
-  --ambient-fill: rgba(39, 49, 59, 0.22);
-  --ambient-accent: rgba(145, 167, 184, 0.05);
+  --ambient-key: rgba(62, 113, 152, 0.34);
+  --ambient-fill: rgba(38, 56, 74, 0.44);
+  --ambient-accent: rgba(125, 174, 212, 0.14);
 
-  --card-border-gradient: linear-gradient(160deg, rgba(145, 167, 184, 0.28), rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.02) 100%);
+  --card-border-gradient: linear-gradient(160deg, rgba(125, 174, 212, 0.28), rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.02) 100%);
 
-  --header-gradient: linear-gradient(110deg, rgba(83, 107, 124, 0.10) 0%, rgba(7, 9, 13, 0) 40%, rgba(83, 107, 124, 0.04) 100%);
+  --header-gradient: linear-gradient(110deg, rgba(62, 113, 152, 0.10) 0%, rgba(7, 9, 13, 0) 40%, rgba(62, 113, 152, 0.04) 100%);
   --hero-overlay: linear-gradient(180deg, rgba(7, 9, 13, 0.08) 0%, rgba(7, 9, 13, 0.3) 48%, rgba(7, 9, 13, 0.72) 78%, var(--background) 100%);
   --hero-kicker-bg: rgba(7, 9, 13, 0.28);
-  --hero-kicker-border: rgba(145, 167, 184, 0.22);
-  --icon-tile: linear-gradient(135deg, rgba(145, 167, 184, 0.10), rgba(83, 107, 124, 0.07));
-  --icon-tile-border: rgba(145, 167, 184, 0.24);
+  --hero-kicker-border: rgba(125, 174, 212, 0.22);
+  --icon-tile: linear-gradient(135deg, rgba(125, 174, 212, 0.10), rgba(62, 113, 152, 0.07));
+  --icon-tile-border: rgba(125, 174, 212, 0.24);
 }
 
 [data-theme="light"] {
@@ -76,24 +87,26 @@
   --background: #f5f7f8;
   --foreground: #12171e;
 
-  --brand: #4c6478;           /* muted signal steel, darkened for light-bg contrast */
-  --brand-light: #3d5568;     /* hover/focus, still passes AA on white */
-  --brand-dark: #33424d;
-  --brand-ember: #33424d;
-  --color-accent: #4c6478;    /* focus rings + misc accent primitive */
+  /* Same chroma lift as the dark theme, darkened for light-bg contrast.
+     All three clear AA on both the page background and card surfaces. */
+  --brand: #2f6893;           /* signal steel, darkened for light-bg contrast */
+  --brand-light: #205279;     /* hover/focus (darker on light), still passes AA */
+  --brand-dark: #22445d;
+  --brand-ember: #22445d;
+  --color-accent: #2f6893;    /* focus rings + misc accent primitive */
 
   /* Primary CTA inverts to a dark graphite ink fill: a literal silver fill
      copied onto a white page would barely register as a button. */
   --cta-bg: #12171e;
   --cta-bg-hover: #1c232c;
   --cta-text: #f1f4f6;
-  --cta-border: rgba(83, 107, 124, 0.35);
-  --cta-border-hover: rgba(83, 107, 124, 0.55);
+  --cta-border: rgba(62, 113, 152, 0.35);
+  --cta-border-hover: rgba(62, 113, 152, 0.55);
 
   --surface: #ebeef0;
   --surface-hover: #e2e6e9;
   --border: #c9d0d5;
-  --border-hover: rgba(76, 100, 120, 0.4);
+  --border-hover: rgba(47, 104, 147, 0.4);
   --text-primary: #12171e;
   --text-secondary: #3d4750;
   --text-tertiary: #5a6971;
@@ -102,18 +115,18 @@
 
   /* Graphite-depth ambient, retuned for a white base: alphas drop sharply,
      no purple anywhere in the ambient field. */
-  --ambient-key: rgba(83, 107, 124, 0.06);
-  --ambient-fill: rgba(39, 49, 59, 0.05);
-  --ambient-accent: rgba(76, 100, 120, 0.03);
+  --ambient-key: rgba(62, 113, 152, 0.14);
+  --ambient-fill: rgba(38, 56, 74, 0.10);
+  --ambient-accent: rgba(47, 104, 147, 0.07);
 
-  --card-border-gradient: linear-gradient(160deg, rgba(76, 100, 120, 0.24), rgba(0, 0, 0, 0.06) 45%, rgba(0, 0, 0, 0.03) 100%);
+  --card-border-gradient: linear-gradient(160deg, rgba(47, 104, 147, 0.24), rgba(0, 0, 0, 0.06) 45%, rgba(0, 0, 0, 0.03) 100%);
 
-  --header-gradient: linear-gradient(110deg, rgba(76, 100, 120, 0.06) 0%, rgba(245, 247, 248, 0) 42%, rgba(76, 100, 120, 0.03) 100%);
+  --header-gradient: linear-gradient(110deg, rgba(47, 104, 147, 0.06) 0%, rgba(245, 247, 248, 0) 42%, rgba(47, 104, 147, 0.03) 100%);
   --hero-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(244, 246, 247, 0.44) 48%, rgba(248, 249, 250, 0.88) 78%, var(--background) 100%);
   --hero-kicker-bg: rgba(255, 255, 255, 0.6);
-  --hero-kicker-border: rgba(76, 100, 120, 0.22);
-  --icon-tile: linear-gradient(135deg, rgba(76, 100, 120, 0.10), rgba(76, 100, 120, 0.06));
-  --icon-tile-border: rgba(76, 100, 120, 0.26);
+  --hero-kicker-border: rgba(47, 104, 147, 0.22);
+  --icon-tile: linear-gradient(135deg, rgba(47, 104, 147, 0.10), rgba(47, 104, 147, 0.06));
+  --icon-tile-border: rgba(47, 104, 147, 0.26);
   color-scheme: light;
 }
 
@@ -181,7 +194,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.01em;
   border: 1px solid var(--cta-border);
-  box-shadow: 0 4px 16px -8px rgba(83, 107, 124, 0.4);
+  box-shadow: 0 4px 16px -8px rgba(62, 113, 152, 0.4);
 }
 
 .btn-primary:hover {
@@ -190,7 +203,7 @@ p {
   /* Restrained Electric Ice edge on top of the existing steel shadow — a
      reflected glow, not a cyan-filled button. Silver fill is untouched. */
   box-shadow:
-    0 6px 22px -8px rgba(83, 107, 124, 0.55),
+    0 6px 22px -8px rgba(62, 113, 152, 0.55),
     0 0 0 1px var(--signal-electric-soft),
     0 0 16px var(--signal-electric-glow);
 }
@@ -247,7 +260,7 @@ body::after {
     radial-gradient(40% 42% at 16% 10%, var(--ambient-key), transparent 66%),
     radial-gradient(46% 48% at 86% 84%, var(--ambient-fill), transparent 68%),
     radial-gradient(28% 28% at 82% 12%, var(--ambient-accent), transparent 70%);
-  filter: blur(120px) saturate(1.12);
+  filter: blur(120px) saturate(1.3);
 }
 
 .site-header {
@@ -436,14 +449,14 @@ body::after {
     linear-gradient(var(--surface-hover), var(--surface-hover)) padding-box,
     var(--card-border-gradient) border-box;
   box-shadow:
-    0 0 24px rgba(83, 107, 124, 0.2),
+    0 0 24px rgba(62, 113, 152, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
   transform: translateY(-4px);
 }
 
 [data-theme="light"] .glass-card:hover {
   box-shadow:
-    0 0 24px rgba(83, 107, 124, 0.15),
+    0 0 24px rgba(62, 113, 152, 0.15),
     inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
@@ -458,7 +471,7 @@ button:active {
 .glass-card:active {
   transform: scale(0.98);
   box-shadow:
-    0 0 16px rgba(83, 107, 124, 0.15),
+    0 0 16px rgba(62, 113, 152, 0.15),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
@@ -466,8 +479,8 @@ button:active {
    2026-07 rebrand — a class named "orange" producing purple would be
    exactly the kind of misleading token the rebrand exists to fix) */
 .glow-text-accent {
-  color: #91a7b8;
-  text-shadow: 0 0 16px rgba(83, 107, 124, 0.3);
+  color: #7daed4;
+  text-shadow: 0 0 16px rgba(62, 113, 152, 0.3);
 }
 
 /* Button and CTA feedback states */
@@ -486,7 +499,7 @@ button:disabled {
 
 /* Improved brand text contrast */
 .text-brand {
-  text-shadow: 0 0 8px rgba(83, 107, 124, 0.2);
+  text-shadow: 0 0 8px rgba(62, 113, 152, 0.2);
 }
 
 /* Section premium backgrounds */
@@ -632,8 +645,8 @@ button, a[role="button"], [role="button"] {
 /* (dot-grid removed — the page is one smooth continuous surface now) */
 
 /* Secondary accent variation for visual depth. There is no .accent-dark /
-   .hover-accent-dark counterpart on purpose: --brand-dark (#536b7c) only
-   reaches ~3.2-3.5:1 against the dark backgrounds, below WCAG AA's 4.5:1
+   .hover-accent-dark counterpart on purpose: --brand-dark (#3e7198) only
+   reaches ~3.7:1 against the dark backgrounds, below WCAG AA's 4.5:1
    for normal text — it's a border/glow-source color, not a text color. Use
    --brand or --brand-light for accent text instead. */
 .accent-light {
@@ -660,7 +673,7 @@ button, a[role="button"], [role="button"] {
   right: 0;
   font-size: clamp(180px, 30vw, 400px);
   font-weight: 900;
-  color: rgba(83, 107, 124, 0.03);
+  color: rgba(62, 113, 152, 0.03);
   font-family: var(--font-display);
   pointer-events: none;
   z-index: 0;
@@ -840,7 +853,7 @@ textarea:focus:not(:focus-visible),
   border: 1px dashed var(--border);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(83, 107, 124, 0.04) 0%, transparent 30%),
+    linear-gradient(180deg, rgba(62, 113, 152, 0.04) 0%, transparent 30%),
     var(--surface);
 }
 .terminal-head {
@@ -902,8 +915,8 @@ textarea:focus:not(:focus-visible),
 
 /* Live status dot */
 @keyframes liveDot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(83, 107, 124, 0.5); }
-  60% { box-shadow: 0 0 0 5px rgba(83, 107, 124, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(62, 113, 152, 0.5); }
+  60% { box-shadow: 0 0 0 5px rgba(62, 113, 152, 0); }
 }
 .t-live {
   display: inline-block;

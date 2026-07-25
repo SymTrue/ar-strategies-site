@@ -54,7 +54,7 @@ export function AboutDust() {
         <div className="relative h-[380px] md:h-[440px] rounded-lg border border-[var(--border)] overflow-hidden bg-[#07090d]">
           {reduced ? (
             <div className="flex h-full items-center justify-center px-6">
-              <p className="font-display uppercase text-3xl md:text-5xl text-center leading-snug text-balance" style={{ color: '#91a7b8' }}>
+              <p className="font-display uppercase text-3xl md:text-5xl text-center leading-snug text-balance" style={{ color: '#7daed4' }}>
                 Get noticed. Get remembered. Get chosen.
               </p>
             </div>
@@ -68,7 +68,7 @@ export function AboutDust() {
                   { type: 'text', text: 'REMEMBERED', textSize: 20 },
                   { type: 'text', text: 'CHOSEN', textSize: 20 },
                 ]}
-                particleColor={theme === 'dark' ? '#91a7b8' : '#aec1d0'}
+                particleColor={theme === 'dark' ? '#7daed4' : '#a8cbe6'}
                 fontFamily={fontFamily}
                 particleCount={9000}
                 particleSize={0.04}

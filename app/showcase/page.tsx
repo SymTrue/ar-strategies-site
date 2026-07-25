@@ -60,7 +60,7 @@ export default function ShowcasePage() {
                       preset: 'custom',
                       color1: '#0a0a0a',
                       color2: '#12171e',
-                      color3: '#536b7c',
+                      color3: '#3e7198',
                       speed: 12,
                       distortion: 35,
                       swirl: 70,
@@ -90,7 +90,7 @@ export default function ShowcasePage() {
                     <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0" />}>
                       <LiquidMetal
                         colorBack="#00000000"
-                        colorTint="#536b7c"
+                        colorTint="#3e7198"
                         shape="circle"
                         repetition={2}
                         softness={0.6}

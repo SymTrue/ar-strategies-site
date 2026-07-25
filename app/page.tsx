@@ -482,7 +482,7 @@ export default function Home() {
                           <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-500">
                             <LiquidMetal
                               colorBack="#00000000"
-                              colorTint="#536b7c"
+                              colorTint="#3e7198"
                               shape="circle"
                               repetition={1}
                               softness={0.7}

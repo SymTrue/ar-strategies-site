@@ -175,9 +175,9 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       mkTier('rgba(210,220,235,0.78)', 'rgba(170,185,210,0.22)', 30, 1.4),  // far: dimmer, wider halo
       mkTier('rgba(180,195,215,0.60)', 'rgba(150,170,195,0.15)', 28, 1.8),  // deep: barely visible
     ];
-    // Light mode: 4 tiers, cool slate/charcoal with barely-perceptible violet undertone.
-        // Near (slate-900 + whisper of violet) → Mid (slate-600) → Far (slate-400) → Deep (slate-300)
-        // Base nodes recede; only activation glows use muted signal steel #536b7c.
+    // Light mode: 4 tiers of cool slate/charcoal, no accent at rest.
+        // Near (slate-950) → Mid (slate-700/600) → Far (slate-500) → Deep (slate-400/300)
+        // Base nodes recede; colour arrives only on the activation layer.
         const sLightTier = [
           mkTier('rgba(18,24,38,0.92)',  'rgba(85,95,115,0.55)', 44, 0.8),   // near: slate-950 + warmth
           mkTier('rgba(40,48,62,0.85)',  'rgba(110,122,140,0.50)', 36, 1.0),  // mid: slate-700/600
@@ -200,7 +200,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
 
     // Cursor glow sprite: subtle 120px halo
     const sCursorDark  = mkTier('rgba(56,189,248,0.22)', 'rgba(56,189,248,0.06)', 120);
-    const sCursorLight = mkTier('rgba(83,107,124,0.25)',  'rgba(174,193,208,0.08)', 120);
+    const sCursorLight = mkTier('rgba(62,113,152,0.25)',  'rgba(168,203,230,0.08)', 120);
 
     const parent = canvas.parentElement ?? canvas;
     let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, R = 0;
@@ -251,6 +251,11 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
     const GRAV_R = 180;
 
     const bucketEdges: [number[], number[], number[]] = [[], [], []];
+    // Edges whose endpoints are currently firing. Drawn separately from the
+    // three depth buckets because they use a different colour (Electric Ice)
+    // and additive compositing — this is what makes an activation sweep read
+    // as the network *conducting* rather than just some dots brightening.
+    const activeEdges: number[] = [];
     const edgeClusterMap = new Map<number, Set<number>>();
     edges.forEach((_, i) => edgeClusterMap.set(i, new Set([nodes[edges[i][0]].clusterId, nodes[edges[i][1]].clusterId])));
 
@@ -266,8 +271,8 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       // Light-mode stops were still literal orange (#f57d28-ish) leftover
       // from the original brand palette; retuned to steel-neutral.
       const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.5);
-      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(83,107,124,0.005)');
-      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(83,107,124,0.003)');
+      bg.addColorStop(0, isDark ? 'rgba(20,170,250,0.005)' : 'rgba(62,113,152,0.005)');
+      bg.addColorStop(0.5, isDark ? 'rgba(8,190,220,0.003)' : 'rgba(62,113,152,0.003)');
       bg.addColorStop(1, 'transparent');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
@@ -316,6 +321,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       }
 
       bucketEdges[0].length = 0; bucketEdges[1].length = 0; bucketEdges[2].length = 0;
+      activeEdges.length = 0;
       for (let i = 0; i < edges.length; i++) {
         const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
         const alpha = (a.pa + b.pa) * 0.5;
@@ -323,11 +329,14 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         // Near edges (ps ~1.2) keep full alpha. Far edges (ps ~0.8) fade to 60%.
         const depthFade = 0.55 + 0.45 * Math.min(((a.ps + b.ps) * 0.5 - 0.72) / 0.48, 1);
         bucketEdges[alpha * depthFade < 0.28 ? 0 : alpha * depthFade < 0.48 ? 1 : 2].push(i);
+        // n.act is already forced to 0 under reduced motion, so this stays
+        // empty there and the electric layer never paints.
+        if (Math.max(a.act, b.act) > 0.12) activeEdges.push(i);
       }
 
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      // Light mode: refined slate edges at rest, brand orange only during activation.
-      // Dark mode: cyan edges with depth-aware alpha.
+      // Resting edges carry no accent in either theme — they are structure.
+      // Colour only arrives on the activation layer below.
       const lineRGB = isDark ? '170,225,255' : '71,85,105'; // slate-600 for light mode resting edges
       const drawBucket = (bucket: number[], lw: number, ad: number, al: number) => {
         if (!bucket.length) return;
@@ -341,6 +350,25 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       drawBucket(bucketEdges[0], 0.5, 0.10, 0.18);
       drawBucket(bucketEdges[1], 0.45, 0.18, 0.30);
       drawBucket(bucketEdges[2], 0.35, 0.26, 0.42);
+
+      // Conducting edges, in Electric Ice. Alpha rides each edge's own
+      // activation so the sweep fades in and out with the cluster phase
+      // rather than switching on. Additive in dark mode so overlapping
+      // strands build brightness the way a real signal path would.
+      if (activeEdges.length) {
+        if (isDark) ctx.globalCompositeOperation = 'lighter';
+        ctx.lineWidth = 0.75;
+        for (const i of activeEdges) {
+          const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
+          const act = Math.max(a.act, b.act);
+          ctx.strokeStyle = `rgba(121,213,255,${(act * (isDark ? 0.5 : 0.42)).toFixed(3)})`;
+          ctx.beginPath();
+          ctx.moveTo(a.px, a.py);
+          ctx.lineTo(b.px, b.py);
+          ctx.stroke();
+        }
+        ctx.globalCompositeOperation = 'source-over';
+      }
 
       const spBase  = isDark ? sDarkTier : sLightTier;  // 4-tier array
       const spAcc   = sAcc;
@@ -362,7 +390,10 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         ctx.drawImage(tierSprite, n.px - size / 2, n.py - size / 2, size, size);
 
         if (n.act > 0.03) {
-          ctx.globalAlpha = n.act * (isDark ? 0.22 : 0.62);
+          // Was 0.22 in dark mode, which put the effective alpha of an
+          // already-0.75 sprite at ~16% — the hero's signature signal was
+          // mathematically invisible against the graphite field.
+          ctx.globalAlpha = n.act * (isDark ? 0.55 : 0.62);
           if (isDark) {
             ctx.globalCompositeOperation = 'lighter';
             ctx.drawImage(spAcc, n.px - size / 2, n.py - size / 2, size, size);
@@ -373,7 +404,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         }
 
         if (n.act > 0.04) {
-          ctx.globalAlpha = n.act * (isDark ? 0.20 : 0.35);
+          ctx.globalAlpha = n.act * (isDark ? 0.42 : 0.35);
           const rs = size * (2.0 + n.act * 2.2);
           ctx.globalCompositeOperation = 'lighter';
           ctx.drawImage(spRing, n.px - rs / 2, n.py - rs / 2, rs, rs);
@@ -392,19 +423,25 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       }
 
       if (!reducedMotion) {
-        if (pulses.length < 2 && Math.random() < 0.002) {
+        // Was `< 2` concurrent at a 0.002 spawn chance, with an alpha that
+        // peaked around 0.10 — statistically almost never on screen, and
+        // invisible when it was. More traffic, shorter transits, and a real
+        // alpha floor so a pulse actually reads as it crosses.
+        if (pulses.length < 5 && Math.random() < 0.006) {
           const pool = Array.from({ length: edges.length }, (_, i) => i);
-          pulses.push({ edge: pool[(Math.random() * pool.length) | 0], t: 0, dur: 4000 + Math.random() * 6000 });
+          pulses.push({ edge: pool[(Math.random() * pool.length) | 0], t: 0, dur: 2600 + Math.random() * 3800 });
         }
+        if (isDark) ctx.globalCompositeOperation = 'lighter';
         for (let i = pulses.length - 1; i >= 0; i--) {
           const p = pulses[i];
           p.t += 16.7;
           const k = p.t / p.dur;
           if (k >= 1) { pulses.splice(i, 1); continue; }
           const a = nodes[edges[p.edge][0]], b = nodes[edges[p.edge][1]];
-          ctx.globalAlpha = Math.sin(Math.PI * k) * 0.28 * Math.max((a.pa + b.pa) * 0.22, 0.03);
-          ctx.drawImage(spPulse, a.px + (b.px - a.px) * k - 6, a.py + (b.py - a.py) * k - 6, 12, 12);
+          ctx.globalAlpha = Math.sin(Math.PI * k) * 0.9 * Math.max((a.pa + b.pa) * 0.5, 0.3);
+          ctx.drawImage(spPulse, a.px + (b.px - a.px) * k - 7, a.py + (b.py - a.py) * k - 7, 14, 14);
         }
+        ctx.globalCompositeOperation = 'source-over';
         ctx.globalAlpha = 1;
       }
     };

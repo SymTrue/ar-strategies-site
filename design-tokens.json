@@ -7,9 +7,9 @@
     "color": {
       "black": { "value": "#000000", "description": "Primary background" },
       "white": { "value": "#FFFFFF", "description": "Primary text on dark" },
-      "accent": { "value": "#91a7b8", "description": "Brand accent: muted signal steel" },
-      "accent-dark": { "value": "#536b7c", "description": "Darker accent for states" },
-      "accent-light": { "value": "#aec1d0", "description": "Lighter accent for hover" },
+      "accent": { "value": "#7daed4", "description": "Brand accent: muted signal steel" },
+      "accent-dark": { "value": "#3e7198", "description": "Darker accent for states" },
+      "accent-light": { "value": "#a8cbe6", "description": "Lighter accent for hover" },
       "signal-electric": { "value": "#79D5FF", "description": "High-energy signal accent, NOT the brand colour. Max ~2-3% of homepage visual weight: hero neural-net activation/pulses, CTA hover/focus glow, one proof-moment marker." },
       "signal-electric-rgb": { "value": "121, 213, 255", "description": "RGB components of signal-electric for rgba() composition" },
       "gray-900": { "value": "#111111", "description": "Near-black" },

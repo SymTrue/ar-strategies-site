@@ -7,9 +7,9 @@
   /* Colors */
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-accent: #91a7b8;      /* muted signal steel (was --color-orange, then purple) */
-  --color-accent-dark: #536b7c;
-  --color-accent-light: #aec1d0;
+  --color-accent: #7daed4;      /* muted signal steel (was --color-orange, then purple) */
+  --color-accent-dark: #3e7198;
+  --color-accent-light: #a8cbe6;
   /* Electric Ice: high-energy signal accent, not the brand colour — see
      app/globals.css for the full usage rules. Consolidated here so this
      file and design-tokens.json never drift out of sync with it again. */
@@ -137,15 +137,15 @@
   --gap-3xl: var(--space-16);
 
   /* Premium Visual Effects */
-  --glow-sm: 0 0 12px rgba(83, 107, 124, 0.3);
-  --glow-md: 0 0 24px rgba(83, 107, 124, 0.4);
-  --glow-lg: 0 0 48px rgba(83, 107, 124, 0.5);
-  --glow-xl: 0 0 64px rgba(83, 107, 124, 0.6);
+  --glow-sm: 0 0 12px rgba(62, 113, 152, 0.3);
+  --glow-md: 0 0 24px rgba(62, 113, 152, 0.4);
+  --glow-lg: 0 0 48px rgba(62, 113, 152, 0.5);
+  --glow-xl: 0 0 64px rgba(62, 113, 152, 0.6);
 
   /* Glassmorphism surfaces */
   --glass-bg: rgba(26, 26, 26, 0.5);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-hover: rgba(83, 107, 124, 0.3);
+  --glass-border-hover: rgba(62, 113, 152, 0.3);
   --glass-backdrop: blur(20px);
 
   /* Animations */
