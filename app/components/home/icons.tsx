@@ -105,8 +105,12 @@ export const FAQTag = ({ category }: { category: 'timeline' | 'pricing' | 'servi
     service: 'Service',
     contract: 'Contract',
   };
+  // The -400 text shades above are tuned for the dark surface and drop to
+  // ~1.4-2:1 on the light theme's card. The `faq-tag` hook lets globals.css
+  // swap in -800 shades under [data-theme="light"] without affecting any
+  // other use of these Tailwind colour classes.
   return (
-    <span className={`inline-block px-2.5 py-1 text-xs font-semibold rounded-full border ${colors[category]}`}>
+    <span className={`faq-tag inline-block px-2.5 py-1 text-xs font-semibold rounded-full border ${colors[category]}`}>
       {labels[category]}
     </span>
   );

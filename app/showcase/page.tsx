@@ -36,7 +36,7 @@ export default function ShowcasePage() {
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
                 activeTab === tab
-                  ? 'bg-brand text-black'
+                  ? 'bg-brand text-[var(--on-brand)]'
                   : 'bg-white/5 text-gray-300 hover:bg-white/10'
               }`}
             >

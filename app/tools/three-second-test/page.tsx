@@ -145,7 +145,7 @@ function YesNo({
             className={`px-4 py-1.5 text-[11px] uppercase tracking-[0.16em] transition-colors duration-150 ${
               active
                 ? v
-                  ? 'bg-brand text-black font-bold'
+                  ? 'bg-brand text-[var(--on-brand)] font-bold'
                   : 'bg-[var(--text-primary)] text-[var(--background)] font-bold'
                 : 'text-[var(--text-tertiary)] hover:text-[var(--text-primary)]'
             }`}

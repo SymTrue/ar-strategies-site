@@ -127,7 +127,7 @@ function RankShift() {
             onClick={() => choose(false)}
             aria-pressed={!after}
             className={`px-4 py-1.5 rounded-full text-xs uppercase tracking-[0.12em] transition-colors ${
-              !after ? 'bg-brand text-white' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              !after ? 'bg-brand text-[var(--on-brand)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
             style={mono}
           >
@@ -138,7 +138,7 @@ function RankShift() {
             onClick={() => choose(true)}
             aria-pressed={after}
             className={`px-4 py-1.5 rounded-full text-xs uppercase tracking-[0.12em] transition-colors ${
-              after ? 'bg-brand text-white' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              after ? 'bg-brand text-[var(--on-brand)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
             style={mono}
           >

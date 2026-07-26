@@ -38,6 +38,11 @@
   --cta-text: #0b0e13;
   --cta-border: rgba(125, 174, 212, 0.35);
   --cta-border-hover: rgba(168, 203, 230, 0.55);
+  /* Text/icon colour for anything sitting ON a --brand fill. --brand flips
+     from light (dark theme) to dark (light theme), so a hardcoded white or
+     black is guaranteed to fail one of them: white-on-brand was 2.4:1 in
+     dark, black-on-brand 3.5:1 in light. This token tracks the flip. */
+  --on-brand: #0b0e13;
 
   /* Electric Ice: ONE high-energy signal accent, not the brand colour.
      Reserved for ~2-3% of visible weight — hero neural-net activation +
@@ -100,6 +105,8 @@
   --cta-bg: #12171e;
   --cta-bg-hover: #1c232c;
   --cta-text: #f1f4f6;
+  /* --brand is dark here, so on-brand text flips to white (5.96:1). */
+  --on-brand: #ffffff;
   --cta-border: rgba(62, 113, 152, 0.35);
   --cta-border-hover: rgba(62, 113, 152, 0.55);
 
@@ -296,6 +303,15 @@ body::after {
 [data-theme="light"] .text-gray-500 {
   color: #6b7280;
 }
+
+/* FAQ category chips. Their -400 text shades are tuned for the dark card and
+   fall to 1.4-2:1 on the light theme's surface, so the light theme takes the
+   -800 shades instead (5.3-10:1 over the same 20%-tinted chip fill). Scoped
+   to .faq-tag so no other use of these colour classes is affected. */
+[data-theme="light"] .faq-tag.text-blue-400 { color: #1e40af; }
+[data-theme="light"] .faq-tag.text-green-400 { color: #166534; }
+[data-theme="light"] .faq-tag.text-teal-400 { color: #115e59; }
+[data-theme="light"] .faq-tag.text-slate-400 { color: #1e293b; }
 
 [data-theme="light"] .hover\:text-white:hover {
   color: var(--text-primary);
@@ -1010,8 +1026,12 @@ textarea:focus:not(:focus-visible),
   z-index: 100;
   padding: 10px 18px;
   border-radius: 9999px;
-  background: var(--brand);
-  color: #fff;
+  /* Uses the primary-CTA pair, not --brand. Hardcoded #fff on var(--brand)
+     only reached 2.4:1 in dark mode - a keyboard-only affordance that failed
+     the contrast rule it exists to serve. The CTA pair is theme-aware and
+     clears AA with margin in both (15.8:1 dark, 16.3:1 light). */
+  background: var(--cta-bg);
+  color: var(--cta-text);
   font-size: 0.875rem;
   font-weight: 600;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
@@ -1019,6 +1039,7 @@ textarea:focus:not(:focus-visible),
 }
 .skip-link:focus {
   top: 12px;
-  outline: 2px solid #fff;
+  /* Outline must contrast with the page behind it, not the pill itself. */
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
