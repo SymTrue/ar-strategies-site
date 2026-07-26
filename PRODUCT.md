@@ -50,5 +50,5 @@ Emotional arc for visitors: curious (the design is unlike any agency they've see
 - `prefers-reduced-motion` respected throughout: all animations have reduced/static alternatives
 - Keyboard navigable: all interactive elements focusable, forms accessible
 - Semantic HTML: proper heading hierarchy, landmark roles, ARIA labels where needed
-- Color contrast: brand orange on dark meets 4.5:1 for text; light mode tokens verified for readability
+- Color contrast: every text/background pairing is verified against WCAG AA in both themes before shipping, measured on the rendered DOM rather than eyeballed. Signal steel (`#7daed4` dark / `#2f6893` light) is the accent; anything sitting on a `--brand` fill uses the `--on-brand` token, because `--brand` flips lightness between themes and a hardcoded white or black fails one of them
 - Both dark and light modes fully operational with theme persistence via localStorage
