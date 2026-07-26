@@ -122,6 +122,12 @@ function makeRing(peak: string, fade: string, size = 80): HTMLCanvasElement {
   return c;
 }
 
+/* How hard a node must be firing before its edges join the Electric Ice
+   conducting layer. Higher = fewer, more selective strands light up.
+   Paired with the alpha ramp in the draw loop, this is the main dial for
+   how loud the hero's activation sweep reads. */
+const ACTIVE_EDGE_MIN = 0.3;
+
 // Continuous phase-space activation (replaces discrete clusterActivation)
 function smoothClusterActivation(globalPhase: number, nodeClusterPhase: number, activeWidth: number = 0.15): number {
   // Circular distance in 0..1 phase space
@@ -329,9 +335,12 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         // Near edges (ps ~1.2) keep full alpha. Far edges (ps ~0.8) fade to 60%.
         const depthFade = 0.55 + 0.45 * Math.min(((a.ps + b.ps) * 0.5 - 0.72) / 0.48, 1);
         bucketEdges[alpha * depthFade < 0.28 ? 0 : alpha * depthFade < 0.48 ? 1 : 2].push(i);
+        // Only strongly-firing edges conduct. At the original 0.12 this
+        // caught most of the mesh at once and the electric layer read as a
+        // graphic in its own right, competing with the headline.
         // n.act is already forced to 0 under reduced motion, so this stays
         // empty there and the electric layer never paints.
-        if (Math.max(a.act, b.act) > 0.12) activeEdges.push(i);
+        if (Math.max(a.act, b.act) > ACTIVE_EDGE_MIN) activeEdges.push(i);
       }
 
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
@@ -357,11 +366,18 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
       // strands build brightness the way a real signal path would.
       if (activeEdges.length) {
         if (isDark) ctx.globalCompositeOperation = 'lighter';
-        ctx.lineWidth = 0.75;
+        // Thinner than the nearest resting bucket (0.5), not thicker than
+        // all of them — a conducting edge should read as the same strand
+        // lighting up, not as a heavier line drawn on top of the mesh.
+        ctx.lineWidth = 0.42;
         for (const i of activeEdges) {
           const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
           const act = Math.max(a.act, b.act);
-          ctx.strokeStyle = `rgba(121,213,255,${(act * (isDark ? 0.5 : 0.42)).toFixed(3)})`;
+          // Ramp from zero at the threshold rather than jumping straight to
+          // its alpha, so edges fade in and out with the cluster phase
+          // instead of switching on at a visible floor.
+          const e = (act - ACTIVE_EDGE_MIN) / (1 - ACTIVE_EDGE_MIN);
+          ctx.strokeStyle = `rgba(121,213,255,${(e * (isDark ? 0.3 : 0.26)).toFixed(3)})`;
           ctx.beginPath();
           ctx.moveTo(a.px, a.py);
           ctx.lineTo(b.px, b.py);
