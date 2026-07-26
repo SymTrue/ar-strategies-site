@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../providers';
+import { usePrefersReducedMotion } from './useClientEnv';
 
 const MagicDust = dynamic(() => import('./ui/magic-dust').then((m) => m.MagicDust), {
   ssr: false,
@@ -17,12 +18,10 @@ const mono = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } as
 export function AboutDust() {
   const { theme } = useTheme();
   const [ready, setReady] = useState(false);
-  const [reduced, setReduced] = useState(false);
+  const reduced = usePrefersReducedMotion();
   const [fontFamily, setFontFamily] = useState<'pending' | string>('pending');
 
   useEffect(() => {
-    setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
     // Resolve the hashed next/font family name so the particle rasterizer
     // draws real Anton, then wait for it to actually load: rasterizing
     // before the font arrives would scatter particles into fallback glyphs.

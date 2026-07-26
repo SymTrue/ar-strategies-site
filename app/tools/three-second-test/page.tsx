@@ -386,7 +386,7 @@ export default function ThreeSecondTest() {
               ) : (
                 <p className="text-[var(--text-tertiary)] text-base">
                   Answer all twelve questions. The network fills in as you go, and the
-                  verdict prints here once it's complete.
+                  verdict prints here once it&apos;s complete.
                 </p>
               )}
             </div>

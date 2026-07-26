@@ -13,6 +13,9 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "app/components/deprecated/**",
+    // Third-party dev tool cloned locally, gitignored and not part of the
+    // app build. Linting vendored source we don't own only produces noise.
+    "claude-seo/**",
   ]),
 ]);
 

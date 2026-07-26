@@ -45,9 +45,7 @@ function makeGlowSprite(color: string, size: number): Sprite {
 export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const answersRef = useRef(answers);
-  answersRef.current = answers;
   const themeRef = useRef(theme);
-  themeRef.current = theme;
   const drawRef = useRef<(() => void) | null>(null);
 
   // Canvas painting does not depend on requestAnimationFrame ever firing:
@@ -55,7 +53,16 @@ export function DiagnosticNet({ surfaces, answers, theme, reducedMotion }: Props
   // preview/embed contexts) have RAF suspended by spec. Every state change
   // below triggers a synchronous repaint via drawRef; RAF is used only to
   // drive the optional cosmetic pulse when it is available.
+  //
+  // The refs mirror props so the long-lived draw loop below can read the
+  // latest values without being torn down and rebuilt on every answer. They
+  // are written here rather than during render (writing a ref in the render
+  // body is not safe under concurrent rendering, where a render can be
+  // discarded), and the repaint follows in the same effect so it always
+  // paints from the values just committed.
   useEffect(() => {
+    answersRef.current = answers;
+    themeRef.current = theme;
     drawRef.current?.();
   }, [answers, theme]);
 

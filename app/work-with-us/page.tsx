@@ -7,6 +7,7 @@ import { track } from '@vercel/analytics';
 import { useEffect, useRef, useState } from 'react';
 import { SiteHeader } from '../components/SiteHeader';
 import { SiteFooter } from '../components/SiteFooter';
+import { usePrefersReducedMotion } from '../components/useClientEnv';
 import { useTheme } from '../providers';
 
 const Waves = dynamic(() => import('../components/ui/wave-background').then((m) => m.Waves), {
@@ -93,26 +94,27 @@ const ROW_H = 72;
 const ROW_GAP = 10;
 
 function RankShift() {
-  const [after, setAfter] = useState(false);
+  const reduced = usePrefersReducedMotion();
+  const [autoAfter, setAutoAfter] = useState(false);
+  const [chosen, setChosen] = useState<boolean | null>(null);
   const interacted = useRef(false);
 
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) {
-      setAfter(true);
-      return;
-    }
+    if (reduced) return;
     const id = setInterval(() => {
-      if (!interacted.current) setAfter((v) => !v);
+      if (!interacted.current) setAutoAfter((v) => !v);
     }, 3500);
     return () => clearInterval(id);
-  }, []);
+  }, [reduced]);
 
+  // Under reduced motion the panel rests in its finished state instead of
+  // cycling. An explicit click always wins over both.
+  const after = chosen ?? (reduced ? true : autoAfter);
   const slots = after ? AFTER_SLOTS : BEFORE_SLOTS;
 
   const choose = (value: boolean) => {
     interacted.current = true;
-    setAfter(value);
+    setChosen(value);
   };
 
   return (

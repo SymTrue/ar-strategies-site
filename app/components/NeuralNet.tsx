@@ -126,7 +126,7 @@ function makeRing(peak: string, fade: string, size = 80): HTMLCanvasElement {
    conducting layer. Higher = fewer, more selective strands light up.
    Paired with the alpha ramp in the draw loop, this is the main dial for
    how loud the hero's activation sweep reads. */
-const ACTIVE_EDGE_MIN = 0.3;
+const ACTIVE_EDGE_MIN = 0.26;
 
 // Continuous phase-space activation (replaces discrete clusterActivation)
 function smoothClusterActivation(globalPhase: number, nodeClusterPhase: number, activeWidth: number = 0.15): number {
@@ -369,7 +369,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
         // Thinner than the nearest resting bucket (0.5), not thicker than
         // all of them — a conducting edge should read as the same strand
         // lighting up, not as a heavier line drawn on top of the mesh.
-        ctx.lineWidth = 0.42;
+        ctx.lineWidth = 0.48;
         for (const i of activeEdges) {
           const a = nodes[edges[i][0]], b = nodes[edges[i][1]];
           const act = Math.max(a.act, b.act);
@@ -377,7 +377,7 @@ export default function NeuralNet({ theme, reducedMotion }: { theme: string; red
           // its alpha, so edges fade in and out with the cluster phase
           // instead of switching on at a visible floor.
           const e = (act - ACTIVE_EDGE_MIN) / (1 - ACTIVE_EDGE_MIN);
-          ctx.strokeStyle = `rgba(121,213,255,${(e * (isDark ? 0.3 : 0.26)).toFixed(3)})`;
+          ctx.strokeStyle = `rgba(121,213,255,${(e * (isDark ? 0.35 : 0.3)).toFixed(3)})`;
           ctx.beginPath();
           ctx.moveTo(a.px, a.py);
           ctx.lineTo(b.px, b.py);

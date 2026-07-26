@@ -239,7 +239,6 @@ export function Waves({ className = '', strokeColor = 'rgba(255,255,255,0.14)' }
       window.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('visibilitychange', onVisibilityChange);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [strokeColor]);
 
   return (

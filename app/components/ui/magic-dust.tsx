@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
+import { useIsHydrated } from '../useClientEnv';
 
 /* Adapted from 21st.dev "Magic Dust" (alexperezcedeno). Changes for this
-   site: mount via a plain effect instead of a requestAnimationFrame gate
+   site: gate the canvas on hydration instead of a requestAnimationFrame
    (RAF never fires in hidden tabs, which left the canvas permanently
    unmounted there), and the demo default sequence replaced. Rendering uses
    additive blending, so hosts must place it on a dark backdrop in both
@@ -413,15 +414,13 @@ export function MagicDustCore({
 }
 
 export function MagicDust(props: MagicDustProps) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    // Mount directly: the upstream component gated this behind a
-    // requestAnimationFrame, which never fires in hidden/backgrounded tabs
-    // and left the canvas unmounted there.
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
+  // Client-only: the WebGL canvas cannot render on the server. The upstream
+  // component gated this behind a requestAnimationFrame, which never fires in
+  // hidden/backgrounded tabs and left the canvas permanently unmounted there;
+  // the useState + effect version that replaced it cost a cascading render on
+  // every mount. This resolves during the hydration pass itself.
+  const hydrated = useIsHydrated();
+  if (!hydrated) return null;
 
   return (
     <Canvas camera={{ position: [0, 0, 9], fov: 45 }} dpr={[1, 2]}>
