@@ -191,26 +191,30 @@ All spacing uses an 8px base unit (4px increments):
 
 ## 5. Border Radius
 
+The token values below were never wrong — what was missing was a usage rule, so
+components drifted toward whatever radius looked right in the moment. `rounded-lg`
+ended up the de facto default (43 uses) while the table below documented `rounded-2xl`
+as the card standard (7 uses). This table replaces that stale guidance with what the
+site actually does, plus the rule for when to reach for each size going forward.
+
 ### Radius Scale
 
-| Size | Value | Usage |
-|------|-------|-------|
-| None | 0 | Sharp edges |
-| Small | 2px (0.125rem) | Minimal rounding |
-| Medium | 4-6px | Subtle curves |
-| Large | 8px (0.5rem) | Standard radius |
-| XLarge | 12px (0.75rem) | Cards, popovers |
-| 2XL | 16px (1rem) | Larger containers |
-| 3XL | 24px (1.5rem) | Major components |
-| Full | 9999px | Pills, fully rounded |
+| Token | Value | Usage |
+|-------|-------|-------|
+| `rounded-sm` | 2px (0.125rem) | Progress segments and tiny technical marks only |
+| `rounded-md` | 6px (0.375rem) | Admin controls and compact inputs |
+| `rounded-lg` | 8px (0.5rem) | **Default.** Panels, blog cards, form sections |
+| `rounded-xl` | 12px (0.75rem) | Media frames and icon tiles |
+| `rounded-2xl` | 16px (1rem) | Featured interactive cards and accordions — reserve for the one card on a page that should read as more prominent |
+| `rounded-full` | 9999px | Buttons, pills, inputs, toggles |
 
-### Rules
+`rounded` (4px, bare) and `rounded-3xl` (24px) are defined in the token scale but not
+currently used anywhere on the site — leave them that way rather than reaching for
+them to solve a one-off spacing problem.
 
-- **Buttons:** Fully rounded (pill shape)
-- **Cards:** 16px radius (rounded-2xl)
-- **Inputs:** Fully rounded (pill shape)
-- **Icons:** No rounding (0px)
-- **Images:** 12px radius (rounded-xl) when contained
+**This is a usage rule, not a migration mandate.** Don't sweep the codebase to
+enforce it retroactively; apply it to new components and the next time an existing
+one is touched for other reasons.
 
 ---
 

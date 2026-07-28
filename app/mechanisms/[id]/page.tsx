@@ -151,7 +151,7 @@ export default function MechanismPage({ params }: { params: Promise<{ id: string
           <div className="grid gap-6 md:grid-cols-2">
             {mechanism.relatedMechanisms.map(related => (
               <Link key={related.id} href={`/mechanisms/${related.id}`}>
-                <div className="bg-[var(--surface)] border border-[var(--border)] hover:border-brand hover:bg-white/[0.08] rounded-lg p-6 transition-all cursor-pointer h-full">
+                <div className="bg-[var(--surface)] border border-[var(--border)] hover:border-brand hover:bg-white/[0.08] rounded-lg p-6 transition-[background-color,border-color] cursor-pointer h-full">
                   <h3 className="text-xl font-bold mb-2 text-brand">{related.name}</h3>
                   <p className="text-[var(--text-tertiary)] text-sm">{related.description}</p>
                   <div className="mt-4 text-brand font-semibold flex items-center gap-2">

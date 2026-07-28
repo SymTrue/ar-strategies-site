@@ -102,7 +102,7 @@ export default function ShowcasePage() {
                         className="group-hover:opacity-60 transition-opacity duration-500"
                       />
                     </Suspense>
-                    <div className="relative h-full px-6 py-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.05] hover:border-white/20 transition-all flex flex-col items-center justify-center text-center">
+                    <div className="relative h-full px-6 py-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.05] hover:border-white/20 transition-[background-color,border-color] flex flex-col items-center justify-center text-center">
                       <h3 className="font-display text-lg uppercase mb-2">{card.title}</h3>
                       <p className="text-sm text-gray-400">{card.desc}</p>
                     </div>

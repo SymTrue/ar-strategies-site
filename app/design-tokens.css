@@ -81,6 +81,13 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
   /* Border Radius */
+  /* Usage rule (see BRAND_GUIDELINES.md sec. 5): sm = progress segments and
+     tiny technical marks only. md = admin controls and compact inputs.
+     lg = default (panels, blog cards, form sections). xl = media frames and
+     icon tiles. 2xl = featured interactive cards and accordions, reserved
+     for the one card on a page that should read as more prominent.
+     full = buttons, pills, inputs, toggles. Bare `rounded` and `3xl` are
+     defined but not currently used. */
   --rounded-none: 0;
   --rounded-sm: 0.125rem; /* 2px */
   --rounded: 0.25rem; /* 4px */
@@ -161,7 +168,12 @@
   --button-primary-padding: var(--space-3) var(--space-6);
   --button-primary-radius: var(--rounded-full);
   --button-primary-font-weight: 600;
-  --button-primary-transition: all var(--duration-200);
+  /* Not currently consumed anywhere - every .btn-primary usage site applies
+     Tailwind's transition-colors utility ad hoc instead (colour-family only;
+     the hover/focus box-shadow glow and active:scale press currently snap
+     instantly). Fixing the value regardless so the token is correct if
+     something starts reading it. */
+  --button-primary-transition: background-color var(--duration-200), border-color var(--duration-200), box-shadow var(--duration-200), transform var(--duration-200);
   --button-primary-active-scale: 0.97;
 
   /* Button - Secondary */
@@ -382,8 +394,14 @@
 }
 
 /* Transitions */
+/* Generic utility, not tied to one component - covers the properties that
+   commonly change together in a hover/press state. Nothing in the codebase
+   currently applies this exact class by name (components lean on Tailwind's
+   own transition-* utilities instead); kept correct and available for future
+   use rather than removed, since a bare `all` here would reintroduce the
+   thing this whole pass exists to eliminate. */
 .transition-all {
-  transition: all var(--duration-200);
+  transition: color var(--duration-200), background-color var(--duration-200), border-color var(--duration-200), box-shadow var(--duration-200), opacity var(--duration-200), transform var(--duration-200);
 }
 
 .transition-colors {
