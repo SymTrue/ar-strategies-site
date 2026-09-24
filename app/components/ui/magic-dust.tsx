@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useIsHydrated } from '../useClientEnv';
@@ -36,7 +36,16 @@ export interface MagicDustProps {
   scatterRadius?: number;
   /** Text size for text items (default: 12) */
   textSize?: number;
+  /** Called with the index of the item now forming: once when the animation
+      first runs, then each time the sequence advances. */
+  onItemChange?: (index: number) => void;
 }
+
+// Upper bound on the per-frame step. When a backgrounded tab comes back, the
+// browser resumes requestAnimationFrame and the first delta is the whole time
+// away; unclamped, the phase machine would finish the current word's build,
+// hold and teardown in a couple of frames and skip it.
+const MAX_FRAME_DELTA = 1 / 20;
 
 const DEFAULT_SEQUENCE: SequenceItem[] = [
   { type: 'text', text: 'NOTICED', offset: [0, 0, 0] },
@@ -272,6 +281,7 @@ export function MagicDustCore({
   animationSpeed = 1.0,
   scatterRadius = 12,
   textSize = 12,
+  onItemChange,
 }: MagicDustProps) {
   const colorObj = useState(() => new THREE.Color(particleColor))[0];
 
@@ -328,8 +338,19 @@ export function MagicDustCore({
 
   const phase = useRef<'CONSTRUCTING' | 'HOLDING' | 'DECONSTRUCTING'>('CONSTRUCTING');
   const timer = useRef(0);
+  // Last index reported to onItemChange. Starts at -1 so the first frame
+  // reports item 0 - including after a remount (e.g. theme switch), which
+  // restarts the sequence and must resync any UI mirroring it.
+  const reportedIndex = useRef(-1);
 
-  useFrame((state, delta) => {
+  useFrame((state, frameDelta) => {
+    const delta = Math.min(frameDelta, MAX_FRAME_DELTA);
+
+    if (reportedIndex.current !== currentTargetIndex.current) {
+      reportedIndex.current = currentTargetIndex.current;
+      onItemChange?.(currentTargetIndex.current);
+    }
+
     if (phase.current === 'CONSTRUCTING') {
       targetProgress.current = Math.min(1.5, targetProgress.current + delta * 0.4 * animationSpeed);
       if (targetProgress.current === 1.5) {
@@ -419,11 +440,32 @@ export function MagicDust(props: MagicDustProps) {
   // the useState + effect version that replaced it cost a cascading render on
   // every mount. This resolves during the hydration pass itself.
   const hydrated = useIsHydrated();
+  const hostRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  // Only run while a meaningful part of the panel is on screen. Two reasons:
+  // the sequence is a sentence, so it should start from its first word when
+  // the visitor actually arrives rather than mid-cycle below the fold; and
+  // there is no point rendering thousands of particles nobody can see.
+  // R3F's setFrameloop restarts its clock on resume, so pausing here never
+  // produces a large first delta.
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      threshold: 0.25,
+    });
+    io.observe(host);
+    return () => io.disconnect();
+  }, [hydrated]);
+
   if (!hydrated) return null;
 
   return (
-    <Canvas camera={{ position: [0, 0, 9], fov: 45 }} dpr={[1, 2]}>
-      <MagicDustCore {...props} />
-    </Canvas>
+    <div ref={hostRef} className="h-full w-full">
+      <Canvas camera={{ position: [0, 0, 9], fov: 45 }} dpr={[1, 2]} frameloop={inView ? 'always' : 'never'}>
+        <MagicDustCore {...props} />
+      </Canvas>
+    </div>
   );
 }
