@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useIsHydrated } from '../useClientEnv';
+import { advanceSequence, createLiveBuffers } from './magic-dust-sequence';
 
 /* Adapted from 21st.dev "Magic Dust" (alexperezcedeno). Changes for this
    site: gate the canvas on hydration instead of a requestAnimationFrame
@@ -274,7 +275,7 @@ export function MagicDustCore({
 }: MagicDustProps) {
   const colorObj = useState(() => new THREE.Color(particleColor))[0];
 
-  const [{ origin, targets, sizes, maxComponentWidth }] = useState(() => {
+  const [{ origin, targets, sizes, maxComponentWidth, live }] = useState(() => {
     const origin = getScatteredPositions(particleCount, scatterRadius);
 
     const sizes = new Float32Array(particleCount);
@@ -310,7 +311,11 @@ export function MagicDustCore({
       targets.push({ dest, delays: getOrderedDelays(dest, particleCount), isText });
     }
 
-    return { origin, targets, sizes, maxComponentWidth };
+    // Built once here so the attribute args keep a stable identity - see
+    // magic-dust-sequence.ts for why the geometry must not share targets[0].
+    const live = createLiveBuffers(targets[0]);
+
+    return { origin, targets, sizes, maxComponentWidth, live };
   });
 
   const matRef = useRef<THREE.ShaderMaterial>(null);
@@ -341,19 +346,13 @@ export function MagicDustCore({
     else if (phase.current === 'DECONSTRUCTING') {
       targetProgress.current = Math.max(0.0, targetProgress.current - delta * 0.6 * animationSpeed);
       if (targetProgress.current === 0.0) {
-        const nextTarget = (currentTargetIndex.current + 1) % targets.length;
-        currentTargetIndex.current = nextTarget;
+        currentTargetIndex.current = advanceSequence(live, targets, currentTargetIndex.current);
 
         if (geoRef.current) {
-          const targetData = targets[nextTarget];
-          const targetAttr = geoRef.current.attributes.aTarget as THREE.BufferAttribute;
-          const delayAttr = geoRef.current.attributes.aDelay as THREE.BufferAttribute;
-
-          targetAttr.array.set(targetData.dest);
-          targetAttr.needsUpdate = true;
-
-          delayAttr.array.set(targetData.delays);
-          delayAttr.needsUpdate = true;
+          // The attributes are built on `live`, so the copy above already
+          // landed in them - they only need re-uploading to the GPU.
+          (geoRef.current.attributes.aTarget as THREE.BufferAttribute).needsUpdate = true;
+          (geoRef.current.attributes.aDelay as THREE.BufferAttribute).needsUpdate = true;
         }
 
         phase.current = 'CONSTRUCTING';
@@ -392,8 +391,8 @@ export function MagicDustCore({
     <points ref={pointsGroupRef}>
       <bufferGeometry ref={geoRef}>
         <bufferAttribute attach="attributes-position" args={[origin, 3]} />
-        <bufferAttribute attach="attributes-aTarget" args={[targets[0].dest, 3]} />
-        <bufferAttribute attach="attributes-aDelay" args={[targets[0].delays, 1]} />
+        <bufferAttribute attach="attributes-aTarget" args={[live.dest, 3]} />
+        <bufferAttribute attach="attributes-aDelay" args={[live.delays, 1]} />
         <bufferAttribute attach="attributes-aSize" args={[sizes, 1]} />
       </bufferGeometry>
       <shaderMaterial
