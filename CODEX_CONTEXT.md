@@ -1,5 +1,7 @@
 # AR Strategies Site — Codex Handoff Context
 
+> **Superseded 2026-10-02 (historical snapshot from 2026-07-11).** There is no free-audit offer (see `PRODUCT.md`: the audit could not be delivered reliably). The "Get My Free Audit" CTA described below no longer exists on the site; live CTAs are "Apply to Work With Us" and the weekly list.
+
 > Compact state snapshot for cheap upgrade analysis. Written 2026-07-11.
 > Goal for reviewer: propose high-leverage upgrades (perf, conversion, code quality). Do NOT re-explore the whole tree — this doc is the map.
 

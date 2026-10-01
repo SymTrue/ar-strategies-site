@@ -639,7 +639,7 @@ export default function Home() {
 
       {/* Final CTA */}
       <section id="contact" ref={ctaRef} className="py-24 md:py-32 px-6 section-dashed section-premium relative">
-        {/* Large orange glow field behind CTA */}
+        {/* Large steel glow field behind CTA */}
         <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-brand/30 to-transparent blur-3xl pointer-events-none" />
         </div>

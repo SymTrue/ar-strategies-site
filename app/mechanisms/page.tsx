@@ -107,7 +107,7 @@ const ghosts = [
 ];
 
 /* ---------- Neural network diagram ---------- */
-/* Hand-placed layout: 3 live nodes (orange, linked) among 15 ghost nodes.
+/* Hand-placed layout: live nodes (steel, linked) among ghost nodes.
    Signal paths connect live nodes to each other and to nearby ghosts. */
 
 const ghostPos: Array<[number, number]> = [

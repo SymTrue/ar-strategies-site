@@ -1,5 +1,7 @@
 # Design Visibility & Comprehension Upgrade Plan
 
+> **Free-audit wording superseded 2026-10-02.** There is no free-audit offer (see `PRODUCT.md`: the audit could not be delivered reliably). The video close lines that say "the audit is free" and the "Free audit within 24 hours" line below are history and must not be shipped as copy. Everything else in this plan is unaffected by this note.
+
 Handoff document. Written by Fable 5 on 2026-07-16 after auditing the design library,
 tokens, and every major surface. Executor: a smaller model (Sonnet). Follow it in
 order; every item names its file, its exact change, and its acceptance check.

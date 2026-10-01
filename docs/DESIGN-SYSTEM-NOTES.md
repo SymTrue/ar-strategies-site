@@ -7,8 +7,8 @@ do not duplicate them. Written after the design upgrade pass in
 ## Identity
 
 - Display font: Anton (uppercase, `font-display`). Body: Manrope.
-- Brand color: `--brand` (#f97316 dark / #ea580c light).
-- Dark base: OLED-warm #0a0806, not pure black.
+- Brand color: `--brand` signal steel (#7daed4 dark / #2f6893 light); Electric Ice `--signal-electric` #79d5ff is the one capped accent. Orange and purple were removed (see BRAND_GUIDELINES.md v3.1.0).
+- Dark base: graphite `#0b0e13` (deepest `#07090d`), not pure black.
 - Motif: dashed borders and mono-font kicker labels ("blueprint" language),
   not solid borders or sans-serif labels.
 - Semantic text tokens: `--text-primary`, `--text-secondary`, `--text-tertiary`.

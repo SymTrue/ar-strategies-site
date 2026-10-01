@@ -1,4 +1,6 @@
 # AR Strategies Site — Deployment Fixes Report
+
+> **Superseded 2026-10-02 (historical report from 2026-07-11).** There is no free-audit offer (see `PRODUCT.md`). The "Schedule Free Audit" and "Get My Free Audit" CTA labels in this report are history, not current copy.
 **Date:** 2026-07-11  
 **Commit:** `6841f6e`  
 **Status:** ✅ Complete (code + metadata), ⏳ Pending (logo file placement)

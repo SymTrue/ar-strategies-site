@@ -1,7 +1,7 @@
 # AR Strategies Brand Guidelines
 
-**Version:** 3.0.0
-**Last Updated:** 2026-07-25
+**Version:** 3.1.0
+**Last Updated:** 2026-10-02
 **Maintained by:** AR Strategies Design System
 
 **Palette history:** v1.0.0 specified orange (`#ea580c`) as the brand
@@ -19,6 +19,12 @@ interactive details only. A single, tightly-scoped violet trace is kept
 as an explicit exception (Section 2, rule 7) at the user's request, never
 as a general brand color. All values checked for WCAG AA contrast (see
 Section 13) before being written down here.
+
+**v3.1.0 (2026-10-02):** synced to the tokens actually in production since the
+2026-07-28 refinement rounds (source of truth: `app/globals.css`, `app/design-tokens.css`,
+`design-tokens.json`). Signal steel was re-saturated (`#91a7b8` to `#7daed4` on dark, `#2f6893`
+on light) because the old value read as grey, and Electric Ice (`#79d5ff`) was added as the one
+capped high-energy signal. Contrast ratios below were recomputed for the new values.
 
 ---
 
@@ -51,11 +57,14 @@ site. Signal steel is reserved for small interactive details only.
 #### Primary Colors
 - **Graphite-black:** `#0b0e13` — Primary background (dark theme)
 - **Off-white:** `#f1f4f6` — Primary text on dark
-- **Signal Steel (Brand Accent):** `#91a7b8` — small interactive details only: icons, active states, focus rings, diagram lines, hover outlines (verified 4.5:1+ against both background and surface)
+- **Signal Steel (Brand Accent, `--brand`):** `#7daed4` on dark (8.17:1 on `#0b0e13`, 7.61:1 on surface `#12171e`), `#2f6893` on light (5.55:1 on `#f5f7f8`, 5.12:1 on surface `#ebeef0`) — small interactive details only: icons, active states, focus rings, diagram lines, hover outlines. Text placed on a steel fill uses `--on-brand` (`#0b0e13` on dark theme, `#ffffff` on light theme)
 
 #### Secondary Colors
-- **Steel Light:** `#aec1d0` — Hover/focus state
-- **Steel Dark:** `#536b7c` — Subtle borders and glow source; background/gradient fills, not body text (fails text contrast)
+- **Steel Light:** `#a8cbe6` (dark theme; 11.37:1 on `#0b0e13`) / `#205279` (light theme, 7.68:1 on `#f5f7f8`) — Hover/focus state
+- **Steel Dark:** `#3e7198` (dark theme) / `#22445d` (light theme) — Subtle borders and glow source; background/gradient fills, not body text (3.70:1 on `#0b0e13`, fails text contrast)
+
+#### Signal Accent (not a brand colour)
+- **Electric Ice (`--signal-electric`):** `#79d5ff` (11.76:1 on `#0b0e13`), theme-invariant. RGB `121, 213, 255`; soft `rgba(121, 213, 255, 0.14)`; glow `rgba(121, 213, 255, 0.32)`. Capped to roughly 2 to 3% of visual weight and used in exactly three places: hero neural-net node activation and edge pulses, the CTA hover/focus edge glow (the silver fill is untouched), and the Strike Den proof block's "RANKED #1" marker.
 
 #### Neutral Colors
 | Color | Hex | Usage |
@@ -83,6 +92,8 @@ site. Signal steel is reserved for small interactive details only.
 5. No purple in text, button fills, general borders, large background gradients, or ambient fields.
 6. GlowCard (`app/components/ui/spotlight-card.tsx`) may show one extremely subtle cool-steel glow on hover: hue 205 to 210, saturation 18 to 28% (never 100%), low opacity, hover-only, no brightness amplification.
 7. **Exception, kept at the user's explicit request:** GlowCard's outer glow (not the crisp border, not text, not buttons, not general borders, not page ambience) may carry a faint, static violet trace: `rgba(118, 107, 149, 0.12–0.18)`. It is not a brand color. If this exception is ever removed, delete the `[data-glow].is-glowing` box-shadow rule in `globals.css` and nothing else changes.
+
+8. Electric Ice (`#79d5ff`) is the only high-energy accent: never a general brand colour, never on body text, headlines or large fills, and never used outside the three moments listed under Signal Accent. Orange, red and purple are removed from the palette (orange drifted to match Strike Den's brand). This applies to the website and to social posts and video renders unless the user says otherwise.
 
 ### Glassmorphism Effects
 
@@ -252,7 +263,7 @@ Always tint shadows to the background color. For dark backgrounds, use `rgba(0, 
 
 ```jsx
 <button className="bg-[var(--cta-bg)] text-[var(--cta-text)] hover:bg-[var(--cta-bg-hover)] active:scale-[0.97] px-6 py-3 rounded-full font-semibold transition">
-  Schedule Free Audit
+  Apply to Work With Us
 </button>
 ```
 
@@ -351,10 +362,10 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 
 ### Color Variables
 ```css
---color-accent: #91a7b8;
+--color-accent: #7daed4;
 --bg-primary: #0b0e13;
 --text-primary: #f1f4f6;
---text-accent: #91a7b8;
+--text-accent: #7daed4;
 --border-primary: #27313b;
 ```
 
@@ -370,7 +381,7 @@ All design tokens are available as CSS variables in `/app/design-tokens.css`:
 ```css
 --button-primary-bg: #e4e9ee;
 --card-bg: #12171e;
---input-focus-border: #91a7b8;
+--input-focus-border: #7daed4;
 ```
 
 ### Spacing Variables

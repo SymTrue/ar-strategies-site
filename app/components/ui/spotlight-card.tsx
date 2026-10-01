@@ -9,7 +9,7 @@ interface GlowCardProps {
   /** 'steel' (the brand default: muted cool-steel, hue ~205-210, low
    * saturation) or a generic hue for one-off, explicitly-chosen use —
    * these are reusable UI primitives, not brand colors. */
-  glowColor?: 'steel' | 'blue' | 'purple' | 'green' | 'red' | 'orange';
+  glowColor?: 'steel' | 'blue' | 'purple' | 'green' | 'red';
   size?: 'sm' | 'md' | 'lg';
   width?: string | number;
   height?: string | number;
@@ -32,7 +32,6 @@ const glowColorMap = {
   purple: { base: 280, spread: 20,  saturation: 40 },
   green:  { base: 120, spread: 20,  saturation: 40 },
   red:    { base: 0,   spread: 20,  saturation: 45 },
-  orange: { base: 30,  spread: 20,  saturation: 45 },
 };
 
 const sizeMap = {

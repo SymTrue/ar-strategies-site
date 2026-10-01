@@ -1,5 +1,6 @@
 # Design Upgrade Plan — arstrategies-site
 
+> **Superseded 2026-10-02 (historical plan from 2026-07-11).** There is no free-audit offer (see `PRODUCT.md`), so the "Free Audit" section kicker below must not be used.
 Handoff document. Execute phases in order. Every code block is ready to use, but **read the target file section before each edit** — copy may have drifted.
 
 ---
