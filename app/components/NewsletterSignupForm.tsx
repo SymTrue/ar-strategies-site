@@ -29,7 +29,7 @@ export function NewsletterSignupForm({ placement }: { placement: string }) {
   if (state === 'success') {
     return (
       <p className="text-green-500 text-sm border border-dashed border-[var(--border)] rounded-lg px-6 py-4" role="alert">
-        You&apos;re in. Your first fix lands this week.
+        Almost there. Check your inbox and click the confirm link.
       </p>
     );
   }

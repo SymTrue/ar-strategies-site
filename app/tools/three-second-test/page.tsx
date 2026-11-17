@@ -428,7 +428,7 @@ export default function ThreeSecondTest() {
           <div className="mt-8 md:mt-0 w-full max-w-md">
             {leadState === 'done' ? (
               <p className="text-[var(--text-secondary)] border border-dashed border-[var(--border)] rounded-lg p-6">
-                You&apos;re in. Your first fix lands this week.
+                Almost there. Check your inbox and click the confirm link.
               </p>
             ) : (
               <form onSubmit={submitLead} className="space-y-3">

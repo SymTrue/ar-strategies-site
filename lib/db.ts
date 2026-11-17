@@ -434,6 +434,31 @@ export async function markEmailDeliveryFailed(delivery: EmailDelivery, error: st
   }
 }
 
+// Marks a newsletter signup as confirmed (double opt-in). Returns the lead id
+// and whether this is the first confirmation, so a re-clicked link does not
+// re-send the welcome email or notify the owner twice. Null when the address
+// has no lead (token valid but record gone).
+export async function confirmNewsletterSignup(
+  email: string,
+): Promise<{ leadId: string; firstTime: boolean } | null> {
+  const lead = await sql`SELECT id FROM leads WHERE email = ${email} LIMIT 1;`;
+  const leadId = lead.rows[0] ? String(lead.rows[0].id) : null;
+  if (!leadId) return null;
+
+  const prior = await sql`
+    SELECT 1 FROM lead_events
+    WHERE lead_id = ${leadId} AND event_type = 'newsletter.confirmed'
+    LIMIT 1;
+  `;
+  if (prior.rows.length > 0) return { leadId, firstTime: false };
+
+  await sql`
+    UPDATE leads SET newsletter_unsubscribed_at = NULL, updated_at = NOW() WHERE id = ${leadId};
+  `;
+  await recordLeadEvent(leadId, 'newsletter.confirmed');
+  return { leadId, firstTime: true };
+}
+
 export async function unsubscribeNewsletter(email: string): Promise<void> {
   await sql`
     UPDATE leads

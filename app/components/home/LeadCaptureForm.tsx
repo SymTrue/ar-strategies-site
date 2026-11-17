@@ -97,7 +97,7 @@ export function LeadCaptureForm({
       </form>
       {noteBelow}
       {state === 'success' && (
-        <p className={successClassName} role="alert">You&apos;re in. Your first fix lands this week.</p>
+        <p className={successClassName} role="alert">Almost there. Check your inbox and click the confirm link.</p>
       )}
       {state === 'error' && (
         <p className={errorClassName} role="alert">

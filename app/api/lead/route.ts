@@ -9,7 +9,6 @@ import {
   type LeadSource,
 } from '@/lib/db';
 import { processQueuedEmailDeliveries } from '@/lib/email-delivery';
-import { addToNewsletterAudience } from '@/lib/resend';
 import {
   acceptsJson,
   getRequestIp,
@@ -24,7 +23,8 @@ import {
   normalizeEmail,
   parseApplicationFields,
 } from '@/lib/lead-validation';
-import { createUnsubscribeUrl } from '@/lib/newsletter';
+import { createConfirmUrl } from '@/lib/newsletter';
+import { confirmRequestHtml } from '@/lib/newsletter-emails';
 
 const SITE_URL = 'https://www.arstrategists.com';
 
@@ -53,9 +53,20 @@ function getAttribution(request: NextRequest): LeadAttribution {
   }
 }
 
+// Attempt immediate delivery so the common case still feels instant; any
+// failure is silently picked up by the next cron sweep.
+async function finishDelivery(): Promise<NextResponse> {
+  try {
+    await processQueuedEmailDeliveries(2);
+  } catch (err) {
+    console.error('Immediate email delivery attempt failed (will retry via cron):', err);
+  }
+  return NextResponse.json({ ok: true });
+}
+
 export async function POST(req: NextRequest) {
   try {
-    if (!isSameOriginRequest(req)) {
+    if (!isSameOriginRequest(req, { requireOrigin: true })) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -92,6 +103,13 @@ export async function POST(req: NextRequest) {
     const normalizedEmail = normalizeEmail(email);
     if (!normalizedEmail) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
+    }
+
+    // Per-address cap: a botnet rotating IPs still cannot aim more than a few
+    // emails a day at one inbox (or one owner notification per address).
+    // Answered with a silent ok so the cap is not a probe for valid addresses.
+    if (!(await checkLeadRateLimit(`lead-email:${normalizedEmail}`, 3, 86400))) {
+      return NextResponse.json({ ok: true });
     }
 
     const escapedEmail = escapeHtml(normalizedEmail);
@@ -132,48 +150,40 @@ export async function POST(req: NextRequest) {
 
     await recordLeadEvent(saved.id, saved.created ? 'lead.created' : 'lead.resubmitted', { source });
 
-    if (source === 'newsletter') {
-      // Best-effort: a missing/misconfigured Audience must never block signup.
-      void addToNewsletterAudience(normalizedEmail);
+    if (source !== 'application') {
+      // Double opt-in: the only email a newsletter-type signup triggers is a
+      // confirm link. The owner notification, welcome email and Resend
+      // Audience add happen in /api/newsletter/confirm after the click.
+      const confirmUrl = createConfirmUrl(normalizedEmail);
+      if (!confirmUrl) {
+        console.error('Lead capture misconfigured: missing NEWSLETTER_UNSUBSCRIBE_SECRET');
+        return NextResponse.json({ error: 'Server not configured' }, { status: 500 });
+      }
+      await enqueueEmailDelivery({
+        leadId: saved.id,
+        deliveryType: 'lead_confirmation',
+        recipient: normalizedEmail,
+        replyTo: null,
+        subject: 'confirm your email',
+        html: confirmRequestHtml(confirmUrl),
+      });
+      return await finishDelivery();
     }
 
-    const notificationSubject = source === 'application'
-      ? `new application from ${normalizedEmail}`
-      : `new newsletter signup: ${normalizedEmail}`;
-
-    const notificationHtml = source === 'application'
-      ? `
+    const notificationSubject = `new application from ${normalizedEmail}`;
+    const notificationHtml = `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
           <p><strong>${escapedEmail}</strong> sent in an application to work with you.</p>
           <table style="margin: 12px 0; font-size: 14px; border-collapse: collapse;">${applicationRows(application)}</table>
           <p style="margin-top: 12px;">Reply to this email to reach them and schedule the call.</p>
         </div>
-      `
-      : `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
-          <p><strong>${escapedEmail}</strong> joined the weekly list.</p>
-          <p style="margin-top: 12px;">Reply to this email to reach them directly.</p>
-        </div>
       `;
-
-    const confirmationSubject = source === 'application' ? 'we got your application' : "you're on the list";
-
-    const unsubscribeUrl = source === 'newsletter' ? createUnsubscribeUrl(normalizedEmail) : null;
-    const confirmationHtml = source === 'application'
-      ? `
+    const confirmationSubject = 'we got your application';
+    const confirmationHtml = `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
           <p>Thanks for sending in your application. We read every one personally.</p>
           <p>If it looks like a good fit, we will reach back out to schedule a call. Either way you will hear from us.</p>
           <p style="color: #666; margin-top: 12px;">In the meantime, the free 3-second test shows you how your business reads to a stranger: <a href="${SITE_URL}/tools/three-second-test">${SITE_URL}/tools/three-second-test</a></p>
-          <p style="margin-top: 16px;">Questions? Just reply to this email or reach out to <strong>hello@arstrategists.com</strong>.</p>
-          <p style="margin-top: 24px; color: #999; font-size: 14px;">- AR Strategies</p>
-        </div>
-      `
-      : `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.6;">
-          <p>You're in. Every week you get one specific fix that helps local businesses get found first: real examples, exact steps, about five minutes to read.</p>
-          <p style="color: #666; margin-top: 12px;">Want a head start? The free 3-second test scores how your business reads to a stranger, in about two minutes: <a href="${SITE_URL}/tools/three-second-test">${SITE_URL}/tools/three-second-test</a></p>
-          <p style="color: #666; margin-top: 12px;">One email a week. No spam. ${unsubscribeUrl ? `<a href="${unsubscribeUrl}">Unsubscribe with one click.</a>` : 'Reply to unsubscribe.'}</p>
           <p style="margin-top: 16px;">Questions? Just reply to this email or reach out to <strong>hello@arstrategists.com</strong>.</p>
           <p style="margin-top: 24px; color: #999; font-size: 14px;">- AR Strategies</p>
         </div>
@@ -200,15 +210,7 @@ export async function POST(req: NextRequest) {
       html: confirmationHtml,
     });
 
-    // Attempt immediate delivery so the common case still feels instant;
-    // any failure here is silently picked up by the next cron sweep.
-    try {
-      await processQueuedEmailDeliveries(2);
-    } catch (err) {
-      console.error('Immediate email delivery attempt failed (will retry via cron):', err);
-    }
-
-    return NextResponse.json({ ok: true });
+    return await finishDelivery();
   } catch (err) {
     console.error('Lead API error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

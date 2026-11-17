@@ -16,7 +16,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    if (!isSameOriginRequest(req)) {
+    if (!isSameOriginRequest(req, { requireOrigin: true })) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 

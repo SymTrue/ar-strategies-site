@@ -25,9 +25,15 @@ export function acceptsJson(request: NextRequest): boolean {
   return request.headers.get('content-type')?.includes('application/json') ?? false;
 }
 
-export function isSameOriginRequest(request: NextRequest): boolean {
+// Browsers always send Origin on a cross-origin-capable fetch POST, so form
+// endpoints pass requireOrigin to also reject script clients that omit it.
+export function isSameOriginRequest(
+  request: NextRequest,
+  options: { requireOrigin?: boolean } = {},
+): boolean {
   const origin = request.headers.get('origin');
-  if (origin === null || origin === request.nextUrl.origin) return true;
+  if (origin === null) return !options.requireOrigin;
+  if (origin === request.nextUrl.origin) return true;
 
   const forwardedHost = request.headers.get('x-forwarded-host') ?? request.headers.get('host');
   const forwardedProtocol = request.headers.get('x-forwarded-proto') ?? request.nextUrl.protocol;

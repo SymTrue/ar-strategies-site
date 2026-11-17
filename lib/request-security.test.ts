@@ -136,3 +136,24 @@ describe('readJsonObject', () => {
     if (!result.ok) expect(result.status).toBe(413);
   });
 });
+
+describe('isSameOriginRequest with requireOrigin', () => {
+  it('rejects a request with no Origin header (script clients that omit it)', () => {
+    const req = makeRequest('https://www.arstrategists.com/api/lead');
+    expect(isSameOriginRequest(req, { requireOrigin: true })).toBe(false);
+  });
+
+  it('still accepts a matching Origin', () => {
+    const req = makeRequest('https://www.arstrategists.com/api/lead', {
+      origin: 'https://www.arstrategists.com',
+    });
+    expect(isSameOriginRequest(req, { requireOrigin: true })).toBe(true);
+  });
+
+  it('still rejects a cross-origin Origin', () => {
+    const req = makeRequest('https://www.arstrategists.com/api/lead', {
+      origin: 'https://evil.example',
+    });
+    expect(isSameOriginRequest(req, { requireOrigin: true })).toBe(false);
+  });
+});
