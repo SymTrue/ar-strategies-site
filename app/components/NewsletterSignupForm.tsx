@@ -42,7 +42,7 @@ export function NewsletterSignupForm({ placement }: { placement: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
       <label htmlFor={`newsletter-email-${placement}`} className="sr-only">Email address</label>
       <input
         id={`newsletter-email-${placement}`}
