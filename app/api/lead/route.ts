@@ -23,6 +23,7 @@ import {
   normalizeEmail,
   parseApplicationFields,
 } from '@/lib/lead-validation';
+import { verifyTurnstile } from '@/lib/turnstile';
 import { createConfirmUrl } from '@/lib/newsletter';
 import { confirmRequestHtml } from '@/lib/newsletter-emails';
 
@@ -98,6 +99,13 @@ export async function POST(req: NextRequest) {
       console.warn(`Honeypot triggered from IP: ${ip}`);
       // Return success to not reveal the trap, but don't process
       return NextResponse.json({ ok: true });
+    }
+
+    // Cloudflare Turnstile: proves a real browser solved the challenge. Fails
+    // closed, so a bad, reused or missing token never reaches the database or
+    // triggers any email.
+    if (!(await verifyTurnstile(body.data.turnstileToken, ip))) {
+      return NextResponse.json({ error: 'Verification failed' }, { status: 400 });
     }
 
     const normalizedEmail = normalizeEmail(email);

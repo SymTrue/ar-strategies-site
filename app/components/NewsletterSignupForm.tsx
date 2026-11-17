@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import { track } from '@vercel/analytics';
+import { TurnstileWidget } from './TurnstileWidget';
 
 export function NewsletterSignupForm({ placement }: { placement: string }) {
   const [email, setEmail] = useState('');
   const [honeypot, setHoneypot] = useState('');
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReset, setTurnstileReset] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +18,7 @@ export function NewsletterSignupForm({ placement }: { placement: string }) {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, website: honeypot }),
+        body: JSON.stringify({ email, website: honeypot, turnstileToken }),
       });
       if (!res.ok) throw new Error('failed');
       track('newsletter_signup', { placement });
@@ -23,6 +26,10 @@ export function NewsletterSignupForm({ placement }: { placement: string }) {
       setEmail('');
     } catch {
       setState('error');
+    } finally {
+      // Tokens are single-use: always ask for a fresh one after an attempt.
+      setTurnstileToken(null);
+      setTurnstileReset((n) => n + 1);
     }
   };
 
@@ -50,11 +57,12 @@ export function NewsletterSignupForm({ placement }: { placement: string }) {
       <input type="text" name="website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <button
         type="submit"
-        disabled={state === 'loading'}
+        disabled={state === 'loading' || !turnstileToken}
         className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
       >
         {state === 'loading' ? 'Sending…' : 'Get the Weekly Fix'}
       </button>
+      <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} />
       {state === 'error' && (
         <p className="text-sm text-red-500 sm:basis-full" role="alert">
           That didn&apos;t go through. Try again, or email{' '}

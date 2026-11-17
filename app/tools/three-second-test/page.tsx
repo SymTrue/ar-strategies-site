@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { DiagnosticNet } from '../../components/DiagnosticNet';
+import { TurnstileWidget } from '../../components/TurnstileWidget';
 import { useTheme } from '../../providers';
 import { usePrefersReducedMotion } from '@/lib/hooks';
 
@@ -166,6 +167,8 @@ export default function ThreeSecondTest() {
   const [email, setEmail] = useState('');
   const [honeypot, setHoneypot] = useState('');
   const [leadState, setLeadState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const { theme } = useTheme();
   const reducedMotion = usePrefersReducedMotion();
 
@@ -226,12 +229,16 @@ export default function ThreeSecondTest() {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ email, website: honeypot }),
+        body: JSON.stringify({ email, website: honeypot, turnstileToken }),
       });
       if (res.ok) track('newsletter_signup', { placement: 'three_second_test' });
       setLeadState(res.ok ? 'done' : 'error');
     } catch {
       setLeadState('error');
+    } finally {
+      // Tokens are single-use: always ask for a fresh one after an attempt.
+      setTurnstileToken(null);
+      setTurnstileReset((n) => n + 1);
     }
   };
 
@@ -456,11 +463,12 @@ export default function ThreeSecondTest() {
                 />
                 <button
                   type="submit"
-                  disabled={leadState === 'sending'}
+                  disabled={leadState === 'sending' || !turnstileToken}
                   className="btn-primary w-full px-7 py-3.5 rounded-full text-sm font-semibold transition-colors disabled:opacity-60"
                 >
                   {leadState === 'sending' ? 'Sending…' : 'Get the Weekly Fix'}
                 </button>
+                <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} />
                 {leadState === 'error' && (
                   <p className="text-sm text-[var(--text-secondary)]">
                     That didn’t go through. Try again, or email us directly.

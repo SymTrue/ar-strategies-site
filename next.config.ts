@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              `default-src 'self'; base-uri 'self'; connect-src 'self'${__impeccableLiveDev}; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline'${__impeccableLiveDev}; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests`,
+              `default-src 'self'; base-uri 'self'; connect-src 'self' https://challenges.cloudflare.com${__impeccableLiveDev}; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://challenges.cloudflare.com; img-src 'self' data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com${__impeccableLiveDev}; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests`,
           },
           {
             key: "Permissions-Policy",

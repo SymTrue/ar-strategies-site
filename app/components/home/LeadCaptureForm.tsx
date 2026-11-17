@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { track } from '@vercel/analytics';
+import { TurnstileWidget } from '../TurnstileWidget';
 
 type LeadFormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -33,6 +34,8 @@ export function LeadCaptureForm({
 }: LeadCaptureFormProps) {
   const [email, setEmail] = useState('');
   const [state, setState] = useState<LeadFormState>('idle');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReset, setTurnstileReset] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +53,7 @@ export function LeadCaptureForm({
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, website: '' }),
+        body: JSON.stringify({ email, website: '', turnstileToken }),
       });
       if (!res.ok) throw new Error('failed');
       track('newsletter_signup', { placement });
@@ -58,6 +61,10 @@ export function LeadCaptureForm({
       setEmail('');
     } catch {
       setState('error');
+    } finally {
+      // Tokens are single-use: always ask for a fresh one after an attempt.
+      setTurnstileToken(null);
+      setTurnstileReset((n) => n + 1);
     }
   };
 
@@ -82,7 +89,7 @@ export function LeadCaptureForm({
         <button
           type="submit"
           aria-label="Get the weekly fix"
-          disabled={state === 'loading'}
+          disabled={state === 'loading' || !turnstileToken}
           className="btn-primary active:scale-[0.97] px-7 py-3.5 rounded-full transition-colors whitespace-nowrap disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
         >
           {state === 'loading' ? (
@@ -94,6 +101,7 @@ export function LeadCaptureForm({
             'Get the Weekly Fix'
           )}
         </button>
+        <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} theme="dark" />
       </form>
       {noteBelow}
       {state === 'success' && (

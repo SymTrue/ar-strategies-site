@@ -7,6 +7,7 @@ import { track } from '@vercel/analytics';
 import { useEffect, useRef, useState } from 'react';
 import { SiteHeader } from '../components/SiteHeader';
 import { SiteFooter } from '../components/SiteFooter';
+import { TurnstileWidget } from '../components/TurnstileWidget';
 import { usePrefersReducedMotion } from '../components/useClientEnv';
 import { useTheme } from '../providers';
 
@@ -211,6 +212,8 @@ function ApplicationForm() {
     help: '',
   });
   const [honeypot, setHoneypot] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReset, setTurnstileReset] = useState(0);
 
   const set = (key: keyof typeof fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setFields((f) => ({ ...f, [key]: e.target.value }));
@@ -223,12 +226,16 @@ function ApplicationForm() {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'application', website: honeypot, ...fields }),
+        body: JSON.stringify({ type: 'application', website: honeypot, turnstileToken, ...fields }),
       });
       if (res.ok) track('application_submitted');
       setState(res.ok ? 'done' : 'error');
     } catch {
       setState('error');
+    } finally {
+      // Tokens are single-use: always ask for a fresh one after an attempt.
+      setTurnstileToken(null);
+      setTurnstileReset((n) => n + 1);
     }
   };
 
@@ -301,13 +308,14 @@ function ApplicationForm() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <button
           type="submit"
-          disabled={state === 'sending'}
+          disabled={state === 'sending' || !turnstileToken}
           className="btn-primary active:scale-[0.97] px-8 py-3.5 rounded-full font-semibold transition-colors disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
         >
           {state === 'sending' ? 'Sending…' : 'Submit Application'}
         </button>
         <p className="text-sm text-[var(--text-tertiary)]">No lock-in, no obligation. We reply either way.</p>
       </div>
+      <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} />
       {state === 'error' && (
         <p className="text-sm text-red-400" role="alert">
           That didn&apos;t go through. Try again, or email{' '}
